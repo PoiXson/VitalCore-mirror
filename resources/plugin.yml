@@ -1,0 +1,8 @@
+name: ${project.name}
+main: com.poixson.common.pxnCommonPlugin
+version: ${project.version}
+api-version: ${spigot-short-version}
+load: STARTUP
+authors: [ lorenzop ]
+website: ${project.url}
+description: ${project.description}
