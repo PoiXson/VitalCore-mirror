@@ -1,5 +1,5 @@
 name: ${project.name}
-main: com.poixson.common.pxnCommonPlugin
+main: com.poixson.commonbukkit.pxnCommonPlugin
 version: ${project.version}
 api-version: ${spigot-short-version}
 load: STARTUP

@@ -1,4 +1,4 @@
-package com.poixson.common;
+package com.poixson.commonbukkit;
 
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.logging.Logger;

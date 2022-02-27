@@ -1,4 +1,4 @@
-package com.poixson.common.tools.commands;
+package com.poixson.commonbukkit.tools.commands;
 
 import java.util.HashSet;
 
