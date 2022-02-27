@@ -3,6 +3,7 @@ main: com.poixson.commonbukkit.pxnCommonPlugin
 version: ${project.version}
 api-version: ${spigot-short-version}
 load: STARTUP
+softdepend: [ Multiverse-Core ]
 authors: [ lorenzop ]
 website: ${project.url}
 description: ${project.description}
