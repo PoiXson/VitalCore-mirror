@@ -7,6 +7,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.poixson.tools.Keeper;
+
 
 public class pxnCommonPlugin extends JavaPlugin {
 	public static final String LOG_PREFIX  = "[pxnCommon] ";
@@ -14,6 +16,18 @@ public class pxnCommonPlugin extends JavaPlugin {
 	public static final Logger log = Logger.getLogger("Minecraft");
 
 	protected static final AtomicReference<pxnCommonPlugin> instance = new AtomicReference<pxnCommonPlugin>(null);
+	protected final Keeper keeper;
+
+
+
+	public static pxnCommonPlugin GetPlugin() {
+		return instance.get();
+	}
+
+	public pxnCommonPlugin() {
+		super();
+		this.keeper = Keeper.get();
+	}
 
 
 
