@@ -1,7 +1,10 @@
 package com.poixson.commonbukkit.tools.chunks;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.bukkit.World;
 import org.bukkit.block.data.BlockData;
@@ -16,6 +19,8 @@ public class ChunkDAO {
 	public final int chunkX, chunkZ;
 	public final int absX, absZ;
 
+	public final ConcurrentHashMap<String, Object> blockAliases = new ConcurrentHashMap<String, Object>();
+
 
 
 	public ChunkDAO(final World world, final int chunkX, final int chunkZ) {
@@ -28,28 +33,78 @@ public class ChunkDAO {
 
 
 
-	public void setBlockJS(final Object material, final Object x, final Object y, final Object z) {
+	public BlockData getBlockAlias(final String matStr) {
+		final Object alias = this.blockAliases.get(matStr);
+		if (alias == null)
+			return null;
+		if (alias instanceof String) {
+			final BlockData mat = this.getBlockType(alias);
+			if (mat != null) {
+				this.blockAliases.replace(matStr, mat);
+				return mat;
+			}
+		} else
+		if (alias instanceof BlockData) {
+			return (BlockData) alias;
+		}
+		this.blockAliases.remove(matStr);
+		System.out.println(String.format(
+			"Invalid block alias type %s :: %s",
+			alias.getClass().getName(),
+			matStr
+		));
+		return null;
+	}
+	public void setBlockAlias(final String key, final Object material) {
+		this.blockAliases.put(key, material);
+	}
+	public void setBlockAliases(final Object aliases) {
+		@SuppressWarnings("unchecked")
+		final Map<String, Object> map = (Map<String, Object>) aliases;
+		final Iterator<Entry<String, Object>> it = map.entrySet().iterator();
+		while (it.hasNext()) {
+			final Entry<String, Object> entry = it.next();
+			this.setBlockAlias(entry.getKey(), entry.getValue());
+		}
+	}
+
+
+
+	public BlockData getBlockType(final Object material) {
 		if (material == null)
-			return;
-		BlockData mat = null;
+			return null;
 		if (material instanceof String) {
 			final String matStr = StringUtils.ToString(material);
 			if (matStr.length() == 0)
-				return;
-			mat = BukkitUtils.ParseBlockType(matStr);
-			if (mat == null) {
-				System.out.println("Unknown block/material type: " + matStr);
-				return;
+				return null;
+			// aliases
+			{
+				final BlockData alias = this.getBlockAlias(matStr);
+				if (alias != null)
+					return alias;
 			}
+			// parse block type
+			final BlockData mat = BukkitUtils.ParseBlockType(matStr);
+			if (mat != null)
+				return mat;
+			System.out.println("Unknown block/material type: " + matStr);
+			return null;
 		} else
 		if (material instanceof BlockData) {
-			mat = (BlockData) material;
+			return (BlockData) material;
 		}
-		if (mat == null) {
-			System.out.println("Unknown block/material type: " +
-					StringUtils.ToString(material) + "  " + material.getClass().getName());
-			return;
-		}
+		System.out.println(String.format(
+			"Unknown block/material type: %s  %s",
+			StringUtils.ToString(material),
+			material.getClass().getName()
+		));
+		return null;
+	}
+
+
+
+	public void setBlockJS(final Object x, final Object y, final Object z, final Object material) {
+		final BlockData mat = this.getBlockType(material);
 		final int xx = jsToInt(x);
 		final int yy = jsToInt(y);
 		final int zz = jsToInt(z);
