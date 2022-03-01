@@ -50,10 +50,10 @@ public class ChunkDAO {
 					StringUtils.ToString(material) + "  " + material.getClass().getName());
 			return;
 		}
-		final Double xx = (Double) x;
-		final Double yy = (Double) y;
-		final Double zz = (Double) z;
-		this.setBlock(mat, xx.intValue(), yy.intValue(), zz.intValue());
+		final int xx = jsToInt(x);
+		final int yy = jsToInt(y);
+		final int zz = jsToInt(z);
+		this.setBlock(mat, xx, yy, zz);
 	}
 	public void setBlocksJS(final Object blocks) {
 		final List<?> list = (List<?>) blocks;
@@ -67,6 +67,16 @@ public class ChunkDAO {
 			final Object z    = map.get("z");
 			this.setBlockJS(type, x, y, z);
 		}
+	}
+
+
+
+	public static int jsToInt(final Object value) {
+		if (value instanceof Integer) return ((Integer) value).intValue();
+		if (value instanceof Long)    return ((Long)    value).intValue();
+		if (value instanceof Double)  return ((Double)  value).intValue();
+		if (value instanceof Float)   return ((Float)   value).intValue();
+		throw new ClassCastException();
 	}
 
 
