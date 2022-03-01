@@ -108,7 +108,7 @@ public class ChunkDAO {
 		final int xx = jsToInt(x);
 		final int yy = jsToInt(y);
 		final int zz = jsToInt(z);
-		this.setBlock(mat, xx, yy, zz);
+		this.setBlock(xx, yy, zz, mat);
 	}
 	public void setBlocksJS(final Object blocks) {
 		final List<?> list = (List<?>) blocks;
@@ -120,7 +120,7 @@ public class ChunkDAO {
 			final Object x    = map.get("x");
 			final Object y    = map.get("y");
 			final Object z    = map.get("z");
-			this.setBlockJS(type, x, y, z);
+			this.setBlockJS(x, y, z, type);
 		}
 	}
 
@@ -137,7 +137,7 @@ public class ChunkDAO {
 
 
 	// override in gen/pop child classes
-	public void setBlock(final BlockData material, final int x, final int y, final int z) {
+	public void setBlock(final int x, final int y, final int z, final BlockData material) {
 		if (this.world == null) throw new NullPointerException("world");
 		this.world.setBlockData(this.absX+x, y, this.absZ+z, material);
 	}
