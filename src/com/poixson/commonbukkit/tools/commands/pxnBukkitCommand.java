@@ -44,7 +44,7 @@ public abstract class pxnBukkitCommand {
 		return false;
 	}
 	public boolean isDefault() {
-		return Utils.isEmpty(labels);
+		return Utils.isEmpty(this.labels);
 	}
 
 

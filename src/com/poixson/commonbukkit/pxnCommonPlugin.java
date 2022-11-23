@@ -12,7 +12,7 @@ import com.poixson.tools.Keeper;
 
 public class pxnCommonPlugin extends JavaPlugin {
 	public static final String LOG_PREFIX  = "[pxnCommon] ";
-	public static final String CHAT_PREFIX = ChatColor.AQUA + "[pxnCommon] " + ChatColor.WHITE;
+	public static final String CHAT_PREFIX = ChatColor.AQUA + LOG_PREFIX + ChatColor.WHITE;
 	public static final Logger log = Logger.getLogger("Minecraft");
 
 	protected static final AtomicReference<pxnCommonPlugin> instance = new AtomicReference<pxnCommonPlugin>(null);
