@@ -4,6 +4,7 @@ import org.bukkit.block.BlockFace;
 
 import com.poixson.tools.Keeper;
 import com.poixson.tools.dao.Ixywd;
+import com.poixson.tools.dao.Ixyz;
 
 
 public class LocationUtils {
@@ -69,6 +70,35 @@ public class LocationUtils {
 			rot -= 0.25;
 		}
 		return dir;
+	}
+
+
+
+	public static Ixyz AxisToValue(final String axis) {
+		return AxisToValue(axis.charAt(0));
+	}
+	public static Ixyz AxisToValue(final char axis) {
+		switch (axis) {
+		case 'z': case 'n': return new Ixyz( 0,  0, -1);
+		case 'Z': case 's': return new Ixyz( 0,  0,  1);
+		case 'X': case 'e': return new Ixyz( 1,  0,  0);
+		case 'x': case 'w': return new Ixyz(-1,  0,  0);
+		case 'Y': case 'u': return new Ixyz( 0,  1,  0);
+		case 'y': case 'd': return new Ixyz( 0, -1,  0);
+		default: break;
+		}
+		throw new RuntimeException("Invalid axis: "+axis);
+	}
+
+
+
+	public static String RotateAround00(final int chunkX, final int chunkZ) {
+		if (chunkZ < 0) {
+			return (chunkX<0 ? "YZX" : "YZx");
+		} else {
+			return (chunkX<0 ? "YzX" : "Yzx");
+		}
+
 	}
 
 
