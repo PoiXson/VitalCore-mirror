@@ -7,7 +7,7 @@ import com.poixson.tools.dao.Ixywd;
 import com.poixson.tools.dao.Ixyz;
 
 
-public class LocationUtils {
+public final class LocationUtils {
 	private LocationUtils() {}
 	static { Keeper.add(new LocationUtils()); }
 
@@ -98,7 +98,6 @@ public class LocationUtils {
 		} else {
 			return (chunkX<0 ? "YzX" : "Yzx");
 		}
-
 	}
 
 

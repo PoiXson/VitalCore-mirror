@@ -234,10 +234,9 @@ public class BlockPlotter {
 		if (Utils.notEmpty(special)) {
 			boolean changed = false;
 			final String sp = (new StringBuilder())
-					.append(',').append(special).append(',')
+					.append(',').append(special.toLowerCase()).append(',')
 					.toString();
 			final BlockData data = this.getAbsBlockData(x, y, z);
-			// slab
 			if (data instanceof Slab) {
 				if (sp.contains(",top,")) {
 					changed = true; ((Slab)data).setType(Slab.Type.TOP);
@@ -254,7 +253,6 @@ public class BlockPlotter {
 					changed = true; ((Bisected)data).setHalf(Bisected.Half.BOTTOM);
 				}
 			}
-			// lamp
 			if (data instanceof Lightable) {
 				if (sp.contains(",on,")) {
 					changed = true; ((Lightable)data).setLit(true);
