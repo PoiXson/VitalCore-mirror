@@ -6,8 +6,12 @@ import java.util.HashMap;
 
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.block.BlockFace;
+import org.bukkit.block.data.Bisected;
 import org.bukkit.block.data.BlockData;
+import org.bukkit.block.data.Directional;
 import org.bukkit.block.data.Lightable;
+import org.bukkit.block.data.MultipleFacing;
 import org.bukkit.block.data.type.Slab;
 import org.bukkit.generator.ChunkGenerator.ChunkData;
 import org.bukkit.generator.LimitedRegion;
@@ -242,6 +246,14 @@ public class BlockPlotter {
 					changed = true; ((Slab)data).setType(Slab.Type.BOTTOM);
 				}
 			}
+			if (data instanceof Bisected) {
+				if (sp.contains(",top,")) {
+					changed = true; ((Bisected)data).setHalf(Bisected.Half.TOP);
+				} else
+				if (sp.contains(",bottom,")) {
+					changed = true; ((Bisected)data).setHalf(Bisected.Half.BOTTOM);
+				}
+			}
 			// lamp
 			if (data instanceof Lightable) {
 				if (sp.contains(",on,")) {
@@ -249,6 +261,40 @@ public class BlockPlotter {
 				} else
 				if (sp.contains(",off,")) {
 					changed = true; ((Lightable)data).setLit(false);
+				}
+			}
+			if (data instanceof Directional) {
+				if (sp.contains(",north,")) {
+					changed = true; ((Directional)data).setFacing(BlockFace.NORTH);
+				} else
+				if (sp.contains(",south,")) {
+					changed = true; ((Directional)data).setFacing(BlockFace.SOUTH);
+				} else
+				if (sp.contains(",east,")) {
+					changed = true; ((Directional)data).setFacing(BlockFace.EAST);
+				} else
+				if (sp.contains(",west,")) {
+					changed = true; ((Directional)data).setFacing(BlockFace.WEST);
+				}
+			}
+			if (data instanceof MultipleFacing) {
+				if (sp.contains(",top,")) {
+					changed = true; ((MultipleFacing)data).setFace(BlockFace.UP, true);
+				} else
+				if (sp.contains(",bottom,")) {
+					changed = true; ((MultipleFacing)data).setFace(BlockFace.DOWN, true);
+				} else
+				if (sp.contains(",north,")) {
+					changed = true; ((MultipleFacing)data).setFace(BlockFace.NORTH, true);
+				} else
+				if (sp.contains(",south,")) {
+					changed = true; ((MultipleFacing)data).setFace(BlockFace.SOUTH, true);
+				} else
+				if (sp.contains(",east,")) {
+					changed = true; ((MultipleFacing)data).setFace(BlockFace.EAST, true);
+				} else
+				if (sp.contains(",west,")) {
+					changed = true; ((MultipleFacing)data).setFace(BlockFace.WEST, true);
 				}
 			}
 			if (changed) {
