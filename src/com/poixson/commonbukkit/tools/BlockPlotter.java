@@ -124,32 +124,28 @@ public class BlockPlotter {
 		final Ixyz add2 = AxisToValue(axis.charAt(1));
 		final Ixyz add3 = AxisToValue(axis.charAt(2));
 		final int size1 = matrix.length;
-		int x = this.absX;
-		int y = this.absY;
-		int z = this.absZ;
-		int xx, yy, zz;
-		int xxx, yyy, zzz;
+		int x, y, z;
 		int size2, size3;
 		char c;
+		String sp;
+		Material m;
 		for (int i=0; i<size1; i++) {
-			xxx = x; yyy = y; zzz = z;
 			size2 = matrix[i].length;
 			for (int ii=0; ii<size2; ii++) {
-				xx = x; yy = y; zz = z;
 				size3 = matrix[i][ii].length();
 				for (int iii=0; iii<size3; iii++) {
 					c = matrix[i][ii].charAt(iii);
 					if (c != 0 && c != ' ') {
-						final Material m = this.types.get(Character.valueOf(c));
+						x = this.absX + (add1.x*i) + (add2.x*ii) + (add3.x*iii);
+						y = this.absY + (add1.y*i) + (add2.y*ii) + (add3.y*iii);
+						z = this.absZ + (add1.z*i) + (add2.z*ii) + (add3.z*iii);
+						m = this.types.get(Character.valueOf(c));
 						if (m == null) throw new RuntimeException(String.format("Warning, unknown material: %c", c));
-						final String s = this.special.get(Character.valueOf(c));
-						this.setAbsBlock(x, y, z, m, s);
+						sp = this.special.get(Character.valueOf(c));
+						this.setAbsBlock(x, y, z, m, sp);
 					}
-					x += add3.x; y += add3.y; z += add3.z;
 				}
-				x = xx + add2.x; y = yy + add2.y; z = zz + add2.z;
 			}
-			x = xxx + add1.x; y = yyy + add1.y; z = zzz + add1.z;
 		}
 	}
 	public void place2D(final String axis, final StringBuilder[] matrix) {
@@ -158,44 +154,46 @@ public class BlockPlotter {
 		final Ixyz add1 = AxisToValue(axis.charAt(0));
 		final Ixyz add2 = AxisToValue(axis.charAt(1));
 		final int size1 = matrix.length;
-		int x = this.absX;
-		int y = this.absY;
-		int z = this.absZ;
-		int xx, yy, zz;
+		int x, y, z;
 		int size2;
 		char c;
+		String sp;
+		Material m;
 		for (int i=0; i<size1; i++) {
-			xx = x; yy = y; zz = z;
 			size2 = matrix[i].length();
 			for (int ii=0; ii<size2; ii++) {
 				c = matrix[i].charAt(ii);
 				if (c != 0 && c != ' ') {
-					final Material m = this.types.get(Character.valueOf(c));
+					x = this.absX + (add1.x*i) + (add2.x*ii);
+					y = this.absY + (add1.y*i) + (add2.y*ii);
+					z = this.absZ + (add1.z*i) + (add2.z*ii);
+					m = this.types.get(Character.valueOf(c));
 					if (m == null) throw new RuntimeException(String.format("Warning, unknown material: %c", c));
-					final String s = this.special.get(Character.valueOf(c));
-					this.setAbsBlock(x, y, z, m, s);
+					sp = this.special.get(Character.valueOf(c));
+					this.setAbsBlock(x, y, z, m, sp);
 				}
-				x += add2.x; y += add2.y; z += add2.z;
 			}
-			x = xx + add1.x; y = yy + add1.y; z = zz + add1.z;
 		}
 	}
 	public void place1D(final char axis, final StringBuilder matrix) {
+		if (Utils.isEmpty(axis)) throw new RequiredArgumentException("axis");
 		final Ixyz add = AxisToValue(axis);
 		final int size = matrix.length();
-		int x = this.absX;
-		int y = this.absY;
-		int z = this.absZ;
+		int x, y, z;
 		char c;
+		String sp;
+		Material m;
 		for (int i=0; i<size; i++) {
 			c = matrix.charAt(i);
 			if (c != 0 && c != ' ') {
-				final Material m = this.types.get(Character.valueOf(c));
+				x = this.absX + (add.x*i);
+				y = this.absY + (add.y*i);
+				z = this.absZ + (add.z*i);
+				m = this.types.get(Character.valueOf(c));
 				if (m == null) throw new RuntimeException(String.format("Warning, unknown material: %c", c));
-				final String s = this.special.get(Character.valueOf(c));
-				this.setAbsBlock(x, y, z, m, s);
+				sp = this.special.get(Character.valueOf(c));
+				this.setAbsBlock(x, y, z, m, sp);
 			}
-			x += add.x; y += add.y; z += add.z;
 		}
 	}
 
