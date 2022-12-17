@@ -1,6 +1,7 @@
 package com.poixson.commonbukkit.tools;
 
 import static com.poixson.commonbukkit.utils.LocationUtils.AxisToValue;
+import static com.poixson.commonbukkit.utils.LocationUtils.RotateXZ;
 
 import java.util.HashMap;
 
@@ -17,6 +18,7 @@ import org.bukkit.generator.ChunkGenerator.ChunkData;
 import org.bukkit.generator.LimitedRegion;
 
 import com.poixson.exceptions.RequiredArgumentException;
+import com.poixson.tools.dao.Ixywd;
 import com.poixson.tools.dao.Ixyz;
 import com.poixson.utils.StringUtils;
 import com.poixson.utils.Utils;
@@ -29,6 +31,8 @@ public class BlockPlotter {
 	public final LimitedRegion region;
 
 	public int absX, absY, absZ;
+	public int w = 0;
+	public int d = 0;
 
 	public HashMap<Character, Material> types = new HashMap<Character, Material>();
 	public HashMap<Character, String> special = new HashMap<Character, String>();
@@ -225,6 +229,28 @@ public class BlockPlotter {
 	}
 	public void setRelBlockData(final int x, final int y, final int z, final BlockData block) {
 		this.setAbsBlockData(x+this.absX, y+this.absY, z+this.absZ, block);
+	}
+
+
+
+	public void setRotBlock(final int x, final int y, final int z,
+			final BlockFace direction, final Material type, final String special) {
+		final Ixywd loc = RotateXZ(new Ixywd(x, z, this.w, this.d), direction);
+		this.setRelBlock(loc.x, y, loc.y, type, special);
+	}
+	public void setRotBlock(final int x, final int y, final int z,
+			final BlockFace direction, final Material type) {
+		final Ixywd loc = RotateXZ(new Ixywd(x, z, this.w, this.d), direction);
+		this.setRelBlock(loc.x, y, loc.y, type);
+	}
+
+	public BlockData getRotBlockData(final int x, final int y, final int z, final BlockFace direction) {
+		final Ixywd loc = RotateXZ(new Ixywd(x, z, this.w, this.d), direction);
+		return this.getRelBlockData(loc.x, y, loc.y);
+	}
+	public void setRotBlockData(final int x, final int y, final int z, final BlockFace direction, final BlockData block) {
+		final Ixywd loc = RotateXZ(new Ixywd(x, z, this.w, this.d), direction);
+		this.setRelBlockData(loc.x, y, loc.y, block);
 	}
 
 
