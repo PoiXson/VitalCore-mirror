@@ -5,6 +5,7 @@ import static com.poixson.commonbukkit.utils.LocationUtils.RotateXZ;
 
 import java.util.HashMap;
 
+import org.bukkit.Axis;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.BlockFace;
@@ -13,6 +14,7 @@ import org.bukkit.block.data.BlockData;
 import org.bukkit.block.data.Directional;
 import org.bukkit.block.data.Lightable;
 import org.bukkit.block.data.MultipleFacing;
+import org.bukkit.block.data.Orientable;
 import org.bukkit.block.data.type.Slab;
 import org.bukkit.generator.ChunkGenerator.ChunkData;
 import org.bukkit.generator.LimitedRegion;
@@ -319,6 +321,17 @@ public class BlockPlotter {
 				} else
 				if (sp.contains(",west,")) {
 					changed = true; ((MultipleFacing)data).setFace(BlockFace.WEST, true);
+				}
+			}
+			if (data instanceof Orientable) {
+				if (sp.contains(",x,")) {
+					changed = true; ((Orientable)data).setAxis(Axis.X);
+				} else
+				if (sp.contains(",y,")) {
+					changed = true; ((Orientable)data).setAxis(Axis.Y);
+				} else
+				if (sp.contains(",z,")) {
+					changed = true; ((Orientable)data).setAxis(Axis.Z);
 				}
 			}
 			if (changed) {
