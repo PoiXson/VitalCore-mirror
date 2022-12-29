@@ -1,5 +1,6 @@
 package com.poixson.commonbukkit.utils;
 
+import org.bukkit.Axis;
 import org.bukkit.block.BlockFace;
 
 import com.poixson.tools.Keeper;
@@ -70,6 +71,33 @@ public final class LocationUtils {
 			rot -= 0.25;
 		}
 		return dir;
+	}
+
+
+
+	public static Axis DirectionToAxis(final BlockFace direction) {
+		switch (direction) {
+		case NORTH:
+		case SOUTH:
+		case NORTH_NORTH_EAST:
+		case NORTH_NORTH_WEST:
+		case SOUTH_SOUTH_EAST:
+		case SOUTH_SOUTH_WEST:
+			return Axis.Z;
+		case EAST:
+		case WEST:
+		case EAST_NORTH_EAST:
+		case WEST_NORTH_WEST:
+		case EAST_SOUTH_EAST:
+		case WEST_SOUTH_WEST:
+			return Axis.X;
+		case NORTH_EAST:
+		case NORTH_WEST:
+		case SOUTH_EAST:
+		case SOUTH_WEST:
+		default: break;
+		}
+		return null;
 	}
 
 
