@@ -1,6 +1,15 @@
 pxnCommonBukkit - Common utilities and tools for Bukkit/Spigot plugins
 
 
+2022-12-11 - 4.0.2
+==================
+* fixed and improved BlockPlotter class
+* added AxisToValue() and DirectionToAxis() functions
+* added bStats
+* spigot 1.19.3
+
+
 2022-12-11 - 4.0.1
 ==================
 * initial release
+* spigot 1.19.2
