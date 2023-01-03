@@ -8,13 +8,13 @@ import org.bukkit.command.CommandSender;
 import com.poixson.utils.Utils;
 
 
-public abstract class pxnBukkitCommand {
+public abstract class pxnCommand {
 
 	public final String[] labels;
 
 
 
-	public pxnBukkitCommand(final String...labels) {
+	public pxnCommand(final String...labels) {
 		final HashSet<String> set = new HashSet<String>();
 		for (final String label : labels)
 			set.add(label.toLowerCase());

@@ -15,20 +15,19 @@ import org.bukkit.plugin.java.JavaPlugin;
 import com.poixson.utils.Utils;
 
 
-public abstract class pxnBukkitCommandsHelper implements CommandExecutor {
+public abstract class pxnCommandsHandler implements CommandExecutor, TabCompleter {
 
 	protected final JavaPlugin plugin;
 
 	protected final String[] labels;
 
-	protected final CopyOnWriteArraySet<pxnBukkitCommand> cmds = new CopyOnWriteArraySet<pxnBukkitCommand>();
-
+	protected final CopyOnWriteArraySet<pxnCommand> cmds = new CopyOnWriteArraySet<pxnCommand>();
 	protected final CopyOnWriteArraySet<PluginCommand> pcs = new CopyOnWriteArraySet<PluginCommand>();
 	protected final AtomicReference<TabCompleter> tabComp = new AtomicReference<TabCompleter>(null);
 
 
 
-	public pxnBukkitCommandsHelper(final JavaPlugin plugin, final String...labels) {
+	public pxnCommandsHandler(final JavaPlugin plugin, final String...labels) {
 		this.plugin = plugin;
 		// labels
 		final HashSet<String> set = new HashSet<String>();
@@ -52,7 +51,9 @@ public abstract class pxnBukkitCommandsHelper implements CommandExecutor {
 			final PluginCommand pc = it.next();
 			pc.setExecutor(null);
 		}
+		this.cmds.clear();
 		this.pcs.clear();
+		this.tabComp.set(null);
 	}
 
 
@@ -68,17 +69,17 @@ public abstract class pxnBukkitCommandsHelper implements CommandExecutor {
 
 
 
-	public void addCommand(final pxnBukkitCommand cmd) {
-		if (cmd == null) throw new NullPointerException("cmd");
-		this.cmds.add(cmd);
+	public void addCommand(final pxnCommand dao) {
+		if (dao == null) throw new NullPointerException("cmd");
+		this.cmds.add(dao);
 	}
 
-	public pxnBukkitCommand getDefaultCommand() {
-		final Iterator<pxnBukkitCommand> it = this.cmds.iterator();
+	public pxnCommand getDefaultCommand() {
+		final Iterator<pxnCommand> it = this.cmds.iterator();
 		while (it.hasNext()) {
-			final pxnBukkitCommand cmd = it.next();
-			if (cmd.isDefault())
-				return cmd;
+			final pxnCommand dao = it.next();
+			if (dao.isDefault())
+				return dao;
 		}
 		return null;
 	}
@@ -86,21 +87,21 @@ public abstract class pxnBukkitCommandsHelper implements CommandExecutor {
 
 
 	@Override
-	public boolean onCommand(final CommandSender sender, final Command command,
-			final String label, final String[] args) {
+	public boolean onCommand(final CommandSender sender,
+			final Command command, final String label, final String[] args) {
 		// no arguments
 		if (Utils.isEmpty(args)) {
-			final pxnBukkitCommand cmd = this.getDefaultCommand();
+			final pxnCommand cmd = this.getDefaultCommand();
 			if (cmd != null)
 				return cmd.run(sender, command, args);
 			return false;
 		}
 		// find command
-		final Iterator<pxnBukkitCommand> it = this.cmds.iterator();
+		final Iterator<pxnCommand> it = this.cmds.iterator();
 		while (it.hasNext()) {
-			final pxnBukkitCommand cmd = it.next();
-			if (cmd.matchArgs(args)) {
-				final boolean result = cmd.run(sender, command, args);
+			final pxnCommand dao = it.next();
+			if (dao.matchArgs(args)) {
+				final boolean result = dao.run(sender, command, args);
 				if (result)
 					return true;
 			}
