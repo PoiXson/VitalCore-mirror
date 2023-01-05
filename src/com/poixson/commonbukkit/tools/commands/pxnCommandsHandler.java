@@ -1,7 +1,9 @@
 package com.poixson.commonbukkit.tools.commands;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -107,6 +109,27 @@ public abstract class pxnCommandsHandler implements CommandExecutor, TabComplete
 			}
 		}
 		return false;
+	}
+
+
+
+	@Override
+	public List<String> onTabComplete(
+			final CommandSender sender, final Command cmd,
+			final String label, final String[] args) {
+		final List<String> matches = new ArrayList<String>();
+		final int size = args.length;
+		switch (size) {
+		case 1:
+			for (final pxnCommand c : this.cmds) {
+				for (final String match : c.getMatches(args[0])) {
+					matches.add(match);
+				}
+			}
+			break;
+		default:
+		}
+		return matches;
 	}
 
 

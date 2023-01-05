@@ -1,6 +1,7 @@
 package com.poixson.commonbukkit.tools.commands;
 
 import java.util.HashSet;
+import java.util.LinkedList;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -28,6 +29,14 @@ public abstract class pxnCommand {
 
 
 
+	public String[] getMatches(final String arg) {
+		final LinkedList<String> list = new LinkedList<String>();
+		for (final String lbl : this.labels) {
+			if (lbl.startsWith(arg))
+				list.add(lbl);
+		}
+		return list.toArray(new String[0]);
+	}
 	public boolean matchArgs(final String[] args) {
 		if (Utils.isEmpty(args))
 			return this.isDefault();
