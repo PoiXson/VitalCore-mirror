@@ -12,6 +12,7 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.poixson.commonmc.pxnCommonPlugin;
+import com.poixson.commonmc.tools.updatechecker.UpdateCheckManager;
 import com.poixson.tools.AppProps;
 
 
@@ -54,9 +55,11 @@ public abstract class xJavaPlugin extends JavaPlugin {
 		{
 			final int id = this.getSpigotPluginID();
 			if (id > 0) {
-				pxnCommonPlugin.GetPlugin()
-				.getUpdateCheckManager()
-					.addPlugin(this, id, this.getPluginVersion());
+				final pxnCommonPlugin common = pxnCommonPlugin.GetPlugin();
+				if (common == null) throw new RuntimeException("pxnCommonPluginMC is not available");
+				final UpdateCheckManager manager = common.getUpdateCheckManager();
+				if (manager == null) throw new RuntimeException("UpdateCheckManager is not available");
+				manager.addPlugin(this, id, this.getPluginVersion());
 			}
 		}
 	}
