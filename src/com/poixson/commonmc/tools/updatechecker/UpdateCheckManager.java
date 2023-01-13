@@ -29,10 +29,13 @@ public class UpdateCheckManager extends BukkitRunnable implements xStartStop {
 
 	protected final ConcurrentHashMap<Integer, UpdateCheckerDAO> checkers = new ConcurrentHashMap<Integer, UpdateCheckerDAO>();
 
+	protected final PlayerJoinListener listenerPlayerJoin;
+
 
 
 	public UpdateCheckManager(final pxnCommonPlugin plugin) {
 		this.plugin = plugin;
+		this.listenerPlayerJoin = new PlayerJoinListener(plugin, this);
 	}
 
 
@@ -40,6 +43,7 @@ public class UpdateCheckManager extends BukkitRunnable implements xStartStop {
 	@Override
 	public void start() {
 		this.runTaskTimerAsynchronously(this.plugin, this.delay, this.loop);
+		this.listenerPlayerJoin.register();
 	}
 	public void startLater() {
 		(new BukkitRunnable() {
@@ -51,6 +55,7 @@ public class UpdateCheckManager extends BukkitRunnable implements xStartStop {
 	}
 	@Override
 	public void stop() {
+		this.listenerPlayerJoin.unregister();
 		try {
 			this.cancel();
 		} catch (Exception igore) {}
