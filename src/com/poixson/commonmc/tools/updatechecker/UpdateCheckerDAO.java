@@ -23,8 +23,7 @@ public class UpdateCheckerDAO implements Runnable {
 
 	protected final AtomicLong check_count = new AtomicLong(0L);
 	protected final AtomicDouble version_diff = new AtomicDouble(Double.MIN_NORMAL);
-
-	protected final AtomicReference<String> update = new AtomicReference<String>(null);
+	protected final AtomicReference<String> updateMsg = new AtomicReference<String>(null);
 
 
 
@@ -81,18 +80,18 @@ public class UpdateCheckerDAO implements Runnable {
 				}
 			}
 		} else {
-			this.update.set(null);
+			this.updateMsg.set(null);
 		}
 	}
 
 
 
 	public boolean hasUpdate() {
-		return (this.update.get() != null);
+		return (this.updateMsg.get() != null);
 	}
 
 	public String getUpdateMessage() {
-		return this.update.get();
+		return this.updateMsg.get();
 	}
 
 
