@@ -1,5 +1,6 @@
 package com.poixson.commonmc.tools.updatechecker;
 
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
@@ -86,6 +87,19 @@ public class UpdateCheckManager extends BukkitRunnable implements xStartStop {
 	public boolean removePlugin(final int plugin_id) {
 		final UpdateCheckerDAO dao = this.checkers.remove(Integer.valueOf(plugin_id));
 		return (dao != null);
+	}
+
+
+
+	public UpdateCheckerDAO[] getUpdates() {
+		final HashSet<UpdateCheckerDAO> updates = new HashSet<UpdateCheckerDAO>();
+		final Iterator<UpdateCheckerDAO> it = this.checkers.values().iterator();
+		while (it.hasNext()) {
+			final UpdateCheckerDAO dao = it.next();
+			if (dao.hasUpdate())
+				updates.add(dao);
+		}
+		return updates.toArray(new UpdateCheckerDAO[0]);
 	}
 
 

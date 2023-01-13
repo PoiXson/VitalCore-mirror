@@ -1,6 +1,7 @@
 package com.poixson.commonmc.tools.updatechecker;
 
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.concurrent.atomic.AtomicReference;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -21,6 +22,8 @@ public class UpdateCheckerDAO implements Runnable {
 
 	protected final AtomicLong check_count = new AtomicLong(0L);
 	protected final AtomicDouble version_diff = new AtomicDouble(Double.MIN_NORMAL);
+
+	protected final AtomicReference<String> update = new AtomicReference<String>(null);
 
 
 
@@ -48,24 +51,40 @@ public class UpdateCheckerDAO implements Runnable {
 		if (diff > 0.0) {
 			final ConsoleCommandSender console = Bukkit.getConsoleSender();
 			final double server_diff = api.diffServerVersion();
-			if (server_diff == 0.0) {
-				console.sendMessage(String.format(
-					ChatColor.GOLD + "[%s] New version available: %s",
-					api.title,
-					api.current_version
-				));
-				console.sendMessage("Available at: " + String.format(
-					SpigotWebAPI.SPIGOT_RES_URL,
-					Integer.valueOf(api.id)
-				));
-			} else {
-				console.sendMessage(String.format(
-					"[%s] New version available but requires a %s server version",
+			// unsupported server version
+			if (Math.abs(server_diff) > 100) {
+				final String msg = String.format(
+					"%s[%s] New version available but requires a %s server version",
+					ChatColor.WHITE,
 					api.title,
 					(server_diff>0.0 ? "newer" : "older")
-				));
+				);
+				console.sendMessage(msg);
+				this.update.set(msg);
+			// new supported version
+			} else {
+				final String msg = String.format(
+					"%s[%s]%s New version available: %s\n%sAvailable at: %s",
+					ChatColor.GOLD,  api.title,
+					ChatColor.WHITE, api.current_version,
+					ChatColor.GOLD, String.format(SpigotWebAPI.SPIGOT_RES_URL, Integer.valueOf(api.id))
+				);
+				console.sendMessage(msg);
+				this.update.set(msg);
 			}
+		} else {
+			this.update.set(null);
 		}
+	}
+
+
+
+	public boolean hasUpdate() {
+		return (this.update.get() != null);
+	}
+
+	public String getUpdateMessage() {
+		return this.update.get();
 	}
 
 
