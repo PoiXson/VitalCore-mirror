@@ -51,6 +51,7 @@ public class SpigotWebAPI {
 	public static SpigotWebAPI Get(final String url) throws MalformedURLException, IOException {
 		final HttpURLConnection connection = (HttpURLConnection) (new URL(url)).openConnection();
 		connection.setConnectTimeout(30);
+		connection.setReadTimeout(30);
 		final InputStreamReader input = new InputStreamReader(connection.getInputStream());
 		final BufferedReader reader = new BufferedReader(input);
 		final StringBuilder data = new StringBuilder();
