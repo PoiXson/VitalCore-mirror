@@ -39,7 +39,6 @@ public class pxnCommonPlugin extends xJavaPlugin {
 
 	@Override
 	public void onEnable() {
-		super.onEnable();
 		if (!instance.compareAndSet(null, this))
 			throw new RuntimeException("Plugin instance already enabled?");
 		// update check manager
@@ -52,6 +51,7 @@ public class pxnCommonPlugin extends xJavaPlugin {
 			// wait for server to start
 			manager.startLater();
 		}
+		super.onEnable();
 	}
 
 	@Override
