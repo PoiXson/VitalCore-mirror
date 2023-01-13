@@ -1,4 +1,4 @@
-package com.poixson.commonbukkit.tools.updatechecker;
+package com.poixson.commonmc.tools.updatechecker;
 
 import java.util.Iterator;
 import java.util.concurrent.ConcurrentHashMap;
@@ -8,7 +8,7 @@ import java.util.logging.Logger;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import com.poixson.commonbukkit.pxnCommonPlugin;
+import com.poixson.commonmc.pxnCommonPlugin;
 import com.poixson.tools.xTime;
 import com.poixson.tools.abstractions.xStartStop;
 import com.poixson.utils.ThreadUtils;

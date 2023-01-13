@@ -1,7 +1,7 @@
-package com.poixson.commonbukkit.tools;
+package com.poixson.commonmc.tools;
 
-import static com.poixson.commonbukkit.utils.LocationUtils.AxisToValue;
-import static com.poixson.commonbukkit.utils.LocationUtils.RotateXZ;
+import static com.poixson.commonmc.utils.LocationUtils.AxisToValue;
+import static com.poixson.commonmc.utils.LocationUtils.RotateXZ;
 
 import java.util.HashMap;
 

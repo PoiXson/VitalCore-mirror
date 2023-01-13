@@ -1,4 +1,4 @@
-package com.poixson.commonbukkit.tools.updatechecker;
+package com.poixson.commonmc.tools.updatechecker;
 
 import java.io.BufferedReader;
 import java.io.IOException;

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated: Fri Jan 13 02:56:20 AM EST 2023 -->
+<!-- Generated: Fri Jan 13 03:51:19 AM EST 2023 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0"
 		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<name>pxnCommonBukkit</name>
-	<artifactId>common-bukkit</artifactId>
+	<name>pxnCommonPluginMC</name>
+	<artifactId>common-plugin-mc</artifactId>
 	<groupId>com.poixson</groupId>
 	<version>4.0.3-SNAPSHOT</version>
 	<packaging>jar</packaging>
@@ -36,13 +36,13 @@
 
 	</properties>
 	<scm>
-		<url>https://git.poixson.com/summary/mc!pxnCommonBukkit.git</url>
-		<connection>scm:git:https://git.poixson.com/r/mc/pxnCommonBukkit.git</connection>
-		<developerConnection>scm:ssh://git.poixson.com/mc/pxnCommonBukkit.git</developerConnection>
+		<url>https://git.poixson.com/summary/mc!pxnCommonPluginMC.git</url>
+		<connection>scm:git:https://git.poixson.com/r/mc/pxnCommonPluginMC.git</connection>
+		<developerConnection>scm:ssh://git.poixson.com/mc/pxnCommonPluginMC.git</developerConnection>
 	</scm>
 	<issueManagement>
 		<system>pxngit</system>
-		<url>https://git.poixson.com/tickets/mc!pxnCommonBukkit.git</url>
+		<url>https://git.poixson.com/tickets/mc!pxnCommonPluginMC.git</url>
 	</issueManagement>
 	<ciManagement>
 		<system>pxnJenkins</system>

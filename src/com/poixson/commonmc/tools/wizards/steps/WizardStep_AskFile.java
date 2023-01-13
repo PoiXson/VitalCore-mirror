@@ -1,9 +1,9 @@
-package com.poixson.commonbukkit.tools.wizards.steps;
+package com.poixson.commonmc.tools.wizards.steps;
 
 import java.io.File;
 import java.util.concurrent.atomic.AtomicReference;
 
-import com.poixson.commonbukkit.tools.wizards.Wizard;
+import com.poixson.commonmc.tools.wizards.Wizard;
 import com.poixson.utils.SanUtils;
 import com.poixson.utils.Utils;
 

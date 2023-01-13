@@ -1,4 +1,4 @@
-package com.poixson.commonbukkit.utils;
+package com.poixson.commonmc.utils;
 
 import java.lang.ref.WeakReference;
 import java.util.Collection;

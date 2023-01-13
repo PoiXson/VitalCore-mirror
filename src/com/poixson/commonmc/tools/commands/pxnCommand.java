@@ -1,4 +1,4 @@
-package com.poixson.commonbukkit.tools.commands;
+package com.poixson.commonmc.tools.commands;
 
 import java.util.HashSet;
 import java.util.LinkedList;

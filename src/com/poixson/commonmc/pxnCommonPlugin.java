@@ -1,4 +1,4 @@
-package com.poixson.commonbukkit;
+package com.poixson.commonmc;
 
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicReference;
@@ -8,7 +8,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.poixson.commonbukkit.tools.updatechecker.UpdateCheckManager;
+import com.poixson.commonmc.tools.updatechecker.UpdateCheckManager;
 import com.poixson.tools.AppProps;
 import com.poixson.tools.Keeper;
 

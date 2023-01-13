@@ -1,4 +1,4 @@
-package com.poixson.commonbukkit.tools.wizards.steps;
+package com.poixson.commonmc.tools.wizards.steps;
 
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -8,8 +8,8 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
-import com.poixson.commonbukkit.tools.wizards.Wizard;
-import com.poixson.commonbukkit.utils.BukkitUtils;
+import com.poixson.commonmc.tools.wizards.Wizard;
+import com.poixson.commonmc.utils.BukkitUtils;
 
 
 public abstract class WizardStep_Ask extends WizardStep implements Listener {

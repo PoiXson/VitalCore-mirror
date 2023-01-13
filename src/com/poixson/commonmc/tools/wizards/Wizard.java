@@ -1,4 +1,4 @@
-package com.poixson.commonbukkit.tools.wizards;
+package com.poixson.commonmc.tools.wizards;
 
 import java.util.LinkedList;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -8,8 +8,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
 
-import com.poixson.commonbukkit.tools.wizards.steps.WizardStep;
-import com.poixson.commonbukkit.utils.BukkitUtils;
+import com.poixson.commonmc.tools.wizards.steps.WizardStep;
+import com.poixson.commonmc.utils.BukkitUtils;
 
 
 public class Wizard {

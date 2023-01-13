@@ -1,4 +1,4 @@
-package com.poixson.commonbukkit.utils;
+package com.poixson.commonmc.utils;
 
 import org.bukkit.Axis;
 import org.bukkit.block.BlockFace;

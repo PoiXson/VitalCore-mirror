@@ -1,4 +1,4 @@
-package com.poixson.commonbukkit.tools;
+package com.poixson.commonmc.tools;
 
 import java.util.Random;
 
