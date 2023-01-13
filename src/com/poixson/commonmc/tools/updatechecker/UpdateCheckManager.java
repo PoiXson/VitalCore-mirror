@@ -6,6 +6,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.Logger;
 
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -69,6 +70,10 @@ public class UpdateCheckManager extends BukkitRunnable implements xStartStop {
 		final long last = this.lastCheck.get();
 		if (now - last >= this.period) {
 			this.lastCheck.set(now);
+			Bukkit.getConsoleSender().sendMessage(String.format(
+				"[pxn] Fetching latest versions for %d plugins..",
+				Integer.valueOf(this.checkers.size())
+			));
 			final Iterator<UpdateCheckerDAO> it = this.checkers.values().iterator();
 			while (it.hasNext()) {
 				final UpdateCheckerDAO dao = it.next();
