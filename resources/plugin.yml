@@ -7,3 +7,12 @@ softdepend: [ Multiverse-Core ]
 authors: [ lorenzop ]
 website: ${project.url}
 description: ${project.description}
+permissions:
+    pxncommon.*:
+        default: op
+        description: Gives access to all pxn common commands.
+        children:
+            pxncommon.updates: true
+    pxncommon.updates:
+        default: op
+        description: Receive notices of plugin updates.
