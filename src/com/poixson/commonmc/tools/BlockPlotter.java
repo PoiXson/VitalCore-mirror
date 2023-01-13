@@ -150,7 +150,7 @@ public class BlockPlotter {
 						y = this.absY + (add1.y*i) + (add2.y*ii) + (add3.y*iii);
 						z = this.absZ + (add1.z*i) + (add2.z*ii) + (add3.z*iii);
 						m = this.types.get(Character.valueOf(c));
-						if (m == null) throw new RuntimeException(String.format("Warning, unknown material: %c", c));
+						if (m == null) throw new RuntimeException(String.format("Warning, unknown material: %c", Character.valueOf(c)));
 						sp = this.special.get(Character.valueOf(c));
 						this.setAbsBlock(x, y, z, m, sp);
 					}
@@ -178,7 +178,7 @@ public class BlockPlotter {
 					y = this.absY + (add1.y*i) + (add2.y*ii);
 					z = this.absZ + (add1.z*i) + (add2.z*ii);
 					m = this.types.get(Character.valueOf(c));
-					if (m == null) throw new RuntimeException(String.format("Warning, unknown material: %c", c));
+					if (m == null) throw new RuntimeException(String.format("Warning, unknown material: %c", Character.valueOf(c)));
 					sp = this.special.get(Character.valueOf(c));
 					this.setAbsBlock(x, y, z, m, sp);
 				}
@@ -186,7 +186,6 @@ public class BlockPlotter {
 		}
 	}
 	public void place1D(final char axis, final StringBuilder matrix) {
-		if (Utils.isEmpty(axis)) throw new RequiredArgumentException("axis");
 		final Ixyz add = AxisToValue(axis);
 		final int size = matrix.length();
 		int x, y, z;
@@ -200,7 +199,7 @@ public class BlockPlotter {
 				y = this.absY + (add.y*i);
 				z = this.absZ + (add.z*i);
 				m = this.types.get(Character.valueOf(c));
-				if (m == null) throw new RuntimeException(String.format("Warning, unknown material: %c", c));
+				if (m == null) throw new RuntimeException(String.format("Warning, unknown material: %c", Character.valueOf(c)));
 				sp = this.special.get(Character.valueOf(c));
 				this.setAbsBlock(x, y, z, m, sp);
 			}

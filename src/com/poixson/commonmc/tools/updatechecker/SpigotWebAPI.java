@@ -41,7 +41,7 @@ public class SpigotWebAPI {
 
 	public static SpigotWebAPI Get(final int id) {
 		try {
-			return Get( String.format(SPIGOT_API_URL, id) );
+			return Get( String.format(SPIGOT_API_URL, Integer.valueOf(id)) );
 		} catch (MalformedURLException e) {
 			throw new RuntimeException(e);
 		} catch (IOException ignore) { }

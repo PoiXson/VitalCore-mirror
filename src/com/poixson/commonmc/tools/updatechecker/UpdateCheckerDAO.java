@@ -56,7 +56,7 @@ public class UpdateCheckerDAO implements Runnable {
 				));
 				console.sendMessage("Available at: " + String.format(
 					SpigotWebAPI.SPIGOT_RES_URL,
-					api.id
+					Integer.valueOf(api.id)
 				));
 			} else {
 				console.sendMessage(String.format(

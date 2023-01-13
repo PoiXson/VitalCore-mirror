@@ -84,7 +84,7 @@ public class UpdateCheckManager extends BukkitRunnable implements xStartStop {
 		return dao;
 	}
 	public boolean removePlugin(final int plugin_id) {
-		final UpdateCheckerDAO dao = this.checkers.remove(plugin_id);
+		final UpdateCheckerDAO dao = this.checkers.remove(Integer.valueOf(plugin_id));
 		return (dao != null);
 	}
 

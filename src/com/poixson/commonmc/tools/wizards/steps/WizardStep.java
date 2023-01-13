@@ -81,7 +81,7 @@ public abstract class WizardStep implements Runnable, Closeable {
 		this.wizard.sendMessage(
 			String.format(
 				"[%d%%] %s",
-				Math.round( ((double)this.stepIndex) / ((double)this.wizard.getStepsCount()) * 100.0),
+				Long.valueOf(Math.round( ((double)this.stepIndex) / ((double)this.wizard.getStepsCount()) * 100.0)),
 				msg
 			)
 		);
