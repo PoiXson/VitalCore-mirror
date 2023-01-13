@@ -20,7 +20,7 @@ public abstract class xJavaPlugin extends JavaPlugin {
 	public static final Logger log = Logger.getLogger("Minecraft");
 	public static final String LOG_PREFIX = "[pxn] ";
 
-	protected static final AtomicReference<Metrics> metrics = new AtomicReference<Metrics>(null);
+	protected final AtomicReference<Metrics> metrics = new AtomicReference<Metrics>(null);
 	protected final AppProps props;
 
 	protected final AtomicReference<FileConfiguration> config = new AtomicReference<FileConfiguration>(null);
@@ -48,7 +48,7 @@ public abstract class xJavaPlugin extends JavaPlugin {
 			final int id = this.getBStatsID();
 			if (id > 0) {
 				System.setProperty("bstats.relocatecheck","false");
-				metrics.set(new Metrics(this, id));
+				this.metrics.set(new Metrics(this, id));
 			}
 		}
 		// update checker
@@ -66,6 +66,7 @@ public abstract class xJavaPlugin extends JavaPlugin {
 	@Override
 	public void onDisable() {
 		super.onDisable();
+		this.metrics.set(null);
 		// update checker
 		{
 			final int id = this.getSpigotPluginID();
