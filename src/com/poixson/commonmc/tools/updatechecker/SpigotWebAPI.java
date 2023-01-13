@@ -11,6 +11,7 @@ import java.util.Set;
 import org.bukkit.Bukkit;
 
 import com.google.gson.Gson;
+import com.poixson.tools.xTime;
 import com.poixson.utils.StringUtils;
 
 
@@ -50,8 +51,8 @@ public class SpigotWebAPI {
 
 	public static SpigotWebAPI Get(final String url) throws MalformedURLException, IOException {
 		final HttpURLConnection connection = (HttpURLConnection) (new URL(url)).openConnection();
-		connection.setConnectTimeout(30);
-		connection.setReadTimeout(30);
+		connection.setConnectTimeout( (int) (new xTime("30s")).ms() );
+		connection.setReadTimeout(    (int) (new xTime("30s")).ms() );
 		final InputStreamReader input = new InputStreamReader(connection.getInputStream());
 		final BufferedReader reader = new BufferedReader(input);
 		final StringBuilder data = new StringBuilder();
