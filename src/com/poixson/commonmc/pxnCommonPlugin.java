@@ -5,15 +5,14 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.logging.Logger;
 
 import org.bukkit.ChatColor;
-import org.bukkit.event.HandlerList;
-import org.bukkit.plugin.java.JavaPlugin;
 
+import com.poixson.commonmc.tools.plugin.xJavaPlugin;
 import com.poixson.commonmc.tools.updatechecker.UpdateCheckManager;
 import com.poixson.tools.AppProps;
 import com.poixson.tools.Keeper;
 
 
-public class pxnCommonPlugin extends JavaPlugin {
+public class pxnCommonPlugin extends xJavaPlugin {
 	public static final String LOG_PREFIX  = "[pxnCommon] ";
 	public static final String CHAT_PREFIX = ChatColor.AQUA + LOG_PREFIX + ChatColor.WHITE;
 	public static final Logger log = Logger.getLogger("Minecraft");
@@ -32,7 +31,7 @@ public class pxnCommonPlugin extends JavaPlugin {
 	}
 
 	public pxnCommonPlugin() {
-		super();
+		super(pxnCommonPlugin.class);
 		this.keeper = Keeper.get();
 		try {
 			this.props = AppProps.LoadFromClassRef(pxnCommonPlugin.class);
@@ -45,6 +44,7 @@ public class pxnCommonPlugin extends JavaPlugin {
 
 	@Override
 	public void onEnable() {
+		super.onEnable();
 		if (!instance.compareAndSet(null, this))
 			throw new RuntimeException("Plugin instance already enabled?");
 		// update check manager
@@ -61,18 +61,14 @@ public class pxnCommonPlugin extends JavaPlugin {
 
 	@Override
 	public void onDisable() {
-		// update checker
-		pxnCommonPlugin.GetPlugin()
-			.getUpdateCheckManager()
-				.removePlugin(SPIGOT_PLUGIN_ID);
-		// stop listeners
-		HandlerList.unregisterAll(this);
-		// stop schedulers
-		try {
-			getServer()
-				.getScheduler()
-					.cancelTasks(this);
-		} catch (Exception ignore) {}
+		super.onDisable();
+		// update check manager
+		{
+			final UpdateCheckManager manager = this.checkManager.getAndSet(null);
+			if (manager != null) {
+				manager.stop();
+			}
+		}
 		if (!instance.compareAndSet(this, null))
 			throw new RuntimeException("Disable wrong instance of plugin?");
 	}
@@ -85,8 +81,13 @@ public class pxnCommonPlugin extends JavaPlugin {
 
 
 
-	public String getPluginVersion() {
-		return this.props.version;
+	// -------------------------------------------------------------------------------
+
+
+
+	@Override
+	protected int getSpigotPluginID() {
+		return SPIGOT_PLUGIN_ID;
 	}
 
 
