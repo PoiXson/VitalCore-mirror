@@ -1,5 +1,6 @@
 package com.poixson.commonbukkit;
 
+import java.io.IOException;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.logging.Logger;
 
@@ -7,6 +8,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.poixson.tools.AppProps;
 import com.poixson.tools.Keeper;
 
 
@@ -17,6 +19,7 @@ public class pxnCommonPlugin extends JavaPlugin {
 
 	protected static final AtomicReference<pxnCommonPlugin> instance = new AtomicReference<pxnCommonPlugin>(null);
 	protected final Keeper keeper;
+	protected final AppProps props;
 
 
 
@@ -27,6 +30,11 @@ public class pxnCommonPlugin extends JavaPlugin {
 	public pxnCommonPlugin() {
 		super();
 		this.keeper = Keeper.get();
+		try {
+			this.props = AppProps.LoadFromClassRef(pxnCommonPlugin.class);
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 
