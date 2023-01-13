@@ -22,6 +22,8 @@ public abstract class xJavaPlugin extends JavaPlugin {
 	protected static final AtomicReference<Metrics> metrics = new AtomicReference<Metrics>(null);
 	protected final AppProps props;
 
+	protected final AtomicReference<FileConfiguration> config = new AtomicReference<FileConfiguration>(null);
+
 
 
 	public xJavaPlugin(final Class<? extends xJavaPlugin> clss) {
@@ -79,6 +81,7 @@ public abstract class xJavaPlugin extends JavaPlugin {
 		HandlerList.unregisterAll(this);
 		// save configs
 		this.saveConfigs();
+		this.config.set(null);
 	}
 
 
