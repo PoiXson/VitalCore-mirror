@@ -1,6 +1,16 @@
 pxnCommonPluginMC - Common utilities and tools for Bukkit/Spigot plugins
 
 
+2023-01-16 - 4.0.5
+==================
+* renamed project from pxnCommonBukkit to pxnCommonPluginMC
+* added xJavaPlugin abstract class to simplify the boilerplate of plugins
+* added update checker - use permission node pxncommon.updates
+* added bstats built in
+* renamed and finished command helper classes
+* added app.properties file
+
+
 2023-01-04 - 4.0.3
 ==================
 * renamed and improved pxnCommandsHandler
