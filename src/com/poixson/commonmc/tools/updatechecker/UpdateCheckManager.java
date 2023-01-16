@@ -24,7 +24,7 @@ public class UpdateCheckManager extends BukkitRunnable implements xStartStop {
 
 	protected final long delay  = (new xTime( "5s")).ticks(50L);
 	protected final long loop   = (new xTime( "5m")).ticks(50L);
-	protected final long period = (new xTime("12h")).ticks(50L);
+	protected final long period = (new xTime("12h")).ms();
 
 	protected final AtomicLong lastCheck = new AtomicLong(0L);
 
