@@ -67,8 +67,8 @@ public class UpdateCheckerDAO implements Runnable {
 			} else {
 				this.msgToPlayers.set(true);
 				msg = String.format(
-					"%s[%s]%s New version available: %s\n%sAvailable at:%s %s",
-					ChatColor.RED,  api.title,
+					"%s[%s]%s New version available: %s\n  %sAvailable at:%s %s",
+					ChatColor.RED,   api.title,
 					ChatColor.WHITE, api.current_version,
 					ChatColor.RED, ChatColor.WHITE,
 					String.format(SpigotWebAPI.SPIGOT_RES_URL, Integer.valueOf(api.id))
