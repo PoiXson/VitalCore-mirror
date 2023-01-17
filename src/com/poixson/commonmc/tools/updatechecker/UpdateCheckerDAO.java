@@ -1,5 +1,6 @@
 package com.poixson.commonmc.tools.updatechecker;
 
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -24,6 +25,7 @@ public class UpdateCheckerDAO implements Runnable {
 	protected final AtomicLong check_count = new AtomicLong(0L);
 	protected final AtomicDouble version_diff = new AtomicDouble(Double.MIN_NORMAL);
 	protected final AtomicReference<String> updateMsg = new AtomicReference<String>(null);
+	protected final AtomicBoolean msgToPlayers = new AtomicBoolean(false);
 
 
 
@@ -54,6 +56,7 @@ public class UpdateCheckerDAO implements Runnable {
 			String msg;
 			// unsupported server version
 			if (Math.abs(server_diff) > 100) {
+				this.msgToPlayers.set(false);
 				msg = String.format(
 					"%s[%s] New version available but requires a %s server version",
 					ChatColor.WHITE,
@@ -62,6 +65,7 @@ public class UpdateCheckerDAO implements Runnable {
 				);
 			// new supported version
 			} else {
+				this.msgToPlayers.set(true);
 				msg = String.format(
 					"%s[%s]%s New version available: %s\n%sAvailable at:%s %s",
 					ChatColor.RED,  api.title,
@@ -73,9 +77,10 @@ public class UpdateCheckerDAO implements Runnable {
 			console.sendMessage(msg);
 			this.updateMsg.set(msg);
 			if (this.check_count.get() == 1) {
-				for (final Player p : Bukkit.getOnlinePlayers()) {
-					if (p.isOp() || p.hasPermission("pxncommon.updates")) {
-						p.sendMessage(msg);
+				if (this.msgToPlayers.get()) {
+					for (final Player p : Bukkit.getOnlinePlayers()) {
+						if (p.isOp() || p.hasPermission("pxncommon.updates"))
+							p.sendMessage(msg);
 					}
 				}
 			}
@@ -88,6 +93,10 @@ public class UpdateCheckerDAO implements Runnable {
 
 	public boolean hasUpdate() {
 		return (this.updateMsg.get() != null);
+	}
+
+	public boolean isToPlayers() {
+		return this.msgToPlayers.get();
 	}
 
 	public String getUpdateMessage() {

@@ -101,12 +101,31 @@ public class UpdateCheckManager extends BukkitRunnable implements xStartStop {
 
 
 
+	public boolean hasUpdate() {
+		final Iterator<UpdateCheckerDAO> it = this.checkers.values().iterator();
+		while (it.hasNext()) {
+			final UpdateCheckerDAO dao = it.next();
+			if (dao.hasUpdate())
+				return true;
+		}
+		return false;
+	}
 	public UpdateCheckerDAO[] getUpdates() {
 		final HashSet<UpdateCheckerDAO> updates = new HashSet<UpdateCheckerDAO>();
 		final Iterator<UpdateCheckerDAO> it = this.checkers.values().iterator();
 		while (it.hasNext()) {
 			final UpdateCheckerDAO dao = it.next();
 			if (dao.hasUpdate())
+				updates.add(dao);
+		}
+		return updates.toArray(new UpdateCheckerDAO[0]);
+	}
+	public UpdateCheckerDAO[] getUpdatesToPlayers() {
+		final HashSet<UpdateCheckerDAO> updates = new HashSet<UpdateCheckerDAO>();
+		final Iterator<UpdateCheckerDAO> it = this.checkers.values().iterator();
+		while (it.hasNext()) {
+			final UpdateCheckerDAO dao = it.next();
+			if (dao.hasUpdate() && dao.isToPlayers())
 				updates.add(dao);
 		}
 		return updates.toArray(new UpdateCheckerDAO[0]);

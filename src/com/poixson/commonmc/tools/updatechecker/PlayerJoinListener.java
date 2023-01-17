@@ -29,20 +29,22 @@ public class PlayerJoinListener implements Listener {
 
 	@EventHandler(priority=EventPriority.LOWEST)
 	public void onPlayerJoin(final PlayerJoinEvent event) {
-		final Player player = event.getPlayer();
-		if (player.isOp() || player.hasPermission("pxncommon.updates")) {
-			(new BukkitRunnable() {
-				@Override
-				public void run() {
-					final UpdateCheckerDAO[] updates = PlayerJoinListener.this.manager.getUpdates();
-					String msg;
-					for (final UpdateCheckerDAO dao : updates) {
-						msg = dao.getUpdateMessage();
-						if (Utils.notEmpty(msg))
-							player.sendMessage(msg);
+		if (this.manager.hasUpdate()) {
+			final Player player = event.getPlayer();
+			if (player.isOp() || player.hasPermission("pxncommon.updates")) {
+				(new BukkitRunnable() {
+					@Override
+					public void run() {
+						final UpdateCheckerDAO[] updates = PlayerJoinListener.this.manager.getUpdatesToPlayers();
+						String msg;
+						for (final UpdateCheckerDAO dao : updates) {
+							msg = dao.getUpdateMessage();
+							if (Utils.notEmpty(msg))
+								player.sendMessage(msg);
+						}
 					}
-				}
-			}).runTaskLater(this.plugin, 10L);
+				}).runTaskLater(this.plugin, 10L);
+			}
 		}
 	}
 
