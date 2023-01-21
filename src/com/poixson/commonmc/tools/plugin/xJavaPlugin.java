@@ -1,5 +1,6 @@
 package com.poixson.commonmc.tools.plugin;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.logging.Logger;
@@ -100,6 +101,17 @@ public abstract class xJavaPlugin extends JavaPlugin {
 	protected void saveConfigs() {
 	}
 	protected void configDefaults(final FileConfiguration cfg) {
+	}
+
+
+
+	protected void mkPluginDir() {
+		final File path = this.getDataFolder();
+		if (!path.isDirectory()) {
+			if (!path.mkdir())
+				throw new RuntimeException("Failed to create directory: " + path.toString());
+			log.info(LOG_PREFIX + "Created directory: " + path.toString());
+		}
 	}
 
 
