@@ -26,9 +26,9 @@ import org.bukkit.block.data.Rotatable;
 import org.bukkit.block.data.type.Slab;
 import org.bukkit.entity.Player;
 import org.bukkit.map.MapView;
+import org.bukkit.potion.PotionEffect;
 
 import com.poixson.tools.Keeper;
-import com.poixson.utils.StringUtils;
 import com.poixson.utils.Utils;
 
 
@@ -41,35 +41,39 @@ public final class BukkitUtils {
 
 
 
-	public static boolean EqualsPlayer(final Player expect, final Player actual) {
-		if (expect == null) return false;
-		if (actual == null) return false;
-		return
-			Utils.EqualsUUID(
-				expect.getUniqueId(),
-				actual.getUniqueId()
-			);
+	public static boolean EqualsUUID(final UUID uuidA, final UUID uuidB) {
+		return Utils.EqualsUUID(uuidA, uuidB);
+	}
+	public static boolean EqualsPlayer(final Player playerA, final Player playerB) {
+		if (playerA == null || playerB == null)
+			return (playerA == null && playerB == null);
+		return Utils.EqualsUUID(playerA.getUniqueId(), playerB.getUniqueId());
 	}
 
-	public static boolean EqualsLocation(final Location expect, final Location actual) {
-		if (expect == null) return false;
-		if (actual == null) return false;
-		if (!EqualsWorld(expect.getWorld(), actual.getWorld()))
+	public static boolean EqualsPotionEffect(final PotionEffect effectA, final PotionEffect effectB) {
+		if (effectA == null || effectB == null)
+			return (effectA == null && effectB == null);
+		return effectA.equals(effectB);
+	}
+
+	public static boolean EqualsLocation(final Location locA, final Location locB) {
+		if (locA == null || locB == null)
+			return (locA == null && locB == null);
+		if (!EqualsWorld(locA.getWorld(), locB.getWorld()))
 			return false;
-		if (expect.getBlockX() != actual.getBlockX()) return false;
-		if (expect.getBlockY() != actual.getBlockY()) return false;
-		if (expect.getBlockZ() != actual.getBlockZ()) return false;
+		if (locA.getBlockX() != locB.getBlockX()) return false;
+		if (locA.getBlockY() != locB.getBlockY()) return false;
+		if (locA.getBlockZ() != locB.getBlockZ()) return false;
 		return true;
 	}
 
-	public static boolean EqualsWorld(final World expect, final World actual) {
-		if (expect == null) return false;
-		if (actual == null) return false;
-		return
-			StringUtils.MatchString(
-				expect.getName(),
-				actual.getName()
-			);
+	public static boolean EqualsWorld(final Location locA, final Location locB) {
+		return EqualsWorld(locA.getWorld(), locB.getWorld());
+	}
+	public static boolean EqualsWorld(final World worldA, final World worldB) {
+		if (worldA == null || worldB == null)
+			return (worldA == null && worldB == null);
+		return worldA.equals(worldB);
 	}
 
 
