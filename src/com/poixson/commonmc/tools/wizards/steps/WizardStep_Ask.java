@@ -50,7 +50,7 @@ public abstract class WizardStep_Ask extends WizardStep implements Listener {
 			this.close();
 			return;
 		}
-		if (!BukkitUtils.MatchPlayer(this.getPlayer(), event.getPlayer()))
+		if (!BukkitUtils.EqualsPlayer(this.getPlayer(), event.getPlayer()))
 			return;
 		event.setCancelled(true);
 		this.answer.set(event.getMessage());

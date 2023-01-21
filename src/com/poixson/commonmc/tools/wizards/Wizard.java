@@ -128,7 +128,7 @@ public class Wizard {
 		return this.player;
 	}
 	public boolean isPlayer(final Player player) {
-		return BukkitUtils.MatchPlayer(player, this.player);
+		return BukkitUtils.EqualsPlayer(player, this.player);
 	}
 
 

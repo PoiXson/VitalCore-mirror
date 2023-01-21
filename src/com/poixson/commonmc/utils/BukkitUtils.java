@@ -41,20 +41,20 @@ public final class BukkitUtils {
 
 
 
-	public static boolean MatchPlayer(final Player expect, final Player actual) {
+	public static boolean EqualsPlayer(final Player expect, final Player actual) {
 		if (expect == null) return false;
 		if (actual == null) return false;
 		return
-			Utils.MatchUUID(
+			Utils.EqualsUUID(
 				expect.getUniqueId(),
 				actual.getUniqueId()
 			);
 	}
 
-	public static boolean MatchLocation(final Location expect, final Location actual) {
+	public static boolean EqualsLocation(final Location expect, final Location actual) {
 		if (expect == null) return false;
 		if (actual == null) return false;
-		if (!MatchWorld(expect.getWorld(), actual.getWorld()))
+		if (!EqualsWorld(expect.getWorld(), actual.getWorld()))
 			return false;
 		if (expect.getBlockX() != actual.getBlockX()) return false;
 		if (expect.getBlockY() != actual.getBlockY()) return false;
@@ -62,7 +62,7 @@ public final class BukkitUtils {
 		return true;
 	}
 
-	public static boolean MatchWorld(final World expect, final World actual) {
+	public static boolean EqualsWorld(final World expect, final World actual) {
 		if (expect == null) return false;
 		if (actual == null) return false;
 		return
@@ -84,7 +84,7 @@ public final class BukkitUtils {
 			final Location playerLoc = player.getLocation();
 			if (playerLoc == null)
 				continue;
-			if (!MatchWorld(world, playerLoc.getWorld()))
+			if (!EqualsWorld(world, playerLoc.getWorld()))
 				continue;
 			final double playerDist = playerLoc.distance(loc);
 			if (playerDist <= distance)

@@ -61,7 +61,7 @@ public abstract class WizardStep_BlockClick extends WizardStep implements Listen
 		if (event.getHand() != EquipmentSlot.HAND) return;
 		if (event.getAction() != Action.LEFT_CLICK_BLOCK
 		&&  event.getAction() != Action.RIGHT_CLICK_BLOCK) return;
-		if (!BukkitUtils.MatchPlayer(player, event.getPlayer())) return;
+		if (!BukkitUtils.EqualsPlayer(player, event.getPlayer())) return;
 		// hand is empty
 		{
 			final ItemStack stack =
