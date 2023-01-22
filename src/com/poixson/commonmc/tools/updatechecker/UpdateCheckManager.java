@@ -56,10 +56,10 @@ public class UpdateCheckManager extends BukkitRunnable implements xStartStop {
 	}
 	@Override
 	public void stop() {
-		this.listenerPlayerJoin.unregister();
 		try {
 			this.cancel();
-		} catch (Exception igore) {}
+		} catch (IllegalStateException ignore) {}
+		this.listenerPlayerJoin.unregister();
 	}
 
 

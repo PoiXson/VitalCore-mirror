@@ -80,10 +80,14 @@ public class Wizard {
 		this.finished();
 	}
 	public void finished() {
-		this.timeoutTask.cancel();
+		try {
+			this.timeoutTask.cancel();
+		} catch (IllegalStateException ignore) {}
 	}
 	public void cancel() {
-		this.timeoutTask.cancel();
+		try {
+			this.timeoutTask.cancel();
+		} catch (IllegalStateException ignore) {}
 		for (final WizardStep step : this.steps) {
 			step.close();
 		}
