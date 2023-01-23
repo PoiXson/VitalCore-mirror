@@ -76,11 +76,17 @@ public class UpdateCheckManager extends BukkitRunnable implements xStartStop {
 				LOG_PREFIX,
 				Integer.valueOf(this.checkers.size())
 			));
+			boolean available = false;
 			final Iterator<UpdateCheckerDAO> it = this.checkers.values().iterator();
 			while (it.hasNext()) {
 				final UpdateCheckerDAO dao = it.next();
 				dao.run();
+				if (dao.hasUpdate())
+					available = true;
 				ThreadUtils.Sleep("1s");
+			}
+			if (!available) {
+				log.info(LOG_PREFIX + "You have the latest versions");
 			}
 		}
 	}
