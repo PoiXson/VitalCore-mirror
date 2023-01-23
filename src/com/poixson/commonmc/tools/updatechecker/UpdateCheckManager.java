@@ -6,11 +6,11 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.Logger;
 
-import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import com.poixson.commonmc.pxnCommonPlugin;
+import com.poixson.commonmc.tools.plugin.xJavaPlugin;
 import com.poixson.tools.xTime;
 import com.poixson.tools.abstractions.xStartStop;
 import com.poixson.utils.ThreadUtils;
@@ -19,6 +19,7 @@ import com.poixson.utils.Utils;
 
 public class UpdateCheckManager extends BukkitRunnable implements xStartStop {
 	public static final Logger log = pxnCommonPlugin.log;
+	public static final String LOG_PREFIX = xJavaPlugin.LOG_PREFIX;
 
 	protected final pxnCommonPlugin plugin;
 
@@ -70,8 +71,9 @@ public class UpdateCheckManager extends BukkitRunnable implements xStartStop {
 		final long last = this.lastCheck.get();
 		if (now - last >= this.period) {
 			this.lastCheck.set(now);
-			Bukkit.getConsoleSender().sendMessage(String.format(
-				"[pxn] Fetching latest versions for %d plugins..",
+			log.info(String.format(
+				"%sFetching latest versions for %d plugins..",
+				LOG_PREFIX,
 				Integer.valueOf(this.checkers.size())
 			));
 			final Iterator<UpdateCheckerDAO> it = this.checkers.values().iterator();
@@ -87,7 +89,11 @@ public class UpdateCheckManager extends BukkitRunnable implements xStartStop {
 
 	public UpdateCheckerDAO addPlugin(final JavaPlugin plugin, final int plugin_id, final String plugin_version) {
 		if (plugin_id <= 0) {
-			log.warning("Plugin ID not set in: " + plugin.getName());
+			log.warning(String.format(
+				"%sPlugin ID not set in: %s",
+				LOG_PREFIX,
+				plugin.getName()
+			));
 			return null;
 		}
 		final UpdateCheckerDAO dao = new UpdateCheckerDAO(plugin, plugin_id, plugin_version);

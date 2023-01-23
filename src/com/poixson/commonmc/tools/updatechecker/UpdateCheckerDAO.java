@@ -6,11 +6,11 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.google.common.util.concurrent.AtomicDouble;
+import com.poixson.commonmc.pxnCommonPlugin;
 import com.poixson.exceptions.RequiredArgumentException;
 import com.poixson.utils.StringUtils;
 import com.poixson.utils.Utils;
@@ -51,7 +51,6 @@ public class UpdateCheckerDAO implements Runnable {
 		this.version_diff.set(diff);
 		// newer version available
 		if (diff > 0.0) {
-			final ConsoleCommandSender console = Bukkit.getConsoleSender();
 			final double server_diff = api.diffServerVersion();
 			String msg;
 			// unsupported server version
@@ -74,7 +73,7 @@ public class UpdateCheckerDAO implements Runnable {
 					String.format(SpigotWebAPI.SPIGOT_RES_URL, Integer.valueOf(api.id))
 				);
 			}
-			console.sendMessage(msg);
+			pxnCommonPlugin.log.info(msg);
 			this.updateMsg.set(msg);
 			if (this.check_count.get() == 1) {
 				if (this.msgToPlayers.get()) {
