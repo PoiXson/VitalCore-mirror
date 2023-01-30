@@ -1,6 +1,13 @@
 pxnCommonPluginMC - Common utilities and tools for Bukkit/Spigot plugins
 
 
+2023-01-30 - 4.0.8
+==================
+* improve update checker notices
+* added delayed block plotter
+* other fixes and improvements
+
+
 2023-01-16 - 4.0.5
 ==================
 * renamed project from pxnCommonBukkit to pxnCommonPluginMC
