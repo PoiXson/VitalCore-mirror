@@ -73,8 +73,16 @@ public class UpdateCheckerDAO implements Runnable {
 					String.format(SpigotWebAPI.SPIGOT_RES_URL, Integer.valueOf(api.id))
 				);
 			}
-			pxnCommonPlugin.log.info(msg);
 			this.updateMsg.set(msg);
+			// console message
+			{
+				final String str = msg.toString()
+					.replace(""+ChatColor.RED,   "")
+					.replace(""+ChatColor.WHITE, "");
+				for (final String line : str.split("\n"))
+					pxnCommonPlugin.log.info(line);
+			}
+			// message to players
 			if (this.check_count.get() == 1) {
 				if (this.msgToPlayers.get()) {
 					for (final Player p : Bukkit.getOnlinePlayers()) {
