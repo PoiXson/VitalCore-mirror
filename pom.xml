@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated: Mon Jan 30 01:23:28 AM EST 2023 -->
+<!-- Generated: Sun Feb  5 10:12:32 PM EST 2023 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0"
 		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
@@ -7,7 +7,7 @@
 	<name>pxnCommonPluginMC</name>
 	<artifactId>common-plugin-mc</artifactId>
 	<groupId>com.poixson</groupId>
-	<version>4.0.8-SNAPSHOT</version>
+	<version>4.0.10-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<url>https://poixson.com</url>
 	<description>Common utilities and tools for Bukkit/Spigot plugins</description>
