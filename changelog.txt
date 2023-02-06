@@ -1,6 +1,12 @@
 pxnCommonPluginMC - Common utilities and tools for Bukkit/Spigot plugins
 
 
+2023-02-05 - 4.0.10
+===================
+* small fix to console messages when plugin updates are found
+* updated dependencies
+
+
 2023-01-30 - 4.0.8
 ==================
 * improve update checker notices
