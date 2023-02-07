@@ -4,6 +4,7 @@ import static com.poixson.commonmc.utils.LocationUtils.AxisToValue;
 import static com.poixson.commonmc.utils.LocationUtils.RotateXZ;
 
 import java.util.HashMap;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.bukkit.Axis;
 import org.bukkit.Material;
@@ -38,6 +39,8 @@ public class BlockPlotter {
 
 	public HashMap<Character, Material> types = new HashMap<Character, Material>();
 	public HashMap<Character, String> special = new HashMap<Character, String>();
+
+	public final AtomicBoolean allowChunkWrap = new AtomicBoolean(false);
 
 
 
@@ -257,6 +260,12 @@ public class BlockPlotter {
 
 
 	public void setAbsBlock(final int x, final int y, final int z, final Material type, final String special) {
+		if (this.chunk != null
+		&& !this.allowChunkWrap.get()) {
+			if (x < 0 || x > 15
+			||  z < 0 || z > 15)
+				return;
+		}
 		this.setAbsBlock(x, y, z, type);
 		if (Utils.notEmpty(special)) {
 			boolean changed = false;
