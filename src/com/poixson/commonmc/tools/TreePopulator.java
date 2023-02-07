@@ -111,9 +111,11 @@ public class TreePopulator extends BlockPopulator {
 							if (Material.AIR.equals(region.getType(xx, yy, zz))) {
 								region.setType(xx, yy, zz, this.leaves);
 								final BlockData block = region.getBlockData(xx, yy, zz);
-								final Leaves leaves = (Leaves) block;
-								leaves.setPersistent(true);
-								region.setBlockData(xx, yy, zz, block);
+								if (block instanceof Leaves) {
+									final Leaves leaves = (Leaves) block;
+									leaves.setPersistent(true);
+									region.setBlockData(xx, yy, zz, block);
+								}
 							}
 						}
 					}
