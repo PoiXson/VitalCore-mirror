@@ -50,6 +50,9 @@ public class BlockPlotter {
 	public BlockPlotter(final ChunkData chunk) {
 		this(chunk, 0, 0, 0);
 	}
+	public BlockPlotter(final ChunkData chunk, final int y) {
+		this(chunk, 0, y, 0);
+	}
 	public BlockPlotter(final LimitedRegion region) {
 		this(region, 0, 0, 0);
 	}
