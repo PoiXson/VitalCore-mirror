@@ -16,21 +16,27 @@ public class PathTracer {
 	protected final ThreadLocal<SoftReference<HashMap<Integer, Double>>> cacheLocal =
 			new ThreadLocal<SoftReference<HashMap<Integer, Double>>>();
 
+	protected final int start_z;
+
 
 
 	public PathTracer(final FastNoiseLiteD noise) {
-		this(noise, new ConcurrentHashMap<Integer, Double>());
+		this(noise, 0, new ConcurrentHashMap<Integer, Double>());
 	}
-	public PathTracer(final FastNoiseLiteD noise, final ConcurrentHashMap<Integer, Double> cache) {
+	public PathTracer(final FastNoiseLiteD noise, final int start_z) {
+		this(noise, start_z, new ConcurrentHashMap<Integer, Double>());
+	}
+	public PathTracer(final FastNoiseLiteD noise, final int start_z,
+			final ConcurrentHashMap<Integer, Double> cache) {
 		this.noise = noise;
 		this.cache = cache;
+		this.start_z = start_z;
 	}
 
 
 
 	public boolean isPath(final int x, final int z, final int width) {
-		if (z < 0)
-			return false;
+		if (z < this.start_z) return false;
 		final int xx = this.getPathX(z);
 		return (x >= xx-width && x <= xx+width);
 	}
@@ -39,8 +45,7 @@ public class PathTracer {
 
 	// find x
 	public int getPathX(final int z) {
-		if (z < 0)
-			return 0;
+		if (z < this.start_z) return 0;
 		Double value;
 		// cached
 		final HashMap<Integer, Double> local = this.getLocalCache();
@@ -48,10 +53,16 @@ public class PathTracer {
 		if (value != null) return (int) Math.round(value.intValue());
 		value = this.cache.get(Integer.valueOf(z));
 		if (value != null) return (int) Math.round(value.intValue());
+		// starting point
+		if (z == this.start_z) {
+			local.put(     Integer.valueOf(this.start_z), Double.valueOf(0.0));
+			this.cache.put(Integer.valueOf(this.start_z), Double.valueOf(0.0));
+			return 0;
+		}
 		// find last cached value
-		int from = 0;
+		int from = this.start_z;
 		double x = 0.0;
-		for (int i=z-1; i>=0; i--) {
+		for (int i=z-1; i>=this.start_z; i--) {
 			value = local.get(Integer.valueOf(i));
 			if (value != null) {
 				x = value.doubleValue();
@@ -67,7 +78,7 @@ public class PathTracer {
 		}
 		int step;
 		double valueE, valueW;
-		for (int i=from+1; i<z; i++) {
+		for (int i=from+1; i<=z; i++) {
 			valueE = this.noise.getNoise(x+1.0, i);
 			valueW = this.noise.getNoise(x-1.0, i);
 			x += (valueW - valueE) * 5.0;
