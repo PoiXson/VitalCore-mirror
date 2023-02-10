@@ -263,11 +263,16 @@ public class BlockPlotter {
 
 
 	public void setAbsBlock(final int x, final int y, final int z, final Material type, final String special) {
-		if (this.chunk != null
-		&& !this.allowChunkWrap.get()) {
-			if (x < 0 || x > 15
-			||  z < 0 || z > 15)
-				return;
+		if (!this.allowChunkWrap.get()) {
+			if (this.chunk != null) {
+				if (x < 0 || x > 15
+				||  z < 0 || z > 15)
+					return;
+			} else
+			if (this.region != null) {
+				if (!this.region.isInRegion(x, y, z))
+					return;
+			}
 		}
 		this.setAbsBlock(x, y, z, type);
 		if (Utils.notEmpty(special)) {
