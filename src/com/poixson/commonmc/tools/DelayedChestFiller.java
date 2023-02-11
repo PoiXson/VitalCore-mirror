@@ -30,6 +30,7 @@ public abstract class DelayedChestFiller extends BukkitRunnable {
 	protected final Location loc;
 	protected final String worldName;
 	protected final int x, y, z;
+	protected final AtomicBoolean done = new AtomicBoolean(false);
 
 
 
@@ -69,8 +70,11 @@ public abstract class DelayedChestFiller extends BukkitRunnable {
 				remove.add(filler);
 				try {
 					filler.cancel();
-					filler.run();
 				} catch (IllegalStateException ignore) {}
+				if (!filler.done.get()) {
+					filler.run();
+					count++;
+				}
 			}
 			for (final DelayedChestFiller filler : remove) {
 				fillers.remove(filler);
@@ -98,6 +102,7 @@ public abstract class DelayedChestFiller extends BukkitRunnable {
 
 	@Override
 	public void run() {
+		if (!this.done.compareAndSet(false, true)) return;
 		final Block block = this.getBlock();
 		final BlockState state = block.getState();
 		if (state instanceof Container) {
