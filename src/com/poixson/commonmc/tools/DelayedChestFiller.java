@@ -3,6 +3,7 @@ package com.poixson.commonmc.tools;
 import java.util.HashSet;
 import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -14,8 +15,12 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import com.poixson.commonmc.tools.plugin.xJavaPlugin;
+
 
 public abstract class DelayedChestFiller extends BukkitRunnable {
+	protected static final String LOG_PREFIX = xJavaPlugin.LOG_PREFIX;
+	protected static final Logger log = Logger.getLogger("Minecraft");
 
 	protected static CopyOnWriteArraySet<DelayedChestFiller> fillers = new CopyOnWriteArraySet<DelayedChestFiller>();
 	protected static final AtomicBoolean stopping = new AtomicBoolean(false);
@@ -56,6 +61,8 @@ public abstract class DelayedChestFiller extends BukkitRunnable {
 	}
 	public static void stop() {
 		stopping.set(true);
+		log.info(LOG_PREFIX + "Finishing chest population..");
+		int count = 0;
 		while (!fillers.isEmpty()) {
 			final HashSet<DelayedChestFiller> remove = new HashSet<DelayedChestFiller>();
 			for (final DelayedChestFiller filler : fillers) {
@@ -69,6 +76,8 @@ public abstract class DelayedChestFiller extends BukkitRunnable {
 				fillers.remove(filler);
 			}
 		}
+		if (count > 0)
+			log.info(LOG_PREFIX + "Finished populating chests: " + Integer.toString(count));
 	}
 
 

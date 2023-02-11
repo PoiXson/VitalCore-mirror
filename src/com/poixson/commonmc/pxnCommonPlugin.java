@@ -10,7 +10,7 @@ import com.poixson.tools.Keeper;
 
 
 public class pxnCommonPlugin extends xJavaPlugin {
-	protected static final String LOG_PREFIX  = "[pxnCommon] ";
+	public static final String LOG_PREFIX = "[pxnCommon] ";
 	protected static final int SPIGOT_PLUGIN_ID = 107049;
 
 	protected static final AtomicReference<pxnCommonPlugin> instance = new AtomicReference<pxnCommonPlugin>(null);
