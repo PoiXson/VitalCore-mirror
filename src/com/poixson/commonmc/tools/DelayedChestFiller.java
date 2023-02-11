@@ -92,6 +92,10 @@ public abstract class DelayedChestFiller extends BukkitRunnable {
 	public Block getBlock() {
 		if (this.loc == null) {
 			final World world = Bukkit.getWorld(this.worldName);
+			if (stopping.get()) {
+				if (!world.getChunkAt(this.x, this.z).isLoaded())
+					return null;
+			}
 			return world.getBlockAt(this.x, this.y, this.z);
 		} else {
 			return this.loc.getBlock();
@@ -104,10 +108,13 @@ public abstract class DelayedChestFiller extends BukkitRunnable {
 	public void run() {
 		if (!this.done.compareAndSet(false, true)) return;
 		final Block block = this.getBlock();
-		final BlockState state = block.getState();
-		if (state instanceof Container) {
-			final Container chest = (Container) state;
-			this.fill(chest.getInventory());
+		if (block != null) {
+			final BlockState state = block.getState();
+			if (state != null
+			&&  state instanceof Container) {
+				final Container chest = (Container) state;
+				this.fill(chest.getInventory());
+			}
 		}
 	}
 
