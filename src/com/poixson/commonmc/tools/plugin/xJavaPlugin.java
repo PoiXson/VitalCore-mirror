@@ -19,7 +19,8 @@ import com.poixson.tools.AppProps;
 
 public abstract class xJavaPlugin extends JavaPlugin {
 	public static final Logger log = Logger.getLogger("Minecraft");
-	public static final String LOG_PREFIX = "[pxn] ";
+	public static final String LOG_PREFIX  = "[pxn] ";
+	public static final String CHAT_PREFIX = ChatColor.AQUA + LOG_PREFIX + ChatColor.WHITE;
 
 	protected final AtomicReference<Metrics> metrics = new AtomicReference<Metrics>(null);
 	protected final AppProps props;
@@ -139,11 +140,7 @@ public abstract class xJavaPlugin extends JavaPlugin {
 		return LOG_PREFIX;
 	}
 	public String getChatPrefix() {
-		return (new StringBuilder())
-			.append(ChatColor.AQUA)
-			.append(this.getLogPrefix())
-			.append(ChatColor.WHITE)
-			.toString();
+		return CHAT_PREFIX;
 	}
 
 
