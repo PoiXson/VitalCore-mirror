@@ -22,6 +22,8 @@ public abstract class DelayedChestFiller extends BukkitRunnable {
 	protected static final String LOG_PREFIX = xJavaPlugin.LOG_PREFIX;
 	protected static final Logger log = Logger.getLogger("Minecraft");
 
+	public static final long DEFAULT_DELAY = 20L;
+
 	protected static CopyOnWriteArraySet<DelayedChestFiller> fillers = new CopyOnWriteArraySet<DelayedChestFiller>();
 	protected static final AtomicBoolean stopping = new AtomicBoolean(false);
 
@@ -55,10 +57,13 @@ public abstract class DelayedChestFiller extends BukkitRunnable {
 
 
 	public void start() {
+		this.start(DEFAULT_DELAY);
+	}
+	public void start(final long delay) {
 		if (stopping.get())
 			return;
 		fillers.add(this);
-		this.runTaskLater(this.plugin, 60L);
+		this.runTaskLater(this.plugin, delay);
 	}
 	public static void stop() {
 		stopping.set(true);
