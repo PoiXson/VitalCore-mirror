@@ -1,7 +1,7 @@
 package com.poixson.commonmc.tools;
 
-import static com.poixson.commonmc.utils.LocationUtils.AxisToValue;
-import static com.poixson.commonmc.utils.LocationUtils.RotateXZ;
+import static com.poixson.commonmc.utils.LocationUtils.AxToIxyz;
+import static com.poixson.commonmc.utils.LocationUtils.Rotate;
 
 import java.util.HashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -136,9 +136,9 @@ public class BlockPlotter {
 	public void place3D(final String axis, final StringBuilder[][] matrix) {
 		if (Utils.isEmpty(axis)) throw new RequiredArgumentException("axis");
 		if (axis.length() != 3) throw new RuntimeException("Invalid axis length: "+axis);
-		final Ixyz add1 = AxisToValue(axis.charAt(0));
-		final Ixyz add2 = AxisToValue(axis.charAt(1));
-		final Ixyz add3 = AxisToValue(axis.charAt(2));
+		final Ixyz add1 = AxToIxyz(axis.charAt(0));
+		final Ixyz add2 = AxToIxyz(axis.charAt(1));
+		final Ixyz add3 = AxToIxyz(axis.charAt(2));
 		final int size1 = matrix.length;
 		int x, y, z;
 		int size2, size3;
@@ -167,8 +167,8 @@ public class BlockPlotter {
 	public void place2D(final String axis, final StringBuilder[] matrix) {
 		if (Utils.isEmpty(axis)) throw new RequiredArgumentException("axis");
 		if (axis.length() != 2) throw new RuntimeException("Invalid axis length: "+axis);
-		final Ixyz add1 = AxisToValue(axis.charAt(0));
-		final Ixyz add2 = AxisToValue(axis.charAt(1));
+		final Ixyz add1 = AxToIxyz(axis.charAt(0));
+		final Ixyz add2 = AxToIxyz(axis.charAt(1));
 		final int size1 = matrix.length;
 		int x, y, z;
 		int size2;
@@ -192,7 +192,7 @@ public class BlockPlotter {
 		}
 	}
 	public void place1D(final char axis, final StringBuilder matrix) {
-		final Ixyz add = AxisToValue(axis);
+		final Ixyz add = AxToIxyz(axis);
 		final int size = matrix.length();
 		int x, y, z;
 		char c;
@@ -256,21 +256,21 @@ public class BlockPlotter {
 
 	public void setRotBlock(final int x, final int y, final int z,
 			final BlockFace direction, final Material type, final String special) {
-		final Ixywd loc = RotateXZ(new Ixywd(x, z, this.w, this.d), direction);
+		final Ixywd loc = Rotate(new Ixywd(x, z, this.w, this.d), direction);
 		this.setRelBlock(loc.x, y, loc.y, type, special);
 	}
 	public void setRotBlock(final int x, final int y, final int z,
 			final BlockFace direction, final Material type) {
-		final Ixywd loc = RotateXZ(new Ixywd(x, z, this.w, this.d), direction);
+		final Ixywd loc = Rotate(new Ixywd(x, z, this.w, this.d), direction);
 		this.setRelBlock(loc.x, y, loc.y, type);
 	}
 
 	public BlockData getRotBlockData(final int x, final int y, final int z, final BlockFace direction) {
-		final Ixywd loc = RotateXZ(new Ixywd(x, z, this.w, this.d), direction);
+		final Ixywd loc = Rotate(new Ixywd(x, z, this.w, this.d), direction);
 		return this.getRelBlockData(loc.x, y, loc.y);
 	}
 	public void setRotBlockData(final int x, final int y, final int z, final BlockFace direction, final BlockData block) {
-		final Ixywd loc = RotateXZ(new Ixywd(x, z, this.w, this.d), direction);
+		final Ixywd loc = Rotate(new Ixywd(x, z, this.w, this.d), direction);
 		this.setRelBlockData(loc.x, y, loc.y, block);
 	}
 
