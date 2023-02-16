@@ -29,18 +29,18 @@ import com.poixson.utils.Utils;
 
 public class BlockPlotter {
 
-	public final World world;
-	public final ChunkData chunk;
-	public final LimitedRegion region;
+	protected final World world;
+	protected final ChunkData chunk;
+	protected final LimitedRegion region;
 
-	public int absX, absY, absZ;
-	public int w = 0;
-	public int d = 0;
+	protected int absX, absY, absZ;
+	protected int w = 0;
+	protected int d = 0;
 
-	public HashMap<Character, Material> types = new HashMap<Character, Material>();
-	public HashMap<Character, String> special = new HashMap<Character, String>();
+	protected HashMap<Character, Material> types = new HashMap<Character, Material>();
+	protected HashMap<Character, String> special = new HashMap<Character, String>();
 
-	public final AtomicBoolean allowChunkWrap = new AtomicBoolean(false);
+	protected final AtomicBoolean allowChunkWrap = new AtomicBoolean(false);
 
 
 
