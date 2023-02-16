@@ -4,6 +4,8 @@ import static com.poixson.commonmc.utils.LocationUtils.AxToIxyz;
 import static com.poixson.commonmc.utils.LocationUtils.Rotate;
 
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.bukkit.Axis;
@@ -17,6 +19,7 @@ import org.bukkit.block.data.Lightable;
 import org.bukkit.block.data.MultipleFacing;
 import org.bukkit.block.data.Orientable;
 import org.bukkit.block.data.type.Slab;
+import org.bukkit.block.data.type.Wall;
 import org.bukkit.generator.ChunkGenerator.ChunkData;
 import org.bukkit.generator.LimitedRegion;
 
@@ -136,6 +139,7 @@ public class BlockPlotter {
 	public void place3D(final String axis, final StringBuilder[][] matrix) {
 		if (Utils.isEmpty(axis)) throw new RequiredArgumentException("axis");
 		if (axis.length() != 3) throw new RuntimeException("Invalid axis length: "+axis);
+		final LinkedList<Ixyz> autoface = new LinkedList<Ixyz>();
 		final Ixyz add1 = AxToIxyz(axis.charAt(0));
 		final Ixyz add2 = AxToIxyz(axis.charAt(1));
 		final Ixyz add3 = AxToIxyz(axis.charAt(2));
@@ -157,16 +161,20 @@ public class BlockPlotter {
 						z = this.absZ + (add1.z*i) + (add2.z*ii) + (add3.z*iii);
 						m = this.types.get(Character.valueOf(c));
 						if (m == null) throw new RuntimeException(String.format("Warning, unknown material: %c", Character.valueOf(c)));
-						sp = this.special.get(Character.valueOf(c));
+						sp = StringUtils.ForceStartsEnds(',', ',', this.special.get(Character.valueOf(c)));
+						if (sp != null && sp.contains(",autoface,"))
+							autoface.add(new Ixyz(x, y, z));
 						this.setAbsBlock(x, y, z, m, sp);
 					}
 				}
 			}
 		}
+		this.doAutoFace(autoface);
 	}
 	public void place2D(final String axis, final StringBuilder[] matrix) {
 		if (Utils.isEmpty(axis)) throw new RequiredArgumentException("axis");
 		if (axis.length() != 2) throw new RuntimeException("Invalid axis length: "+axis);
+		final LinkedList<Ixyz> autoface = new LinkedList<Ixyz>();
 		final Ixyz add1 = AxToIxyz(axis.charAt(0));
 		final Ixyz add2 = AxToIxyz(axis.charAt(1));
 		final int size1 = matrix.length;
@@ -185,13 +193,17 @@ public class BlockPlotter {
 					z = this.absZ + (add1.z*i) + (add2.z*ii);
 					m = this.types.get(Character.valueOf(c));
 					if (m == null) throw new RuntimeException(String.format("Warning, unknown material: %c", Character.valueOf(c)));
-					sp = this.special.get(Character.valueOf(c));
+					sp = StringUtils.ForceStartsEnds(',', ',', this.special.get(Character.valueOf(c)));
+					if (sp != null && sp.contains(",autoface,"))
+						autoface.add(new Ixyz(x, y, z));
 					this.setAbsBlock(x, y, z, m, sp);
 				}
 			}
 		}
+		this.doAutoFace(autoface);
 	}
 	public void place1D(final char axis, final StringBuilder matrix) {
+		final LinkedList<Ixyz> autoface = new LinkedList<Ixyz>();
 		final Ixyz add = AxToIxyz(axis);
 		final int size = matrix.length();
 		int x, y, z;
@@ -206,10 +218,13 @@ public class BlockPlotter {
 				z = this.absZ + (add.z*i);
 				m = this.types.get(Character.valueOf(c));
 				if (m == null) throw new RuntimeException(String.format("Warning, unknown material: %c", Character.valueOf(c)));
-				sp = this.special.get(Character.valueOf(c));
+				sp = StringUtils.ForceStartsEnds(',', ',', this.special.get(Character.valueOf(c)));
+				if (sp != null && sp.contains(",autoface,"))
+					autoface.add(new Ixyz(x, y, z));
 				this.setAbsBlock(x, y, z, m, sp);
 			}
 		}
+		this.doAutoFace(autoface);
 	}
 
 
@@ -272,6 +287,40 @@ public class BlockPlotter {
 	public void setRotBlockData(final int x, final int y, final int z, final BlockFace direction, final BlockData block) {
 		final Ixywd loc = Rotate(new Ixywd(x, z, this.w, this.d), direction);
 		this.setRelBlockData(loc.x, y, loc.y, block);
+	}
+
+
+
+	public void doAutoFace(final List<Ixyz> locs) {
+		for (final Ixyz loc : locs) {
+			this.doAutoFace(loc);
+		}
+	}
+	public void doAutoFace(final Ixyz loc) {
+		final BlockData data = this.getAbsBlockData(loc.x, loc.y, loc.z);
+		boolean changed = false;
+		if (data instanceof Wall) {
+			changed = true;
+			Material type;
+			final Wall wall = (Wall) data;
+			type = this.getAbsBlockType(loc.x, loc.y, loc.z-1); if (type != null && type.isSolid()) wall.setHeight(BlockFace.NORTH, Wall.Height.LOW);
+			type = this.getAbsBlockType(loc.x, loc.y, loc.z+1); if (type != null && type.isSolid()) wall.setHeight(BlockFace.SOUTH, Wall.Height.LOW);
+			type = this.getAbsBlockType(loc.x+1, loc.y, loc.z); if (type != null && type.isSolid()) wall.setHeight(BlockFace.EAST,  Wall.Height.LOW);
+			type = this.getAbsBlockType(loc.x-1, loc.y, loc.z); if (type != null && type.isSolid()) wall.setHeight(BlockFace.WEST,  Wall.Height.LOW);
+		}
+		if (data instanceof MultipleFacing) {
+			changed = true;
+			Material type;
+			final MultipleFacing facing = (MultipleFacing) data;
+			type = this.getAbsBlockType(loc.x, loc.y+1, loc.z); facing.setFace(BlockFace.UP,    (type != null && type.isSolid()));
+			type = this.getAbsBlockType(loc.x, loc.y-1, loc.z); facing.setFace(BlockFace.DOWN,  (type != null && type.isSolid()));
+			type = this.getAbsBlockType(loc.x, loc.y, loc.z-1); facing.setFace(BlockFace.NORTH, (type != null && type.isSolid()));
+			type = this.getAbsBlockType(loc.x, loc.y, loc.z+1); facing.setFace(BlockFace.SOUTH, (type != null && type.isSolid()));
+			type = this.getAbsBlockType(loc.x+1, loc.y, loc.z); facing.setFace(BlockFace.EAST,  (type != null && type.isSolid()));
+			type = this.getAbsBlockType(loc.x-1, loc.y, loc.z); facing.setFace(BlockFace.WEST,  (type != null && type.isSolid()));
+		}
+		if (changed)
+			this.setAbsBlockData(loc.x, loc.y, loc.z, data);
 	}
 
 
