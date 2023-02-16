@@ -214,6 +214,20 @@ public class BlockPlotter {
 
 
 
+	public int getX() { return this.absX; }
+	public int getY() { return this.absY; }
+	public int getZ() { return this.absZ; }
+	public int getW() { return this.w;    }
+	public int getD() { return this.d;    }
+
+	public void setX(final int x) { this.absX = x; }
+	public void setY(final int y) { this.absY = y; }
+	public void setZ(final int z) { this.absZ = z; }
+	public void setW(final int w) { this.w = w;    }
+	public void setD(final int d) { this.d = d;    }
+
+
+
 	public void type(final char c, final Material m) {
 		this.types.put(Character.valueOf(c), m);
 	}
