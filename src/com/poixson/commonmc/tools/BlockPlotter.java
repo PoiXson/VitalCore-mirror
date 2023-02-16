@@ -340,118 +340,76 @@ public class BlockPlotter {
 		this.setAbsBlock(x, y, z, type);
 		if (Utils.notEmpty(special)) {
 			boolean changed = false;
-			final String sp = (new StringBuilder())
-					.append(',').append(special.toLowerCase()).append(',')
-					.toString();
 			final BlockData data = this.getAbsBlockData(x, y, z);
 			if (data instanceof Slab) {
-				if (sp.contains(",top,")) {
-					changed = true; ((Slab)data).setType(Slab.Type.TOP);
-				} else
-				if (sp.contains(",bottom,")) {
-					changed = true; ((Slab)data).setType(Slab.Type.BOTTOM);
-				}
+				if (special.contains(",top,"   )) { changed = true; ((Slab)data).setType(Slab.Type.TOP   ); } else
+				if (special.contains(",bottom,")) { changed = true; ((Slab)data).setType(Slab.Type.BOTTOM); }
 			}
 			if (data instanceof Bisected) {
-				if (sp.contains(",top,")) {
-					changed = true; ((Bisected)data).setHalf(Bisected.Half.TOP);
-				} else
-				if (sp.contains(",bottom,")) {
-					changed = true; ((Bisected)data).setHalf(Bisected.Half.BOTTOM);
-				}
+				if (special.contains(",top,"   )) { changed = true; ((Bisected)data).setHalf(Bisected.Half.TOP   ); } else
+				if (special.contains(",bottom,")) { changed = true; ((Bisected)data).setHalf(Bisected.Half.BOTTOM); }
 			}
 			if (data instanceof Lightable) {
-				if (sp.contains(",on,")) {
-					changed = true; ((Lightable)data).setLit(true);
-				} else
-				if (sp.contains(",off,")) {
-					changed = true; ((Lightable)data).setLit(false);
-				}
+				if (special.contains(",on," )) { changed = true; ((Lightable)data).setLit(true ); } else
+				if (special.contains(",off,")) { changed = true; ((Lightable)data).setLit(false); }
 			}
 			if (data instanceof Directional) {
-				if (sp.contains(",north,")) {
-					changed = true; ((Directional)data).setFacing(BlockFace.NORTH);
-				} else
-				if (sp.contains(",south,")) {
-					changed = true; ((Directional)data).setFacing(BlockFace.SOUTH);
-				} else
-				if (sp.contains(",east,")) {
-					changed = true; ((Directional)data).setFacing(BlockFace.EAST);
-				} else
-				if (sp.contains(",west,")) {
-					changed = true; ((Directional)data).setFacing(BlockFace.WEST);
-				}
+				if (special.contains(",north,")) { changed = true; ((Directional)data).setFacing(BlockFace.NORTH); } else
+				if (special.contains(",south,")) { changed = true; ((Directional)data).setFacing(BlockFace.SOUTH); } else
+				if (special.contains(",east," )) { changed = true; ((Directional)data).setFacing(BlockFace.EAST ); } else
+				if (special.contains(",west," )) { changed = true; ((Directional)data).setFacing(BlockFace.WEST ); }
 			}
 			if (data instanceof MultipleFacing) {
-				if (sp.contains(",top,")) {
-					changed = true; ((MultipleFacing)data).setFace(BlockFace.UP, true);
-				} else
-				if (sp.contains(",bottom,")) {
-					changed = true; ((MultipleFacing)data).setFace(BlockFace.DOWN, true);
-				} else
-				if (sp.contains(",north,")) {
-					changed = true; ((MultipleFacing)data).setFace(BlockFace.NORTH, true);
-				} else
-				if (sp.contains(",south,")) {
-					changed = true; ((MultipleFacing)data).setFace(BlockFace.SOUTH, true);
-				} else
-				if (sp.contains(",east,")) {
-					changed = true; ((MultipleFacing)data).setFace(BlockFace.EAST, true);
-				} else
-				if (sp.contains(",west,")) {
-					changed = true; ((MultipleFacing)data).setFace(BlockFace.WEST, true);
-				}
+				if (special.contains(",top,"   )) { changed = true; ((MultipleFacing)data).setFace(BlockFace.UP,    true); } else
+				if (special.contains(",bottom,")) { changed = true; ((MultipleFacing)data).setFace(BlockFace.DOWN,  true); } else
+				if (special.contains(",north," )) { changed = true; ((MultipleFacing)data).setFace(BlockFace.NORTH, true); } else
+				if (special.contains(",south," )) { changed = true; ((MultipleFacing)data).setFace(BlockFace.SOUTH, true); } else
+				if (special.contains(",east,"  )) { changed = true; ((MultipleFacing)data).setFace(BlockFace.EAST,  true); } else
+				if (special.contains(",west,"  )) { changed = true; ((MultipleFacing)data).setFace(BlockFace.WEST,  true); }
 			}
 			if (data instanceof Orientable) {
-				if (sp.contains(",x,")) {
-					changed = true; ((Orientable)data).setAxis(Axis.X);
-				} else
-				if (sp.contains(",y,")) {
-					changed = true; ((Orientable)data).setAxis(Axis.Y);
-				} else
-				if (sp.contains(",z,")) {
-					changed = true; ((Orientable)data).setAxis(Axis.Z);
-				}
+				if (special.contains(",x,")) { changed = true; ((Orientable)data).setAxis(Axis.X); } else
+				if (special.contains(",y,")) { changed = true; ((Orientable)data).setAxis(Axis.Y); } else
+				if (special.contains(",z,")) { changed = true; ((Orientable)data).setAxis(Axis.Z); }
 			}
-			if (changed) {
+			if (data instanceof Wall) {
+				if (special.contains(",north,")) { changed = true; ((Wall)data).setHeight(BlockFace.NORTH, Wall.Height.LOW ); } else
+				if (special.contains(",NORTH,")) { changed = true; ((Wall)data).setHeight(BlockFace.NORTH, Wall.Height.TALL); } else
+				if (special.contains(",south,")) { changed = true; ((Wall)data).setHeight(BlockFace.SOUTH, Wall.Height.LOW ); } else
+				if (special.contains(",SOUTH,")) { changed = true; ((Wall)data).setHeight(BlockFace.SOUTH, Wall.Height.TALL); } else
+				if (special.contains(",east," )) { changed = true; ((Wall)data).setHeight(BlockFace.EAST,  Wall.Height.LOW ); } else
+				if (special.contains(",EAST," )) { changed = true; ((Wall)data).setHeight(BlockFace.EAST,  Wall.Height.TALL); } else
+				if (special.contains(",west," )) { changed = true; ((Wall)data).setHeight(BlockFace.WEST,  Wall.Height.LOW ); } else
+				if (special.contains(",WEST," )) { changed = true; ((Wall)data).setHeight(BlockFace.WEST,  Wall.Height.TALL); }
+			}
+			if (changed)
 				this.setAbsBlockData(x, y, z, data);
-			}
 		}
 	}
 	public void setAbsBlock(final int x, final int y, final int z, final Material type) {
-		if (this.world != null) {
-			this.world.setType(x, y, z, type);
-		} else
-		if (this.chunk != null) {
-			this.chunk.setBlock(Math.abs(x%16), y, Math.abs(z%16), type);
-		} else
-		if (this.region != null) {
-			this.region.setType(x, y, z, type);
-		}
+		if (this.world  != null) this.world.setType(x, y, z, type);                            else
+		if (this.chunk  != null) this.chunk.setBlock(Math.abs(x%16), y, Math.abs(z%16), type); else
+		if (this.region != null) this.region.setType(x, y, z, type);
+	}
+	public Material getAbsBlockType(final int x, final int y, final int z) {
+		if (this.world  != null) return this.world.getType(x, y, z);
+		if (this.chunk  != null) return this.chunk.getType(Math.abs(x%16), y, Math.abs(z%16));
+		if (this.region != null) return this.region.getType(x, y, z);
+		return null;
 	}
 
 	public BlockData getAbsBlockData(final int x, final int y, final int z) {
-		if (this.world != null) {
-			return this.world.getBlockData(x, y, z);
-		} else
-		if (this.chunk != null) {
-			return this.chunk.getBlockData(Math.abs(x%16), y, Math.abs(z%16));
-		} else
-		if (this.region != null) {
-			return this.region.getBlockData(x, y, z);
-		}
+		if (this.world  != null) return this.world.getBlockData(x, y, z);
+		if (this.chunk  != null) return this.chunk.getBlockData(Math.abs(x%16), y, Math.abs(z%16));
+		if (this.region != null) return this.region.getBlockData(x, y, z);
 		return null;
 	}
 	public void setAbsBlockData(final int x, final int y, final int z, final BlockData block) {
-		if (this.world != null) {
-			this.world.setBlockData(x, y, z, block);
-		} else
-		if (this.chunk != null) {
-			this.chunk.setBlock(Math.abs(x%16), y, Math.abs(z%16), block);
-		} else
-		if (this.region != null) {
-			this.region.setBlockData(x, y, z, block);
-		}
+		if (this.world  != null) this.world.setBlockData(x, y, z, block);
+		else
+		if (this.chunk  != null) this.chunk.setBlock(Math.abs(x%16), y, Math.abs(z%16), block);
+		else
+		if (this.region != null) this.region.setBlockData(x, y, z, block);
 	}
 
 
