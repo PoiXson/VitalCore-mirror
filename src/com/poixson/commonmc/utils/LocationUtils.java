@@ -72,8 +72,13 @@ public final class LocationUtils {
 
 
 
-	public static Axis DirectionToAxis(final BlockFace direction) {
-		switch (direction) {
+	// -------------------------------------------------------------------------------
+	// conversion
+
+
+
+	public static Axis FaceToAxis(final BlockFace face) {
+		switch (face) {
 		case NORTH:
 		case SOUTH:
 		case NORTH_NORTH_EAST:
@@ -99,30 +104,108 @@ public final class LocationUtils {
 
 
 
-	public static Ixyz AxisToValue(final String axis) {
-		return AxisToValue(axis.charAt(0));
-	}
-	public static Ixyz AxisToValue(final char axis) {
-		switch (axis) {
-		case 'z': case 'n': return new Ixyz( 0,  0, -1);
-		case 'Z': case 's': return new Ixyz( 0,  0,  1);
-		case 'X': case 'e': return new Ixyz( 1,  0,  0);
-		case 'x': case 'w': return new Ixyz(-1,  0,  0);
-		case 'Y': case 'u': return new Ixyz( 0,  1,  0);
-		case 'y': case 'd': return new Ixyz( 0, -1,  0);
-		default: break;
+	public static String FaceToAx(final BlockFace face) {
+		switch (face) {
+		case NORTH: return "n";
+		case SOUTH: return "s";
+		case EAST:  return "e";
+		case WEST:  return "w";
+		case NORTH_EAST: return "ne";
+		case NORTH_WEST: return "nw";
+		case SOUTH_EAST: return "se";
+		case SOUTH_WEST: return "sw";
+		default: return null;
 		}
-		throw new RuntimeException("Invalid axis: "+axis);
+	}
+	public static BlockFace AxToFace(final char ax) {
+		switch (ax) {
+		case 'n': return BlockFace.NORTH;
+		case 's': return BlockFace.SOUTH;
+		case 'e': return BlockFace.EAST;
+		case 'w': return BlockFace.WEST;
+		default: return null;
+		}
+	}
+	public static BlockFace AxToFace(final String ax) {
+		switch (ax) {
+		case "u": case "Y": return BlockFace.UP;
+		case "d": case "y": return BlockFace.DOWN;
+		case "n": case "z": return BlockFace.NORTH;
+		case "s": case "Z": return BlockFace.SOUTH;
+		case "e": case "X": return BlockFace.EAST;
+		case "w": case "x": return BlockFace.WEST;
+		case "ne": return BlockFace.NORTH_EAST;
+		case "nw": return BlockFace.NORTH_WEST;
+		case "se": return BlockFace.SOUTH_EAST;
+		case "sw": return BlockFace.SOUTH_WEST;
+		default: return null;
+		}
 	}
 
 
 
-	public static String RotateAround00(final int chunkX, final int chunkZ) {
-		if (chunkZ < 0) {
-			return (chunkX<0 ? "YZX" : "YZx");
-		} else {
-			return (chunkX<0 ? "YzX" : "Yzx");
+	public static Ixyz FaceToIxyz(final BlockFace face) {
+		switch (face) {
+		case NORTH: return new Ixyz( 0,  0, -1);
+		case SOUTH: return new Ixyz( 0,  0,  1);
+		case EAST:  return new Ixyz( 1,  0,  0);
+		case WEST:  return new Ixyz(-1,  0,  0);
+		case UP:    return new Ixyz( 0,  1,  0);
+		case DOWN:  return new Ixyz( 0, -1,  0);
+		case NORTH_EAST: return new Ixyz( 1, 0, -1);
+		case NORTH_WEST: return new Ixyz(-1, 0, -1);
+		case SOUTH_EAST: return new Ixyz( 1, 0,  1);
+		case SOUTH_WEST: return new Ixyz(-1, 0,  1);
+		default: return null;
 		}
+	}
+	public static Ixy FaceToIxy(final BlockFace face) {
+		switch (face) {
+		case NORTH: return new Ixy( 0, -1);
+		case SOUTH: return new Ixy( 0,  1);
+		case EAST:  return new Ixy( 1,  0);
+		case WEST:  return new Ixy(-1,  0);
+		case NORTH_EAST: return new Ixy( 1, -1);
+		case NORTH_WEST: return new Ixy(-1, -1);
+		case SOUTH_EAST: return new Ixy( 1,  1);
+		case SOUTH_WEST: return new Ixy(-1,  1);
+		default: return null;
+		}
+	}
+
+	public static Ixyz AxToIxyz(final String ax) {
+		return AxToIxyz(ax.charAt(0));
+	}
+	public static Ixyz AxToIxyz(final char ax) {
+		switch (ax) {
+		case 'n': case 'z': return new Ixyz( 0,  0, -1);
+		case 's': case 'Z': return new Ixyz( 0,  0,  1);
+		case 'e': case 'X': return new Ixyz( 1,  0,  0);
+		case 'w': case 'x': return new Ixyz(-1,  0,  0);
+		case 'u': case 'Y': return new Ixyz( 0,  1,  0);
+		case 'd': case 'y': return new Ixyz( 0, -1,  0);
+		default: return null;
+		}
+	}
+
+	public static Ixy AxToIxy(final String ax) {
+		return AxToIxy(ax.charAt(0));
+	}
+	public static Ixy AxToIxy(final char ax) {
+		switch (ax) {
+		case 'n': case 'z': return new Ixy( 0, -1);
+		case 's': case 'Z': return new Ixy( 0,  1);
+		case 'e': case 'X': return new Ixy( 1,  0);
+		case 'w': case 'x': return new Ixy(-1,  0);
+		default: return null;
+		}
+	}
+
+
+
+	public static BlockFace ValueToFaceQuarter(final int x, final int z) {
+		if (x < 0) return (z < 0 ? BlockFace.NORTH_WEST : BlockFace.SOUTH_WEST);
+		else       return (z < 0 ? BlockFace.NORTH_EAST : BlockFace.SOUTH_EAST);
 	}
 
 
