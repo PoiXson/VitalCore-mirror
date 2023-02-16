@@ -18,6 +18,7 @@ import org.bukkit.block.data.Directional;
 import org.bukkit.block.data.Lightable;
 import org.bukkit.block.data.MultipleFacing;
 import org.bukkit.block.data.Orientable;
+import org.bukkit.block.data.type.Light;
 import org.bukkit.block.data.type.Slab;
 import org.bukkit.block.data.type.Wall;
 import org.bukkit.generator.ChunkGenerator.ChunkData;
@@ -381,6 +382,24 @@ public class BlockPlotter {
 				if (special.contains(",EAST," )) { changed = true; ((Wall)data).setHeight(BlockFace.EAST,  Wall.Height.TALL); } else
 				if (special.contains(",west," )) { changed = true; ((Wall)data).setHeight(BlockFace.WEST,  Wall.Height.LOW ); } else
 				if (special.contains(",WEST," )) { changed = true; ((Wall)data).setHeight(BlockFace.WEST,  Wall.Height.TALL); }
+			}
+			if (data instanceof Light) {
+				if (special.contains(",15,")) { changed = true; ((Light)data).setLevel(15); } else
+				if (special.contains(",14,")) { changed = true; ((Light)data).setLevel(15); } else
+				if (special.contains(",13,")) { changed = true; ((Light)data).setLevel(15); } else
+				if (special.contains(",12,")) { changed = true; ((Light)data).setLevel(15); } else
+				if (special.contains(",11,")) { changed = true; ((Light)data).setLevel(15); } else
+				if (special.contains(",10,")) { changed = true; ((Light)data).setLevel(15); } else
+				if (special.contains(",9," )) { changed = true; ((Light)data).setLevel(15); } else
+				if (special.contains(",8," )) { changed = true; ((Light)data).setLevel(15); } else
+				if (special.contains(",7," )) { changed = true; ((Light)data).setLevel(15); } else
+				if (special.contains(",6," )) { changed = true; ((Light)data).setLevel(15); } else
+				if (special.contains(",5," )) { changed = true; ((Light)data).setLevel(15); } else
+				if (special.contains(",4," )) { changed = true; ((Light)data).setLevel(15); } else
+				if (special.contains(",3," )) { changed = true; ((Light)data).setLevel(15); } else
+				if (special.contains(",2," )) { changed = true; ((Light)data).setLevel(15); } else
+				if (special.contains(",1," )) { changed = true; ((Light)data).setLevel(15); } else
+				if (special.contains(",0," )) { changed = true; ((Light)data).setLevel(15); }
 			}
 			if (changed)
 				this.setAbsBlockData(x, y, z, data);
