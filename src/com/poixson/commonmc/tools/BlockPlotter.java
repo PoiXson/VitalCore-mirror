@@ -338,7 +338,9 @@ public class BlockPlotter {
 					return;
 			}
 		}
+		// block type
 		this.setAbsBlock(x, y, z, type);
+		// special flags
 		if (Utils.notEmpty(special)) {
 			boolean changed = false;
 			final BlockData data = this.getAbsBlockData(x, y, z);
@@ -363,11 +365,11 @@ public class BlockPlotter {
 				if (special.contains(",west," )) { changed = true; ((Directional)data).setFacing(BlockFace.WEST ); }
 			}
 			if (data instanceof MultipleFacing) {
-				if (special.contains(",top,"   )) { changed = true; ((MultipleFacing)data).setFace(BlockFace.UP,    true); } else
-				if (special.contains(",bottom,")) { changed = true; ((MultipleFacing)data).setFace(BlockFace.DOWN,  true); } else
-				if (special.contains(",north," )) { changed = true; ((MultipleFacing)data).setFace(BlockFace.NORTH, true); } else
-				if (special.contains(",south," )) { changed = true; ((MultipleFacing)data).setFace(BlockFace.SOUTH, true); } else
-				if (special.contains(",east,"  )) { changed = true; ((MultipleFacing)data).setFace(BlockFace.EAST,  true); } else
+				if (special.contains(",top,"   )) { changed = true; ((MultipleFacing)data).setFace(BlockFace.UP,    true); }
+				if (special.contains(",bottom,")) { changed = true; ((MultipleFacing)data).setFace(BlockFace.DOWN,  true); }
+				if (special.contains(",north," )) { changed = true; ((MultipleFacing)data).setFace(BlockFace.NORTH, true); }
+				if (special.contains(",south," )) { changed = true; ((MultipleFacing)data).setFace(BlockFace.SOUTH, true); }
+				if (special.contains(",east,"  )) { changed = true; ((MultipleFacing)data).setFace(BlockFace.EAST,  true); }
 				if (special.contains(",west,"  )) { changed = true; ((MultipleFacing)data).setFace(BlockFace.WEST,  true); }
 			}
 			if (data instanceof Orientable) {
