@@ -355,6 +355,8 @@ public class BlockPlotter {
 				if (special.contains(",off,")) { changed = true; ((Lightable)data).setLit(false); }
 			}
 			if (data instanceof Directional) {
+				if (special.contains(",up,"   )) { changed = true; ((Directional)data).setFacing(BlockFace.UP   ); } else
+				if (special.contains(",down," )) { changed = true; ((Directional)data).setFacing(BlockFace.DOWN ); } else
 				if (special.contains(",north,")) { changed = true; ((Directional)data).setFacing(BlockFace.NORTH); } else
 				if (special.contains(",south,")) { changed = true; ((Directional)data).setFacing(BlockFace.SOUTH); } else
 				if (special.contains(",east," )) { changed = true; ((Directional)data).setFacing(BlockFace.EAST ); } else
@@ -374,6 +376,7 @@ public class BlockPlotter {
 				if (special.contains(",z,")) { changed = true; ((Orientable)data).setAxis(Axis.Z); }
 			}
 			if (data instanceof Wall) {
+				((Wall)data).setUp(special.contains(",up,"));
 				if (special.contains(",north,")) { changed = true; ((Wall)data).setHeight(BlockFace.NORTH, Wall.Height.LOW ); } else
 				if (special.contains(",NORTH,")) { changed = true; ((Wall)data).setHeight(BlockFace.NORTH, Wall.Height.TALL); } else
 				if (special.contains(",south,")) { changed = true; ((Wall)data).setHeight(BlockFace.SOUTH, Wall.Height.LOW ); } else
