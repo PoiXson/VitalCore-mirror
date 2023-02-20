@@ -17,6 +17,7 @@ import org.bukkit.block.data.BlockData;
 import org.bukkit.block.data.Directional;
 import org.bukkit.block.data.Lightable;
 import org.bukkit.block.data.MultipleFacing;
+import org.bukkit.block.data.Openable;
 import org.bukkit.block.data.Orientable;
 import org.bukkit.block.data.type.Light;
 import org.bukkit.block.data.type.Slab;
@@ -376,6 +377,10 @@ public class BlockPlotter {
 				if (special.contains(",x,")) { changed = true; ((Orientable)data).setAxis(Axis.X); } else
 				if (special.contains(",y,")) { changed = true; ((Orientable)data).setAxis(Axis.Y); } else
 				if (special.contains(",z,")) { changed = true; ((Orientable)data).setAxis(Axis.Z); }
+			}
+			if (data instanceof Openable) {
+				if (special.contains(",open,"  )) { changed = true; ((Openable)data).setOpen(true ); } else
+				if (special.contains(",closed,")) { changed = true; ((Openable)data).setOpen(false); }
 			}
 			if (data instanceof Wall) {
 				((Wall)data).setUp(special.contains(",up,"));
