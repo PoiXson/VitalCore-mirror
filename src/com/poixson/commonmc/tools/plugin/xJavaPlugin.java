@@ -121,10 +121,10 @@ public abstract class xJavaPlugin extends JavaPlugin {
 
 
 
-	protected int getSpigotPluginID() {
+	public int getSpigotPluginID() {
 		return 0;
 	}
-	protected int getBStatsID() {
+	public int getBStatsID() {
 		return 0;
 	}
 

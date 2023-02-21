@@ -14,13 +14,15 @@ import com.poixson.tools.Keeper;
 public class pxnCommonPlugin extends xJavaPlugin {
 	public static final String LOG_PREFIX = "[pxnCommon] ";
 	public static final String CHAT_PREFIX = ChatColor.AQUA + LOG_PREFIX + ChatColor.WHITE;
-	protected static final int SPIGOT_PLUGIN_ID = 107049;
 
 	protected static final AtomicReference<pxnCommonPlugin> instance = new AtomicReference<pxnCommonPlugin>(null);
 	protected final Keeper keeper;
 	protected final AppProps props;
 
 	protected final AtomicReference<UpdateCheckManager> checkManager = new AtomicReference<UpdateCheckManager>(null);
+
+	@Override public int getSpigotPluginID() { return 107049; }
+	@Override public int getBStatsID() {       return 17785;  }
 
 
 
@@ -80,13 +82,6 @@ public class pxnCommonPlugin extends xJavaPlugin {
 
 
 	// -------------------------------------------------------------------------------
-
-
-
-	@Override
-	protected int getSpigotPluginID() {
-		return SPIGOT_PLUGIN_ID;
-	}
 
 
 
