@@ -58,7 +58,7 @@ public class TicksPerSecond extends BukkitRunnable {
 
 	public boolean start() {
 		try {
-			this.runTaskTimer(this.plugin, 20L, 20L);
+			this.runTaskTimer(this.plugin, 100L, 1L);
 			synchronized (this.history) {
 				this.history.clear();
 				this.ticks.set(0L);
@@ -85,11 +85,13 @@ public class TicksPerSecond extends BukkitRunnable {
 		final long last = this.last.getAndSet(time);
 		final long since = time - last;
 		final double tps = (double)since / 50.0;
-		synchronized (this.history) {
-			this.history.offer(Double.valueOf(tps));
-			while (this.history.size() > 300)
-				this.history.removeFirst();
-			this.averages.set(null);
+		if (tps > 0.0 && tps < 30.0) {
+			synchronized (this.history) {
+				this.history.push(Double.valueOf(tps));
+				while (this.history.size() > 300)
+					this.history.removeLast();
+				this.averages.set(null);
+			}
 		}
 	}
 
@@ -104,10 +106,7 @@ public class TicksPerSecond extends BukkitRunnable {
 		}
 		// calculate averages
 		{
-			final List<Double> list;
-			synchronized (this.history) {
-				list = Arrays.asList( this.history.toArray(new Double[0]) );
-			}
+			final List<Double> list = Arrays.asList( this.history.toArray(new Double[0]) );
 			double total_10s = 0.0; int count_10s = 0;
 			double total_1m  = 0.0; int count_1m  = 0;
 			double total_5m  = 0.0; int count_5m  = 0;

@@ -23,9 +23,9 @@ public abstract class pxnCommandsHandler implements CommandExecutor, TabComplete
 
 	protected final String[] labels;
 
-	protected final CopyOnWriteArraySet<pxnCommand> cmds = new CopyOnWriteArraySet<pxnCommand>();
+	protected final CopyOnWriteArraySet<pxnCommand>   cmds = new CopyOnWriteArraySet<pxnCommand>();
 	protected final CopyOnWriteArraySet<PluginCommand> pcs = new CopyOnWriteArraySet<PluginCommand>();
-	protected final AtomicReference<TabCompleter> tabComp = new AtomicReference<TabCompleter>(null);
+	protected final AtomicReference<TabCompleter>  tabComp = new AtomicReference<TabCompleter>(null);
 
 
 
@@ -127,7 +127,7 @@ public abstract class pxnCommandsHandler implements CommandExecutor, TabComplete
 				}
 			}
 			break;
-		default:
+		default: break;
 		}
 		return matches;
 	}
