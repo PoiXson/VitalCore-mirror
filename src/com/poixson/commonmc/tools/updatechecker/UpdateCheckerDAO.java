@@ -1,5 +1,7 @@
 package com.poixson.commonmc.tools.updatechecker;
 
+import static com.poixson.commonmc.tools.plugin.xJavaPlugin.LOG;
+
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
@@ -10,7 +12,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.google.common.util.concurrent.AtomicDouble;
-import com.poixson.commonmc.pxnCommonPlugin;
 import com.poixson.exceptions.RequiredArgumentException;
 import com.poixson.utils.StringUtils;
 import com.poixson.utils.Utils;
@@ -80,7 +81,7 @@ public class UpdateCheckerDAO implements Runnable {
 					.replace(""+ChatColor.RED,   "")
 					.replace(""+ChatColor.WHITE, "");
 				for (final String line : str.split("\n"))
-					pxnCommonPlugin.log.info(line);
+					LOG.info(line);
 			}
 			// message to players
 			if (this.check_count.get() == 1) {

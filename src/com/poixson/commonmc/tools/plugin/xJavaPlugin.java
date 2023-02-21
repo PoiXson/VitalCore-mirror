@@ -12,13 +12,12 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.poixson.commonmc.pxnCommonPlugin;
 import com.poixson.commonmc.tools.updatechecker.UpdateCheckManager;
 import com.poixson.tools.AppProps;
 
 
 public abstract class xJavaPlugin extends JavaPlugin {
-	public static final Logger log = Logger.getLogger("Minecraft");
+	public static final Logger LOG = Logger.getLogger("Minecraft");
 	public static final String LOG_PREFIX  = "[pxn] ";
 	public static final String CHAT_PREFIX = ChatColor.AQUA + LOG_PREFIX + ChatColor.WHITE;
 
@@ -111,7 +110,7 @@ public abstract class xJavaPlugin extends JavaPlugin {
 		if (!path.isDirectory()) {
 			if (!path.mkdir())
 				throw new RuntimeException("Failed to create directory: " + path.toString());
-			log.info(LOG_PREFIX + "Created directory: " + path.toString());
+			LOG.info(LOG_PREFIX + "Created directory: " + path.toString());
 		}
 	}
 
@@ -132,15 +131,6 @@ public abstract class xJavaPlugin extends JavaPlugin {
 
 	public String getPluginVersion() {
 		return this.props.version;
-	}
-
-
-
-	public String getLogPrefix() {
-		return LOG_PREFIX;
-	}
-	public String getChatPrefix() {
-		return CHAT_PREFIX;
 	}
 
 
