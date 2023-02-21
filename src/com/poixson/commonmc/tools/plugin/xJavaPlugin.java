@@ -12,7 +12,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.poixson.commonmc.tools.updatechecker.UpdateCheckManager;
+import com.poixson.commonmc.tools.api.pxnAPI;
 import com.poixson.tools.AppProps;
 
 
@@ -53,30 +53,14 @@ public abstract class xJavaPlugin extends JavaPlugin {
 			}
 		}
 		// update checker
-		{
-			final int id = this.getSpigotPluginID();
-			if (id > 0) {
-				final pxnCommonPlugin common = pxnCommonPlugin.GetPlugin();
-				if (common == null) throw new RuntimeException("pxnCommonPluginMC is not available");
-				final UpdateCheckManager manager = common.getUpdateCheckManager();
-				if (manager == null) throw new RuntimeException("UpdateCheckManager is not available");
-				manager.addPlugin(this, id, this.getPluginVersion());
-			}
-		}
+		pxnAPI.RegisterUpdateChecker(this);
 	}
 	@Override
 	public void onDisable() {
 		super.onDisable();
 		this.metrics.set(null);
 		// update checker
-		{
-			final int id = this.getSpigotPluginID();
-			if (id > 0) {
-				pxnCommonPlugin.GetPlugin()
-					.getUpdateCheckManager()
-						.removePlugin(this.getSpigotPluginID());
-			}
-		}
+		pxnAPI.UnregisterUpdateChecker(this);
 		// stop schedulers
 		try {
 			Bukkit.getScheduler()

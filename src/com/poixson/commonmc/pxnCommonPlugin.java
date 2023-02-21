@@ -52,7 +52,7 @@ public class pxnCommonPlugin extends xJavaPlugin {
 			final UpdateCheckManager previous = this.checkManager.getAndSet(manager);
 			if (previous != null)
 				previous.stop();
-			manager.addPlugin(this, SPIGOT_PLUGIN_ID, this.getPluginVersion());
+			manager.addPlugin(this, this.getSpigotPluginID(), this.getPluginVersion());
 			// wait for server to start
 			manager.startLater();
 		}
