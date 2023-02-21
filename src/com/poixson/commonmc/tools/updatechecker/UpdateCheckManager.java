@@ -92,8 +92,8 @@ public class UpdateCheckManager extends BukkitRunnable implements xStartStop {
 
 
 
-	public UpdateCheckerDAO addPlugin(final JavaPlugin plugin, final int plugin_id, final String plugin_version) {
-		if (plugin_id <= 0) {
+	public UpdateCheckerDAO addPlugin(final JavaPlugin plugin, final int spigot_id, final String plugin_version) {
+		if (spigot_id <= 0) {
 			LOG.warning(String.format(
 				"%sPlugin ID not set in: %s",
 				LOG_PREFIX,
@@ -101,12 +101,12 @@ public class UpdateCheckManager extends BukkitRunnable implements xStartStop {
 			));
 			return null;
 		}
-		final UpdateCheckerDAO dao = new UpdateCheckerDAO(plugin, plugin_id, plugin_version);
-		this.checkers.put(Integer.valueOf(plugin_id), dao);
+		final UpdateCheckerDAO dao = new UpdateCheckerDAO(plugin, spigot_id, plugin_version);
+		this.checkers.put(Integer.valueOf(spigot_id), dao);
 		return dao;
 	}
-	public boolean removePlugin(final int plugin_id) {
-		final UpdateCheckerDAO dao = this.checkers.remove(Integer.valueOf(plugin_id));
+	public boolean removePlugin(final int spigot_id) {
+		final UpdateCheckerDAO dao = this.checkers.remove(Integer.valueOf(spigot_id));
 		return (dao != null);
 	}
 
