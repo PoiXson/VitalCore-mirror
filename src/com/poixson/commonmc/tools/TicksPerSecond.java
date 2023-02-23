@@ -22,7 +22,7 @@ public class TicksPerSecond extends BukkitRunnable {
 	protected final AtomicReference<double[]> averages = new AtomicReference<double[]>();
 
 	protected final AtomicLong ticks = new AtomicLong(0L);
-	protected final AtomicLong last  = new AtomicLong(0L);
+	protected long last = 0L;
 
 
 
@@ -62,7 +62,7 @@ public class TicksPerSecond extends BukkitRunnable {
 			synchronized (this.history) {
 				this.history.clear();
 				this.ticks.set(0L);
-				this.last.set(0L);
+				this.last = 0L;
 			}
 			return true;
 		} catch (IllegalStateException ignore) {}
@@ -80,13 +80,20 @@ public class TicksPerSecond extends BukkitRunnable {
 
 	@Override
 	public void run() {
-		this.ticks.incrementAndGet();
 		final long time = Utils.GetMS();
-		final long last = this.last.getAndSet(time);
-		final long since = time - last;
-		final double tps = (double)since / 50.0;
-		if (tps > 0.0 && tps < 30.0) {
-			synchronized (this.history) {
+		this.ticks.incrementAndGet();
+		// calculate once per second
+		final long next = (Math.floorDiv(this.last, 1000L) * 1000L) + 999L;
+		if (time > next) {
+			final long last = this.last;
+			this.last = time;
+			if (last > 0) {
+				final long since = time - last;
+				final double tps = (double)since / 50.0;
+				if (this.history.size() == 0) {
+					for (int i=0; i<299; i++)
+						this.history.push(Double.valueOf(20.0));
+				}
 				this.history.push(Double.valueOf(tps));
 				while (this.history.size() > 300)
 					this.history.removeLast();
