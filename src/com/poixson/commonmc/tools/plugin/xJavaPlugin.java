@@ -12,7 +12,8 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.poixson.commonmc.tools.api.pxnAPI;
+import com.poixson.commonmc.pxnCommonPlugin;
+import com.poixson.commonmc.tools.updatechecker.UpdateCheckManager;
 import com.poixson.tools.AppProps;
 
 
@@ -55,14 +56,14 @@ public abstract class xJavaPlugin extends JavaPlugin {
 			}
 		}
 		// update checker
-		pxnAPI.RegisterUpdateChecker(this);
+		UpdateCheckManager.Register(this);
 	}
 	@Override
 	public void onDisable() {
 		super.onDisable();
 		this.metrics.set(null);
 		// update checker
-		pxnAPI.UnregisterUpdateChecker(this);
+		UpdateCheckManager.Unregister(this);
 		// stop schedulers
 		try {
 			Bukkit.getScheduler()

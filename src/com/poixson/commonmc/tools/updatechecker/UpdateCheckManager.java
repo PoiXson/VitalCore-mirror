@@ -8,10 +8,12 @@ import java.util.Iterator;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import com.poixson.commonmc.pxnCommonPlugin;
+import com.poixson.commonmc.tools.plugin.xJavaPlugin;
 import com.poixson.tools.xTime;
 import com.poixson.tools.abstractions.xStartStop;
 import com.poixson.utils.ThreadUtils;
@@ -92,6 +94,17 @@ public class UpdateCheckManager extends BukkitRunnable implements xStartStop {
 
 
 
+	public static UpdateCheckerDAO Register(final xJavaPlugin plugin) {
+		final int spigot_id = plugin.getSpigotPluginID();
+		final String version = plugin.getPluginVersion();
+		return Register(plugin, spigot_id, version);
+	}
+	public static UpdateCheckerDAO Register(final JavaPlugin plugin, final int spigot_id, final String version) {
+		if (spigot_id <= 0) return null;
+		final UpdateCheckManager manager = Bukkit.getServicesManager().load(UpdateCheckManager.class);
+		if (manager == null) throw new RuntimeException("UpdateCheckManager is not available");
+		return manager.addPlugin(plugin, spigot_id, version);
+	}
 	public UpdateCheckerDAO addPlugin(final JavaPlugin plugin, final int spigot_id, final String plugin_version) {
 		if (spigot_id <= 0) {
 			LOG.warning(String.format(
@@ -104,6 +117,19 @@ public class UpdateCheckManager extends BukkitRunnable implements xStartStop {
 		final UpdateCheckerDAO dao = new UpdateCheckerDAO(plugin, spigot_id, plugin_version);
 		this.checkers.put(Integer.valueOf(spigot_id), dao);
 		return dao;
+	}
+
+
+
+	public static boolean Unregister(final xJavaPlugin plugin) {
+		final int spigot_id  = plugin.getSpigotPluginID();
+		return Unregister(spigot_id);
+	}
+	public static boolean Unregister(final int spigot_id) {
+		if (spigot_id <= 0) return false;
+		final UpdateCheckManager manager = Bukkit.getServicesManager().load(UpdateCheckManager.class);
+		if (manager == null) throw new RuntimeException("UpdateCheckManager is not available");
+		return manager.removePlugin(spigot_id);
 	}
 	public boolean removePlugin(final int spigot_id) {
 		final UpdateCheckerDAO dao = this.checkers.remove(Integer.valueOf(spigot_id));
