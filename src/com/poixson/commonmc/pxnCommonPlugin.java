@@ -3,7 +3,10 @@ package com.poixson.commonmc;
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicReference;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.plugin.ServicePriority;
+import org.bukkit.plugin.ServicesManager;
 
 import com.poixson.commonmc.tools.plugin.xJavaPlugin;
 import com.poixson.commonmc.tools.updatechecker.UpdateCheckManager;
@@ -15,7 +18,6 @@ public class pxnCommonPlugin extends xJavaPlugin {
 	public static final String LOG_PREFIX = "[pxnCommon] ";
 	public static final String CHAT_PREFIX = ChatColor.AQUA + LOG_PREFIX + ChatColor.WHITE;
 
-	protected static final AtomicReference<pxnCommonPlugin> instance = new AtomicReference<pxnCommonPlugin>(null);
 	protected final Keeper keeper;
 	protected final AppProps props;
 
@@ -25,10 +27,6 @@ public class pxnCommonPlugin extends xJavaPlugin {
 	@Override public int getBStatsID() {       return 17785;  }
 
 
-
-	public static pxnCommonPlugin GetPlugin() {
-		return instance.get();
-	}
 
 	public pxnCommonPlugin() {
 		super(pxnCommonPlugin.class);
@@ -44,14 +42,15 @@ public class pxnCommonPlugin extends xJavaPlugin {
 
 	@Override
 	public void onEnable() {
-		if (!instance.compareAndSet(null, this))
-			throw new RuntimeException("Plugin instance already enabled?");
+		final ServicesManager services = Bukkit.getServicesManager();
+		services.register(pxnCommonPlugin.class, this, this, ServicePriority.Normal);
 		// update check manager
 		{
 			final UpdateCheckManager manager = new UpdateCheckManager(this);
 			final UpdateCheckManager previous = this.checkManager.getAndSet(manager);
 			if (previous != null)
 				previous.stop();
+			services.register(UpdateCheckManager.class, manager, this, ServicePriority.Normal);
 			manager.addPlugin(this, this.getSpigotPluginID(), this.getPluginVersion());
 			// wait for server to start
 			manager.startLater();
@@ -69,19 +68,22 @@ public class pxnCommonPlugin extends xJavaPlugin {
 				manager.stop();
 			}
 		}
-		if (!instance.compareAndSet(this, null))
-			(new RuntimeException("Disable wrong instance of plugin?")).printStackTrace();
-	}
-
-
-
-	public UpdateCheckManager getUpdateCheckManager() {
-		return this.checkManager.get();
 	}
 
 
 
 	// -------------------------------------------------------------------------------
+
+
+
+	public static pxnCommonPlugin GetCommonPlugin() {
+		final pxnCommonPlugin plugin = Bukkit.getServicesManager().load(pxnCommonPlugin.class);
+		if (plugin == null) throw new RuntimeException("pxnCommonPlugin not loaded");
+		return plugin;
+	}
+
+
+
 
 
 
