@@ -1,6 +1,7 @@
 package com.poixson.commonmc;
 
 import java.io.IOException;
+import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.bukkit.Bukkit;
@@ -21,6 +22,7 @@ public class pxnCommonPlugin extends xJavaPlugin {
 	protected final Keeper keeper;
 	protected final AppProps props;
 
+	protected final CopyOnWriteArraySet<xJavaPlugin> plugins = new CopyOnWriteArraySet<xJavaPlugin>();
 	protected final AtomicReference<UpdateCheckManager> checkManager = new AtomicReference<UpdateCheckManager>(null);
 
 	@Override public int getSpigotPluginID() { return 107049; }
@@ -84,6 +86,27 @@ public class pxnCommonPlugin extends xJavaPlugin {
 
 
 
+	public static <T extends xJavaPlugin> boolean RegisterPluginPXN(final T plugin) {
+		return GetCommonPlugin().registerPluginPXN(plugin);
+	}
+	public <T extends xJavaPlugin> boolean registerPluginPXN(final T plugin) {
+		for (final xJavaPlugin p : this.plugins) {
+			if (p.getClass().isInstance(plugin))
+				throw new RuntimeException("Plugin already registered? " + plugin.getClass().getName());
+		}
+		return this.plugins.add(plugin);
+	}
+
+	public static <T extends xJavaPlugin> boolean UnregisterPluginPXN(final T plugin) {
+		return GetCommonPlugin().unregisterPluginPXN(plugin);
+	}
+	public <T extends xJavaPlugin> boolean unregisterPluginPXN(final T plugin) {
+		return this.plugins.remove(plugin);
+	}
+
+	public int getPluginsCount() {
+		return this.plugins.size();
+	}
 
 
 
