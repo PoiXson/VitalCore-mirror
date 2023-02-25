@@ -14,8 +14,6 @@ import com.poixson.utils.Utils;
 
 public class TicksPerSecond extends BukkitRunnable {
 
-	protected static final AtomicReference<TicksPerSecond> instance = new AtomicReference<TicksPerSecond>(null);
-
 	protected final pxnCommonPlugin plugin;
 
 	protected final LinkedList<Double> history = new LinkedList<Double>();
@@ -23,30 +21,6 @@ public class TicksPerSecond extends BukkitRunnable {
 
 	protected final AtomicLong ticks = new AtomicLong(0L);
 	protected long last = 0L;
-
-
-
-	public static TicksPerSecond Get() {
-		// existing instance
-		{
-			final TicksPerSecond tps = instance.get();
-			if (tps != null)
-				return tps;
-		}
-		// new instance
-		{
-			final pxnCommonPlugin plugin = pxnCommonPlugin.GetPlugin();
-			if (plugin == null) throw new RuntimeException("Failed to get pxnCommonPlugin");
-			final TicksPerSecond tps = new TicksPerSecond(plugin);
-			if (instance.compareAndSet(null, tps))
-				return tps;
-		}
-		return Get();
-	}
-	public static double GetTPS() {
-		final double[] tps = Get().getTPS();
-		return tps[0];
-	}
 
 
 

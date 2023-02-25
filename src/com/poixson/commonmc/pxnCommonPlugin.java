@@ -11,6 +11,7 @@ import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.ServicesManager;
 
 import com.poixson.commonmc.charts.pxnPluginsChart;
+import com.poixson.commonmc.tools.TicksPerSecond;
 import com.poixson.commonmc.tools.plugin.xJavaPlugin;
 import com.poixson.commonmc.tools.updatechecker.UpdateCheckManager;
 import com.poixson.tools.AppProps;
@@ -25,6 +26,7 @@ public class pxnCommonPlugin extends xJavaPlugin {
 	protected final AppProps props;
 
 	protected final CopyOnWriteArraySet<xJavaPlugin> plugins = new CopyOnWriteArraySet<xJavaPlugin>();
+	protected final AtomicReference<TicksPerSecond>     tpsManager   = new AtomicReference<TicksPerSecond>(null);
 	protected final AtomicReference<UpdateCheckManager> checkManager = new AtomicReference<UpdateCheckManager>(null);
 
 	@Override public int getSpigotPluginID() { return 107049; }
@@ -48,6 +50,15 @@ public class pxnCommonPlugin extends xJavaPlugin {
 	public void onEnable() {
 		final ServicesManager services = Bukkit.getServicesManager();
 		services.register(pxnCommonPlugin.class, this, this, ServicePriority.Normal);
+		// ticks
+		{
+			final TicksPerSecond manager = new TicksPerSecond(this);
+			final TicksPerSecond previous = this.tpsManager.getAndSet(manager);
+			if (previous != null)
+				previous.stop();
+			manager.start();
+			services.register(TicksPerSecond.class, manager, this, ServicePriority.Normal);
+		}
 		// update check manager
 		{
 			final UpdateCheckManager manager = new UpdateCheckManager(this);
