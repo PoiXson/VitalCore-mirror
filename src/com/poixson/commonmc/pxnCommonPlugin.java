@@ -11,6 +11,7 @@ import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.ServicesManager;
 
 import com.poixson.commonmc.charts.pxnPluginsChart;
+import com.poixson.commonmc.events.PlayerMoveManager;
 import com.poixson.commonmc.tools.TicksPerSecond;
 import com.poixson.commonmc.tools.plugin.xJavaPlugin;
 import com.poixson.commonmc.tools.updatechecker.UpdateCheckManager;
@@ -28,6 +29,7 @@ public class pxnCommonPlugin extends xJavaPlugin {
 	protected final CopyOnWriteArraySet<xJavaPlugin> plugins = new CopyOnWriteArraySet<xJavaPlugin>();
 	protected final AtomicReference<TicksPerSecond>     tpsManager   = new AtomicReference<TicksPerSecond>(null);
 	protected final AtomicReference<UpdateCheckManager> checkManager = new AtomicReference<UpdateCheckManager>(null);
+	protected final AtomicReference<PlayerMoveManager>  moveManager  = new AtomicReference<PlayerMoveManager>(null);
 
 	@Override public int getSpigotPluginID() { return 107049; }
 	@Override public int getBStatsID() {       return 17785;  }
@@ -71,6 +73,14 @@ public class pxnCommonPlugin extends xJavaPlugin {
 			manager.startLater();
 		}
 		super.onEnable();
+		// player move listeners
+		{
+			final PlayerMoveManager manager = new PlayerMoveManager(this);
+			final PlayerMoveManager previous = this.moveManager.getAndSet(manager);
+			if (previous != null)
+				previous.unregister();
+			manager.register();
+		}
 		// custom stats
 		{
 			final Metrics metrics = this.metrics.get();
