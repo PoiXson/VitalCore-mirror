@@ -4,11 +4,13 @@ import java.io.IOException;
 import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.atomic.AtomicReference;
 
+import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.ServicesManager;
 
+import com.poixson.commonmc.charts.pxnPluginsChart;
 import com.poixson.commonmc.tools.plugin.xJavaPlugin;
 import com.poixson.commonmc.tools.updatechecker.UpdateCheckManager;
 import com.poixson.tools.AppProps;
@@ -58,6 +60,13 @@ public class pxnCommonPlugin extends xJavaPlugin {
 			manager.startLater();
 		}
 		super.onEnable();
+		// custom stats
+		{
+			final Metrics metrics = this.metrics.get();
+			if (metrics != null) {
+				metrics.addCustomChart(pxnPluginsChart.GetChart(this));
+			}
+		}
 	}
 
 	@Override
