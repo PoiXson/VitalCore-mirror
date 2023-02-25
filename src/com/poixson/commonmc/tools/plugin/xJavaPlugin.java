@@ -62,6 +62,9 @@ public abstract class xJavaPlugin extends JavaPlugin {
 	public void onDisable() {
 		super.onDisable();
 		this.metrics.set(null);
+		// services
+		Bukkit.getServicesManager()
+			.unregisterAll(this);
 		// update checker
 		UpdateCheckManager.Unregister(this);
 		// stop schedulers
