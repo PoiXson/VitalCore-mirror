@@ -4,9 +4,9 @@ import org.bukkit.Axis;
 import org.bukkit.block.BlockFace;
 
 import com.poixson.tools.Keeper;
-import com.poixson.tools.dao.Ixy;
-import com.poixson.tools.dao.Ixywd;
-import com.poixson.tools.dao.Ixyz;
+import com.poixson.tools.dao.Iab;
+import com.poixson.tools.dao.Iabc;
+import com.poixson.tools.dao.Iabcd;
 
 
 public final class LocationUtils {
@@ -20,12 +20,12 @@ public final class LocationUtils {
 
 
 
-	public static Ixywd Rotate(final Ixywd loc, final BlockFace face) {
+	public static Iabcd Rotate(final Iabcd loc, final BlockFace face) {
 		switch (face) {
 		case NORTH: return loc;
-		case SOUTH: return new Ixywd(loc.w-loc.x-1, loc.d-loc.y-1, loc.w, loc.d);
-		case EAST:  return new Ixywd(loc.d-loc.y-1, loc.x,         loc.d, loc.w);
-		case WEST:  return new Ixywd(loc.y,         loc.w-loc.x-1, loc.d, loc.w);
+		case SOUTH: return new Iabcd(loc.a-loc.b-1, loc.d-loc.c-1, loc.a, loc.d);
+		case EAST:  return new Iabcd(loc.d-loc.c-1, loc.b,         loc.d, loc.a);
+		case WEST:  return new Iabcd(loc.c,         loc.a-loc.b-1, loc.d, loc.a);
 		default:
 			return null;
 		}
@@ -144,59 +144,59 @@ public final class LocationUtils {
 
 
 
-	public static Ixyz FaceToIxyz(final BlockFace face) {
+	public static Iabc FaceToIxyz(final BlockFace face) {
 		switch (face) {
-		case NORTH: return new Ixyz( 0,  0, -1);
-		case SOUTH: return new Ixyz( 0,  0,  1);
-		case EAST:  return new Ixyz( 1,  0,  0);
-		case WEST:  return new Ixyz(-1,  0,  0);
-		case UP:    return new Ixyz( 0,  1,  0);
-		case DOWN:  return new Ixyz( 0, -1,  0);
-		case NORTH_EAST: return new Ixyz( 1, 0, -1);
-		case NORTH_WEST: return new Ixyz(-1, 0, -1);
-		case SOUTH_EAST: return new Ixyz( 1, 0,  1);
-		case SOUTH_WEST: return new Ixyz(-1, 0,  1);
+		case NORTH: return new Iabc( 0,  0, -1);
+		case SOUTH: return new Iabc( 0,  0,  1);
+		case EAST:  return new Iabc( 1,  0,  0);
+		case WEST:  return new Iabc(-1,  0,  0);
+		case UP:    return new Iabc( 0,  1,  0);
+		case DOWN:  return new Iabc( 0, -1,  0);
+		case NORTH_EAST: return new Iabc( 1, 0, -1);
+		case NORTH_WEST: return new Iabc(-1, 0, -1);
+		case SOUTH_EAST: return new Iabc( 1, 0,  1);
+		case SOUTH_WEST: return new Iabc(-1, 0,  1);
 		default: return null;
 		}
 	}
-	public static Ixy FaceToIxy(final BlockFace face) {
+	public static Iab FaceToIxy(final BlockFace face) {
 		switch (face) {
-		case NORTH: return new Ixy( 0, -1);
-		case SOUTH: return new Ixy( 0,  1);
-		case EAST:  return new Ixy( 1,  0);
-		case WEST:  return new Ixy(-1,  0);
-		case NORTH_EAST: return new Ixy( 1, -1);
-		case NORTH_WEST: return new Ixy(-1, -1);
-		case SOUTH_EAST: return new Ixy( 1,  1);
-		case SOUTH_WEST: return new Ixy(-1,  1);
+		case NORTH: return new Iab( 0, -1);
+		case SOUTH: return new Iab( 0,  1);
+		case EAST:  return new Iab( 1,  0);
+		case WEST:  return new Iab(-1,  0);
+		case NORTH_EAST: return new Iab( 1, -1);
+		case NORTH_WEST: return new Iab(-1, -1);
+		case SOUTH_EAST: return new Iab( 1,  1);
+		case SOUTH_WEST: return new Iab(-1,  1);
 		default: return null;
 		}
 	}
 
-	public static Ixyz AxToIxyz(final String ax) {
+	public static Iabc AxToIxyz(final String ax) {
 		return AxToIxyz(ax.charAt(0));
 	}
-	public static Ixyz AxToIxyz(final char ax) {
+	public static Iabc AxToIxyz(final char ax) {
 		switch (ax) {
-		case 'n': case 'z': return new Ixyz( 0,  0, -1);
-		case 's': case 'Z': return new Ixyz( 0,  0,  1);
-		case 'e': case 'X': return new Ixyz( 1,  0,  0);
-		case 'w': case 'x': return new Ixyz(-1,  0,  0);
-		case 'u': case 'Y': return new Ixyz( 0,  1,  0);
-		case 'd': case 'y': return new Ixyz( 0, -1,  0);
+		case 'n': case 'z': return new Iabc( 0,  0, -1);
+		case 's': case 'Z': return new Iabc( 0,  0,  1);
+		case 'e': case 'X': return new Iabc( 1,  0,  0);
+		case 'w': case 'x': return new Iabc(-1,  0,  0);
+		case 'u': case 'Y': return new Iabc( 0,  1,  0);
+		case 'd': case 'y': return new Iabc( 0, -1,  0);
 		default: return null;
 		}
 	}
 
-	public static Ixy AxToIxy(final String ax) {
+	public static Iab AxToIxy(final String ax) {
 		return AxToIxy(ax.charAt(0));
 	}
-	public static Ixy AxToIxy(final char ax) {
+	public static Iab AxToIxy(final char ax) {
 		switch (ax) {
-		case 'n': case 'z': return new Ixy( 0, -1);
-		case 's': case 'Z': return new Ixy( 0,  1);
-		case 'e': case 'X': return new Ixy( 1,  0);
-		case 'w': case 'x': return new Ixy(-1,  0);
+		case 'n': case 'z': return new Iab( 0, -1);
+		case 's': case 'Z': return new Iab( 0,  1);
+		case 'e': case 'X': return new Iab( 1,  0);
+		case 'w': case 'x': return new Iab(-1,  0);
 		default: return null;
 		}
 	}

@@ -5,15 +5,15 @@ import java.util.LinkedList;
 
 import org.bukkit.Location;
 
-import com.poixson.tools.dao.Ixy;
+import com.poixson.tools.dao.Iab;
 
 
 public abstract class LineTracer implements Runnable {
 
-	public final LinkedList<Ixy> points = new LinkedList<Ixy>();
-	public final HashSet<Ixy> pointSet = new HashSet<Ixy>();
-	public final HashSet<Ixy> queued  = new HashSet<Ixy>();
-	public final HashSet<Ixy> checked = new HashSet<Ixy>();
+	public final LinkedList<Iab> points = new LinkedList<Iab>();
+	public final HashSet<Iab>  pointSet = new HashSet<Iab>();
+	public final HashSet<Iab>  queued   = new HashSet<Iab>();
+	public final HashSet<Iab>  checked  = new HashSet<Iab>();
 
 	public final boolean allow_forking;
 
@@ -21,15 +21,15 @@ public abstract class LineTracer implements Runnable {
 
 
 
-	public LineTracer(final Ixy loc) {
+	public LineTracer(final Iab loc) {
 		this(loc, false);
 	}
-	public LineTracer(final Ixy loc, final boolean allow_forking) {
-		this(loc.x, loc.y, allow_forking);
+	public LineTracer(final Iab loc, final boolean allow_forking) {
+		this(loc.a, loc.b, allow_forking);
 	}
 	public LineTracer(final int x, final int y, final boolean allow_forking) {
 		this.allow_forking = allow_forking;
-		final Ixy loc = new Ixy(x, y);
+		final Iab loc = new Iab(x, y);
 		this.checked.add(loc);
 		if (this.isValidPoint(x, y)) {
 			this.points.add(loc);
@@ -42,18 +42,18 @@ public abstract class LineTracer implements Runnable {
 
 
 	public abstract boolean isValidPoint(final int x, final int y);
-	public abstract void check(final Ixy from);
+	public abstract void check(final Iab from);
 
 
 
 	@Override
 	public void run() {
 		if (!this.ok || this.queued.size() == 0) return;
-		Ixy loc;
+		Iab loc;
 		while (this.ok) {
 			if (this.queued.size() == 0) break;
 			loc = null;
-			for (final Ixy dao : this.queued) {
+			for (final Iab dao : this.queued) {
 				loc = dao;
 				break;
 			}
@@ -66,12 +66,12 @@ public abstract class LineTracer implements Runnable {
 
 
 	public boolean add(final int x, final int y) {
-		return this.add(new Ixy(x, y));
+		return this.add(new Iab(x, y));
 	}
 	public boolean add(final Location loc) {
-		return this.add(new Ixy(loc.getBlockX(), loc.getBlockZ()));
+		return this.add(new Iab(loc.getBlockX(), loc.getBlockZ()));
 	}
-	public boolean add(final Ixy loc) {
+	public boolean add(final Iab loc) {
 		// already contains point
 		if (this.contains(loc)) return false;
 		// connect to end
@@ -88,7 +88,7 @@ public abstract class LineTracer implements Runnable {
 		}
 		// find connecting point
 		if (this.allow_forking) {
-			final Ixy near = this.getNear(loc);
+			final Iab near = this.getNear(loc);
 			if (near == null) return false;
 			final int index = this.points.indexOf(near);
 			if (index == -1) return false;
@@ -102,38 +102,38 @@ public abstract class LineTracer implements Runnable {
 
 
 	public boolean contains(final int x, final int y) {
-		return this.contains(new Ixy(x, y));
+		return this.contains(new Iab(x, y));
 	}
 	public boolean contains(final Location loc) {
-		return this.contains(new Ixy(loc.getBlockX(), loc.getBlockZ()));
+		return this.contains(new Iab(loc.getBlockX(), loc.getBlockZ()));
 	}
-	public boolean contains(final Ixy loc) {
+	public boolean contains(final Iab loc) {
 		return this.pointSet.contains(loc);
 	}
 
 
 
-	public Ixy getNear(final Location loc) {
+	public Iab getNear(final Location loc) {
 		return this.getNear(loc.getBlockX(), loc.getBlockZ());
 	}
-	public Ixy getNear(final Ixy loc) {
-		return this.getNear(loc.x, loc.y);
+	public Iab getNear(final Iab loc) {
+		return this.getNear(loc.a, loc.b);
 	}
-	public Ixy getNear(final int x, final int y) {
+	public Iab getNear(final int x, final int y) {
 		return this.getNear(x, y, 1);
 	}
 
-	public Ixy getNear(final Location loc, final int distance) {
+	public Iab getNear(final Location loc, final int distance) {
 		return this.getNear(loc.getBlockX(), loc.getBlockZ(), distance);
 	}
-	public Ixy getNear(final Ixy loc, final int distance) {
-		return this.getNear(loc.x, loc.y, distance);
+	public Iab getNear(final Iab loc, final int distance) {
+		return this.getNear(loc.a, loc.b, distance);
 	}
-	public Ixy getNear(final int x, final int y, final int distance) {
-		Ixy near = null;
+	public Iab getNear(final int x, final int y, final int distance) {
+		Iab near = null;
 		int nearest = distance;
-		for (final Ixy point : this.points) {
-			final int dist = this.getDistance(point.x, point.y, x, y);
+		for (final Iab point : this.points) {
+			final int dist = this.getDistance(point.a, point.b, x, y);
 			if (nearest >= dist) {
 				nearest = dist;
 				near = point;
@@ -153,11 +153,11 @@ public abstract class LineTracer implements Runnable {
 				locB.getBlockX(), locB.getBlockZ()
 			);
 	}
-	public int getDistance(final Ixy locA, final Ixy locB) {
+	public int getDistance(final Iab locA, final Iab locB) {
 		return
 			this.getDistance(
-				locA.x, locA.y,
-				locB.x, locB.y
+				locA.a, locA.b,
+				locB.a, locB.b
 			);
 	}
 	public int getDistance(
