@@ -12,7 +12,6 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.poixson.commonmc.pxnCommonPlugin;
 import com.poixson.commonmc.tools.updatechecker.UpdateCheckManager;
 import com.poixson.tools.AppProps;
 
@@ -43,8 +42,6 @@ public abstract class xJavaPlugin extends JavaPlugin {
 	@Override
 	public void onEnable() {
 		super.onEnable();
-		// register plugin
-		pxnCommonPlugin.RegisterPluginPXN(this);
 		// load configs
 		this.loadConfigs();
 		// bStats
@@ -77,8 +74,6 @@ public abstract class xJavaPlugin extends JavaPlugin {
 		// save configs
 		this.saveConfigs();
 		this.config.set(null);
-		// unregister plugin
-		pxnCommonPlugin.UnregisterPluginPXN(this);
 	}
 
 

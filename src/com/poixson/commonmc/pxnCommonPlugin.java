@@ -27,6 +27,7 @@ public class pxnCommonPlugin extends xJavaPlugin {
 	protected final AppProps props;
 
 	protected final CopyOnWriteArraySet<xJavaPlugin> plugins = new CopyOnWriteArraySet<xJavaPlugin>();
+	protected final AtomicReference<pxnPluginsChart> pluginsListener = new AtomicReference<pxnPluginsChart>(null);
 	protected final AtomicReference<TicksPerSecond>     tpsManager   = new AtomicReference<TicksPerSecond>(null);
 	protected final AtomicReference<UpdateCheckManager> checkManager = new AtomicReference<UpdateCheckManager>(null);
 	protected final AtomicReference<PlayerMoveManager>  moveManager  = new AtomicReference<PlayerMoveManager>(null);
@@ -52,6 +53,14 @@ public class pxnCommonPlugin extends xJavaPlugin {
 	public void onEnable() {
 		final ServicesManager services = Bukkit.getServicesManager();
 		services.register(pxnCommonPlugin.class, this, this, ServicePriority.Normal);
+		// plugins listener
+		{
+			final pxnPluginsChart listener = new pxnPluginsChart(this);
+			final pxnPluginsChart previous = this.pluginsListener.getAndSet(listener);
+			if (previous != null)
+				previous.unregister();
+			listener.register();
+		}
 		// ticks
 		{
 			final TicksPerSecond manager = new TicksPerSecond(this);
@@ -99,6 +108,12 @@ public class pxnCommonPlugin extends xJavaPlugin {
 			if (manager != null) {
 				manager.stop();
 			}
+		}
+		// plugins listener
+		{
+			final pxnPluginsChart listener = this.pluginsListener.getAndSet(null);
+			if (listener != null)
+				listener.unregister();
 		}
 	}
 

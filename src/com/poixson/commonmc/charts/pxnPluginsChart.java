@@ -3,13 +3,26 @@ package com.poixson.commonmc.charts;
 import java.util.concurrent.Callable;
 
 import org.bstats.charts.SimplePie;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.server.PluginDisableEvent;
+import org.bukkit.event.server.PluginEnableEvent;
+import org.bukkit.plugin.Plugin;
 
 import com.poixson.commonmc.pxnCommonPlugin;
+import com.poixson.commonmc.tools.plugin.xJavaPlugin;
+import com.poixson.commonmc.tools.plugin.xListener;
 
 
-public class pxnPluginsChart implements Callable<String> {
+public class pxnPluginsChart extends xListener<pxnCommonPlugin> implements Callable<String> {
 
-	protected final pxnCommonPlugin plugin;
+
+
+	public pxnPluginsChart(final pxnCommonPlugin plugin) {
+		super(plugin);
+		if (!(plugin instanceof pxnCommonPlugin))
+			throw new RuntimeException("Class instance outside of pxnCommonPlugin");
+	}
 
 
 
@@ -19,9 +32,6 @@ public class pxnPluginsChart implements Callable<String> {
 			new pxnPluginsChart(plugin)
 		);
 	}
-	public pxnPluginsChart(final pxnCommonPlugin plugin) {
-		this.plugin = plugin;
-	}
 
 
 
@@ -29,6 +39,21 @@ public class pxnPluginsChart implements Callable<String> {
 	public String call() throws Exception {
 		final int count = this.plugin.getPluginsCount();
 		return Integer.toString(count);
+	}
+
+
+
+	@EventHandler(priority=EventPriority.NORMAL, ignoreCancelled=true)
+	public void onPluginEnable(final PluginEnableEvent event) {
+		final Plugin p = event.getPlugin();
+		if (p instanceof xJavaPlugin)
+			this.plugin.registerPluginPXN((xJavaPlugin)p);
+	}
+	@EventHandler(priority=EventPriority.NORMAL, ignoreCancelled=true)
+	public void onPluginDisable(final PluginDisableEvent event) {
+		final Plugin p = event.getPlugin();
+		if (p instanceof xJavaPlugin)
+			this.plugin.unregisterPluginPXN((xJavaPlugin)p);
 	}
 
 
