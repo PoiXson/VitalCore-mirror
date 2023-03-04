@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated: Fri Feb 10 08:36:45 PM EST 2023 -->
+<!-- Generated: Sat Mar  4 06:08:15 AM EST 2023 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0"
 		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
@@ -28,6 +28,11 @@
 		<maven-eclipse-plugin-version>2.10</maven-eclipse-plugin-version>
 		<git-commit-id-version>4.9.10</git-commit-id-version>
 		<maven-shade-plugin-version>3.4.1</maven-shade-plugin-version>
+		<junit-version>4.13.2</junit-version>
+		<surefire-version>3.0.0-M7</surefire-version>
+		<cobertura-version>2.7</cobertura-version>
+		<jxr-version>3.3.0</jxr-version>
+		<project-info-reports-version>3.4.1</project-info-reports-version>
 
 		<!-- Dependencies -->
 		<spigot-short-version>1.19</spigot-short-version>
@@ -54,6 +59,7 @@
 		<sourceDirectory>src/</sourceDirectory>
 		<outputDirectory>target/classes/</outputDirectory>
 		<finalName>${project.name}-${project.version}</finalName>
+		<testSourceDirectory>tests/</testSourceDirectory>
 		<resources>
 			<resource>
 				<directory>resources/</directory>
@@ -168,6 +174,43 @@
 				</configuration>
 			</plugin>
 
+			<!-- Surefire Plugin -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>${surefire-version}</version>
+				<configuration>
+					<useFile>false</useFile>
+					<parallel>methods</parallel>
+					<threadCount>4</threadCount>
+					<trimStackTrace>false</trimStackTrace>
+				</configuration>
+			</plugin>
+
+			<!-- Cobertura Plugin -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>cobertura-maven-plugin</artifactId>
+				<version>${cobertura-version}</version>
+				<configuration>
+					<quiet>true</quiet>
+				</configuration>
+			</plugin>
+
+			<!-- JXR - Cross Reference -->
+			<plugin>
+				<groupId>org.apache.maven.jxr</groupId>
+				<artifactId>jxr</artifactId>
+				<version>${jxr-version}</version>
+			</plugin>
+
+			<!-- Reports -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-project-info-reports-plugin</artifactId>
+				<version>${project-info-reports-version}</version>
+			</plugin>
+
 		</plugins>
 	</build>
 	<repositories>
@@ -196,5 +239,42 @@
 			<groupId>org.bstats</groupId>
 			<version>${bstats-bukkit-version}</version>
 		</dependency>
+		<dependency>
+			<artifactId>junit</artifactId>
+			<groupId>junit</groupId>
+			<version>${junit-version}</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
+	<reporting>
+		<plugins>
+			<!-- Reports Plugin -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-project-info-reports-plugin</artifactId>
+				<version>${project-info-reports-version}</version>
+				<configuration>
+					<dependencyLocationsEnabled>false</dependencyLocationsEnabled>
+				</configuration>
+			</plugin>
+			<!-- Cobertura Plugin -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>cobertura-maven-plugin</artifactId>
+				<version>${cobertura-version}</version>
+				<configuration>
+					<formats>
+						<format>html</format>
+						<format>xml</format>
+					</formats>
+				</configuration>
+			</plugin>
+			<!-- Cross-Reference Plugin -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jxr-plugin</artifactId>
+				<version>${jxr-version}</version>
+			</plugin>
+		</plugins>
+	</reporting>
 </project>
