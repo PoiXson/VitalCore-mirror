@@ -41,13 +41,17 @@ public final class LocationUtils {
 		BlockFace dir = face;
 		while (rot > 0.0) {
 			switch (dir) {
-			case NORTH: dir = BlockFace.EAST;  break;
-			case EAST:  dir = BlockFace.SOUTH; break;
-			case SOUTH: dir = BlockFace.WEST;  break;
-			case WEST:  dir = BlockFace.NORTH; break;
+			case NORTH:      dir = BlockFace.NORTH_EAST; break;
+			case NORTH_EAST: dir = BlockFace.EAST;       break;
+			case EAST:       dir = BlockFace.SOUTH_EAST; break;
+			case SOUTH_EAST: dir = BlockFace.SOUTH;      break;
+			case SOUTH:      dir = BlockFace.SOUTH_WEST; break;
+			case SOUTH_WEST: dir = BlockFace.WEST;       break;
+			case WEST:       dir = BlockFace.NORTH_WEST; break;
+			case NORTH_WEST: dir = BlockFace.NORTH;      break;
 			default: throw new RuntimeException("Invalid direction: " + face.toString());
 			}
-			rot -= 0.25;
+			rot -= 0.125;
 		}
 		return dir;
 	}
@@ -81,22 +85,10 @@ public final class LocationUtils {
 		switch (face) {
 		case NORTH:
 		case SOUTH:
-		case NORTH_NORTH_EAST:
-		case NORTH_NORTH_WEST:
-		case SOUTH_SOUTH_EAST:
-		case SOUTH_SOUTH_WEST:
 			return Axis.Z;
 		case EAST:
 		case WEST:
-		case EAST_NORTH_EAST:
-		case WEST_NORTH_WEST:
-		case EAST_SOUTH_EAST:
-		case WEST_SOUTH_WEST:
 			return Axis.X;
-		case NORTH_EAST:
-		case NORTH_WEST:
-		case SOUTH_EAST:
-		case SOUTH_WEST:
 		default: break;
 		}
 		return null;
@@ -110,10 +102,10 @@ public final class LocationUtils {
 		case SOUTH: return "s";
 		case EAST:  return "e";
 		case WEST:  return "w";
-		case NORTH_EAST: return "ne";
-		case NORTH_WEST: return "nw";
-		case SOUTH_EAST: return "se";
-		case SOUTH_WEST: return "sw";
+		case NORTH_EAST: return "es";
+		case SOUTH_EAST: return "sw";
+		case NORTH_WEST: return "ws";
+		case SOUTH_WEST: return "se";
 		default: return null;
 		}
 	}
