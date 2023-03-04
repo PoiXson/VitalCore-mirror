@@ -1,444 +1,203 @@
-package com.poixson.commonmc.tools;
+package com.poixson.commonmc.tools.plotter;
 
 import static com.poixson.commonmc.utils.LocationUtils.AxToIxyz;
-import static com.poixson.commonmc.utils.LocationUtils.Rotate;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
-import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.Map;
+import java.util.Set;
 
-import org.bukkit.Axis;
 import org.bukkit.Material;
 import org.bukkit.World;
-import org.bukkit.block.BlockFace;
-import org.bukkit.block.data.Bisected;
-import org.bukkit.block.data.BlockData;
-import org.bukkit.block.data.Directional;
-import org.bukkit.block.data.Lightable;
-import org.bukkit.block.data.MultipleFacing;
-import org.bukkit.block.data.Openable;
-import org.bukkit.block.data.Orientable;
-import org.bukkit.block.data.type.Light;
-import org.bukkit.block.data.type.Slab;
-import org.bukkit.block.data.type.Wall;
 import org.bukkit.generator.ChunkGenerator.ChunkData;
 import org.bukkit.generator.LimitedRegion;
 
-import com.poixson.exceptions.RequiredArgumentException;
-import com.poixson.tools.dao.Ixywd;
-import com.poixson.tools.dao.Ixyz;
-import com.poixson.utils.StringUtils;
+import com.poixson.tools.dao.Iabc;
 import com.poixson.utils.Utils;
 
 
-public class BlockPlotter {
+public class BlockPlotter extends BlockPlacer implements Runnable {
 
-	protected final World world;
-	protected final ChunkData chunk;
-	protected final LimitedRegion region;
+	public final BlockMatrix matrix;
+	public String axis = "";
 
-	protected int absX, absY, absZ;
-	protected int w = 0;
-	protected int d = 0;
+	protected final Map<Character, Material>    types   = new HashMap<Character, Material>();
+	protected final Map<Character, Set<String>> special = new HashMap<Character, Set<String>>();
 
-	protected HashMap<Character, Material> types = new HashMap<Character, Material>();
-	protected HashMap<Character, String> special = new HashMap<Character, String>();
-
-	protected final AtomicBoolean allowChunkWrap = new AtomicBoolean(false);
+	protected final Set<Iabc> autoface = new HashSet<Iabc>();
 
 
 
-	public BlockPlotter(final World world) {
-		this(world, 0, 0, 0);
+	public BlockPlotter(final World world, final int...sizes) {
+		this(world, new BlockMatrix(sizes));
 	}
-	public BlockPlotter(final ChunkData chunk) {
-		this(chunk, 0, 0, 0);
+	public BlockPlotter(final ChunkData chunk, final int...sizes) {
+		this(chunk, new BlockMatrix(sizes));
 	}
-	public BlockPlotter(final ChunkData chunk, final int y) {
-		this(chunk, 0, y, 0);
-	}
-	public BlockPlotter(final LimitedRegion region) {
-		this(region, 0, 0, 0);
+	public BlockPlotter(final LimitedRegion region, final int...sizes) {
+		this(region, new BlockMatrix(sizes));
 	}
 
-	public BlockPlotter(final World world, final int x, final int y, final int z) {
-		if (world == null) throw new NullPointerException();
-		this.world  = world;
-		this.chunk  = null;
-		this.region = null;
-		this.absX = x;
-		this.absY = y;
-		this.absZ = z;
+	public BlockPlotter(final World world, final BlockMatrix matrix) {
+		super(world);
+		this.matrix = matrix;
 	}
-	public BlockPlotter(final ChunkData chunk, final int x, final int y, final int z) {
-		if (chunk == null) throw new NullPointerException();
-		this.world  = null;
-		this.chunk  = chunk;
-		this.region = null;
-		this.absX = x;
-		this.absY = y;
-		this.absZ = z;
+	public BlockPlotter(final ChunkData chunk, final BlockMatrix matrix) {
+		super(chunk);
+		this.matrix = matrix;
 	}
-	public BlockPlotter(final LimitedRegion region, final int x, final int y, final int z) {
-		if (region == null) throw new NullPointerException();
-		this.world  = null;
-		this.chunk  = null;
-		this.region = region;
-		this.absX = x;
-		this.absY = y;
-		this.absZ = z;
+	public BlockPlotter(final LimitedRegion region, final BlockMatrix matrix) {
+		super(region);
+		this.matrix = matrix;
 	}
 
 
 
-	public StringBuilder[][] getEmptyMatrix3D(final int size1, final int size2) {
-		final StringBuilder[][] matrix = new StringBuilder[size1][size2];
-		for (int i=0; i<size1; i++) {
-			for (int ii=0; ii<size2; ii++) {
-				matrix[i][ii] = new StringBuilder();
+	public StringBuilder[][] getMatrix3D() {
+		final LinkedList<StringBuilder[]> list = new LinkedList<StringBuilder[]>();
+		for (BlockMatrix matrix : this.matrix.array) {
+			final LinkedList<StringBuilder> list2 = new LinkedList<StringBuilder>();
+			for (BlockMatrix mx : matrix.array)
+				list2.add(mx.row);
+			list.add(list2.toArray(new StringBuilder[0]));
+		}
+		return list.toArray(new StringBuilder[0][0]);
+	}
+	public StringBuilder[] getMatrix2D() {
+		final LinkedList<StringBuilder> list = new LinkedList<StringBuilder>();
+		for (final BlockMatrix matrix : this.matrix.array)
+			list.add(matrix.row);
+		return list.toArray(new StringBuilder[0]);
+	}
+	public StringBuilder getMatrix1D() {
+		return this.matrix.row;
+	}
+
+
+
+	public BlockPlotter location(final int...locs) {
+		this.x = locs[0];
+		if (locs.length == 2) {
+			this.y = 0;
+			this.z = locs[1];
+		} else
+		if (locs.length == 3) {
+			this.y = locs[1];
+			this.z = locs[2];
+		}
+		return this;
+	}
+	public BlockPlotter size(final int...sizes) {
+		this.w = sizes[0];
+		if (sizes.length == 2) {
+			this.h = 0;
+			this.d = sizes[1];
+		} else
+		if (sizes.length == 3) {
+			this.h = sizes[1];
+			this.d = sizes[2];
+		}
+		return this;
+	}
+	public BlockPlotter axis(final String axis) {
+		this.axis = axis;
+		return this;
+	}
+
+
+
+	// -------------------------------------------------------------------------------
+	// place blocks
+
+
+
+	@Override
+	public void run() {
+		if (Utils.isEmpty(this.axis)) throw new RuntimeException("Axis not set for block plotter");
+		run(this.axis, this.matrix, 0, 0, 0);
+	}
+
+	protected void run(final String axis, final BlockMatrix matrix,
+			final int x, final int y, final int z) {
+		int xx, yy, zz;
+		final Iabc add = AxToIxyz(axis.charAt(0));
+		// more dimensions
+		if (matrix.row == null) {
+			final String ax = axis.substring(1);
+			final int len = matrix.array.length;
+			for (int i=0; i<len; i++) {
+				xx = (add.a * i) + x;
+				yy = (add.b * i) + y;
+				zz = (add.c * i) + z;
+				this.run(ax, matrix.array[i], xx, yy, zz);
 			}
-		}
-		return matrix;
-	}
-	public StringBuilder[] getEmptyMatrix2D(final int size1) {
-		final StringBuilder[] matrix = new StringBuilder[size1];
-		for (int i=0; i<size1; i++) {
-			matrix[i] = new StringBuilder();
-		}
-		return matrix;
-	}
-	public StringBuilder getEmptyMatrix1D() {
-		return new StringBuilder();
-	}
-
-	public StringBuilder[][] getNewMatrix3D(final int size1, final int size2, final int size3) {
-		final StringBuilder[][] matrix = new StringBuilder[size1][size2];
-		for (int i=0; i<size1; i++) {
-			for (int ii=0; ii<size2; ii++) {
-				matrix[i][ii] = new StringBuilder();
-				matrix[i][ii].append(StringUtils.Repeat(size3, ' '));
-			}
-		}
-		return matrix;
-	}
-	public StringBuilder[] getNewMatrix2D(final int size1, final int size2) {
-		final StringBuilder[] matrix = new StringBuilder[size1];
-		for (int i=0; i<size1; i++) {
-			matrix[i] = new StringBuilder();
-			matrix[i].append(StringUtils.Repeat(size2, ' '));
-		}
-		return matrix;
-	}
-	public StringBuilder getNewMatrix1D(final int size) {
-		final StringBuilder matrix = new StringBuilder();
-		matrix.append(StringUtils.Repeat(size, ' '));
-		return matrix;
-	}
-
-
-
-	public void place3D(final String axis, final StringBuilder[][] matrix) {
-		if (Utils.isEmpty(axis)) throw new RequiredArgumentException("axis");
-		if (axis.length() != 3) throw new RuntimeException("Invalid axis length: "+axis);
-		final LinkedList<Ixyz> autoface = new LinkedList<Ixyz>();
-		final Ixyz add1 = AxToIxyz(axis.charAt(0));
-		final Ixyz add2 = AxToIxyz(axis.charAt(1));
-		final Ixyz add3 = AxToIxyz(axis.charAt(2));
-		final int size1 = matrix.length;
-		int x, y, z;
-		int size2, size3;
-		char c;
-		String sp;
-		Material m;
-		for (int i=0; i<size1; i++) {
-			size2 = matrix[i].length;
-			for (int ii=0; ii<size2; ii++) {
-				size3 = matrix[i][ii].length();
-				for (int iii=0; iii<size3; iii++) {
-					c = matrix[i][ii].charAt(iii);
-					if (c != 0 && c != ' ') {
-						x = this.absX + (add1.x*i) + (add2.x*ii) + (add3.x*iii);
-						y = this.absY + (add1.y*i) + (add2.y*ii) + (add3.y*iii);
-						z = this.absZ + (add1.z*i) + (add2.z*ii) + (add3.z*iii);
-						m = this.types.get(Character.valueOf(c));
-						if (m == null) throw new RuntimeException(String.format("Warning, unknown material: %c", Character.valueOf(c)));
-						sp = StringUtils.ForceStartsEnds(',', ',', this.special.get(Character.valueOf(c)));
-						if (sp != null && sp.contains(",autoface,"))
-							autoface.add(new Ixyz(x, y, z));
-						this.setAbsBlock(x, y, z, m, sp);
-					}
+		// last dimension
+		} else {
+			final String row = matrix.row.toString();
+			final int len = row.length();
+			char chr;
+			Material type;
+			Set<String> specials;
+			for (int i=0; i<len; i++) {
+				chr = row.charAt(i);
+				if (chr != 0 && chr != ' ') {
+					xx = (add.a * i) + x;
+					yy = (add.b * i) + y;
+					zz = (add.c * i) + z;
+					type = this.types.get(Character.valueOf(chr));
+					if (type == null) throw new RuntimeException("Unknown material: " + Character.toString(chr));
+					specials = this.special.get(Character.valueOf(chr));
+					if (specials != null)
+						if (specials.contains("autoface"))
+							this.autoface.add(new Iabc(xx, yy, zz));
+					this.setType(xx, yy, zz, type, specials);
 				}
 			}
 		}
-		this.doAutoFace(autoface);
 	}
-	public void place2D(final String axis, final StringBuilder[] matrix) {
-		if (Utils.isEmpty(axis)) throw new RequiredArgumentException("axis");
-		if (axis.length() != 2) throw new RuntimeException("Invalid axis length: "+axis);
-		final LinkedList<Ixyz> autoface = new LinkedList<Ixyz>();
-		final Ixyz add1 = AxToIxyz(axis.charAt(0));
-		final Ixyz add2 = AxToIxyz(axis.charAt(1));
-		final int size1 = matrix.length;
-		int x, y, z;
-		int size2;
-		char c;
-		String sp;
-		Material m;
-		for (int i=0; i<size1; i++) {
-			size2 = matrix[i].length();
-			for (int ii=0; ii<size2; ii++) {
-				c = matrix[i].charAt(ii);
-				if (c != 0 && c != ' ') {
-					x = this.absX + (add1.x*i) + (add2.x*ii);
-					y = this.absY + (add1.y*i) + (add2.y*ii);
-					z = this.absZ + (add1.z*i) + (add2.z*ii);
-					m = this.types.get(Character.valueOf(c));
-					if (m == null) throw new RuntimeException(String.format("Warning, unknown material: %c", Character.valueOf(c)));
-					sp = StringUtils.ForceStartsEnds(',', ',', this.special.get(Character.valueOf(c)));
-					if (sp != null && sp.contains(",autoface,"))
-						autoface.add(new Ixyz(x, y, z));
-					this.setAbsBlock(x, y, z, m, sp);
-				}
-			}
+
+
+
+	public void doAutoFace() {
+//TODO
+	}
+
+
+
+	// -------------------------------------------------------------------------------
+	// block types
+
+
+
+	public BlockPlotter type(final char chr, final Material type, final String special) {
+		return this.type(chr, type)
+				.special(chr, special);
+	}
+	public BlockPlotter type(final char chr, final Material type) {
+		this.types.put(Character.valueOf(chr), type);
+		return this;
+	}
+
+	public BlockPlotter special(final char chr, final String special) {
+		final Set<String> set = this.getSpecialSet(chr);
+		set.add(special);
+		return this;
+	}
+
+	public Set<String> getSpecialSet(final char chr) {
+		// existing
+		{
+			final Set<String> set = this.special.get(Character.valueOf(chr));
+			if (set != null)
+				return set;
 		}
-		this.doAutoFace(autoface);
-	}
-	public void place1D(final char axis, final StringBuilder matrix) {
-		final LinkedList<Ixyz> autoface = new LinkedList<Ixyz>();
-		final Ixyz add = AxToIxyz(axis);
-		final int size = matrix.length();
-		int x, y, z;
-		char c;
-		String sp;
-		Material m;
-		for (int i=0; i<size; i++) {
-			c = matrix.charAt(i);
-			if (c != 0 && c != ' ') {
-				x = this.absX + (add.x*i);
-				y = this.absY + (add.y*i);
-				z = this.absZ + (add.z*i);
-				m = this.types.get(Character.valueOf(c));
-				if (m == null) throw new RuntimeException(String.format("Warning, unknown material: %c", Character.valueOf(c)));
-				sp = StringUtils.ForceStartsEnds(',', ',', this.special.get(Character.valueOf(c)));
-				if (sp != null && sp.contains(",autoface,"))
-					autoface.add(new Ixyz(x, y, z));
-				this.setAbsBlock(x, y, z, m, sp);
-			}
+		// new set
+		{
+			final Set<String> set = new HashSet<String>();
+			this.special.put(Character.valueOf(chr), set);
+			return set;
 		}
-		this.doAutoFace(autoface);
-	}
-
-
-
-	public int getX() { return this.absX; }
-	public int getY() { return this.absY; }
-	public int getZ() { return this.absZ; }
-	public int getW() { return this.w;    }
-	public int getD() { return this.d;    }
-
-	public void setX(final int x) { this.absX = x; }
-	public void setY(final int y) { this.absY = y; }
-	public void setZ(final int z) { this.absZ = z; }
-	public void setW(final int w) { this.w = w;    }
-	public void setD(final int d) { this.d = d;    }
-
-
-
-	public void type(final char c, final Material m) {
-		this.types.put(Character.valueOf(c), m);
-	}
-	public void type(final char c, final Material m, final String special) {
-		this.type(c, m);
-		this.special.put(Character.valueOf(c), special);
-	}
-
-
-
-	public void setRelBlock(final int x, final int y, final int z, final Material type, final String special) {
-		this.setAbsBlock(x+this.absX, y+this.absY, z+this.absZ, type, special);
-	}
-	public void setRelBlock(final int x, final int y, final int z, final Material type) {
-		this.setAbsBlock(x+this.absX, y+this.absY, z+this.absZ, type);
-	}
-
-	public BlockData getRelBlockData(final int x, final int y, final int z) {
-		return this.getAbsBlockData(x+this.absX, y+this.absY, z+this.absZ);
-	}
-	public void setRelBlockData(final int x, final int y, final int z, final BlockData block) {
-		this.setAbsBlockData(x+this.absX, y+this.absY, z+this.absZ, block);
-	}
-
-
-
-	public void setRotBlock(final int x, final int y, final int z,
-			final BlockFace direction, final Material type, final String special) {
-		final Ixywd loc = Rotate(new Ixywd(x, z, this.w, this.d), direction);
-		this.setRelBlock(loc.x, y, loc.y, type, special);
-	}
-	public void setRotBlock(final int x, final int y, final int z,
-			final BlockFace direction, final Material type) {
-		final Ixywd loc = Rotate(new Ixywd(x, z, this.w, this.d), direction);
-		this.setRelBlock(loc.x, y, loc.y, type);
-	}
-
-	public BlockData getRotBlockData(final int x, final int y, final int z, final BlockFace direction) {
-		final Ixywd loc = Rotate(new Ixywd(x, z, this.w, this.d), direction);
-		return this.getRelBlockData(loc.x, y, loc.y);
-	}
-	public void setRotBlockData(final int x, final int y, final int z, final BlockFace direction, final BlockData block) {
-		final Ixywd loc = Rotate(new Ixywd(x, z, this.w, this.d), direction);
-		this.setRelBlockData(loc.x, y, loc.y, block);
-	}
-
-
-
-	public void doAutoFace(final List<Ixyz> locs) {
-		for (final Ixyz loc : locs) {
-			this.doAutoFace(loc);
-		}
-	}
-	public void doAutoFace(final Ixyz loc) {
-		final BlockData data = this.getAbsBlockData(loc.x, loc.y, loc.z);
-		boolean changed = false;
-		if (data instanceof Wall) {
-			changed = true;
-			Material type;
-			final Wall wall = (Wall) data;
-			type = this.getAbsBlockType(loc.x, loc.y, loc.z-1); if (type != null && type.isSolid()) wall.setHeight(BlockFace.NORTH, Wall.Height.LOW);
-			type = this.getAbsBlockType(loc.x, loc.y, loc.z+1); if (type != null && type.isSolid()) wall.setHeight(BlockFace.SOUTH, Wall.Height.LOW);
-			type = this.getAbsBlockType(loc.x+1, loc.y, loc.z); if (type != null && type.isSolid()) wall.setHeight(BlockFace.EAST,  Wall.Height.LOW);
-			type = this.getAbsBlockType(loc.x-1, loc.y, loc.z); if (type != null && type.isSolid()) wall.setHeight(BlockFace.WEST,  Wall.Height.LOW);
-		}
-		if (data instanceof MultipleFacing) {
-			changed = true;
-			Material type;
-			final MultipleFacing facing = (MultipleFacing) data;
-			type = this.getAbsBlockType(loc.x, loc.y+1, loc.z); facing.setFace(BlockFace.UP,    (type != null && type.isSolid()));
-			type = this.getAbsBlockType(loc.x, loc.y-1, loc.z); facing.setFace(BlockFace.DOWN,  (type != null && type.isSolid()));
-			type = this.getAbsBlockType(loc.x, loc.y, loc.z-1); facing.setFace(BlockFace.NORTH, (type != null && type.isSolid()));
-			type = this.getAbsBlockType(loc.x, loc.y, loc.z+1); facing.setFace(BlockFace.SOUTH, (type != null && type.isSolid()));
-			type = this.getAbsBlockType(loc.x+1, loc.y, loc.z); facing.setFace(BlockFace.EAST,  (type != null && type.isSolid()));
-			type = this.getAbsBlockType(loc.x-1, loc.y, loc.z); facing.setFace(BlockFace.WEST,  (type != null && type.isSolid()));
-		}
-		if (changed)
-			this.setAbsBlockData(loc.x, loc.y, loc.z, data);
-	}
-
-
-
-	public void setAbsBlock(final int x, final int y, final int z, final Material type, final String special) {
-		if (!this.allowChunkWrap.get()) {
-			if (this.chunk != null) {
-				if (x < 0 || x > 15
-				||  z < 0 || z > 15)
-					return;
-			} else
-			if (this.region != null) {
-				if (!this.region.isInRegion(x, y, z))
-					return;
-			}
-		}
-		// block type
-		this.setAbsBlock(x, y, z, type);
-		// special flags
-		if (Utils.notEmpty(special)) {
-			boolean changed = false;
-			final BlockData data = this.getAbsBlockData(x, y, z);
-			if (data instanceof Slab) {
-				if (special.contains(",top,"   )) { changed = true; ((Slab)data).setType(Slab.Type.TOP   ); } else
-				if (special.contains(",bottom,")) { changed = true; ((Slab)data).setType(Slab.Type.BOTTOM); }
-			}
-			if (data instanceof Bisected) {
-				if (special.contains(",top,"   )) { changed = true; ((Bisected)data).setHalf(Bisected.Half.TOP   ); } else
-				if (special.contains(",bottom,")) { changed = true; ((Bisected)data).setHalf(Bisected.Half.BOTTOM); }
-			}
-			if (data instanceof Lightable) {
-				if (special.contains(",on," )) { changed = true; ((Lightable)data).setLit(true ); } else
-				if (special.contains(",off,")) { changed = true; ((Lightable)data).setLit(false); }
-			}
-			if (data instanceof Directional) {
-				if (special.contains(",up,"   )) { changed = true; ((Directional)data).setFacing(BlockFace.UP   ); } else
-				if (special.contains(",down," )) { changed = true; ((Directional)data).setFacing(BlockFace.DOWN ); } else
-				if (special.contains(",north,")) { changed = true; ((Directional)data).setFacing(BlockFace.NORTH); } else
-				if (special.contains(",south,")) { changed = true; ((Directional)data).setFacing(BlockFace.SOUTH); } else
-				if (special.contains(",east," )) { changed = true; ((Directional)data).setFacing(BlockFace.EAST ); } else
-				if (special.contains(",west," )) { changed = true; ((Directional)data).setFacing(BlockFace.WEST ); }
-			}
-			if (data instanceof MultipleFacing) {
-				if (special.contains(",top,"   )) { changed = true; ((MultipleFacing)data).setFace(BlockFace.UP,    true); }
-				if (special.contains(",bottom,")) { changed = true; ((MultipleFacing)data).setFace(BlockFace.DOWN,  true); }
-				if (special.contains(",north," )) { changed = true; ((MultipleFacing)data).setFace(BlockFace.NORTH, true); }
-				if (special.contains(",south," )) { changed = true; ((MultipleFacing)data).setFace(BlockFace.SOUTH, true); }
-				if (special.contains(",east,"  )) { changed = true; ((MultipleFacing)data).setFace(BlockFace.EAST,  true); }
-				if (special.contains(",west,"  )) { changed = true; ((MultipleFacing)data).setFace(BlockFace.WEST,  true); }
-			}
-			if (data instanceof Orientable) {
-				if (special.contains(",x,")) { changed = true; ((Orientable)data).setAxis(Axis.X); } else
-				if (special.contains(",y,")) { changed = true; ((Orientable)data).setAxis(Axis.Y); } else
-				if (special.contains(",z,")) { changed = true; ((Orientable)data).setAxis(Axis.Z); }
-			}
-			if (data instanceof Openable) {
-				if (special.contains(",open,"  )) { changed = true; ((Openable)data).setOpen(true ); } else
-				if (special.contains(",closed,")) { changed = true; ((Openable)data).setOpen(false); }
-			}
-			if (data instanceof Wall) {
-				((Wall)data).setUp(special.contains(",up,"));
-				if (special.contains(",north,")) { changed = true; ((Wall)data).setHeight(BlockFace.NORTH, Wall.Height.LOW ); } else
-				if (special.contains(",NORTH,")) { changed = true; ((Wall)data).setHeight(BlockFace.NORTH, Wall.Height.TALL); } else
-				if (special.contains(",south,")) { changed = true; ((Wall)data).setHeight(BlockFace.SOUTH, Wall.Height.LOW ); } else
-				if (special.contains(",SOUTH,")) { changed = true; ((Wall)data).setHeight(BlockFace.SOUTH, Wall.Height.TALL); } else
-				if (special.contains(",east," )) { changed = true; ((Wall)data).setHeight(BlockFace.EAST,  Wall.Height.LOW ); } else
-				if (special.contains(",EAST," )) { changed = true; ((Wall)data).setHeight(BlockFace.EAST,  Wall.Height.TALL); } else
-				if (special.contains(",west," )) { changed = true; ((Wall)data).setHeight(BlockFace.WEST,  Wall.Height.LOW ); } else
-				if (special.contains(",WEST," )) { changed = true; ((Wall)data).setHeight(BlockFace.WEST,  Wall.Height.TALL); }
-			}
-			if (data instanceof Light) {
-				if (special.contains(",15,")) { changed = true; ((Light)data).setLevel(15); } else
-				if (special.contains(",14,")) { changed = true; ((Light)data).setLevel(15); } else
-				if (special.contains(",13,")) { changed = true; ((Light)data).setLevel(15); } else
-				if (special.contains(",12,")) { changed = true; ((Light)data).setLevel(15); } else
-				if (special.contains(",11,")) { changed = true; ((Light)data).setLevel(15); } else
-				if (special.contains(",10,")) { changed = true; ((Light)data).setLevel(15); } else
-				if (special.contains(",9," )) { changed = true; ((Light)data).setLevel(15); } else
-				if (special.contains(",8," )) { changed = true; ((Light)data).setLevel(15); } else
-				if (special.contains(",7," )) { changed = true; ((Light)data).setLevel(15); } else
-				if (special.contains(",6," )) { changed = true; ((Light)data).setLevel(15); } else
-				if (special.contains(",5," )) { changed = true; ((Light)data).setLevel(15); } else
-				if (special.contains(",4," )) { changed = true; ((Light)data).setLevel(15); } else
-				if (special.contains(",3," )) { changed = true; ((Light)data).setLevel(15); } else
-				if (special.contains(",2," )) { changed = true; ((Light)data).setLevel(15); } else
-				if (special.contains(",1," )) { changed = true; ((Light)data).setLevel(15); } else
-				if (special.contains(",0," )) { changed = true; ((Light)data).setLevel(15); }
-			}
-			if (changed)
-				this.setAbsBlockData(x, y, z, data);
-		}
-	}
-	public void setAbsBlock(final int x, final int y, final int z, final Material type) {
-		if (this.world  != null) this.world.setType(x, y, z, type);                            else
-		if (this.chunk  != null) this.chunk.setBlock(Math.abs(x%16), y, Math.abs(z%16), type); else
-		if (this.region != null) this.region.setType(x, y, z, type);
-	}
-	public Material getAbsBlockType(final int x, final int y, final int z) {
-		if (this.world  != null) return this.world.getType(x, y, z);
-		if (this.chunk  != null) return this.chunk.getType(Math.abs(x%16), y, Math.abs(z%16));
-		if (this.region != null) return this.region.getType(x, y, z);
-		return null;
-	}
-
-	public BlockData getAbsBlockData(final int x, final int y, final int z) {
-		if (this.world  != null) return this.world.getBlockData(x, y, z);
-		if (this.chunk  != null) return this.chunk.getBlockData(Math.abs(x%16), y, Math.abs(z%16));
-		if (this.region != null) return this.region.getBlockData(x, y, z);
-		return null;
-	}
-	public void setAbsBlockData(final int x, final int y, final int z, final BlockData block) {
-		if (this.world  != null) this.world.setBlockData(x, y, z, block);
-		else
-		if (this.chunk  != null) this.chunk.setBlock(Math.abs(x%16), y, Math.abs(z%16), block);
-		else
-		if (this.region != null) this.region.setBlockData(x, y, z, block);
 	}
 
 
