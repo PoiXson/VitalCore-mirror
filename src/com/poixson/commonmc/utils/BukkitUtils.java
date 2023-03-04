@@ -92,38 +92,6 @@ public final class BukkitUtils {
 
 
 
-	public static World GetPlayerWorld(final UUID uuid) {
-		final Player player = Bukkit.getPlayer(uuid);
-		if (player == null) return null;
-		return player.getWorld();
-	}
-
-
-
-	public static Location LocationFromArray(final World world, final int[] tup) {
-		if (tup.length != 3) {
-			(new RuntimeException("Invalid array length")).printStackTrace();
-			return null;
-		}
-		final Block block = world.getBlockAt(tup[0], tup[1], tup[2]);
-		if (block == null) {
-			(new RuntimeException("Failed to find block location")).printStackTrace();
-			return null;
-		}
-		return block.getLocation();
-	}
-	public static Location[] LocationsFromArrays(final World world, final int[][] tups) {
-		final LinkedList<Location> list = new LinkedList<Location>();
-		for (final int[] arr : tups) {
-			final Location loc = LocationFromArray(world, arr);
-			if (loc != null)
-				list.add(loc);
-		}
-		return list.toArray(new Location[0]);
-	}
-
-
-
 	@SuppressWarnings("deprecation")
 	public static MapView GetMapView(final int mapid) {
 		return Bukkit.getMap(mapid);
