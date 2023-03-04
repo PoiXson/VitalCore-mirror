@@ -20,6 +20,8 @@ import com.poixson.tools.Keeper;
 
 
 public class pxnCommonPlugin extends xJavaPlugin {
+	@Override public int getSpigotPluginID() { return 107049; }
+	@Override public int getBStatsID() {       return 17785;  }
 	public static final String LOG_PREFIX = "[pxnCommon] ";
 	public static final String CHAT_PREFIX = ChatColor.AQUA + LOG_PREFIX + ChatColor.WHITE;
 
@@ -31,9 +33,6 @@ public class pxnCommonPlugin extends xJavaPlugin {
 	protected final AtomicReference<TicksPerSecond>     tpsManager   = new AtomicReference<TicksPerSecond>(null);
 	protected final AtomicReference<UpdateCheckManager> checkManager = new AtomicReference<UpdateCheckManager>(null);
 	protected final AtomicReference<PlayerMoveManager>  moveManager  = new AtomicReference<PlayerMoveManager>(null);
-
-	@Override public int getSpigotPluginID() { return 107049; }
-	@Override public int getBStatsID() {       return 17785;  }
 
 
 
