@@ -3,10 +3,12 @@ main: com.poixson.commonmc.pxnCommonPlugin
 version: ${project.version}
 api-version: ${spigot-short-version}
 load: STARTUP
-softdepend: [ Multiverse-Core ]
+softdepend:
+  - Multiverse-Core
 authors: [ lorenzop ]
 website: ${project.url}
 description: ${project.description}
+permission-message: "You don't have permission to use this command."
 permissions:
     pxncommon.*:
         default: op

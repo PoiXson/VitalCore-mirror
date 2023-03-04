@@ -20,7 +20,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public abstract class DelayedChestFiller extends BukkitRunnable {
 
-	public static final long DEFAULT_DELAY = 20L;
+	public static final long DEFAULT_DELAY = 20L; // ticks
 
 	protected static CopyOnWriteArraySet<DelayedChestFiller> fillers = new CopyOnWriteArraySet<DelayedChestFiller>();
 	protected static final AtomicBoolean stopping = new AtomicBoolean(false);
