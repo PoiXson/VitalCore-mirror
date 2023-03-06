@@ -30,7 +30,7 @@ public class UpdateCheckManager extends BukkitRunnable implements xStartStop {
 
 	protected final AtomicLong lastCheck = new AtomicLong(0L);
 
-	protected final ConcurrentHashMap<Integer, UpdateCheckerDAO> checkers = new ConcurrentHashMap<Integer, UpdateCheckerDAO>();
+	protected final ConcurrentHashMap<Integer, UpdateCheckerTask> checkers = new ConcurrentHashMap<Integer, UpdateCheckerTask>();
 
 	protected final PlayerJoinListener listenerPlayerJoin;
 
@@ -78,9 +78,9 @@ public class UpdateCheckManager extends BukkitRunnable implements xStartStop {
 				Integer.valueOf(this.checkers.size())
 			));
 			boolean available = false;
-			final Iterator<UpdateCheckerDAO> it = this.checkers.values().iterator();
+			final Iterator<UpdateCheckerTask> it = this.checkers.values().iterator();
 			while (it.hasNext()) {
-				final UpdateCheckerDAO dao = it.next();
+				final UpdateCheckerTask dao = it.next();
 				dao.run();
 				if (dao.hasUpdate())
 					available = true;
@@ -94,18 +94,18 @@ public class UpdateCheckManager extends BukkitRunnable implements xStartStop {
 
 
 
-	public static UpdateCheckerDAO Register(final xJavaPlugin plugin) {
+	public static UpdateCheckerTask Register(final xJavaPlugin plugin) {
 		final int spigot_id = plugin.getSpigotPluginID();
 		final String version = plugin.getPluginVersion();
 		return Register(plugin, spigot_id, version);
 	}
-	public static UpdateCheckerDAO Register(final JavaPlugin plugin, final int spigot_id, final String version) {
+	public static UpdateCheckerTask Register(final JavaPlugin plugin, final int spigot_id, final String version) {
 		if (spigot_id <= 0) return null;
 		final UpdateCheckManager manager = Bukkit.getServicesManager().load(UpdateCheckManager.class);
 		if (manager == null) throw new RuntimeException("UpdateCheckManager is not available");
 		return manager.addPlugin(plugin, spigot_id, version);
 	}
-	public UpdateCheckerDAO addPlugin(final JavaPlugin plugin, final int spigot_id, final String plugin_version) {
+	public UpdateCheckerTask addPlugin(final JavaPlugin plugin, final int spigot_id, final String plugin_version) {
 		if (spigot_id <= 0) {
 			LOG.warning(String.format(
 				"%sPlugin ID not set in: %s",
@@ -114,7 +114,7 @@ public class UpdateCheckManager extends BukkitRunnable implements xStartStop {
 			));
 			return null;
 		}
-		final UpdateCheckerDAO dao = new UpdateCheckerDAO(plugin, spigot_id, plugin_version);
+		final UpdateCheckerTask dao = new UpdateCheckerTask(plugin, spigot_id, plugin_version);
 		this.checkers.put(Integer.valueOf(spigot_id), dao);
 		return dao;
 	}
@@ -132,40 +132,40 @@ public class UpdateCheckManager extends BukkitRunnable implements xStartStop {
 		return manager.removePlugin(spigot_id);
 	}
 	public boolean removePlugin(final int spigot_id) {
-		final UpdateCheckerDAO dao = this.checkers.remove(Integer.valueOf(spigot_id));
+		final UpdateCheckerTask dao = this.checkers.remove(Integer.valueOf(spigot_id));
 		return (dao != null);
 	}
 
 
 
 	public boolean hasUpdate() {
-		final Iterator<UpdateCheckerDAO> it = this.checkers.values().iterator();
+		final Iterator<UpdateCheckerTask> it = this.checkers.values().iterator();
 		while (it.hasNext()) {
-			final UpdateCheckerDAO dao = it.next();
+			final UpdateCheckerTask dao = it.next();
 			if (dao.hasUpdate())
 				return true;
 		}
 		return false;
 	}
-	public UpdateCheckerDAO[] getUpdates() {
-		final HashSet<UpdateCheckerDAO> updates = new HashSet<UpdateCheckerDAO>();
-		final Iterator<UpdateCheckerDAO> it = this.checkers.values().iterator();
+	public UpdateCheckerTask[] getUpdates() {
+		final HashSet<UpdateCheckerTask> updates = new HashSet<UpdateCheckerTask>();
+		final Iterator<UpdateCheckerTask> it = this.checkers.values().iterator();
 		while (it.hasNext()) {
-			final UpdateCheckerDAO dao = it.next();
+			final UpdateCheckerTask dao = it.next();
 			if (dao.hasUpdate())
 				updates.add(dao);
 		}
-		return updates.toArray(new UpdateCheckerDAO[0]);
+		return updates.toArray(new UpdateCheckerTask[0]);
 	}
-	public UpdateCheckerDAO[] getUpdatesToPlayers() {
-		final HashSet<UpdateCheckerDAO> updates = new HashSet<UpdateCheckerDAO>();
-		final Iterator<UpdateCheckerDAO> it = this.checkers.values().iterator();
+	public UpdateCheckerTask[] getUpdatesToPlayers() {
+		final HashSet<UpdateCheckerTask> updates = new HashSet<UpdateCheckerTask>();
+		final Iterator<UpdateCheckerTask> it = this.checkers.values().iterator();
 		while (it.hasNext()) {
-			final UpdateCheckerDAO dao = it.next();
+			final UpdateCheckerTask dao = it.next();
 			if (dao.hasUpdate() && dao.isToPlayers())
 				updates.add(dao);
 		}
-		return updates.toArray(new UpdateCheckerDAO[0]);
+		return updates.toArray(new UpdateCheckerTask[0]);
 	}
 
 

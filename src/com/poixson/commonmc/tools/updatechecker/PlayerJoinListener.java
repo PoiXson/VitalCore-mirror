@@ -32,10 +32,10 @@ public class PlayerJoinListener extends xListener<pxnCommonPlugin> {
 				(new BukkitRunnable() {
 					@Override
 					public void run() {
-						final UpdateCheckerDAO[] updates = PlayerJoinListener.this.manager.getUpdatesToPlayers();
+						final UpdateCheckerTask[] updates = PlayerJoinListener.this.manager.getUpdatesToPlayers();
 						String msg;
-						for (final UpdateCheckerDAO dao : updates) {
-							msg = dao.getUpdateMessage();
+						for (final UpdateCheckerTask task : updates) {
+							msg = task.getUpdateMessage();
 							if (Utils.notEmpty(msg))
 								player.sendMessage(msg);
 						}

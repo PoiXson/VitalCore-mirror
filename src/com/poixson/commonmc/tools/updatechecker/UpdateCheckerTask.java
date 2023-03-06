@@ -17,7 +17,7 @@ import com.poixson.utils.StringUtils;
 import com.poixson.utils.Utils;
 
 
-public class UpdateCheckerDAO implements Runnable {
+public class UpdateCheckerTask implements Runnable {
 
 	protected final JavaPlugin plugin;
 	protected final int plugin_id;
@@ -30,7 +30,7 @@ public class UpdateCheckerDAO implements Runnable {
 
 
 
-	public UpdateCheckerDAO(final JavaPlugin plugin,
+	public UpdateCheckerTask(final JavaPlugin plugin,
 			final int plugin_id, final String plugin_version) {
 		if (plugin == null) throw new NullPointerException();
 		if (plugin_id <= 0) throw new RuntimeException("Plugin ID not set in: " + plugin.getName());
