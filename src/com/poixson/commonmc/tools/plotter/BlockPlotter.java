@@ -170,7 +170,7 @@ public class BlockPlotter extends BlockPlacer implements Runnable {
 
 
 
-	public BlockPlotter type(final char chr, final Material type, final String special) {
+	public BlockPlotter type(final char chr, final Material type, final String...special) {
 		return this.type(chr, type)
 				.special(chr, special);
 	}
@@ -179,9 +179,10 @@ public class BlockPlotter extends BlockPlacer implements Runnable {
 		return this;
 	}
 
-	public BlockPlotter special(final char chr, final String special) {
+	public BlockPlotter special(final char chr, final String...special) {
 		final Set<String> set = this.getSpecialSet(chr);
-		set.add(special);
+		for (final String sp : special)
+			set.add(sp);
 		return this;
 	}
 
