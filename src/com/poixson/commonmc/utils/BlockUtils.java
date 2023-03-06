@@ -106,21 +106,21 @@ public final class BlockUtils {
 		}
 		if (data instanceof Light) {
 			if (special.contains("15")) { changed = true; ((Light)data).setLevel(15); } else
-			if (special.contains("14")) { changed = true; ((Light)data).setLevel(15); } else
-			if (special.contains("13")) { changed = true; ((Light)data).setLevel(15); } else
-			if (special.contains("12")) { changed = true; ((Light)data).setLevel(15); } else
-			if (special.contains("11")) { changed = true; ((Light)data).setLevel(15); } else
-			if (special.contains("10")) { changed = true; ((Light)data).setLevel(15); } else
-			if (special.contains("9" )) { changed = true; ((Light)data).setLevel(15); } else
-			if (special.contains("8" )) { changed = true; ((Light)data).setLevel(15); } else
-			if (special.contains("7" )) { changed = true; ((Light)data).setLevel(15); } else
-			if (special.contains("6" )) { changed = true; ((Light)data).setLevel(15); } else
-			if (special.contains("5" )) { changed = true; ((Light)data).setLevel(15); } else
-			if (special.contains("4" )) { changed = true; ((Light)data).setLevel(15); } else
-			if (special.contains("3" )) { changed = true; ((Light)data).setLevel(15); } else
-			if (special.contains("2" )) { changed = true; ((Light)data).setLevel(15); } else
-			if (special.contains("1" )) { changed = true; ((Light)data).setLevel(15); } else
-			if (special.contains("0" )) { changed = true; ((Light)data).setLevel(15); }
+			if (special.contains("14")) { changed = true; ((Light)data).setLevel(14); } else
+			if (special.contains("13")) { changed = true; ((Light)data).setLevel(13); } else
+			if (special.contains("12")) { changed = true; ((Light)data).setLevel(12); } else
+			if (special.contains("11")) { changed = true; ((Light)data).setLevel(11); } else
+			if (special.contains("10")) { changed = true; ((Light)data).setLevel(10); } else
+			if (special.contains("9" )) { changed = true; ((Light)data).setLevel( 9); } else
+			if (special.contains("8" )) { changed = true; ((Light)data).setLevel( 8); } else
+			if (special.contains("7" )) { changed = true; ((Light)data).setLevel( 7); } else
+			if (special.contains("6" )) { changed = true; ((Light)data).setLevel( 6); } else
+			if (special.contains("5" )) { changed = true; ((Light)data).setLevel( 5); } else
+			if (special.contains("4" )) { changed = true; ((Light)data).setLevel( 4); } else
+			if (special.contains("3" )) { changed = true; ((Light)data).setLevel( 3); } else
+			if (special.contains("2" )) { changed = true; ((Light)data).setLevel( 2); } else
+			if (special.contains("1" )) { changed = true; ((Light)data).setLevel( 1); } else
+			if (special.contains("0" )) { changed = true; ((Light)data).setLevel( 0); }
 		}
 		return changed;
 	}
