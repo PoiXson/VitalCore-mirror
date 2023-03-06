@@ -1,6 +1,19 @@
 pxnCommonPluginMC - Common utilities and tools for Bukkit/Spigot plugins
 
 
+2023-03-06 - 4.0.19
+===================
+* added xListener class - to handle register/unregister
+* using bukkit services api
+* added PlayerMoveNormalEvent - triggers once per block
+* many fixes and improvements to utility classes
+* added BlockUtils and ItemUtils classes
+* added new BlockPlacer, BlockPlotter, and BlockMatrix classes
+* added TicksPerSecond class - unfinished
+* added PermissionsReload utility class
+* renamed Iabc classes
+
+
 2023-02-10 - 4.0.11
 ===================
 * added new DelayedLever and DelayedChestFiller classes
