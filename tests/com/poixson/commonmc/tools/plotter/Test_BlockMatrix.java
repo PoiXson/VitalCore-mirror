@@ -12,6 +12,7 @@ public class Test_BlockMatrix {
 	public void testBlockMatrix1D() {
 		{
 			final BlockMatrix matrix = new BlockMatrix(3);
+			Assert.assertEquals(1, matrix.getDimensions());
 			matrix.fill('x');
 			Assert.assertNull(matrix.array);
 			Assert.assertEquals(3, matrix.size);
@@ -20,6 +21,7 @@ public class Test_BlockMatrix {
 		}
 		{
 			final BlockMatrix matrix = new BlockMatrix(3);
+			Assert.assertEquals(1, matrix.getDimensions());
 			matrix.append("abc");
 			Assert.assertNull(matrix.array);
 			Assert.assertEquals(3, matrix.size);
@@ -31,6 +33,7 @@ public class Test_BlockMatrix {
 	public void testBlockMatrix2D() {
 		{
 			final BlockMatrix matrix = new BlockMatrix(2, 3);
+			Assert.assertEquals(2, matrix.getDimensions());
 			matrix.fill('x');
 			Assert.assertNull(matrix.row);
 			Assert.assertEquals(2, matrix.size);
@@ -43,6 +46,7 @@ public class Test_BlockMatrix {
 		}
 		{
 			final BlockMatrix matrix = new BlockMatrix(2, 3);
+			Assert.assertEquals(2, matrix.getDimensions());
 			Assert.assertNull(matrix.row);
 			Assert.assertEquals(2, matrix.size);
 			Assert.assertEquals(3, matrix.array[0].size);
@@ -58,6 +62,7 @@ public class Test_BlockMatrix {
 	public void testBlockMatrix3D() {
 		{
 			final BlockMatrix matrix = new BlockMatrix(3, 4, 5);
+			Assert.assertEquals(3, matrix.getDimensions());
 			matrix.fill('x');
 			Assert.assertNull(matrix.row);
 			Assert.assertEquals(3, matrix.size);
@@ -79,6 +84,7 @@ public class Test_BlockMatrix {
 		}
 		{
 			final BlockMatrix matrix = new BlockMatrix(1, 2, 3);
+			Assert.assertEquals(3, matrix.getDimensions());
 			Assert.assertNull(matrix.row);
 			Assert.assertEquals(1, matrix.size);
 			Assert.assertEquals(2, matrix.array[0].size);

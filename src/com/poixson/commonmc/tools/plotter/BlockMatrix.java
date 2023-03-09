@@ -58,7 +58,7 @@ public class BlockMatrix {
 		BlockMatrix matrix = this;
 		for (int i=0; i<3; i++) {
 			if (matrix.row != null)
-				return i;
+				return i + 1;
 			matrix = matrix.array[0];
 		}
 		return 0;
