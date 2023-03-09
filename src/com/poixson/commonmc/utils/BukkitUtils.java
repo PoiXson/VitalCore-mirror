@@ -1,5 +1,7 @@
 package com.poixson.commonmc.utils;
 
+import java.io.File;
+import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.util.Collection;
 import java.util.UUID;
@@ -95,6 +97,16 @@ public final class BukkitUtils {
 	@SuppressWarnings("deprecation")
 	public static MapView GetMapView(final int mapid) {
 		return Bukkit.getMap(mapid);
+	}
+
+
+
+	public static String GetServerPath() {
+		final File path = Bukkit.getWorldContainer();
+		try {
+			return path.getCanonicalPath();
+		} catch (IOException ignore) {}
+		return path.getAbsolutePath();
 	}
 
 
