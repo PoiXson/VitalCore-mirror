@@ -107,6 +107,12 @@ public class BlockPlotter extends BlockPlacer implements Runnable {
 
 
 
+	public int getDimensions() {
+		return this.matrix.getDimensions();
+	}
+
+
+
 	// -------------------------------------------------------------------------------
 	// place blocks
 
@@ -114,7 +120,14 @@ public class BlockPlotter extends BlockPlacer implements Runnable {
 
 	@Override
 	public void run() {
-		if (Utils.isEmpty(this.axis)) throw new RuntimeException("Axis not set for block plotter");
+		if (Utils.isEmpty(this.axis)) {
+			switch (this.getDimensions()) {
+			case 1: this.axis = "e";   break;
+			case 2: this.axis = "ue";  break;
+			case 3: this.axis = "use"; break;
+			default: throw new RuntimeException("Axis not set for block plotter");
+			}
+		}
 		run(this.axis, this.matrix, 0, 0, 0);
 	}
 
