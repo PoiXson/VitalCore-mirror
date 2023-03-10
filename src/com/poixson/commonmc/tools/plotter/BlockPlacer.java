@@ -19,8 +19,8 @@ import com.poixson.utils.Utils;
 
 public class BlockPlacer {
 
-	protected final World world;
-	protected final ChunkData chunk;
+	protected final World         world;
+	protected final ChunkData     chunk;
 	protected final LimitedRegion region;
 
 	public int x = 0; public int w = 0;
@@ -33,15 +33,9 @@ public class BlockPlacer {
 
 
 
-	public BlockPlacer(final World world) {
-		this(world, null, null);
-	}
-	public BlockPlacer(final ChunkData chunk) {
-		this(null, chunk, null);
-	}
-	public BlockPlacer(final LimitedRegion region) {
-		this(null, null, region);
-	}
+	public BlockPlacer(final World world) {          this(world, null, null,  null); }
+	public BlockPlacer(final ChunkData chunk) {      this(null, chunk, null,  null); }
+	public BlockPlacer(final LimitedRegion region) { this(null, null, region, null); }
 	protected BlockPlacer(final World world, final ChunkData chunk, final LimitedRegion region) {
 		this.world  = world;
 		this.chunk  = chunk;
@@ -60,13 +54,14 @@ public class BlockPlacer {
 		final int xx = this.x + loc.a;
 		final int zz = this.z + loc.b;
 		final int yy = this.y + y;
-		if (this.world != null) return this.world.getType(xx, yy, zz); else
-		if (this.chunk != null) return this.chunk.getType(xx, yy, zz); else
+		if (this.world != null) return this.world.getType(xx, yy, zz);
+		if (this.chunk != null) return this.chunk.getType(xx, yy, zz);
 		if (this.region != null) {
 			if (this.region.isInRegion(xx, yy, zz))
 				return this.region.getType(xx, yy, zz);
-		} else throw new InvalidValueException("world/chunk/region");
-		return null;
+			return null;
+		}
+		throw new InvalidValueException("world/chunk/region");
 	}
 	public boolean isType(final int x, final int y, final int z, final Material match) {
 		if (match == null) return false;
