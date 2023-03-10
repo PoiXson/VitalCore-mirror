@@ -5,6 +5,7 @@ api-version: ${spigot-short-version}
 load: STARTUP
 softdepend:
   - Multiverse-Core
+  - WorldEdit
 authors: [ lorenzop ]
 website: ${project.url}
 description: ${project.description}
