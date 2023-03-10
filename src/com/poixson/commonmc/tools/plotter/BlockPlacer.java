@@ -22,6 +22,8 @@ public class BlockPlacer {
 	protected final World         world;
 	protected final ChunkData     chunk;
 	protected final LimitedRegion region;
+	protected final BlockPlacer_WorldEdit worldedit;
+
 
 	public int x = 0; public int w = 0;
 	public int y = 0; public int h = 0;
@@ -36,10 +38,13 @@ public class BlockPlacer {
 	public BlockPlacer(final World world) {          this(world, null, null,  null); }
 	public BlockPlacer(final ChunkData chunk) {      this(null, chunk, null,  null); }
 	public BlockPlacer(final LimitedRegion region) { this(null, null, region, null); }
-	protected BlockPlacer(final World world, final ChunkData chunk, final LimitedRegion region) {
+	public BlockPlacer(final BlockPlacer_WorldEdit worldedit) { this(null, null, null, worldedit); }
+	protected BlockPlacer(final World world, final ChunkData chunk,
+			final LimitedRegion region, final BlockPlacer_WorldEdit worldedit) {
 		this.world  = world;
 		this.chunk  = chunk;
 		this.region = region;
+		this.worldedit = worldedit;
 	}
 
 
@@ -81,6 +86,7 @@ public class BlockPlacer {
 		final int yy = this.y + y;
 		if (this.world != null) this.world.setType( xx, yy, zz, type); else
 		if (this.chunk != null) this.chunk.setBlock(xx, yy, zz, type); else
+		if (this.worldedit != null) this.worldedit.setType(xx, yy, zz, type); else
 		if (this.region != null) {
 			if (this.region.isInRegion(xx, yy, zz))
 				this.region.setType(xx, yy, zz, type);

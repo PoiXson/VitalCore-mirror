@@ -38,6 +38,9 @@ public class BlockPlotter extends BlockPlacer implements Runnable {
 	public BlockPlotter(final LimitedRegion region, final int...sizes) {
 		this(region, new BlockMatrix(sizes));
 	}
+	public BlockPlotter(final BlockPlacer_WorldEdit worldedit, final int...sizes) {
+		this(worldedit, new BlockMatrix(sizes));
+	}
 
 	public BlockPlotter(final World world, final BlockMatrix matrix) {
 		super(world);
@@ -49,6 +52,10 @@ public class BlockPlotter extends BlockPlacer implements Runnable {
 	}
 	public BlockPlotter(final LimitedRegion region, final BlockMatrix matrix) {
 		super(region);
+		this.matrix = matrix;
+	}
+	public BlockPlotter(final BlockPlacer_WorldEdit worldedit, final BlockMatrix matrix) {
+		super(worldedit);
 		this.matrix = matrix;
 	}
 
