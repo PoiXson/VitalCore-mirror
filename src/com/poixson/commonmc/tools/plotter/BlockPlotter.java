@@ -19,7 +19,7 @@ import com.poixson.utils.Utils;
 
 public class BlockPlotter extends BlockPlacer implements Runnable {
 
-	public final BlockMatrix matrix;
+	public BlockMatrix matrix = null;
 	public String axis = "";
 
 	protected final Map<Character, Material>    types   = new HashMap<Character, Material>();
@@ -29,56 +29,40 @@ public class BlockPlotter extends BlockPlacer implements Runnable {
 
 
 
-	public BlockPlotter(final World world, final int...sizes) {
-		this(world, new BlockMatrix(sizes));
-	}
-	public BlockPlotter(final ChunkData chunk, final int...sizes) {
-		this(chunk, new BlockMatrix(sizes));
-	}
-	public BlockPlotter(final LimitedRegion region, final int...sizes) {
-		this(region, new BlockMatrix(sizes));
-	}
-	public BlockPlotter(final BlockPlacer_WorldEdit worldedit, final int...sizes) {
-		this(worldedit, new BlockMatrix(sizes));
-	}
-
-	public BlockPlotter(final World world, final BlockMatrix matrix) {
-		super(world);
-		this.matrix = matrix;
-	}
-	public BlockPlotter(final ChunkData chunk, final BlockMatrix matrix) {
-		super(chunk);
-		this.matrix = matrix;
-	}
-	public BlockPlotter(final LimitedRegion region, final BlockMatrix matrix) {
-		super(region);
-		this.matrix = matrix;
-	}
-	public BlockPlotter(final BlockPlacer_WorldEdit worldedit, final BlockMatrix matrix) {
-		super(worldedit);
-		this.matrix = matrix;
-	}
+	public BlockPlotter(final World                 world    ) { super(world    ); }
+	public BlockPlotter(final ChunkData             chunk    ) { super(chunk    ); }
+	public BlockPlotter(final LimitedRegion         region   ) { super(region   ); }
+	public BlockPlotter(final BlockPlacer_WorldEdit worldedit) { super(worldedit); }
 
 
+
+	public BlockMatrix getMatrix() {
+		if (this.matrix == null)
+			this.matrix = new BlockMatrix(this.sizes);
+		return this.matrix;
+	}
 
 	public StringBuilder[][] getMatrix3D() {
+		final BlockMatrix matrix = this.getMatrix();
 		final LinkedList<StringBuilder[]> list = new LinkedList<StringBuilder[]>();
-		for (BlockMatrix matrix : this.matrix.array) {
+		for (BlockMatrix mtx : matrix.array) {
 			final LinkedList<StringBuilder> list2 = new LinkedList<StringBuilder>();
-			for (BlockMatrix mx : matrix.array)
+			for (BlockMatrix mx : mtx.array)
 				list2.add(mx.row);
 			list.add(list2.toArray(new StringBuilder[0]));
 		}
 		return list.toArray(new StringBuilder[0][0]);
 	}
 	public StringBuilder[] getMatrix2D() {
+		final BlockMatrix matrix = this.getMatrix();
 		final LinkedList<StringBuilder> list = new LinkedList<StringBuilder>();
-		for (final BlockMatrix matrix : this.matrix.array)
-			list.add(matrix.row);
+		for (final BlockMatrix mtx : matrix.array)
+			list.add(mtx.row);
 		return list.toArray(new StringBuilder[0]);
 	}
 	public StringBuilder getMatrix1D() {
-		return this.matrix.row;
+		final BlockMatrix matrix = this.getMatrix();
+		return matrix.row;
 	}
 
 
