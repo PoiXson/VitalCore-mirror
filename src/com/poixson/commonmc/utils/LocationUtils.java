@@ -76,6 +76,25 @@ public final class LocationUtils {
 
 
 
+	// rotate axis by BlockFace
+	public static String Rotate(final String axis, final BlockFace rotate) {
+		if (BlockFace.SOUTH.equals(rotate))
+			return axis;
+		final StringBuilder result = new StringBuilder();
+		final int len = axis.length();
+		for (int i=0; i<len; i++) {
+			switch (rotate) {
+			case WEST:  result.append(Rotate(axis.charAt(i), 0.25)); break;
+			case NORTH: result.append(Rotate(axis.charAt(i), 0.5 )); break;
+			case EAST:  result.append(Rotate(axis.charAt(i), 0.75)); break;
+			default: break;
+			}
+		}
+		return result.toString();
+	}
+
+
+
 	// -------------------------------------------------------------------------------
 	// conversion
 
