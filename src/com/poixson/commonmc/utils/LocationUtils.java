@@ -22,10 +22,10 @@ public final class LocationUtils {
 
 	public static Iabcd Rotate(final Iabcd loc, final BlockFace face) {
 		switch (face) {
-		case NORTH: return loc;
-		case SOUTH: return new Iabcd(loc.a-loc.b-1, loc.d-loc.c-1, loc.a, loc.d);
-		case EAST:  return new Iabcd(loc.d-loc.c-1, loc.b,         loc.d, loc.a);
-		case WEST:  return new Iabcd(loc.c,         loc.a-loc.b-1, loc.d, loc.a);
+		case SOUTH: return loc;
+		case NORTH: return new Iabcd(loc.c-loc.a, loc.d-loc.b,   loc.c, 0-loc.d);
+		case EAST:  return new Iabcd(      loc.b,       loc.a,   loc.d,   loc.c);
+		case WEST:  return new Iabcd(loc.d-loc.b, loc.c-loc.a, 0-loc.d,   loc.c);
 		default:
 			return null;
 		}
