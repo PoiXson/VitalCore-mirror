@@ -10,6 +10,7 @@ import java.util.Set;
 
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.block.BlockFace;
 import org.bukkit.generator.ChunkGenerator.ChunkData;
 import org.bukkit.generator.LimitedRegion;
 
@@ -21,6 +22,7 @@ public class BlockPlotter extends BlockPlacer implements Runnable {
 
 	public BlockMatrix matrix = null;
 	public String axis = "";
+	public int[] sizes;
 
 	protected final Map<Character, Material>    types   = new HashMap<Character, Material>();
 	protected final Map<Character, Set<String>> special = new HashMap<Character, Set<String>>();
@@ -68,26 +70,39 @@ public class BlockPlotter extends BlockPlacer implements Runnable {
 
 
 	public BlockPlotter location(final int...locs) {
-		this.x = locs[0];
-		if (locs.length == 2) {
-			this.y = 0;
-			this.z = locs[1];
-		} else
-		if (locs.length == 3) {
-			this.y = locs[1];
-			this.z = locs[2];
+		char chr;
+		final int len = this.axis.length();
+		for (int i=0; i<len; i++) {
+			chr = this.axis.charAt(i);
+			switch (chr) {
+			case 'u': case 'Y': this.y = locs[i]; break;
+			case 'd': case 'y': this.y = locs[i]; break;
+			case 'n': case 'z': this.z = locs[i]; break;
+			case 's': case 'Z': this.z = locs[i]; break;
+			case 'e': case 'X': this.x = locs[i]; break;
+			case 'w': case 'x': this.x = locs[i]; break;
+			default: throw new RuntimeException("Unknown axis: "+Character.toString(chr));
+			}
 		}
 		return this;
 	}
 	public BlockPlotter size(final int...sizes) {
-		this.w = sizes[0];
-		if (sizes.length == 2) {
-			this.h = 0;
-			this.d = sizes[1];
-		} else
-		if (sizes.length == 3) {
-			this.h = sizes[1];
-			this.d = sizes[2];
+		if (this.sizes == null)
+			this.sizes = new int[sizes.length];
+		this.sizes = sizes;
+		char chr;
+		final int len = this.axis.length();
+		for (int i=0; i<len; i++) {
+			chr = this.axis.charAt(i);
+			switch (chr) {
+			case 'u': case 'Y': this.h = sizes[i]; break;
+			case 'd': case 'y': this.h = sizes[i]; break;
+			case 'n': case 'z': this.d = sizes[i]; break;
+			case 's': case 'Z': this.d = sizes[i]; break;
+			case 'e': case 'X': this.w = sizes[i]; break;
+			case 'w': case 'x': this.w = sizes[i]; break;
+			default: throw new RuntimeException("Unknown axis: "+Character.toString(chr));
+			}
 		}
 		return this;
 	}
@@ -203,6 +218,93 @@ public class BlockPlotter extends BlockPlacer implements Runnable {
 			this.special.put(Character.valueOf(chr), set);
 			return set;
 		}
+	}
+
+
+
+	// -------------------------------------------------------------------------------
+	// location/size
+
+
+
+	@Override public BlockPlotter x(final int x) { this.x = x; return this; }
+	@Override public BlockPlotter y(final int y) { this.y = y; return this; }
+	@Override public BlockPlotter z(final int z) { this.z = z; return this; }
+
+	@Override
+	public BlockPlotter w(final int w) {
+		this.w = w;
+		char chr;
+		final int len = this.axis.length();
+		if (this.sizes == null)
+			this.sizes = new int[len];
+		for (int i=0; i<len; i++) {
+			chr = this.axis.charAt(i);
+			switch (chr) {
+			case 'e': case 'X':
+			case 'w': case 'x': this.sizes[i] = w; return this;
+			case 'u': case 'Y':
+			case 'd': case 'y':
+			case 'n': case 'z':
+			case 's': case 'Z': continue;
+			default: throw new RuntimeException("Unknown axis: "+Character.toString(chr));
+			}
+		}
+		return this;
+	}
+	@Override
+	public BlockPlotter h(final int h) {
+		this.h = h;
+		char chr;
+		final int len = this.axis.length();
+		if (this.sizes == null)
+			this.sizes = new int[len];
+		for (int i=0; i<len; i++) {
+			chr = this.axis.charAt(i);
+			switch (chr) {
+			case 'u': case 'Y':
+			case 'd': case 'y': this.sizes[i] = h; return this;
+			case 'n': case 'z':
+			case 's': case 'Z':
+			case 'e': case 'X':
+			case 'w': case 'x': continue;
+			default: throw new RuntimeException("Unknown axis: "+Character.toString(chr));
+			}
+		}
+		return this;
+	}
+	@Override
+	public BlockPlotter d(final int d) {
+		this.d = d;
+		char chr;
+		final int len = this.axis.length();
+		if (this.sizes == null)
+			this.sizes = new int[len];
+		for (int i=0; i<len; i++) {
+			chr = this.axis.charAt(i);
+			switch (chr) {
+			case 'n': case 'z':
+			case 's': case 'Z': this.sizes[i] = d; return this;
+			case 'u': case 'Y':
+			case 'd': case 'y':
+			case 'e': case 'X':
+			case 'w': case 'x': continue;
+			default: throw new RuntimeException("Unknown axis: "+Character.toString(chr));
+			}
+		}
+		return this;
+	}
+
+	@Override
+	public BlockPlotter wrap(final boolean wrap) {
+		this.wrap = wrap;
+		return this;
+	}
+
+	@Override
+	public BlockPlotter rotate(final BlockFace rotate) {
+		this.rotation = rotate;
+		return this;
 	}
 
 
