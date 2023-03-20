@@ -131,7 +131,7 @@ public class BlockPlotter extends BlockPlacer implements Runnable {
 			case 1: this.axis = "e";   break;
 			case 2: this.axis = "ue";  break;
 			case 3: this.axis = "use"; break;
-			default: throw new RuntimeException("Axis not set for block plotter");
+			default: throw new RuntimeException("Axis not set for block plotter, unknown dimensions");
 			}
 		}
 		run(this.axis, this.matrix, 0, 0, 0);
