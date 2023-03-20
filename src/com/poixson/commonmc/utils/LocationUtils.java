@@ -20,6 +20,7 @@ public final class LocationUtils {
 
 
 
+	// x, z, w, d
 	public static Iabcd Rotate(final Iabcd loc, final BlockFace face) {
 		switch (face) {
 		case SOUTH: return loc;
@@ -33,6 +34,7 @@ public final class LocationUtils {
 
 
 
+	// rotate BlockFace by double
 	public static BlockFace Rotate(final BlockFace face, final double rotation) {
 		if (rotation < 0.0) throw new RuntimeException("Invalid rotation: " + Double.toString(rotation));
 		double rot = rotation % 1.0;
@@ -55,6 +57,7 @@ public final class LocationUtils {
 		}
 		return dir;
 	}
+	// rotate ax by double
 	public static char Rotate(final char ax, final double rotation) {
 		if (rotation < 0.0) throw new RuntimeException("Invalid rotation: " + Double.toString(rotation));
 		double rot = rotation % 1.0;
@@ -63,6 +66,7 @@ public final class LocationUtils {
 		char dir = ax;
 		while (rot > 0.0) {
 			switch (dir) {
+			case 'u': case 'd':  break;
 			case 'n': dir = 'e'; break;
 			case 'e': dir = 's'; break;
 			case 's': dir = 'w'; break;

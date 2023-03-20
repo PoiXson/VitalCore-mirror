@@ -178,12 +178,6 @@ public class BlockPlotter extends BlockPlacer implements Runnable {
 
 
 
-	public void doAutoFace() {
-//TODO
-	}
-
-
-
 	// -------------------------------------------------------------------------------
 	// block types
 

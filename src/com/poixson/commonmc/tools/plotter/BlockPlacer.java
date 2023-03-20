@@ -29,21 +29,21 @@ public class BlockPlacer {
 	public int y = 0; public int h = 0;
 	public int z = 0; public int d = 0;
 
-	public BlockFace rotation = BlockFace.NORTH;
+	public BlockFace rotation = BlockFace.SOUTH;
 
 	public boolean wrap = false;
 
 
 
-	public BlockPlacer(final World world) {          this(world, null, null,  null); }
-	public BlockPlacer(final ChunkData chunk) {      this(null, chunk, null,  null); }
-	public BlockPlacer(final LimitedRegion region) { this(null, null, region, null); }
-	public BlockPlacer(final BlockPlacer_WorldEdit worldedit) { this(null, null, null, worldedit); }
+	public BlockPlacer(final World                 world    ) { this(world, null,  null,   null     ); }
+	public BlockPlacer(final ChunkData             chunk    ) { this(null,  chunk, null,   null     ); }
+	public BlockPlacer(final LimitedRegion         region   ) { this(null,  null,  region, null     ); }
+	public BlockPlacer(final BlockPlacer_WorldEdit worldedit) { this(null,  null,  null,   worldedit); }
 	protected BlockPlacer(final World world, final ChunkData chunk,
 			final LimitedRegion region, final BlockPlacer_WorldEdit worldedit) {
-		this.world  = world;
-		this.chunk  = chunk;
-		this.region = region;
+		this.world     = world;
+		this.chunk     = chunk;
+		this.region    = region;
 		this.worldedit = worldedit;
 	}
 
@@ -152,6 +152,8 @@ public class BlockPlacer {
 	public BlockPlacer d(final int d) { this.d = d; return this; }
 
 	public BlockPlacer wrap(final boolean wrap) { this.wrap = wrap; return this; }
+
+	public BlockPlacer rotate(final BlockFace rotate) { this.rotation = rotate; return this; }
 
 
 
