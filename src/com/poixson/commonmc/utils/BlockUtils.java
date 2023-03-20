@@ -51,12 +51,12 @@ public final class BlockUtils {
 			if (special.contains("bottom")) { changed = true; ((Bisected)data).setHalf(Bisected.Half.BOTTOM); }
 		}
 		if (data instanceof Directional) {
-			if (special.contains("up"   )) { changed = true; ((Directional)data).setFacing(BlockFace.UP   ); } else
-			if (special.contains("down" )) { changed = true; ((Directional)data).setFacing(BlockFace.DOWN ); } else
-			if (special.contains("north")) { changed = true; ((Directional)data).setFacing(BlockFace.NORTH); } else
-			if (special.contains("south")) { changed = true; ((Directional)data).setFacing(BlockFace.SOUTH); } else
-			if (special.contains("east" )) { changed = true; ((Directional)data).setFacing(BlockFace.EAST ); } else
-			if (special.contains("west" )) { changed = true; ((Directional)data).setFacing(BlockFace.WEST ); }
+			if (special.contains("up"   ) || special.contains("u")) { changed = true; ((Directional)data).setFacing(BlockFace.UP   ); } else
+			if (special.contains("down" ) || special.contains("d")) { changed = true; ((Directional)data).setFacing(BlockFace.DOWN ); } else
+			if (special.contains("north") || special.contains("n")) { changed = true; ((Directional)data).setFacing(BlockFace.NORTH); } else
+			if (special.contains("south") || special.contains("s")) { changed = true; ((Directional)data).setFacing(BlockFace.SOUTH); } else
+			if (special.contains("east" ) || special.contains("e")) { changed = true; ((Directional)data).setFacing(BlockFace.EAST ); } else
+			if (special.contains("west" ) || special.contains("w")) { changed = true; ((Directional)data).setFacing(BlockFace.WEST ); }
 		}
 		if (data instanceof MultipleFacing) {
 			if (special.contains("top"   )) { changed = true; ((MultipleFacing)data).setFace(BlockFace.UP,    true); }
@@ -67,9 +67,9 @@ public final class BlockUtils {
 			if (special.contains("west"  )) { changed = true; ((MultipleFacing)data).setFace(BlockFace.WEST,  true); }
 		}
 		if (data instanceof Orientable) {
-			if (special.contains("x")) { changed = true; ((Orientable)data).setAxis(Axis.X); } else
-			if (special.contains("y")) { changed = true; ((Orientable)data).setAxis(Axis.Y); } else
-			if (special.contains("z")) { changed = true; ((Orientable)data).setAxis(Axis.Z); }
+			if (special.contains("x") || special.contains("e") || special.contains("w")) { changed = true; ((Orientable)data).setAxis(Axis.X); } else
+			if (special.contains("y") || special.contains("u") || special.contains("d")) { changed = true; ((Orientable)data).setAxis(Axis.Y); } else
+			if (special.contains("z") || special.contains("n") || special.contains("s")) { changed = true; ((Orientable)data).setAxis(Axis.Z); }
 		}
 		if (data instanceof Rotatable) {
 			if (special.contains("north"           ) || special.contains("n"  )) { changed = true; ((Rotatable)data).setRotation(BlockFace.NORTH           ); } else
