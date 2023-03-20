@@ -104,14 +104,12 @@ public final class LocationUtils {
 
 
 
+	// BlockFace to Axis
 	public static Axis FaceToAxis(final BlockFace face) {
 		switch (face) {
-		case NORTH:
-		case SOUTH:
-			return Axis.Z;
-		case EAST:
-		case WEST:
-			return Axis.X;
+		case UP:    case DOWN:  return Axis.Y;
+		case NORTH: case SOUTH: return Axis.Z;
+		case EAST:  case WEST:  return Axis.X;
 		default: break;
 		}
 		return null;
@@ -119,28 +117,48 @@ public final class LocationUtils {
 
 
 
-	public static String FaceToAx(final BlockFace face) {
+	// BlockFace to axis char
+	public static char FaceToAxChar(final BlockFace face) {
 		switch (face) {
+		case UP:    return 'u';
+		case DOWN:  return 'd';
+		case NORTH: return 'n';
+		case SOUTH: return 's';
+		case EAST:  return 'e';
+		case WEST:  return 'w';
+		default: return 0;
+		}
+	}
+	// BlockFace to axis string
+	public static String FaceToAxString(final BlockFace face) {
+		switch (face) {
+		case UP:    return "u";
+		case DOWN:  return "d";
 		case NORTH: return "n";
 		case SOUTH: return "s";
 		case EAST:  return "e";
 		case WEST:  return "w";
-		case NORTH_EAST: return "es";
-		case SOUTH_EAST: return "sw";
-		case NORTH_WEST: return "ws";
-		case SOUTH_WEST: return "se";
+		case NORTH_EAST: return "ne";
+		case NORTH_WEST: return "nw";
+		case SOUTH_EAST: return "se";
+		case SOUTH_WEST: return "sw";
 		default: return null;
 		}
 	}
+
+	// axis char to BlockFace
 	public static BlockFace AxToFace(final char ax) {
 		switch (ax) {
-		case 'n': return BlockFace.NORTH;
-		case 's': return BlockFace.SOUTH;
-		case 'e': return BlockFace.EAST;
-		case 'w': return BlockFace.WEST;
+		case 'u': case 'Y': return BlockFace.UP;
+		case 'd': case 'y': return BlockFace.DOWN;
+		case 'n': case 'z': return BlockFace.NORTH;
+		case 's': case 'Z': return BlockFace.SOUTH;
+		case 'e': case 'X': return BlockFace.EAST;
+		case 'w': case 'x': return BlockFace.WEST;
 		default: return null;
 		}
 	}
+	// axis string to BlockFace
 	public static BlockFace AxToFace(final String ax) {
 		switch (ax) {
 		case "u": case "Y": return BlockFace.UP;
@@ -159,6 +177,7 @@ public final class LocationUtils {
 
 
 
+	// BlockFace to x,y,z
 	public static Iabc FaceToIxyz(final BlockFace face) {
 		switch (face) {
 		case NORTH: return new Iabc( 0,  0, -1);
@@ -174,7 +193,8 @@ public final class LocationUtils {
 		default: return null;
 		}
 	}
-	public static Iab FaceToIxy(final BlockFace face) {
+	// BlockFace to x,z
+	public static Iab FaceToIxz(final BlockFace face) {
 		switch (face) {
 		case NORTH: return new Iab( 0, -1);
 		case SOUTH: return new Iab( 0,  1);
@@ -188,9 +208,7 @@ public final class LocationUtils {
 		}
 	}
 
-	public static Iabc AxToIxyz(final String ax) {
-		return AxToIxyz(ax.charAt(0));
-	}
+	// axis char to x,y,z
 	public static Iabc AxToIxyz(final char ax) {
 		switch (ax) {
 		case 'n': case 'z': return new Iabc( 0,  0, -1);
@@ -203,10 +221,8 @@ public final class LocationUtils {
 		}
 	}
 
-	public static Iab AxToIxy(final String ax) {
-		return AxToIxy(ax.charAt(0));
-	}
-	public static Iab AxToIxy(final char ax) {
+	// axis char to x,z
+	public static Iab AxToIxz(final char ax) {
 		switch (ax) {
 		case 'n': case 'z': return new Iab( 0, -1);
 		case 's': case 'Z': return new Iab( 0,  1);
@@ -218,6 +234,7 @@ public final class LocationUtils {
 
 
 
+	// x,z to BlockFace
 	public static BlockFace ValueToFaceQuarter(final int x, final int z) {
 		if (x < 0) return (z < 0 ? BlockFace.NORTH_WEST : BlockFace.SOUTH_WEST);
 		else       return (z < 0 ? BlockFace.NORTH_EAST : BlockFace.SOUTH_EAST);
