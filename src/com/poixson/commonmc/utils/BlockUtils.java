@@ -16,6 +16,9 @@ import org.bukkit.block.data.MultipleFacing;
 import org.bukkit.block.data.Openable;
 import org.bukkit.block.data.Orientable;
 import org.bukkit.block.data.Rotatable;
+import org.bukkit.block.data.type.Bed;
+import org.bukkit.block.data.type.Door;
+import org.bukkit.block.data.type.Door.Hinge;
 import org.bukkit.block.data.type.Light;
 import org.bukkit.block.data.type.Slab;
 import org.bukkit.block.data.type.Wall;
@@ -96,6 +99,14 @@ public final class BlockUtils {
 			if (special.contains("EAST" )) { changed = true; ((Wall)data).setHeight(BlockFace.EAST,  Wall.Height.TALL); } else
 			if (special.contains("west" )) { changed = true; ((Wall)data).setHeight(BlockFace.WEST,  Wall.Height.LOW ); } else
 			if (special.contains("WEST" )) { changed = true; ((Wall)data).setHeight(BlockFace.WEST,  Wall.Height.TALL); }
+		} else
+		if (data instanceof Door) {
+			if (special.contains("left" )) { changed = true; ((Door)data).setHinge(Hinge.LEFT ); } else
+			if (special.contains("right")) { changed = true; ((Door)data).setHinge(Hinge.RIGHT); }
+		} else
+		if (data instanceof Bed) {
+			if (special.contains("head")) { changed = true; ((Bed)data).setPart(Bed.Part.HEAD); } else
+			if (special.contains("foot")) { changed = true; ((Bed)data).setPart(Bed.Part.FOOT); }
 		}
 		if (data instanceof Openable) {
 			if (special.contains("open"  )) { changed = true; ((Openable)data).setOpen(true ); } else
