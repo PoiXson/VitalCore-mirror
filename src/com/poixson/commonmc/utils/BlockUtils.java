@@ -91,7 +91,6 @@ public final class BlockUtils {
 			if (special.contains("west-south-west" ) || special.contains("wsw")) { changed = true; ((Rotatable)data).setRotation(BlockFace.WEST_SOUTH_WEST ); }
 		}
 		if (data instanceof Wall) {
-			((Wall)data).setUp(special.contains(",up,"));
 			if (special.contains("north")) { changed = true; ((Wall)data).setHeight(BlockFace.NORTH, Wall.Height.LOW ); } else
 			if (special.contains("NORTH")) { changed = true; ((Wall)data).setHeight(BlockFace.NORTH, Wall.Height.TALL); } else
 			if (special.contains("south")) { changed = true; ((Wall)data).setHeight(BlockFace.SOUTH, Wall.Height.LOW ); } else
@@ -100,6 +99,7 @@ public final class BlockUtils {
 			if (special.contains("EAST" )) { changed = true; ((Wall)data).setHeight(BlockFace.EAST,  Wall.Height.TALL); } else
 			if (special.contains("west" )) { changed = true; ((Wall)data).setHeight(BlockFace.WEST,  Wall.Height.LOW ); } else
 			if (special.contains("WEST" )) { changed = true; ((Wall)data).setHeight(BlockFace.WEST,  Wall.Height.TALL); }
+			if (special.contains("up"   )) { changed = true; ((Wall)data).setUp(true); }
 		} else
 		if (data instanceof Door) {
 			if (special.contains("left" )) { changed = true; ((Door)data).setHinge(Hinge.LEFT ); } else
