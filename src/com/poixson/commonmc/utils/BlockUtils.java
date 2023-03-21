@@ -16,6 +16,7 @@ import org.bukkit.block.data.MultipleFacing;
 import org.bukkit.block.data.Openable;
 import org.bukkit.block.data.Orientable;
 import org.bukkit.block.data.Rotatable;
+import org.bukkit.block.data.Waterlogged;
 import org.bukkit.block.data.type.Bed;
 import org.bukkit.block.data.type.Door;
 import org.bukkit.block.data.type.Door.Hinge;
@@ -151,6 +152,9 @@ public final class BlockUtils {
 			if (special.contains("13")) { changed = true; ((Levelled)data).setLevel(13); } else
 			if (special.contains("14")) { changed = true; ((Levelled)data).setLevel(14); } else
 			if (special.contains("15")) { changed = true; ((Levelled)data).setLevel(15); }
+		}
+		if (data instanceof Waterlogged) {
+			if (special.contains("logged")) { changed = true; ((Waterlogged)data).setWaterlogged(true); }
 		}
 		return changed;
 	}
