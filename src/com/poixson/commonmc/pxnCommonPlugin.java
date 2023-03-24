@@ -11,9 +11,12 @@ import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.ServicesManager;
 
 import com.poixson.commonmc.charts.pxnPluginsChart;
+import com.poixson.commonmc.commands.Commands_Memory;
+import com.poixson.commonmc.commands.Commands_TPS;
 import com.poixson.commonmc.events.PlayerMoveManager;
-import com.poixson.commonmc.tools.TicksPerSecond;
 import com.poixson.commonmc.tools.plugin.xJavaPlugin;
+import com.poixson.commonmc.tools.tps.TicksAnnouncer;
+import com.poixson.commonmc.tools.tps.TicksPerSecond;
 import com.poixson.commonmc.tools.updatechecker.UpdateCheckManager;
 import com.poixson.tools.AppProps;
 import com.poixson.tools.Keeper;
@@ -30,9 +33,16 @@ public class pxnCommonPlugin extends xJavaPlugin {
 
 	protected final CopyOnWriteArraySet<xJavaPlugin> plugins = new CopyOnWriteArraySet<xJavaPlugin>();
 	protected final AtomicReference<pxnPluginsChart> pluginsListener = new AtomicReference<pxnPluginsChart>(null);
-	protected final AtomicReference<TicksPerSecond>     tpsManager   = new AtomicReference<TicksPerSecond>(null);
 	protected final AtomicReference<UpdateCheckManager> checkManager = new AtomicReference<UpdateCheckManager>(null);
 	protected final AtomicReference<PlayerMoveManager>  moveManager  = new AtomicReference<PlayerMoveManager>(null);
+
+	// ticks per second
+	protected final AtomicReference<TicksPerSecond> tpsManager   = new AtomicReference<TicksPerSecond>(null);
+	protected final AtomicReference<TicksAnnouncer> tpsAnnouncer = new AtomicReference<TicksAnnouncer>(null);
+
+	// commands
+	protected final AtomicReference<Commands_TPS>    commandsTPS = new AtomicReference<Commands_TPS>(null);
+	protected final AtomicReference<Commands_Memory> commandsMem = new AtomicReference<Commands_Memory>(null);
 
 
 
@@ -60,7 +70,7 @@ public class pxnCommonPlugin extends xJavaPlugin {
 				previous.unregister();
 			listener.register();
 		}
-		// ticks
+		// ticks monitor
 		{
 			final TicksPerSecond manager = new TicksPerSecond(this);
 			final TicksPerSecond previous = this.tpsManager.getAndSet(manager);
@@ -68,6 +78,14 @@ public class pxnCommonPlugin extends xJavaPlugin {
 				previous.stop();
 			manager.start();
 			services.register(TicksPerSecond.class, manager, this, ServicePriority.Normal);
+		}
+		// ticks announcer
+		{
+			final TicksAnnouncer announcer = new TicksAnnouncer(this);
+			final TicksAnnouncer previous = this.tpsAnnouncer.getAndSet(announcer);
+			if (previous != null)
+				previous.stop();
+			services.register(TicksAnnouncer.class, announcer, this, ServicePriority.Normal);
 		}
 		// update check manager
 		{
@@ -81,6 +99,22 @@ public class pxnCommonPlugin extends xJavaPlugin {
 			manager.startLater();
 		}
 		super.onEnable();
+		// /tps
+		{
+			final Commands_TPS commands = new Commands_TPS(this);
+			final Commands_TPS previous = this.commandsTPS.getAndSet(commands);
+			if (previous != null)
+				previous.unregister();
+			commands.register();
+		}
+		// /mem
+		{
+			final Commands_Memory commands = new Commands_Memory(this);
+			final Commands_Memory previous = this.commandsMem.getAndSet(commands);
+			if (previous != null)
+				previous.unregister();
+			commands.register();
+		}
 		// player move listeners
 		{
 			final PlayerMoveManager manager = new PlayerMoveManager(this);
@@ -101,18 +135,46 @@ public class pxnCommonPlugin extends xJavaPlugin {
 	@Override
 	public void onDisable() {
 		super.onDisable();
+		final ServicesManager services = Bukkit.getServicesManager();
+		// ticks monitor
+		{
+			final TicksPerSecond manager = this.tpsManager.getAndSet(null);
+			if (manager != null) {
+				manager.stop();
+				services.unregister(manager);
+			}
+		}
+		// ticks announcer
+		{
+			final TicksAnnouncer announcer = this.tpsAnnouncer.getAndSet(null);
+			if (announcer != null) {
+				announcer.stop();
+				services.unregister(announcer);
+			}
+		}
 		// update check manager
 		{
 			final UpdateCheckManager manager = this.checkManager.getAndSet(null);
-			if (manager != null) {
+			if (manager != null)
 				manager.stop();
-			}
 		}
 		// plugins listener
 		{
 			final pxnPluginsChart listener = this.pluginsListener.getAndSet(null);
 			if (listener != null)
 				listener.unregister();
+		}
+		// /tps
+		{
+			final Commands_TPS commands = this.commandsTPS.getAndSet(null);
+			if (commands != null)
+				commands.unregister();
+		}
+		// /mem
+		{
+			final Commands_Memory commands = this.commandsMem.getAndSet(null);
+			if (commands != null)
+				commands.unregister();
 		}
 	}
 
@@ -126,6 +188,14 @@ public class pxnCommonPlugin extends xJavaPlugin {
 		final pxnCommonPlugin plugin = Bukkit.getServicesManager().load(pxnCommonPlugin.class);
 		if (plugin == null) throw new RuntimeException("pxnCommonPlugin not loaded");
 		return plugin;
+	}
+	public static TicksPerSecond GetTicksManager() {
+		final pxnCommonPlugin plugin = GetCommonPlugin();
+		return plugin.tpsManager.get();
+	}
+	public static TicksAnnouncer GetTicksAnnouncer() {
+		final pxnCommonPlugin plugin = GetCommonPlugin();
+		return plugin.tpsAnnouncer.get();
 	}
 
 

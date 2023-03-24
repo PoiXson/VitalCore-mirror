@@ -1,11 +1,14 @@
-package com.poixson.commonmc.tools;
+package com.poixson.commonmc.tools.tps;
 
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
 
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import com.poixson.commonmc.pxnCommonPlugin;
@@ -111,6 +114,30 @@ public class TicksPerSecond extends BukkitRunnable {
 	}
 	public long getTicks() {
 		return this.ticks.get();
+	}
+
+
+
+	public static void DisplayTPS(final UUID uuid) {
+		DisplayTPS(uuid==null ? null : Bukkit.getPlayer(uuid));
+	}
+	public static void DisplayTPS(final UUID uuid, final double[] tps) {
+		DisplayTPS(uuid==null ? null : Bukkit.getPlayer(uuid));
+	}
+	public static void DisplayTPS(final Player player) {
+		final TicksPerSecond manager = pxnCommonPlugin.GetTicksManager();
+		final double[] tps = manager.getTPS();
+		DisplayTPS(player, tps);
+	}
+	public static void DisplayTPS(final Player player, final double[] tps) {
+		final String msg = String.format(
+			"TPS: %.1f/%.1f/%.1f",
+			Double.valueOf(tps[0]),
+			Double.valueOf(tps[1]),
+			Double.valueOf(tps[2])
+		);
+		if (player == null) Bukkit.getConsoleSender().sendMessage(msg);
+		else                player.sendMessage(msg);
 	}
 
 
