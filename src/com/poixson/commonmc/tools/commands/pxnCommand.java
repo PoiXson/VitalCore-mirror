@@ -1,9 +1,7 @@
 package com.poixson.commonmc.tools.commands;
 
-import java.util.HashSet;
 import java.util.LinkedList;
 
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
 import com.poixson.utils.Utils;
@@ -13,19 +11,21 @@ public abstract class pxnCommand {
 
 	public final String[] labels;
 
+	public final boolean override;
+
 
 
 	public pxnCommand(final String...labels) {
-		final HashSet<String> set = new HashSet<String>();
-		for (final String label : labels)
-			set.add(label.toLowerCase());
-		this.labels = set.toArray(new String[0]);
+		this(false, labels);
+	}
+	public pxnCommand(final boolean enableOverride, final String...labels) {
+		this.override = enableOverride;
+		this.labels   = labels;
 	}
 
 
 
-	public abstract boolean run(final CommandSender sender,
-			final Command cmd, final String[] args);
+	public abstract boolean run(final CommandSender sender, final String label, final String[] args);
 
 
 
@@ -37,12 +37,12 @@ public abstract class pxnCommand {
 		}
 		return list.toArray(new String[0]);
 	}
-	public boolean matchArgs(final String[] args) {
+	public boolean match(final String[] args) {
 		if (Utils.isEmpty(args))
 			return this.isDefault();
-		return this.matchLabel(args[0]);
+		return this.match(args[0]);
 	}
-	public boolean matchLabel(final String match) {
+	public boolean match(final String match) {
 		if (Utils.isEmpty(match))
 			return this.isDefault();
 		final String matchLower = match.toLowerCase();
@@ -52,6 +52,7 @@ public abstract class pxnCommand {
 		}
 		return false;
 	}
+
 	public boolean isDefault() {
 		return Utils.isEmpty(this.labels);
 	}

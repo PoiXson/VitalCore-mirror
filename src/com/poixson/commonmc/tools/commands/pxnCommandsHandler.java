@@ -1,8 +1,6 @@
 package com.poixson.commonmc.tools.commands;
 
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.atomic.AtomicReference;
@@ -12,14 +10,19 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.command.TabCompleter;
-import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.player.PlayerCommandPreprocessEvent;
+import org.bukkit.event.server.ServerCommandEvent;
 
+import com.poixson.commonmc.tools.plugin.xJavaPlugin;
+import com.poixson.commonmc.tools.plugin.xListener;
 import com.poixson.utils.Utils;
 
 
-public abstract class pxnCommandsHandler implements CommandExecutor, TabCompleter {
-
-	protected final JavaPlugin plugin;
+public abstract class pxnCommandsHandler
+extends xListener<xJavaPlugin>
+implements CommandExecutor, TabCompleter {
 
 	protected final String[] labels;
 
@@ -29,89 +32,150 @@ public abstract class pxnCommandsHandler implements CommandExecutor, TabComplete
 
 
 
-	public pxnCommandsHandler(final JavaPlugin plugin, final String...labels) {
-		this.plugin = plugin;
-		// labels
-		final HashSet<String> set = new HashSet<String>();
-		for (final String label : labels)
-			set.add(label.toLowerCase());
-		this.labels = set.toArray(new String[0]);
-	}
-
-
-
-	public void register() {
-		for (final String label : this.labels) {
-			final PluginCommand pc = this.plugin.getCommand(label);
-			pc.setExecutor(this);
-			this.pcs.add(pc);
-		}
-	}
-	public void unregister() {
-		final Iterator<PluginCommand> it = this.pcs.iterator();
-		while (it.hasNext()) {
-			final PluginCommand pc = it.next();
-			pc.setExecutor(null);
-		}
-		this.cmds.clear();
-		this.pcs.clear();
-		this.tabComp.set(null);
-	}
-
-
-
-	public void setTabCompleter(final TabCompleter tabComp) {
-		this.tabComp.set(tabComp);
-		final Iterator<PluginCommand> it = this.pcs.iterator();
-		while (it.hasNext()) {
-			final PluginCommand pc = it.next();
-			pc.setTabCompleter(tabComp);
-		}
-	}
-
-
-
-	public void addCommand(final pxnCommand dao) {
-		if (dao == null) throw new NullPointerException("cmd");
-		this.cmds.add(dao);
-	}
-
-	public pxnCommand getDefaultCommand() {
-		final Iterator<pxnCommand> it = this.cmds.iterator();
-		while (it.hasNext()) {
-			final pxnCommand dao = it.next();
-			if (dao.isDefault())
-				return dao;
-		}
-		return null;
+	public pxnCommandsHandler(final xJavaPlugin plugin, final String...labels) {
+		super(plugin);
+		this.labels = labels;
 	}
 
 
 
 	@Override
+	public void register() {
+		if (this.hasOverrides())
+			super.register();
+		for (final String label : this.labels) {
+			final PluginCommand pc = this.plugin.getCommand(label);
+			if (pc == null) continue;
+			pc.setExecutor(this);
+			this.pcs.add(pc);
+		}
+	}
+	@Override
+	public void unregister() {
+		super.unregister();
+		for (final PluginCommand pc : this.pcs)
+			pc.setExecutor(null);
+		this.pcs.clear();
+		this.cmds.clear();
+		this.tabComp.set(null);
+	}
+
+
+
+	// -------------------------------------------------------------------------------
+	// commands/labels
+
+
+
+	public void addCommand(final pxnCommand cmd) {
+		this.cmds.add(cmd);
+	}
+	public boolean match(final String match) {
+		if (Utils.isEmpty(match))
+			return false;
+		final String matchLower = match.toLowerCase();
+		for (final String label : this.labels) {
+			if (matchLower.equals(label))
+				return true;
+		}
+		return false;
+	}
+
+	public pxnCommand getDefaultCommand() {
+		for (final pxnCommand cmd : this.cmds) {
+			if (cmd.isDefault())
+				return cmd;
+		}
+		return null;
+	}
+
+	public boolean hasOverrides() {
+		for (final pxnCommand cmd : this.cmds) {
+			if (cmd.override)
+				return true;
+		}
+		return false;
+	}
+
+
+
+	// -------------------------------------------------------------------------------
+	// listeners
+
+
+
+	// standard command listener
+	@Override
 	public boolean onCommand(final CommandSender sender,
 			final Command command, final String label, final String[] args) {
-		// no arguments
-		if (Utils.isEmpty(args)) {
-			final pxnCommand cmd = this.getDefaultCommand();
-			if (cmd != null)
-				return cmd.run(sender, command, args);
-			return false;
+		return this.handleCommand(sender, label, args, false);
+	}
+	// player command event
+	@EventHandler(priority=EventPriority.NORMAL, ignoreCancelled=true)
+	public void onPlayerCommand(final PlayerCommandPreprocessEvent event) {
+		final String msg = event.getMessage();
+		if (msg.startsWith("/")) {
+			final String label;
+			final String[] args;
+			final int pos = msg.indexOf(' ');
+			// no arguments
+			if (pos == -1) {
+				label = msg.substring(1);
+				args = new String[0];
+			// command with arguments
+			} else {
+				label = msg.substring(1, pos);
+				args = msg.substring(pos+1).split(" ");
+			}
+			if (this.handleCommand(event.getPlayer(), label, args, true))
+				event.setCancelled(true);
 		}
-		// find command
-		final Iterator<pxnCommand> it = this.cmds.iterator();
-		while (it.hasNext()) {
-			final pxnCommand dao = it.next();
-			if (dao.matchArgs(args)) {
-				final boolean result = dao.run(sender, command, args);
-				if (result)
+	}
+	// console command event
+	@EventHandler(priority=EventPriority.NORMAL, ignoreCancelled=true)
+	public void onSendCommandEvent(final ServerCommandEvent event) {
+		final String msg = event.getCommand();
+		final String label;
+		final String[] args;
+		final int pos = msg.indexOf(' ');
+		// no arguments
+		if (pos == -1) {
+			label = msg;
+			args  = new String[0];
+		// command with arguments
+		} else {
+			label = msg.substring(0, pos);
+			args  = msg.substring(pos+1).split(" ");
+		}
+		if (this.handleCommand(event.getSender(), label, args, true))
+			event.setCancelled(true);
+	}
+
+	protected boolean handleCommand(final CommandSender sender,
+			final String label, final String[] args, final boolean isOverride) {
+		if (this.match(label)) {
+			for (final pxnCommand cmd : this.cmds) {
+				if (cmd.match(args)) {
+					cmd.run(sender, label, args);
 					return true;
+				}
 			}
 		}
 		return false;
 	}
 
 
+
+	// -------------------------------------------------------------------------------
+	// tab completion
+
+
+
+	public void setTabCompleter(final TabCompleter tabComp) {
+		this.tabComp.set(tabComp);
+		for (final PluginCommand pc : this.pcs)
+			pc.setTabCompleter(tabComp);
+	}
 
 	@Override
 	public List<String> onTabComplete(
