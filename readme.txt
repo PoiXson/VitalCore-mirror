@@ -15,4 +15,4 @@ pxncommon.updates - receive notices of plugin updates
 
 Discord: https://discord.gg/jHgP2a3kDx
 
-Dev Builds: http://dl.poixson.com/mcplugins/pxnCommonPluginMC/
+Dev Builds: https://dl.poixson.com/mcplugins/pxnCommonPluginMC/
