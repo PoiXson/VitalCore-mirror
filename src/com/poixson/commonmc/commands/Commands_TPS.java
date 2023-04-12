@@ -11,21 +11,24 @@ import com.poixson.commonmc.tools.commands.pxnCommandsHandler;
 import com.poixson.commonmc.tools.tps.TicksAnnouncer;
 
 
-public class Commands_TPS extends pxnCommandsHandler {
+public class Commands_TPS extends pxnCommandsHandler<pxnCommonPlugin> {
 
 
 
 	public Commands_TPS(final pxnCommonPlugin plugin) {
-		super(plugin, "tps", "lag");
-		this.addCommand(new Command_TPS());
+		super(plugin,
+			"tps",
+			"lag"
+		);
+		this.addCommand(new Command_TPS(plugin));
 	}
 
 
 
-	public class Command_TPS extends pxnCommand {
+	public class Command_TPS extends pxnCommand<pxnCommonPlugin> {
 
-		public Command_TPS() {
-			super(true, "toggle");
+		public Command_TPS(final pxnCommonPlugin plugin) {
+			super(plugin, true, "toggle");
 		}
 
 		@Override

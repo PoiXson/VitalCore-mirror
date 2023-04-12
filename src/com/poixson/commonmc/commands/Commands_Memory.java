@@ -7,21 +7,24 @@ import com.poixson.commonmc.tools.commands.pxnCommand;
 import com.poixson.commonmc.tools.commands.pxnCommandsHandler;
 
 
-public class Commands_Memory extends pxnCommandsHandler {
+public class Commands_Memory extends pxnCommandsHandler<pxnCommonPlugin> {
 
 
 
 	public Commands_Memory(final pxnCommonPlugin plugin) {
-		super(plugin, "mem", "memory");
-		this.addCommand(new Command_Memory());
+		super(plugin,
+			"mem",
+			"memory"
+		);
+		this.addCommand(new Command_Memory(plugin));
 	}
 
 
 
-	public class Command_Memory extends pxnCommand {
+	public class Command_Memory extends pxnCommand<pxnCommonPlugin> {
 
-		public Command_Memory() {
-			super(true);
+		public Command_Memory(final pxnCommonPlugin plugin) {
+			super(plugin, true);
 		}
 
 		@Override
