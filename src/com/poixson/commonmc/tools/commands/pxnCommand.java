@@ -4,21 +4,24 @@ import java.util.LinkedList;
 
 import org.bukkit.command.CommandSender;
 
+import com.poixson.commonmc.tools.plugin.xJavaPlugin;
 import com.poixson.utils.Utils;
 
 
-public abstract class pxnCommand {
+public abstract class pxnCommand<T extends xJavaPlugin> {
+
+	protected final T plugin;
 
 	public final String[] labels;
-
 	public final boolean override;
 
 
 
-	public pxnCommand(final String...labels) {
-		this(false, labels);
+	public pxnCommand(final T plugin, final String...labels) {
+		this(plugin, false, labels);
 	}
-	public pxnCommand(final boolean enableOverride, final String...labels) {
+	public pxnCommand(final T plugin, final boolean enableOverride, final String...labels) {
+		this.plugin = plugin;
 		this.override = enableOverride;
 		this.labels   = labels;
 	}

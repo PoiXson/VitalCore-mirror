@@ -20,19 +20,19 @@ import com.poixson.commonmc.tools.plugin.xListener;
 import com.poixson.utils.Utils;
 
 
-public abstract class pxnCommandsHandler
+public abstract class pxnCommandsHandler<T extends xJavaPlugin>
 extends xListener<xJavaPlugin>
 implements CommandExecutor, TabCompleter {
 
 	protected final String[] labels;
 
-	protected final CopyOnWriteArraySet<pxnCommand>   cmds = new CopyOnWriteArraySet<pxnCommand>();
+	protected final CopyOnWriteArraySet<pxnCommand<T>> cmds = new CopyOnWriteArraySet<pxnCommand<T>>();
 	protected final CopyOnWriteArraySet<PluginCommand> pcs = new CopyOnWriteArraySet<PluginCommand>();
 	protected final AtomicReference<TabCompleter>  tabComp = new AtomicReference<TabCompleter>(null);
 
 
 
-	public pxnCommandsHandler(final xJavaPlugin plugin, final String...labels) {
+	public pxnCommandsHandler(final T plugin, final String...labels) {
 		super(plugin);
 		this.labels = labels;
 	}
@@ -67,7 +67,7 @@ implements CommandExecutor, TabCompleter {
 
 
 
-	public void addCommand(final pxnCommand cmd) {
+	public void addCommand(final pxnCommand<T> cmd) {
 		this.cmds.add(cmd);
 	}
 	public boolean match(final String match) {
@@ -81,8 +81,8 @@ implements CommandExecutor, TabCompleter {
 		return false;
 	}
 
-	public pxnCommand getDefaultCommand() {
-		for (final pxnCommand cmd : this.cmds) {
+	public pxnCommand<T> getDefaultCommand() {
+		for (final pxnCommand<T> cmd : this.cmds) {
 			if (cmd.isDefault())
 				return cmd;
 		}
@@ -90,7 +90,7 @@ implements CommandExecutor, TabCompleter {
 	}
 
 	public boolean hasOverrides() {
-		for (final pxnCommand cmd : this.cmds) {
+		for (final pxnCommand<T> cmd : this.cmds) {
 			if (cmd.override)
 				return true;
 		}
@@ -154,7 +154,7 @@ implements CommandExecutor, TabCompleter {
 	protected boolean handleCommand(final CommandSender sender,
 			final String label, final String[] args, final boolean isOverride) {
 		if (this.match(label)) {
-			for (final pxnCommand cmd : this.cmds) {
+			for (final pxnCommand<T> cmd : this.cmds) {
 				if (cmd.match(args)) {
 					cmd.run(sender, label, args);
 					return true;
@@ -185,7 +185,7 @@ implements CommandExecutor, TabCompleter {
 		final int size = args.length;
 		switch (size) {
 		case 1:
-			for (final pxnCommand c : this.cmds) {
+			for (final pxnCommand<T> c : this.cmds) {
 				for (final String match : c.getMatches(args[0])) {
 					matches.add(match);
 				}
