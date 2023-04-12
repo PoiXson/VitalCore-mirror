@@ -7,7 +7,7 @@ import org.bukkit.event.Listener;
 
 public abstract class xListener<T extends xJavaPlugin> implements Listener {
 
-	final protected T plugin;
+	protected final T plugin;
 
 
 
