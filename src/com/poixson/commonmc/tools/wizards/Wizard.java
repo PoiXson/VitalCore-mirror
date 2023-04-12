@@ -5,19 +5,19 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
 
+import com.poixson.commonmc.tools.plugin.xJavaPlugin;
 import com.poixson.commonmc.tools.wizards.steps.WizardStep;
 import com.poixson.commonmc.utils.BukkitUtils;
 
 
-public class Wizard {
+public class Wizard<T extends xJavaPlugin> {
 
 	protected final String logPrefix;
 	protected final String chatPrefix;
 
-	protected final JavaPlugin plugin;
+	protected final T plugin;
 	protected final Player player;
 
 	protected final LinkedList<WizardStep> steps = new LinkedList<WizardStep>();
@@ -29,7 +29,7 @@ public class Wizard {
 
 
 
-	public Wizard(final JavaPlugin plugin, final Player player,
+	public Wizard(final T plugin, final Player player,
 			final String logPrefix, final String chatPrefix) {
 		this.logPrefix  = logPrefix;
 		this.chatPrefix = chatPrefix;
@@ -63,7 +63,7 @@ public class Wizard {
 			}
 		};
 		Bukkit.getScheduler()
-			.runTask(this.getPlugin(), run);
+			.runTask(this.plugin, run);
 	}
 	protected void doNext() {
 		for (final WizardStep step : this.steps) {
@@ -122,7 +122,7 @@ public class Wizard {
 
 
 
-	public JavaPlugin getPlugin() {
+	public T getPlugin() {
 		return this.plugin;
 	}
 

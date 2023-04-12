@@ -3,12 +3,14 @@ package com.poixson.commonmc.tools.wizards.steps;
 import java.io.File;
 import java.util.concurrent.atomic.AtomicReference;
 
+import com.poixson.commonmc.tools.plugin.xJavaPlugin;
 import com.poixson.commonmc.tools.wizards.Wizard;
 import com.poixson.utils.SanUtils;
 import com.poixson.utils.Utils;
 
 
-public abstract class WizardStep_AskFile extends WizardStep_Ask {
+public abstract class WizardStep_AskFile<T extends xJavaPlugin>
+extends WizardStep_Ask<T> {
 
 	protected final File path;
 	protected final String filePattern;
@@ -17,7 +19,7 @@ public abstract class WizardStep_AskFile extends WizardStep_Ask {
 
 
 
-	public WizardStep_AskFile(final Wizard wizard,
+	public WizardStep_AskFile(final Wizard<T> wizard,
 			final String logPrefix, final String chatPrefix,
 			final String question, final File path, final String filePattern) {
 		super(

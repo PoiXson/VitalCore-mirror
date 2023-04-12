@@ -15,17 +15,19 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
+import com.poixson.commonmc.tools.plugin.xJavaPlugin;
 import com.poixson.commonmc.tools.wizards.Wizard;
 import com.poixson.commonmc.utils.BukkitUtils;
 
 
-public abstract class WizardStep_BlockClick extends WizardStep implements Listener {
+public abstract class WizardStep_BlockClick<T extends xJavaPlugin>
+extends WizardStep<T> implements Listener {
 
 	protected final AtomicReference<Location> loc = new AtomicReference<Location>(null);
 
 
 
-	public WizardStep_BlockClick(final Wizard wizard,
+	public WizardStep_BlockClick(final Wizard<T> wizard,
 			final String logPrefix, final String chatPrefix) {
 		super(
 			wizard,

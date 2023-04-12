@@ -6,16 +6,18 @@ import java.util.concurrent.atomic.AtomicReference;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.poixson.commonmc.tools.plugin.xJavaPlugin;
 import com.poixson.commonmc.tools.wizards.Wizard;
 import com.poixson.utils.Utils;
 
 
-public abstract class WizardStep implements Runnable, Closeable {
+public abstract class WizardStep<T extends xJavaPlugin>
+implements Runnable, Closeable {
 
 	protected final String logPrefix;
 	protected final String chatPrefix;
 
-	protected final Wizard wizard;
+	protected final Wizard<T> wizard;
 
 	protected final int stepIndex;
 
@@ -24,7 +26,7 @@ public abstract class WizardStep implements Runnable, Closeable {
 
 
 
-	public WizardStep(final Wizard wizard, final String logPrefix, final String chatPrefix) {
+	public WizardStep(final Wizard<T> wizard, final String logPrefix, final String chatPrefix) {
 		this.wizard     = wizard;
 		this.stepIndex  = wizard.getStepsCount() + 1;
 		this.logPrefix  = logPrefix;

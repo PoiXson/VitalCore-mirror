@@ -8,11 +8,13 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
+import com.poixson.commonmc.tools.plugin.xJavaPlugin;
 import com.poixson.commonmc.tools.wizards.Wizard;
 import com.poixson.commonmc.utils.BukkitUtils;
 
 
-public abstract class WizardStep_Ask extends WizardStep implements Listener {
+public abstract class WizardStep_Ask<T extends xJavaPlugin>
+extends WizardStep<T> implements Listener {
 
 	protected final String question;
 
@@ -20,7 +22,7 @@ public abstract class WizardStep_Ask extends WizardStep implements Listener {
 
 
 
-	public WizardStep_Ask(final Wizard wizard,
+	public WizardStep_Ask(final Wizard<T> wizard,
 			final String logPrefix, final String chatPrefix,
 			final String question) {
 		super(
