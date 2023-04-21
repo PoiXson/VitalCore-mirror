@@ -24,8 +24,8 @@ import com.poixson.utils.Utils;
 
 public class LocationStore {
 
-	public static final int DELAY_SAVE   = 5;
-	public static final int DELAY_UNLOAD = 10;
+	public static final int DELAY_SAVE   = 10;
+	public static final int DELAY_UNLOAD = 300;
 
 	protected final File file;
 
