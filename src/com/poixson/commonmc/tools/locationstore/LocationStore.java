@@ -101,8 +101,7 @@ public class LocationStore {
 
 
 
-	// returns true if should unloaded
-	public boolean check() {
+	protected boolean should_unload() {
 		final int state = this.state.incrementAndGet();
 		// save
 		if (this.changed.get()) {

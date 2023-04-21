@@ -49,7 +49,7 @@ public class LocationStoreManager extends BukkitRunnable {
 		final Iterator<Entry<Iab, LocationStore>> it = this.regions.entrySet().iterator();
 		while (it.hasNext()) {
 			final Entry<Iab, LocationStore> entry = it.next();
-			if (entry.getValue().check())
+			if (entry.getValue().should_unload())
 				this.regions.remove(entry.getKey());
 		}
 	}
