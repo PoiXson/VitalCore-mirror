@@ -5,7 +5,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
-import java.net.URL;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Set;
 
 import org.bukkit.Bukkit;
@@ -45,12 +46,16 @@ public class SpigotWebAPI {
 			return Get( String.format(SPIGOT_API_URL, Integer.valueOf(id)) );
 		} catch (MalformedURLException e) {
 			throw new RuntimeException(e);
-		} catch (IOException ignore) { }
+		} catch (IOException ignore) {
+		} catch (URISyntaxException e) {
+			throw new RuntimeException(e);
+		}
 		return null;
 	}
 
-	public static SpigotWebAPI Get(final String url) throws MalformedURLException, IOException {
-		final HttpURLConnection connection = (HttpURLConnection) (new URL(url)).openConnection();
+	public static SpigotWebAPI Get(final String url)
+			throws MalformedURLException, IOException, URISyntaxException {
+		final HttpURLConnection connection = (HttpURLConnection) (new URI(url)).toURL().openConnection();
 		connection.setConnectTimeout( (int) (new xTime("30s")).ms() );
 		connection.setReadTimeout(    (int) (new xTime("30s")).ms() );
 		final InputStreamReader input = new InputStreamReader(connection.getInputStream());
