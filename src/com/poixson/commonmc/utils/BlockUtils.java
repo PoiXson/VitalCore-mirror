@@ -91,15 +91,15 @@ public final class BlockUtils {
 			if (special.contains("west-south-west" ) || special.contains("wsw")) { changed = true; ((Rotatable)data).setRotation(BlockFace.WEST_SOUTH_WEST ); }
 		}
 		if (data instanceof Wall) {
-			if (special.contains("north")) { changed = true; ((Wall)data).setHeight(BlockFace.NORTH, Wall.Height.LOW ); } else
-			if (special.contains("NORTH")) { changed = true; ((Wall)data).setHeight(BlockFace.NORTH, Wall.Height.TALL); } else
-			if (special.contains("south")) { changed = true; ((Wall)data).setHeight(BlockFace.SOUTH, Wall.Height.LOW ); } else
-			if (special.contains("SOUTH")) { changed = true; ((Wall)data).setHeight(BlockFace.SOUTH, Wall.Height.TALL); } else
-			if (special.contains("east" )) { changed = true; ((Wall)data).setHeight(BlockFace.EAST,  Wall.Height.LOW ); } else
-			if (special.contains("EAST" )) { changed = true; ((Wall)data).setHeight(BlockFace.EAST,  Wall.Height.TALL); } else
-			if (special.contains("west" )) { changed = true; ((Wall)data).setHeight(BlockFace.WEST,  Wall.Height.LOW ); } else
-			if (special.contains("WEST" )) { changed = true; ((Wall)data).setHeight(BlockFace.WEST,  Wall.Height.TALL); }
-			if (special.contains("up"   )) { changed = true; ((Wall)data).setUp(true); }
+			if (special.contains("north") || special.contains("n")) { changed = true; ((Wall)data).setHeight(BlockFace.NORTH, Wall.Height.LOW ); } else
+			if (special.contains("NORTH") || special.contains("N")) { changed = true; ((Wall)data).setHeight(BlockFace.NORTH, Wall.Height.TALL); } else
+			if (special.contains("south") || special.contains("s")) { changed = true; ((Wall)data).setHeight(BlockFace.SOUTH, Wall.Height.LOW ); } else
+			if (special.contains("SOUTH") || special.contains("S")) { changed = true; ((Wall)data).setHeight(BlockFace.SOUTH, Wall.Height.TALL); } else
+			if (special.contains("east" ) || special.contains("e")) { changed = true; ((Wall)data).setHeight(BlockFace.EAST,  Wall.Height.LOW ); } else
+			if (special.contains("EAST" ) || special.contains("E")) { changed = true; ((Wall)data).setHeight(BlockFace.EAST,  Wall.Height.TALL); } else
+			if (special.contains("west" ) || special.contains("w")) { changed = true; ((Wall)data).setHeight(BlockFace.WEST,  Wall.Height.LOW ); } else
+			if (special.contains("WEST" ) || special.contains("W")) { changed = true; ((Wall)data).setHeight(BlockFace.WEST,  Wall.Height.TALL); }
+			if (special.contains("up"   ) || special.contains("u")) { changed = true; ((Wall)data).setUp(true); }
 		} else
 		if (data instanceof Door) {
 			if (special.contains("left" )) { changed = true; ((Door)data).setHinge(Hinge.LEFT ); } else
