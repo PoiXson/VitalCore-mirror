@@ -20,7 +20,7 @@ public class Wizard<T extends xJavaPlugin> {
 	protected final T plugin;
 	protected final Player player;
 
-	protected final LinkedList<WizardStep> steps = new LinkedList<WizardStep>();
+	protected final LinkedList<WizardStep<T>> steps = new LinkedList<WizardStep<T>>();
 
 	// timeout
 	protected final BukkitTask timeoutTask;
@@ -66,7 +66,7 @@ public class Wizard<T extends xJavaPlugin> {
 			.runTask(this.plugin, run);
 	}
 	protected void doNext() {
-		for (final WizardStep step : this.steps) {
+		for (final WizardStep<T> step : this.steps) {
 			if (!step.isCompleted()) {
 				try {
 					step.run();
@@ -88,7 +88,7 @@ public class Wizard<T extends xJavaPlugin> {
 		try {
 			this.timeoutTask.cancel();
 		} catch (IllegalStateException ignore) {}
-		for (final WizardStep step : this.steps) {
+		for (final WizardStep<T> step : this.steps) {
 			step.close();
 		}
 	}
@@ -109,11 +109,12 @@ public class Wizard<T extends xJavaPlugin> {
 
 
 
-	public void addStep(final WizardStep step) {
+	public void addStep(final WizardStep<T> step) {
 		this.steps.addLast(step);
 		this.resetTimeout();
 	}
-	public WizardStep[] getSteps() {
+	@SuppressWarnings("unchecked")
+	public WizardStep<T>[] getSteps() {
 		return this.steps.toArray(new WizardStep[0]);
 	}
 	public int getStepsCount() {
