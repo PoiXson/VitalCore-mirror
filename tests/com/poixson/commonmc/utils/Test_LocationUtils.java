@@ -10,8 +10,10 @@ import static com.poixson.commonmc.utils.LocationUtils.FaceToIxyz;
 import static com.poixson.commonmc.utils.LocationUtils.FaceToIxz;
 import static com.poixson.commonmc.utils.LocationUtils.Rotate;
 import static com.poixson.commonmc.utils.LocationUtils.ValueToFaceQuarter;
+import static com.poixson.commonmc.utils.LocationUtils.YawToRotation;
 
 import org.bukkit.Axis;
+import org.bukkit.Rotation;
 import org.bukkit.block.BlockFace;
 import org.junit.Assert;
 import org.junit.Test;
@@ -147,6 +149,28 @@ public class Test_LocationUtils {
 		Assert.assertEquals(BlockFace.NORTH_WEST, ValueToFaceQuarter(-1,-1));
 		Assert.assertEquals(BlockFace.SOUTH_EAST, ValueToFaceQuarter( 0, 0));
 		Assert.assertEquals(BlockFace.SOUTH_WEST, ValueToFaceQuarter(-1, 0));
+	}
+
+
+
+	@Test
+	public void testYawToRotation() {
+		Assert.assertEquals(Rotation.NONE,                 YawToRotation(  0.0f));
+		Assert.assertEquals(Rotation.NONE,                 YawToRotation(  1.0f));
+		Assert.assertEquals(Rotation.NONE,                 YawToRotation( -1.0f));
+		Assert.assertEquals(Rotation.NONE,                 YawToRotation( 10.0f));
+		Assert.assertEquals(Rotation.CLOCKWISE_45,         YawToRotation( 44.0f));
+		Assert.assertEquals(Rotation.CLOCKWISE_45,         YawToRotation( 45.0f));
+		Assert.assertEquals(Rotation.CLOCKWISE_45,         YawToRotation( 46.0f));
+		Assert.assertEquals(Rotation.CLOCKWISE,            YawToRotation( 89.0f));
+		Assert.assertEquals(Rotation.CLOCKWISE,            YawToRotation( 90.0f));
+		Assert.assertEquals(Rotation.CLOCKWISE,            YawToRotation( 91.0f));
+		Assert.assertEquals(Rotation.CLOCKWISE_135,        YawToRotation(135.0f));
+		Assert.assertEquals(Rotation.FLIPPED,              YawToRotation(180.0f));
+		Assert.assertEquals(Rotation.FLIPPED_45,           YawToRotation(225.0f));
+		Assert.assertEquals(Rotation.COUNTER_CLOCKWISE,    YawToRotation(270.0f));
+		Assert.assertEquals(Rotation.COUNTER_CLOCKWISE_45, YawToRotation(315.0f));
+		Assert.assertEquals(Rotation.NONE,                 YawToRotation(359.0f));
 	}
 
 

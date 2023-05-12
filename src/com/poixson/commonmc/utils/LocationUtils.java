@@ -1,6 +1,7 @@
 package com.poixson.commonmc.utils;
 
 import org.bukkit.Axis;
+import org.bukkit.Rotation;
 import org.bukkit.block.BlockFace;
 
 import com.poixson.tools.Keeper;
@@ -101,6 +102,33 @@ public final class LocationUtils {
 
 	// -------------------------------------------------------------------------------
 	// conversion
+
+
+
+	public static Rotation YawToRotation(final float yaw) {
+		float way = yaw + 22.5f;
+		while (way < 0)
+			way += 360.0f;
+		way = way % 360.0f;
+		if (way <  45.0f) return Rotation.NONE;
+		if (way <  90.0f) return Rotation.CLOCKWISE_45;
+		if (way < 135.0f) return Rotation.CLOCKWISE;
+		if (way < 180.0f) return Rotation.CLOCKWISE_135;
+		if (way < 225.0f) return Rotation.FLIPPED;
+		if (way < 270.0f) return Rotation.FLIPPED_45;
+		if (way < 315.0f) return Rotation.COUNTER_CLOCKWISE;
+		return Rotation.COUNTER_CLOCKWISE_45;
+	}
+	public static Rotation YawToRotation90(final float yaw) {
+		float way = yaw + 67.5f;
+		while (way < 0)
+			way += 360.0f;
+		way = way % 360.0f;
+		if (way <  90.0f) return Rotation.NONE;
+		if (way < 180.0f) return Rotation.CLOCKWISE;
+		if (way < 270.0f) return Rotation.FLIPPED;
+		return Rotation.COUNTER_CLOCKWISE;
+	}
 
 
 
