@@ -4,6 +4,7 @@ import static com.poixson.commonmc.tools.plugin.xJavaPlugin.LOG;
 import static com.poixson.commonmc.tools.plugin.xJavaPlugin.LOG_PREFIX;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map.Entry;
@@ -54,8 +55,13 @@ public class LocationStoreManager extends BukkitRunnable {
 		}
 	}
 	public void saveAll() {
-		for (final LocationStore store : this.regions.values())
-			store.saveSafe();
+		for (final LocationStore store : this.regions.values()) {
+			try {
+				store.save();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 
@@ -98,7 +104,12 @@ public class LocationStoreManager extends BukkitRunnable {
 			final File file = new File(this.path, fileStr);
 			final LocationStore store = new LocationStore(file);
 			if (file.isFile())
-				store.loadSafe(regionX, regionZ);
+			try {
+				store.load(regionX, regionZ);
+			} catch (IOException e) {
+				e.printStackTrace();
+				return null;
+			}
 			final LocationStore existing = this.regions.putIfAbsent(loc, store);
 			if (existing == null)
 				return store;

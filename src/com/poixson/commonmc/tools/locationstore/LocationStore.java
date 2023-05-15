@@ -42,22 +42,6 @@ public class LocationStore {
 
 
 
-	public void loadSafe(final int regionX, final int regionZ) {
-		try {
-			this.load(regionX, regionZ);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	public boolean saveSafe() {
-		try {
-			return this.save();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return false;
-	}
-
 	public synchronized void load(final int regionX, final int regionZ) throws IOException {
 		this.locations.clear();
 		final BufferedReader reader = Files.newBufferedReader(this.file.toPath());
@@ -105,8 +89,13 @@ public class LocationStore {
 		final int state = this.state.incrementAndGet();
 		// save
 		if (this.changed.get()) {
-			if (state == DELAY_SAVE)
-				this.saveSafe();
+			if (state == DELAY_SAVE) {
+				try {
+					this.save();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
 			return false;
 		}
 		// unload
