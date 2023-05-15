@@ -14,6 +14,7 @@ import com.poixson.commonmc.charts.pxnPluginsChart;
 import com.poixson.commonmc.commands.Commands_Memory;
 import com.poixson.commonmc.commands.Commands_TPS;
 import com.poixson.commonmc.events.PlayerMoveManager;
+import com.poixson.commonmc.events.SaveListener;
 import com.poixson.commonmc.tools.plugin.xJavaPlugin;
 import com.poixson.commonmc.tools.tps.TicksAnnouncer;
 import com.poixson.commonmc.tools.tps.TicksPerSecond;
@@ -35,6 +36,7 @@ public class pxnCommonPlugin extends xJavaPlugin {
 	protected final AtomicReference<pxnPluginsChart> pluginsListener = new AtomicReference<pxnPluginsChart>(null);
 	protected final AtomicReference<UpdateCheckManager> checkManager = new AtomicReference<UpdateCheckManager>(null);
 	protected final AtomicReference<PlayerMoveManager>  moveManager  = new AtomicReference<PlayerMoveManager>(null);
+	protected final AtomicReference<SaveListener> saveListener = new AtomicReference<SaveListener>(null);
 
 	// ticks per second
 	protected final AtomicReference<TicksPerSecond> tpsManager   = new AtomicReference<TicksPerSecond>(null);
@@ -123,6 +125,14 @@ public class pxnCommonPlugin extends xJavaPlugin {
 				previous.unregister();
 			manager.register();
 		}
+		// save listener
+		{
+			final SaveListener listener = new SaveListener(this);
+			final SaveListener previous = this.saveListener.getAndSet(listener);
+			if (previous != null)
+				previous.unregister();
+			listener.register();
+		}
 		// custom stats
 		{
 			final Metrics metrics = this.metrics.get();
@@ -136,6 +146,12 @@ public class pxnCommonPlugin extends xJavaPlugin {
 	public void onDisable() {
 		super.onDisable();
 		final ServicesManager services = Bukkit.getServicesManager();
+		// save listener
+		{
+			final SaveListener listener = this.saveListener.getAndSet(null);
+			if (listener != null)
+				listener.unregister();
+		}
 		// ticks monitor
 		{
 			final TicksPerSecond manager = this.tpsManager.getAndSet(null);
