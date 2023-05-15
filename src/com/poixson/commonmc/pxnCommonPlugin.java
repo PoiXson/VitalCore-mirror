@@ -14,7 +14,7 @@ import com.poixson.commonmc.charts.pxnPluginsChart;
 import com.poixson.commonmc.commands.Commands_Memory;
 import com.poixson.commonmc.commands.Commands_TPS;
 import com.poixson.commonmc.events.PlayerMoveManager;
-import com.poixson.commonmc.events.SaveListener;
+import com.poixson.commonmc.events.PluginSaveManager;
 import com.poixson.commonmc.tools.mapstore.FreedMapStore;
 import com.poixson.commonmc.tools.plugin.xJavaPlugin;
 import com.poixson.commonmc.tools.tps.TicksAnnouncer;
@@ -38,7 +38,7 @@ public class pxnCommonPlugin extends xJavaPlugin {
 	protected final AtomicReference<UpdateCheckManager> checkManager = new AtomicReference<UpdateCheckManager>(null);
 	protected final AtomicReference<PlayerMoveManager>  moveManager  = new AtomicReference<PlayerMoveManager>(null);
 	protected final AtomicReference<FreedMapStore>   freedMaps = new AtomicReference<FreedMapStore>(null);
-	protected final AtomicReference<SaveListener> saveListener = new AtomicReference<SaveListener>(null);
+	protected final AtomicReference<PluginSaveManager> saveListener = new AtomicReference<PluginSaveManager>(null);
 
 	// ticks per second
 	protected final AtomicReference<TicksPerSecond> tpsManager   = new AtomicReference<TicksPerSecond>(null);
@@ -141,8 +141,8 @@ public class pxnCommonPlugin extends xJavaPlugin {
 		}
 		// save listener
 		{
-			final SaveListener listener = new SaveListener(this);
-			final SaveListener previous = this.saveListener.getAndSet(listener);
+			final PluginSaveManager listener = new PluginSaveManager(this);
+			final PluginSaveManager previous = this.saveListener.getAndSet(listener);
 			if (previous != null)
 				previous.unregister();
 			listener.register();
@@ -162,7 +162,7 @@ public class pxnCommonPlugin extends xJavaPlugin {
 		final ServicesManager services = Bukkit.getServicesManager();
 		// save listener
 		{
-			final SaveListener listener = this.saveListener.getAndSet(null);
+			final PluginSaveManager listener = this.saveListener.getAndSet(null);
 			if (listener != null)
 				listener.unregister();
 		}

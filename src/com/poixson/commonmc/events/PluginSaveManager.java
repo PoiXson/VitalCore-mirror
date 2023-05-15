@@ -11,11 +11,11 @@ import com.poixson.commonmc.pxnCommonPlugin;
 import com.poixson.commonmc.tools.plugin.xListener;
 
 
-public class SaveListener extends xListener<pxnCommonPlugin> {
+public class PluginSaveManager extends xListener<pxnCommonPlugin> {
 
 
 
-	public SaveListener(pxnCommonPlugin plugin) {
+	public PluginSaveManager(pxnCommonPlugin plugin) {
 		super(plugin);
 	}
 
