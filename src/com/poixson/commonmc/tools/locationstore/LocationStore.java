@@ -2,6 +2,7 @@ package com.poixson.commonmc.tools.locationstore;
 
 import static com.poixson.commonmc.tools.plugin.xJavaPlugin.LOG;
 import static com.poixson.commonmc.tools.plugin.xJavaPlugin.LOG_PREFIX;
+import static com.poixson.utils.Utils.SafeClose;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -19,7 +20,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.poixson.tools.dao.Iab;
-import com.poixson.utils.Utils;
 
 
 public class LocationStore {
@@ -44,28 +44,33 @@ public class LocationStore {
 
 	public synchronized void load(final int regionX, final int regionZ) throws IOException {
 		this.locations.clear();
-		final BufferedReader reader = Files.newBufferedReader(this.file.toPath());
-		final Type token = new TypeToken<HashSet<String>>() {}.getType();
-		final Set<String> set = (new Gson()).fromJson(reader, token);
-		String[] split;
-		int x, z;
-		for (final String entry : set) {
-			try {
-				split = entry.split(",");
-				if (split.length != 2) throw new NumberFormatException();
-				x = Integer.parseInt(split[0].trim());
-				z = Integer.parseInt(split[1].trim());
-				this.locations.add(new Iab(x, z));
-			} catch (NumberFormatException e) {
-				LOG.warning(String.format(
-					"%sInvalid entry '%s' in file: %s",
-					LOG_PREFIX, entry, this.file.toString()
-				));
-				continue;
+		if (file.isFile()) {
+			LOG.info(String.format("%sLoading: %s", LOG_PREFIX, this.file.toString()));
+			final BufferedReader reader = Files.newBufferedReader(this.file.toPath());
+			final Type token = new TypeToken<HashSet<String>>() {}.getType();
+			final Set<String> set = (new Gson()).fromJson(reader, token);
+			String[] split;
+			int x, z;
+			for (final String entry : set) {
+				try {
+					split = entry.split(",");
+					if (split.length != 2) throw new NumberFormatException();
+					x = Integer.parseInt(split[0].trim());
+					z = Integer.parseInt(split[1].trim());
+					this.locations.add(new Iab(x, z));
+				} catch (NumberFormatException e) {
+					LOG.warning(String.format(
+						"%sInvalid entry '%s' in file: %s",
+						LOG_PREFIX, entry, this.file.toString()
+					));
+					continue;
+				}
 			}
+			SafeClose(reader);
+		} else {
+			LOG.info(String.format("%sFile not found: %s", LOG_PREFIX, this.file.toString()));
 		}
 	}
-
 	public boolean save() throws IOException {
 		if (this.changed.getAndSet(false)) {
 			final Set<String> result = new HashSet<String>();
@@ -76,7 +81,7 @@ public class LocationStore {
 				final String data = (new Gson()).toJson(result);
 				final BufferedWriter writer = new BufferedWriter(new FileWriter(this.file));
 				writer.write(data);
-				Utils.SafeClose(writer);
+				SafeClose(writer);
 				return true;
 			}
 		}

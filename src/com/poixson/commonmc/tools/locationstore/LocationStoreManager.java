@@ -103,7 +103,6 @@ public class LocationStoreManager extends BukkitRunnable {
 			);
 			final File file = new File(this.path, fileStr);
 			final LocationStore store = new LocationStore(file);
-			if (file.isFile())
 			try {
 				store.load(regionX, regionZ);
 			} catch (IOException e) {
