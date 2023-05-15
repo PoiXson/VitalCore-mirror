@@ -9,9 +9,12 @@ import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.poixson.commonmc.events.PluginSaveEvent;
 import com.poixson.commonmc.tools.updatechecker.UpdateCheckManager;
 import com.poixson.tools.AppProps;
 
@@ -25,6 +28,9 @@ public abstract class xJavaPlugin extends JavaPlugin {
 	protected final AppProps props;
 
 	protected final AtomicReference<FileConfiguration> config = new AtomicReference<FileConfiguration>(null);
+
+	// listeners
+	protected final AtomicReference<LocalPluginSaveListener> saveListener = new AtomicReference<LocalPluginSaveListener>(null);
 
 
 
@@ -54,9 +60,23 @@ public abstract class xJavaPlugin extends JavaPlugin {
 		}
 		// update checker
 		UpdateCheckManager.Register(this);
+		// save listener
+		{
+			final LocalPluginSaveListener listener = new LocalPluginSaveListener(this);
+			final LocalPluginSaveListener previous = this.saveListener.getAndSet(listener);
+			if (previous != null)
+				previous.unregister();
+			listener.register();
+		}
 	}
 	@Override
 	public void onDisable() {
+		// save listener
+		{
+			final LocalPluginSaveListener listener = this.saveListener.getAndSet(null);
+			if (listener != null)
+				listener.unregister();
+		}
 		super.onDisable();
 		this.metrics.set(null);
 		// update checker
@@ -74,6 +94,12 @@ public abstract class xJavaPlugin extends JavaPlugin {
 		// services
 		Bukkit.getServicesManager()
 			.unregisterAll(this);
+	}
+
+
+
+	public void onSave() {
+		this.saveConfigs();
 	}
 
 
@@ -118,6 +144,25 @@ public abstract class xJavaPlugin extends JavaPlugin {
 
 	public String getPluginVersion() {
 		return this.props.version;
+	}
+
+
+
+	// -------------------------------------------------------------------------------
+
+
+
+	class LocalPluginSaveListener extends xListener<xJavaPlugin> {
+
+		public LocalPluginSaveListener(final xJavaPlugin plugin) {
+			super(plugin);
+		}
+
+		@EventHandler(priority=EventPriority.NORMAL, ignoreCancelled=true)
+		public void onPluginSave(final PluginSaveEvent event) {
+			xJavaPlugin.this.onSave();
+		}
+
 	}
 
 
