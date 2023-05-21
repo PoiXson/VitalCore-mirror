@@ -67,8 +67,6 @@ public class LocationStore {
 				}
 			}
 			SafeClose(reader);
-		} else {
-			LOG.info(String.format("%sFile not found: %s", LOG_PREFIX, this.file.toString()));
 		}
 	}
 	public boolean save() throws IOException {
