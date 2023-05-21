@@ -138,6 +138,7 @@ public class pxnCommonPlugin extends xJavaPlugin {
 				throw new RuntimeException(e);
 			}
 			store.register();
+			services.register(FreedMapStore.class, store, this, ServicePriority.Normal);
 		}
 		// save listener
 		{
