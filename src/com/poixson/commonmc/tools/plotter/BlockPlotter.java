@@ -1,6 +1,7 @@
 package com.poixson.commonmc.tools.plotter;
 
 import static com.poixson.commonmc.utils.LocationUtils.AxToIxyz;
+import static com.poixson.commonmc.utils.LocationUtils.Rotate;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -9,40 +10,63 @@ import java.util.Map;
 import java.util.Set;
 
 import org.bukkit.Material;
-import org.bukkit.World;
 import org.bukkit.block.BlockFace;
-import org.bukkit.generator.ChunkGenerator.ChunkData;
-import org.bukkit.generator.LimitedRegion;
+import org.bukkit.block.data.BlockData;
 
+import com.poixson.commonmc.utils.BlockUtils;
 import com.poixson.tools.dao.Iabc;
+import com.poixson.tools.dao.Iabcd;
 import com.poixson.utils.Utils;
 
 
-public class BlockPlotter extends BlockPlacer implements Runnable {
+public class BlockPlotter implements Runnable {
 
-	public BlockMatrix matrix = null;
-	public String axis = "";
-	public int[] sizes;
+	public final BlockPlacer placer;
+
+	public final BlockMatrix matrix;
+
+	// cached values
+	public String axis;
+	public int x, y, z;
+	public int w, h, d;
+
+	public BlockFace rotation = BlockFace.SOUTH;
 
 	protected final Map<Character, Material>    types   = new HashMap<Character, Material>();
 	protected final Map<Character, Set<String>> special = new HashMap<Character, Set<String>>();
-
+//TODO
 	protected final Set<Iabc> autoface = new HashSet<Iabc>();
 
 
 
-	public BlockPlotter(final World                 world    ) { super(world    ); }
-	public BlockPlotter(final ChunkData             chunk    ) { super(chunk    ); }
-	public BlockPlotter(final LimitedRegion         region   ) { super(region   ); }
-	public BlockPlotter(final BlockPlacer_WorldEdit worldedit) { super(worldedit); }
+	public BlockPlotter(final BlockPlacer placer,
+			final String axis, final int[] locs, final int[] sizes) {
+		this.placer = placer;
+		this.matrix = new BlockMatrix(axis, locs, sizes);
+		this.axis = axis;
+		this.x = this.matrix.getX(); this.y = this.matrix.getY(); this.z = this.matrix.getZ();
+		this.w = this.matrix.getW(); this.h = this.matrix.getH(); this.d = this.matrix.getD();
+	}
+	public BlockPlotter(final BlockPlacer placer, final BlockMatrix matrix) {
+		this.placer = placer;
+		this.matrix = matrix;
+		this.axis = matrix.getAxis();
+		this.x = matrix.getX(); this.y = matrix.getY(); this.z = matrix.getZ();
+		this.w = matrix.getW(); this.h = matrix.getH(); this.d = matrix.getD();
+	}
+
+
+
+	// -------------------------------------------------------------------------------
+	// matrix
 
 
 
 	public BlockMatrix getMatrix() {
-		if (this.matrix == null)
-			this.matrix = new BlockMatrix(this.sizes);
 		return this.matrix;
 	}
+
+
 
 	public StringBuilder[][] getMatrix3D() {
 		final BlockMatrix matrix = this.getMatrix();
@@ -55,6 +79,7 @@ public class BlockPlotter extends BlockPlacer implements Runnable {
 		}
 		return list.toArray(new StringBuilder[0][0]);
 	}
+
 	public StringBuilder[] getMatrix2D() {
 		final BlockMatrix matrix = this.getMatrix();
 		final LinkedList<StringBuilder> list = new LinkedList<StringBuilder>();
@@ -62,59 +87,10 @@ public class BlockPlotter extends BlockPlacer implements Runnable {
 			list.add(mtx.row);
 		return list.toArray(new StringBuilder[0]);
 	}
+
 	public StringBuilder getMatrix1D() {
 		final BlockMatrix matrix = this.getMatrix();
 		return matrix.row;
-	}
-
-
-
-	public BlockPlotter location(final int...locs) {
-		char chr;
-		final int len = this.axis.length();
-		for (int i=0; i<len; i++) {
-			chr = this.axis.charAt(i);
-			switch (chr) {
-			case 'u': case 'Y': this.y = locs[i]; break;
-			case 'd': case 'y': this.y = locs[i]; break;
-			case 'n': case 'z': this.z = locs[i]; break;
-			case 's': case 'Z': this.z = locs[i]; break;
-			case 'e': case 'X': this.x = locs[i]; break;
-			case 'w': case 'x': this.x = locs[i]; break;
-			default: throw new RuntimeException("Unknown axis: "+Character.toString(chr));
-			}
-		}
-		return this;
-	}
-	public BlockPlotter size(final int...sizes) {
-		if (this.sizes == null)
-			this.sizes = new int[sizes.length];
-		this.sizes = sizes;
-		char chr;
-		final int len = this.axis.length();
-		for (int i=0; i<len; i++) {
-			chr = this.axis.charAt(i);
-			switch (chr) {
-			case 'u': case 'Y': this.h = sizes[i]; break;
-			case 'd': case 'y': this.h = sizes[i]; break;
-			case 'n': case 'z': this.d = sizes[i]; break;
-			case 's': case 'Z': this.d = sizes[i]; break;
-			case 'e': case 'X': this.w = sizes[i]; break;
-			case 'w': case 'x': this.w = sizes[i]; break;
-			default: throw new RuntimeException("Unknown axis: "+Character.toString(chr));
-			}
-		}
-		return this;
-	}
-	public BlockPlotter axis(final String axis) {
-		this.axis = axis;
-		return this;
-	}
-
-
-
-	public int getDimensions() {
-		return this.matrix.getDimensions();
 	}
 
 
@@ -126,30 +102,20 @@ public class BlockPlotter extends BlockPlacer implements Runnable {
 
 	@Override
 	public void run() {
-		if (Utils.isEmpty(this.axis)) {
-			switch (this.getDimensions()) {
-			case 1: this.axis = "e";   break;
-			case 2: this.axis = "ue";  break;
-			case 3: this.axis = "use"; break;
-			default: throw new RuntimeException("Axis not set for block plotter, unknown dimensions");
-			}
-		}
-		run(this.axis, this.matrix, 0, 0, 0);
+		run(this.matrix, 0, 0, 0);
 	}
-
-	protected void run(final String axis, final BlockMatrix matrix,
+	protected void run(final BlockMatrix matrix,
 			final int x, final int y, final int z) {
 		int xx, yy, zz;
-		final Iabc add = AxToIxyz(axis.charAt(0));
+		final Iabc add = AxToIxyz(matrix.ax);
 		// more dimensions
 		if (matrix.row == null) {
-			final String ax = axis.substring(1);
 			final int len = matrix.array.length;
 			for (int i=0; i<len; i++) {
 				xx = (add.a * i) + x;
 				yy = (add.b * i) + y;
 				zz = (add.c * i) + z;
-				this.run(ax, matrix.array[i], xx, yy, zz);
+				this.run(matrix.array[i], xx, yy, zz);
 			}
 		// last dimension
 		} else {
@@ -179,7 +145,57 @@ public class BlockPlotter extends BlockPlacer implements Runnable {
 
 
 	// -------------------------------------------------------------------------------
-	// block types
+	// set/get block
+
+
+
+	public void setType(final int x, final int y, final int z, final Material type, final Set<String> special) {
+		this.setType(x, y, z, type);
+		this.setSpecial(x, y, z, special);
+	}
+	public void setType(final int x, final int y, final int z, final Material type) {
+		final Iabcd loc = Rotate(new Iabcd(x, z, this.w, this.d), this.rotation);
+		final int xx = this.x + loc.a;
+		final int zz = this.z + loc.b;
+		final int yy = this.y + y;
+		this.placer.setType(xx, yy, zz, type);
+	}
+	public void setSpecial(final int x, final int y, final int z, final Set<String> special) {
+		if (Utils.isEmpty(special)) return;
+		final BlockData data = this.getBlockData(x, y, z);
+		if (BlockUtils.ApplyBlockSpecial(data, special))
+			this.setBlockData(x, y, z, data);
+	}
+
+	public Material getType(final int x, final int y, final int z) {
+		final Iabcd loc = Rotate(new Iabcd(x, z, this.w, this.d), this.rotation);
+		final int xx = this.x + loc.a;
+		final int zz = this.z + loc.b;
+		final int yy = this.y + y;
+		return this.placer.getType(xx, yy, zz);
+	}
+	public boolean isType(final int x, final int y, final int z, final Material match) {
+		if (match == null) return false;
+		final Material existing = this.getType(x, y, z);
+		return match.equals(existing);
+	}
+
+
+
+	public BlockData getBlockData(final int x, final int y, final int z) {
+		final Iabcd loc = Rotate(new Iabcd(x, z, this.w, this.d), this.rotation);
+		final int xx = this.x + loc.a;
+		final int zz = this.z + loc.b;
+		final int yy = this.y + y;
+		return this.placer.getBlockData(xx, yy, zz);
+	}
+	public void setBlockData(final int x, final int y, final int z, final BlockData data) {
+		final Iabcd loc = Rotate(new Iabcd(x, z, this.w, this.d), this.rotation);
+		final int xx = this.x + loc.a;
+		final int zz = this.z + loc.b;
+		final int yy = this.y + y;
+		this.placer.setBlockData(xx, yy, zz, data);
+	}
 
 
 
@@ -212,93 +228,6 @@ public class BlockPlotter extends BlockPlacer implements Runnable {
 			this.special.put(Character.valueOf(chr), set);
 			return set;
 		}
-	}
-
-
-
-	// -------------------------------------------------------------------------------
-	// location/size
-
-
-
-	@Override public BlockPlotter x(final int x) { this.x = x; return this; }
-	@Override public BlockPlotter y(final int y) { this.y = y; return this; }
-	@Override public BlockPlotter z(final int z) { this.z = z; return this; }
-
-	@Override
-	public BlockPlotter w(final int w) {
-		this.w = w;
-		char chr;
-		final int len = this.axis.length();
-		if (this.sizes == null)
-			this.sizes = new int[len];
-		for (int i=0; i<len; i++) {
-			chr = this.axis.charAt(i);
-			switch (chr) {
-			case 'e': case 'X':
-			case 'w': case 'x': this.sizes[i] = w; return this;
-			case 'u': case 'Y':
-			case 'd': case 'y':
-			case 'n': case 'z':
-			case 's': case 'Z': continue;
-			default: throw new RuntimeException("Unknown axis: "+Character.toString(chr));
-			}
-		}
-		return this;
-	}
-	@Override
-	public BlockPlotter h(final int h) {
-		this.h = h;
-		char chr;
-		final int len = this.axis.length();
-		if (this.sizes == null)
-			this.sizes = new int[len];
-		for (int i=0; i<len; i++) {
-			chr = this.axis.charAt(i);
-			switch (chr) {
-			case 'u': case 'Y':
-			case 'd': case 'y': this.sizes[i] = h; return this;
-			case 'n': case 'z':
-			case 's': case 'Z':
-			case 'e': case 'X':
-			case 'w': case 'x': continue;
-			default: throw new RuntimeException("Unknown axis: "+Character.toString(chr));
-			}
-		}
-		return this;
-	}
-	@Override
-	public BlockPlotter d(final int d) {
-		this.d = d;
-		char chr;
-		final int len = this.axis.length();
-		if (this.sizes == null)
-			this.sizes = new int[len];
-		for (int i=0; i<len; i++) {
-			chr = this.axis.charAt(i);
-			switch (chr) {
-			case 'n': case 'z':
-			case 's': case 'Z': this.sizes[i] = d; return this;
-			case 'u': case 'Y':
-			case 'd': case 'y':
-			case 'e': case 'X':
-			case 'w': case 'x': continue;
-			default: throw new RuntimeException("Unknown axis: "+Character.toString(chr));
-			}
-		}
-		return this;
-	}
-
-	@Override
-	public BlockPlotter wrap(final boolean wrap) {
-		this.wrap = wrap;
-		return this;
-	}
-
-	@Override
-	public BlockPlotter rotate(final BlockFace rotate) {
-		this.rotation = rotate;
-		return this;
 	}
 
 
