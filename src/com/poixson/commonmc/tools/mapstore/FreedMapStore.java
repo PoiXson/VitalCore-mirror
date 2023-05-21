@@ -30,6 +30,8 @@ import com.poixson.commonmc.tools.plugin.xListener;
 
 public class FreedMapStore extends xListener<pxnCommonPlugin> {
 
+	public static final int MAX_MAP_ID = Integer.MAX_VALUE;
+
 	protected final ConcurrentSkipListSet<Integer> freed = new ConcurrentSkipListSet<Integer>();
 
 	protected final File file;
