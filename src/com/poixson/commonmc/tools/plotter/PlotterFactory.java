@@ -1,11 +1,13 @@
 package com.poixson.commonmc.tools.plotter;
 
+import static com.poixson.commonmc.utils.BlockMatrixUtils.LocsToArray;
+import static com.poixson.commonmc.utils.BlockMatrixUtils.SizesToArray;
+
 import org.bukkit.World;
 import org.bukkit.block.BlockFace;
 import org.bukkit.generator.ChunkGenerator.ChunkData;
 import org.bukkit.generator.LimitedRegion;
 
-import com.poixson.commonmc.utils.LocationUtils;
 import com.poixson.exceptions.RequiredArgumentException;
 import com.poixson.utils.Utils;
 
@@ -50,8 +52,8 @@ public class PlotterFactory {
 			if (this.z == Integer.MIN_VALUE) throw new RequiredArgumentException("z");
 			if (this.d == Integer.MIN_VALUE) throw new RequiredArgumentException("d");
 		}
-		final int[] locs  = LocationUtils.LocsToArray( this.axis, this.x, this.y, this.z);
-		final int[] sizes = LocationUtils.SizesToArray(this.axis, this.w, this.h, this.d);
+		final int[] locs  = LocsToArray( this.axis, this.x, this.y, this.z);
+		final int[] sizes = SizesToArray(this.axis, this.w, this.h, this.d);
 		final BlockMatrix matrix = new BlockMatrix(this.axis, locs, sizes);
 		final BlockPlotter plot = new BlockPlotter(this.placer, matrix);
 		if (this.rotation != null)
