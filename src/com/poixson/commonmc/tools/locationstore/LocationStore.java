@@ -45,7 +45,6 @@ public class LocationStore {
 	public synchronized void load(final int regionX, final int regionZ) throws IOException {
 		this.locations.clear();
 		if (file.isFile()) {
-			LOG.info(String.format("%sLoading: %s", LOG_PREFIX, this.file.toString()));
 			final BufferedReader reader = Files.newBufferedReader(this.file.toPath());
 			final Type token = new TypeToken<HashSet<String>>() {}.getType();
 			final Set<String> set = (new Gson()).fromJson(reader, token);
