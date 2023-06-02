@@ -20,7 +20,6 @@ import com.poixson.commonmc.tools.plugin.xJavaPlugin;
 import com.poixson.commonmc.tools.tps.TicksAnnouncer;
 import com.poixson.commonmc.tools.tps.TicksPerSecond;
 import com.poixson.commonmc.tools.updatechecker.UpdateCheckManager;
-import com.poixson.tools.AppProps;
 import com.poixson.tools.Keeper;
 
 
@@ -31,7 +30,6 @@ public class pxnCommonPlugin extends xJavaPlugin {
 	public static final String CHAT_PREFIX = ChatColor.AQUA + LOG_PREFIX + ChatColor.WHITE;
 
 	protected final Keeper keeper;
-	protected final AppProps props;
 
 	protected final CopyOnWriteArraySet<xJavaPlugin> plugins = new CopyOnWriteArraySet<xJavaPlugin>();
 	protected final AtomicReference<pxnPluginsChart> pluginsListener = new AtomicReference<pxnPluginsChart>(null);
@@ -53,11 +51,6 @@ public class pxnCommonPlugin extends xJavaPlugin {
 	public pxnCommonPlugin() {
 		super(pxnCommonPlugin.class);
 		this.keeper = Keeper.get();
-		try {
-			this.props = AppProps.LoadFromClassRef(pxnCommonPlugin.class);
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
 	}
 
 
