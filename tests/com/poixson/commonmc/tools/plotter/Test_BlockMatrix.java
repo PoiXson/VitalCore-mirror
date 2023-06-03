@@ -11,7 +11,7 @@ public class Test_BlockMatrix {
 	@Test
 	public void testBlockMatrix1D() {
 		{
-			final BlockMatrix matrix = new BlockMatrix(3);
+			final BlockMatrix matrix = new BlockMatrix("u", new int[] {0}, new int[] {3});
 			Assert.assertEquals(1, matrix.getDimensions());
 			matrix.fill('x');
 			Assert.assertNull(matrix.array);
@@ -20,7 +20,7 @@ public class Test_BlockMatrix {
 			Assert.assertEquals("xxxa", matrix.row.toString());
 		}
 		{
-			final BlockMatrix matrix = new BlockMatrix(3);
+			final BlockMatrix matrix = new BlockMatrix("u", new int[] {0}, new int[] {3});
 			Assert.assertEquals(1, matrix.getDimensions());
 			matrix.append("abc");
 			Assert.assertNull(matrix.array);
@@ -32,7 +32,7 @@ public class Test_BlockMatrix {
 	@Test
 	public void testBlockMatrix2D() {
 		{
-			final BlockMatrix matrix = new BlockMatrix(2, 3);
+			final BlockMatrix matrix = new BlockMatrix("se", new int[] {0, 0}, new int[] {2, 3});
 			Assert.assertEquals(2, matrix.getDimensions());
 			matrix.fill('x');
 			Assert.assertNull(matrix.row);
@@ -45,7 +45,7 @@ public class Test_BlockMatrix {
 			Assert.assertEquals("xxxb", matrix.getRow(1));
 		}
 		{
-			final BlockMatrix matrix = new BlockMatrix(2, 3);
+			final BlockMatrix matrix = new BlockMatrix("se", new int[] {0, 0}, new int[] {2, 3});
 			Assert.assertEquals(2, matrix.getDimensions());
 			Assert.assertNull(matrix.row);
 			Assert.assertEquals(2, matrix.size);
@@ -61,7 +61,7 @@ public class Test_BlockMatrix {
 	@Test
 	public void testBlockMatrix3D() {
 		{
-			final BlockMatrix matrix = new BlockMatrix(3, 4, 5);
+			final BlockMatrix matrix = new BlockMatrix("use", new int[] {0, 0, 0}, new int[] {3, 4, 5});
 			Assert.assertEquals(3, matrix.getDimensions());
 			matrix.fill('x');
 			Assert.assertNull(matrix.row);
@@ -83,7 +83,7 @@ public class Test_BlockMatrix {
 			Assert.assertEquals("xxxxxc", matrix.getRow(2, 2));
 		}
 		{
-			final BlockMatrix matrix = new BlockMatrix(1, 2, 3);
+			final BlockMatrix matrix = new BlockMatrix("use", new int[] {0, 0, 0}, new int[] {1, 2, 3});
 			Assert.assertEquals(3, matrix.getDimensions());
 			Assert.assertNull(matrix.row);
 			Assert.assertEquals(1, matrix.size);
