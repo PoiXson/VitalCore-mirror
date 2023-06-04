@@ -17,7 +17,6 @@ import com.poixson.commonmc.events.PlayerMoveManager;
 import com.poixson.commonmc.events.PluginSaveManager;
 import com.poixson.commonmc.tools.mapstore.FreedMapStore;
 import com.poixson.commonmc.tools.plugin.xJavaPlugin;
-import com.poixson.commonmc.tools.tps.TicksAnnouncer;
 import com.poixson.commonmc.tools.tps.TicksPerSecond;
 import com.poixson.commonmc.tools.updatechecker.UpdateCheckManager;
 import com.poixson.tools.Keeper;
@@ -40,7 +39,6 @@ public class pxnCommonPlugin extends xJavaPlugin {
 
 	// ticks per second
 	protected final AtomicReference<TicksPerSecond> tpsManager   = new AtomicReference<TicksPerSecond>(null);
-	protected final AtomicReference<TicksAnnouncer> tpsAnnouncer = new AtomicReference<TicksAnnouncer>(null);
 
 	// commands
 	protected final AtomicReference<Commands_TPS>    commandsTPS = new AtomicReference<Commands_TPS>(null);
@@ -75,14 +73,6 @@ public class pxnCommonPlugin extends xJavaPlugin {
 				previous.stop();
 			manager.start();
 			services.register(TicksPerSecond.class, manager, this, ServicePriority.Normal);
-		}
-		// ticks announcer
-		{
-			final TicksAnnouncer announcer = new TicksAnnouncer(this);
-			final TicksAnnouncer previous = this.tpsAnnouncer.getAndSet(announcer);
-			if (previous != null)
-				previous.stop();
-			services.register(TicksAnnouncer.class, announcer, this, ServicePriority.Normal);
 		}
 		// update check manager
 		{
@@ -168,14 +158,6 @@ public class pxnCommonPlugin extends xJavaPlugin {
 				services.unregister(manager);
 			}
 		}
-		// ticks announcer
-		{
-			final TicksAnnouncer announcer = this.tpsAnnouncer.getAndSet(null);
-			if (announcer != null) {
-				announcer.stop();
-				services.unregister(announcer);
-			}
-		}
 		// update check manager
 		{
 			final UpdateCheckManager manager = this.checkManager.getAndSet(null);
@@ -228,10 +210,6 @@ public class pxnCommonPlugin extends xJavaPlugin {
 	public static TicksPerSecond GetTicksManager() {
 		final pxnCommonPlugin plugin = GetCommonPlugin();
 		return plugin.tpsManager.get();
-	}
-	public static TicksAnnouncer GetTicksAnnouncer() {
-		final pxnCommonPlugin plugin = GetCommonPlugin();
-		return plugin.tpsAnnouncer.get();
 	}
 	public static FreedMapStore getFreedMapStore() {
 		final pxnCommonPlugin plugin = GetCommonPlugin();

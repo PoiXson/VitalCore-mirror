@@ -3,8 +3,7 @@ package com.poixson.commonmc.tools.tps;
 import static com.poixson.commonmc.tools.tps.TicksPerSecond.DisplayTPS;
 
 import java.util.UUID;
-import java.util.concurrent.CopyOnWriteArraySet;
-import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -15,33 +14,66 @@ import com.poixson.tools.abstractions.xStartStop;
 
 public class TicksAnnouncer extends BukkitRunnable implements xStartStop {
 
+	protected static final ConcurrentHashMap<UUID, TicksAnnouncer> instances =
+			new ConcurrentHashMap<UUID, TicksAnnouncer>();
+
 	protected final pxnCommonPlugin plugin;
-
-	protected final CopyOnWriteArraySet<ViewerDAO> viewers = new CopyOnWriteArraySet<ViewerDAO>();
-
-	protected final AtomicBoolean running = new AtomicBoolean(false);
+	protected final Player player;
 
 
 
-	public TicksAnnouncer(final pxnCommonPlugin plugin) {
+	public static TicksAnnouncer Start(final pxnCommonPlugin plugin, final Player player) {
+		final UUID uuid = player.getUniqueId();
+		// existing instance
+		{
+			final TicksAnnouncer announcer = instances.get(uuid);
+			if (announcer != null)
+				return announcer;
+		}
+		// new instance
+		{
+			final TicksAnnouncer announcer = new TicksAnnouncer(plugin, player);
+			final TicksAnnouncer existing =
+					instances.putIfAbsent(uuid, announcer);
+			if (existing == null) {
+				announcer.start();
+				return announcer;
+			}
+			return existing;
+		}
+	}
+	public static boolean Stop(final Player player) {
+		final TicksAnnouncer announcer = instances.remove(player.getUniqueId());
+		if (announcer != null) {
+			announcer.stop();
+			return true;
+		}
+		return false;
+	}
+	public static TicksAnnouncer Toggle(final pxnCommonPlugin plugin, final Player player) {
+		if (Stop(player))
+			return null;
+		return Start(plugin, player);
+	}
+
+
+
+	public TicksAnnouncer(final pxnCommonPlugin plugin, final Player player) {
 		this.plugin = plugin;
+		this.player = player;
 	}
 
 
 
 	@Override
 	public void start() {
-		if (this.running.compareAndSet(false, true)) {
-			this.runTaskTimer(this.plugin, 20L, 20L);
-		}
+		this.runTaskTimer(this.plugin, 20L, 20L);
 	}
 	@Override
 	public void stop() {
-		if (this.running.compareAndSet(true, false)) {
-			try {
-				this.cancel();
-			} catch (IllegalStateException ignore) {}
-		}
+		try {
+			this.cancel();
+		} catch (IllegalStateException ignore) {}
 	}
 
 
@@ -50,78 +82,7 @@ public class TicksAnnouncer extends BukkitRunnable implements xStartStop {
 	public void run() {
 		final TicksPerSecond manager = pxnCommonPlugin.GetTicksManager();
 		final double[] tps = manager.getTPS();
-		for (final ViewerDAO viewer : this.viewers) {
-			if (viewer.again())
-				DisplayTPS(viewer.uuid, tps);
-		}
-	}
-
-
-
-	public void add(final Player player) {
-		this.add(player, 0);
-	}
-	public void add(final Player player, final int interval) {
-		for (final ViewerDAO viewer : this.viewers) {
-			if (viewer.isPlayer(player)) {
-				viewer.interval = interval;
-				return;
-			}
-		}
-		final ViewerDAO viewer = new ViewerDAO(player, interval);
-		this.viewers.add(viewer);
-		this.start();
-	}
-	public boolean remove(final Player player) {
-		for (final ViewerDAO viewer : this.viewers) {
-			if (viewer.isPlayer(player)) {
-				this.viewers.remove(viewer);
-				if (this.viewers.isEmpty())
-					this.stop();
-				return true;
-			}
-		}
-		return false;
-	}
-	public boolean toggle(final Player player) {
-		if (!this.remove(player)) {
-			this.add(player);
-			return true;
-		}
-		return false;
-	}
-
-
-
-	protected class ViewerDAO {
-		public final UUID uuid;
-		public int interval;
-		public long counter = 0L;
-
-		public ViewerDAO(final Player player, final int interval) {
-			this(player==null ? null : player.getUniqueId(), interval);
-		}
-		public ViewerDAO(final UUID uuid, final int interval) {
-			this.uuid     = uuid;
-			this.interval = interval;
-		}
-
-		public boolean isPlayer(final Player player) {
-			return this.isPlayer(player==null ? null : player.getUniqueId());
-		}
-		public boolean isPlayer(final UUID uuid) {
-			if (uuid == null)
-				return (this.uuid == null);
-			return (uuid.equals(this.uuid));
-		}
-
-		public boolean again() {
-			final long count = ++this.counter;
-			if (this.interval <= 1)
-				return true;
-			return (count % this.interval == 0);
-		}
-
+		DisplayTPS(this.player.getUniqueId(), tps);
 	}
 
 

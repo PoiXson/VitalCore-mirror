@@ -11,6 +11,7 @@ import com.poixson.commonmc.tools.commands.pxnCommandsHandler;
 import com.poixson.commonmc.tools.tps.TicksAnnouncer;
 
 
+//TODO: a config option to enable these commands
 public class Commands_TPS extends pxnCommandsHandler<pxnCommonPlugin> {
 
 
@@ -40,8 +41,7 @@ public class Commands_TPS extends pxnCommandsHandler<pxnCommonPlugin> {
 				return true;
 			} else {
 				if ("toggle".equals(args[0])) {
-					final TicksAnnouncer announcer = pxnCommonPlugin.GetTicksAnnouncer();
-					announcer.toggle(player);
+					TicksAnnouncer.Toggle(this.plugin, player);
 					return true;
 				}
 			}
