@@ -16,20 +16,23 @@ public class PathTracer {
 	protected final ThreadLocal<SoftReference<HashMap<Integer, Double>>> cacheLocal =
 			new ThreadLocal<SoftReference<HashMap<Integer, Double>>>();
 
-	protected final int start_z;
+	protected final int start_x, start_z;
 
 
 
 	public PathTracer(final FastNoiseLiteD noise) {
-		this(noise, 0, new ConcurrentHashMap<Integer, Double>());
+		this(noise, 0, 0, new ConcurrentHashMap<Integer, Double>());
 	}
-	public PathTracer(final FastNoiseLiteD noise, final int start_z) {
-		this(noise, start_z, new ConcurrentHashMap<Integer, Double>());
+	public PathTracer(final FastNoiseLiteD noise,
+			final int start_x, final int start_z) {
+		this(noise, start_x, start_z, new ConcurrentHashMap<Integer, Double>());
 	}
-	public PathTracer(final FastNoiseLiteD noise, final int start_z,
+	public PathTracer(final FastNoiseLiteD noise,
+			final int start_x, final int start_z,
 			final ConcurrentHashMap<Integer, Double> cache) {
 		this.noise = noise;
 		this.cache = cache;
+		this.start_x = start_x;
 		this.start_z = start_z;
 	}
 
@@ -38,6 +41,7 @@ public class PathTracer {
 	public boolean isPath(final int x, final int z, final int width) {
 		if (z < this.start_z) return false;
 		final int xx = this.getPathX(z);
+		if (xx == Integer.MIN_VALUE) return false;
 		return (x >= xx-width && x <= xx+width);
 	}
 
@@ -45,7 +49,7 @@ public class PathTracer {
 
 	// find x
 	public int getPathX(final int z) {
-		if (z < this.start_z) return 0;
+		if (z < this.start_z) return Integer.MIN_VALUE;
 		Double value;
 		// cached
 		final HashMap<Integer, Double> local = this.getLocalCache();
@@ -55,13 +59,13 @@ public class PathTracer {
 		if (value != null) return (int) Math.round(value.intValue());
 		// starting point
 		if (z == this.start_z) {
-			local.put(     Integer.valueOf(this.start_z), Double.valueOf(0.0));
-			this.cache.put(Integer.valueOf(this.start_z), Double.valueOf(0.0));
-			return 0;
+			local.put(     Integer.valueOf(this.start_z), Double.valueOf((double)this.start_x));
+			this.cache.put(Integer.valueOf(this.start_z), Double.valueOf((double)this.start_x));
+			return this.start_x;
 		}
 		// find last cached value
 		int from = this.start_z;
-		double x = 0.0;
+		double x = (double)this.start_x;
 		for (int i=z-1; i>=this.start_z; i--) {
 			value = local.get(Integer.valueOf(i));
 			if (value != null) {
@@ -79,9 +83,11 @@ public class PathTracer {
 		int step;
 		double valueE, valueW;
 		for (int i=from+1; i<=z; i++) {
-			valueE = this.noise.getNoise(x+1.0, i);
-			valueW = this.noise.getNoise(x-1.0, i);
-			x += (valueW - valueE) * 5.0;
+			if (i > this.start_z+10) {
+				valueE = this.noise.getNoise(x+1.0, i);
+				valueW = this.noise.getNoise(x-1.0, i);
+				x += (valueW - valueE) * 5.0;
+			}
 			step = NumberUtils.MinMax( (int)Math.floor(Math.pow(i, 0.5)), 3, 1000 );
 			local.put(Integer.valueOf(i), Double.valueOf(x));
 			if (i % step == 0)
