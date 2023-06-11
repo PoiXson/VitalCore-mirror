@@ -110,19 +110,6 @@ public class pxnCommonPlugin extends xJavaPlugin {
 				previous.unregister();
 			manager.register();
 		}
-		// freed map store
-		{
-			final String path = this.getDataFolder().getAbsolutePath();
-			final FreedMapStore store = new FreedMapStore(this, path);
-			this.freedMaps.set(store);
-			try {
-				store.load();
-			} catch (IOException e) {
-				throw new RuntimeException(e);
-			}
-			store.register();
-			services.register(FreedMapStore.class, store, this, ServicePriority.Normal);
-		}
 		// save listener
 		{
 			final PluginSaveManager listener = new PluginSaveManager(this);
@@ -211,9 +198,31 @@ public class pxnCommonPlugin extends xJavaPlugin {
 		final pxnCommonPlugin plugin = GetCommonPlugin();
 		return plugin.tpsManager.get();
 	}
-	public static FreedMapStore getFreedMapStore() {
+	public static FreedMapStore GetFreedMapStore() {
 		final pxnCommonPlugin plugin = GetCommonPlugin();
-		return plugin.freedMaps.get();
+		// already loaded
+		{
+			final FreedMapStore store = plugin.freedMaps.get();
+			if (store != null)
+				return store;
+		}
+		// load map store
+		{
+			final String path = plugin.getDataFolder().getAbsolutePath();
+			final FreedMapStore store = new FreedMapStore(plugin, path);
+			if (plugin.freedMaps.compareAndSet(null, store)) {
+				try {
+					store.load();
+				} catch (IOException e) {
+					throw new RuntimeException(e);
+				}
+				store.register();
+				final ServicesManager services = Bukkit.getServicesManager();
+				services.register(FreedMapStore.class, store, plugin, ServicePriority.Normal);
+				return store;
+			}
+		}
+		return GetFreedMapStore();
 	}
 
 
