@@ -9,6 +9,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -22,6 +23,8 @@ public class LocationStoreManager extends BukkitRunnable {
 	protected final String type;
 	protected final File path;
 
+	protected final AtomicBoolean loaded = new AtomicBoolean(false);
+
 	protected final ConcurrentHashMap<Iab, LocationStore> regions = new ConcurrentHashMap<Iab, LocationStore>();
 
 
@@ -29,14 +32,19 @@ public class LocationStoreManager extends BukkitRunnable {
 	public LocationStoreManager(final String worldStr, final String type) {
 		this.type = type;
 		this.path = new File(BukkitUtils.GetServerPath(), worldStr+"/locs");
-		if (!this.path.isDirectory()) {
-			if (!this.path.mkdir())
-				throw new RuntimeException("Failed to create directory: " + this.path.toString());
-			LOG.info(  String.format("%sCreated directory: %s", LOG_PREFIX, this.path.toString()));
-		}
 	}
 
 
+
+	public void load() {
+		if (this.loaded.compareAndSet(false, true)) {
+			if (!this.path.isDirectory()) {
+				if (!this.path.mkdir())
+					throw new RuntimeException("Failed to create directory: " + this.path.toString());
+				LOG.info(  String.format("%sCreated directory: %s", LOG_PREFIX, this.path.toString()));
+			}
+		}
+	}
 
 	public LocationStoreManager start(final JavaPlugin plugin) {
 		this.runTaskTimerAsynchronously(plugin, 20L, 20L);
@@ -55,6 +63,7 @@ public class LocationStoreManager extends BukkitRunnable {
 		}
 	}
 	public void saveAll() {
+		load();
 		for (final LocationStore store : this.regions.values()) {
 			try {
 				store.save();
@@ -82,6 +91,7 @@ public class LocationStoreManager extends BukkitRunnable {
 
 
 	public LocationStore getRegion(final int x, final int z) {
+		load();
 		final int regionX = Math.floorDiv(x, 512);
 		final int regionZ = Math.floorDiv(z, 512);
 		final Iab loc = new Iab(regionX, regionZ);
