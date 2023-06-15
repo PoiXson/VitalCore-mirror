@@ -105,6 +105,16 @@ public final class LocationUtils {
 
 
 
+	public static BlockFace YawToFace(final float yaw) {
+		float way = yaw + 22.5f;
+		while (way < 0)
+			way += 360.0f;
+		way = way % 360.0f;
+		if (way <  90.0f) return BlockFace.SOUTH;
+		if (way < 180.0f) return BlockFace.WEST;
+		if (way < 270.0f) return BlockFace.NORTH;
+		return BlockFace.EAST;
+	}
 	public static Rotation YawToRotation(final float yaw) {
 		float way = yaw + 22.5f;
 		while (way < 0)
