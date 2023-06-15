@@ -103,8 +103,12 @@ public class LocationStore {
 			return false;
 		}
 		// unload
-		if (state > DELAY_UNLOAD)
+		if (state > DELAY_UNLOAD) {
+			try {
+				this.save();
+			} catch (IOException ignore) {}
 			return true;
+		}
 		return false;
 	}
 	public void markAccessed() {
