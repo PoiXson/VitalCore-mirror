@@ -60,23 +60,24 @@ public class FreedMapStore extends xListener<pxnCommonPlugin> {
 			SafeClose(reader);
 		} else {
 			LOG.info(LOG_PREFIX + "File not found: freed-maps.json");
+			this.changed.set(true);
 		}
 	}
 	public boolean save() throws IOException {
 		if (this.changed.getAndSet(false)) {
 			final Integer[] list = this.freed.toArray(new Integer[0]);
+			final int[] result = new int[list.length];
 			if (list.length > 0) {
-				final int[] result = new int[list.length];
 				int i = 0;
 				for (final Integer id : list)
 					result[i++] = id.intValue();
-				LOG.info(String.format("%sSaving [%d] freed maps", LOG_PREFIX, result.length));
-				final String data = (new Gson()).toJson(result);
-				final BufferedWriter writer = new BufferedWriter(new FileWriter(this.file));
-				writer.write(data);;
-				SafeClose(writer);
-				return true;
 			}
+			LOG.info(String.format("%sSaving [%d] freed maps", LOG_PREFIX, result.length));
+			final String data = (new Gson()).toJson(result);
+			final BufferedWriter writer = new BufferedWriter(new FileWriter(this.file));
+			writer.write(data);;
+			SafeClose(writer);
+			return true;
 		}
 		return false;
 	}
