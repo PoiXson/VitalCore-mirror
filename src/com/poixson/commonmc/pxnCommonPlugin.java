@@ -7,6 +7,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.ServicesManager;
 
@@ -181,6 +182,34 @@ public class pxnCommonPlugin extends xJavaPlugin {
 			if (commands != null)
 				commands.unregister();
 		}
+	}
+
+
+
+	// -------------------------------------------------------------------------------
+	// configs
+
+
+
+	@Override
+	protected void loadConfigs() {
+		this.mkPluginDir();
+		// config.yml
+		{
+			final FileConfiguration cfg = this.getConfig();
+			this.config.set(cfg);
+			this.configDefaults(cfg);
+			cfg.options().copyDefaults(true);
+			super.saveConfig();
+		}
+	}
+	@Override
+	protected void saveConfigs() {
+		// config.yml
+		super.saveConfig();
+	}
+	@Override
+	protected void configDefaults(final FileConfiguration cfg) {
 	}
 
 
