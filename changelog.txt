@@ -1,6 +1,28 @@
 pxnCommonPluginMC - Common utilities and tools for Bukkit/Spigot plugins
 
 
+2023-06-14 - 4.0.31
+===================
+* improved update checker - still planning configs for this
+* added LocationUtils::YawToRotation() function
+* fixes and improvements to LocationUtils::Rotate() functions
+* fixes and improvements to BlockPlotter classes
+* added support for WorldEdit sessions in BlockPlotter
+* added support for rhino scripting
+* added support for PathTracer x and z starting location
+* improved support for BlockUtils::ApplyBlockSpecial()
+  - added support for doors, beds, and water logged blocks
+  - added more shorthand
+* added FreedMapStore
+* added PluginSaveEvent
+* added distance to OutsideOfWorldEvent
+* added LocationStore - stores locations in 32x32 chunk areas
+* added BukkitUtils::GetServerPath() function
+* improved pxnCommands to support overriding vanilla commands
+* added /tps and /mem commands
+* updated to java 17
+
+
 2023-03-06 - 4.0.19
 ===================
 * added xListener class - to handle register/unregister
