@@ -56,7 +56,7 @@ public class FreedMapStore extends xListener<pxnCommonPlugin> {
 			final Set<Integer> set = (new Gson()).fromJson(reader, token);
 			for (final Integer id : set)
 				this.freed.add(id);
-			this.changed.set(true);
+			this.changed.set(false);
 			SafeClose(reader);
 		} else {
 			LOG.info(LOG_PREFIX + "File not found: freed-maps.json");
