@@ -142,6 +142,19 @@ public final class LocationUtils {
 
 
 
+	public static Rotation FaceToRotation(final BlockFace face) {
+		switch (face) {
+		case SOUTH: return Rotation.NONE;
+		case WEST:  return Rotation.CLOCKWISE;
+		case NORTH: return Rotation.FLIPPED;
+		case EAST:  return Rotation.COUNTER_CLOCKWISE;
+		default: break;
+		}
+		return null;
+	}
+
+
+
 	// BlockFace to Axis
 	public static Axis FaceToAxis(final BlockFace face) {
 		switch (face) {
