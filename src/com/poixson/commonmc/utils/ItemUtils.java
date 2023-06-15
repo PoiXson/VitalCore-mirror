@@ -2,6 +2,7 @@ package com.poixson.commonmc.utils;
 
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.MapMeta;
 
 
 public final class ItemUtils {
@@ -17,6 +18,15 @@ public final class ItemUtils {
 				return meta.getCustomModelData();
 		}
 		return 0;
+	}
+
+
+
+	@SuppressWarnings("deprecation")
+	public static void SetMapID(final ItemStack map, final int id) {
+		final MapMeta meta = (MapMeta) map.getItemMeta();
+		meta.setMapId(id);
+		map.setItemMeta(meta);
 	}
 
 
