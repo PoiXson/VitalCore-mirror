@@ -35,8 +35,8 @@ public class pxnCommonPlugin extends xJavaPlugin {
 	protected final AtomicReference<pxnPluginsChart> pluginsListener = new AtomicReference<pxnPluginsChart>(null);
 	protected final AtomicReference<UpdateCheckManager> checkManager = new AtomicReference<UpdateCheckManager>(null);
 	protected final AtomicReference<PlayerMoveManager>  moveManager  = new AtomicReference<PlayerMoveManager>(null);
-	protected final AtomicReference<FreedMapStore>   freedMaps = new AtomicReference<FreedMapStore>(null);
-	protected final AtomicReference<PluginSaveManager> saveListener = new AtomicReference<PluginSaveManager>(null);
+	protected final AtomicReference<FreedMapStore>         freedMaps = new AtomicReference<FreedMapStore>(null);
+	protected final AtomicReference<PluginSaveManager>  saveListener = new AtomicReference<PluginSaveManager>(null);
 
 	// ticks per second
 	protected final AtomicReference<TicksPerSecond> tpsManager   = new AtomicReference<TicksPerSecond>(null);
