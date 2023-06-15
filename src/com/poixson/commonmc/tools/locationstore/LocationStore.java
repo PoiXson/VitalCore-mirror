@@ -14,18 +14,20 @@ import java.nio.file.Files;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.poixson.tools.xTime;
 import com.poixson.tools.dao.Iab;
 
 
 public class LocationStore {
 
-	public static final int DELAY_SAVE   = 10;
-	public static final int DELAY_UNLOAD = 300;
+	public static final int DELAY_SAVE   = (int) (new xTime("10s")).get(TimeUnit.SECONDS);
+	public static final int DELAY_UNLOAD = (int) (new xTime( "3m")).get(TimeUnit.SECONDS);
 
 	protected final File file;
 
