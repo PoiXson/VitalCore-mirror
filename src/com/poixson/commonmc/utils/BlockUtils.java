@@ -42,6 +42,7 @@ public final class BlockUtils {
 	public static boolean ApplyBlockSpecial(final BlockData data, final Set<String> special) {
 		if (Utils.isEmpty(special)) return false;
 		boolean changed = false;
+		synchronized (data) {
 		if (data instanceof Slab) {
 			if (special.contains("top"   )) { changed = true; ((Slab)data).setType(Slab.Type.TOP   ); } else
 			if (special.contains("bottom")) { changed = true; ((Slab)data).setType(Slab.Type.BOTTOM); } else
@@ -156,6 +157,7 @@ public final class BlockUtils {
 		if (data instanceof Waterlogged) {
 			if (special.contains("logged")) { changed = true; ((Waterlogged)data).setWaterlogged(true); }
 		}
+		} // end synchronized block
 		return changed;
 	}
 
