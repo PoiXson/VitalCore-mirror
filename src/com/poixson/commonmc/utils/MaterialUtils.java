@@ -3,8 +3,8 @@ package com.poixson.commonmc.utils;
 import org.bukkit.Material;
 
 
-public final class BlockUtils {
-	private BlockUtils() {}
+public final class MaterialUtils {
+	private MaterialUtils() {}
 
 
 
