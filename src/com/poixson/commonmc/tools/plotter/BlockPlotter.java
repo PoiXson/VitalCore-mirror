@@ -9,14 +9,13 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Set;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.BlockData;
 
-import com.poixson.commonmc.utils.BlockUtils;
 import com.poixson.tools.dao.Iabc;
 import com.poixson.tools.dao.Iabcd;
-import com.poixson.utils.Utils;
 
 
 public class BlockPlotter implements Runnable {
@@ -32,8 +31,7 @@ public class BlockPlotter implements Runnable {
 
 	public BlockFace rotation = BlockFace.SOUTH;
 
-	protected final Map<Character, Material>    types   = new HashMap<Character, Material>();
-	protected final Map<Character, Set<String>> special = new HashMap<Character, Set<String>>();
+	protected final Map<Character, BlockData> types = new HashMap<Character, BlockData>();
 //TODO
 	protected final Set<Iabc> autoface = new HashSet<Iabc>();
 
@@ -122,8 +120,7 @@ public class BlockPlotter implements Runnable {
 			final String row = matrix.row.toString();
 			final int len = row.length();
 			char chr;
-			Material type;
-			Set<String> specials;
+			BlockData type;
 			for (int i=0; i<len; i++) {
 				chr = row.charAt(i);
 				if (chr != 0 && chr != ' ') {
@@ -132,11 +129,13 @@ public class BlockPlotter implements Runnable {
 					zz = (add.c * i) + z;
 					type = this.types.get(Character.valueOf(chr));
 					if (type == null) throw new RuntimeException("Unknown material: " + Character.toString(chr));
-					specials = this.special.get(Character.valueOf(chr));
-					if (specials != null)
-						if (specials.contains("autoface"))
-							this.autoface.add(new Iabc(xx, yy, zz));
-					this.setType(xx, yy, zz, type, specials);
+//TODO
+//					specials = this.special.get(Character.valueOf(chr));
+//					if (specials != null)
+//						if (specials.contains("autoface"))
+//							this.autoface.add(new Iabc(xx, yy, zz));
+//					this.setType(xx, yy, zz, type, specials);
+					this.setBlock(xx, yy, zz, type);
 				}
 			}
 		}
@@ -149,85 +148,32 @@ public class BlockPlotter implements Runnable {
 
 
 
-	public void setType(final int x, final int y, final int z, final Material type, final Set<String> special) {
-		this.setType(x, y, z, type);
-		this.setSpecial(x, y, z, special);
-	}
-	public void setType(final int x, final int y, final int z, final Material type) {
-		final Iabcd loc = Rotate(new Iabcd(x, z, this.w, this.d), this.rotation);
-		final int xx = this.x + loc.a;
-		final int zz = this.z + loc.b;
-		final int yy = this.y + y;
-		this.placer.setType(xx, yy, zz, type);
-	}
-	public void setSpecial(final int x, final int y, final int z, final Set<String> special) {
-		if (Utils.isEmpty(special)) return;
-		final BlockData data = this.getBlockData(x, y, z);
-		if (BlockUtils.ApplyBlockSpecial(data, special))
-			this.setBlockData(x, y, z, data);
-	}
-
-	public Material getType(final int x, final int y, final int z) {
-		final Iabcd loc = Rotate(new Iabcd(x, z, this.w, this.d), this.rotation);
-		final int xx = this.x + loc.a;
-		final int zz = this.z + loc.b;
-		final int yy = this.y + y;
-		return this.placer.getType(xx, yy, zz);
-	}
-	public boolean isType(final int x, final int y, final int z, final Material match) {
-		if (match == null) return false;
-		final Material existing = this.getType(x, y, z);
-		return match.equals(existing);
-	}
-
-
-
-	public BlockData getBlockData(final int x, final int y, final int z) {
-		final Iabcd loc = Rotate(new Iabcd(x, z, this.w, this.d), this.rotation);
-		final int xx = this.x + loc.a;
-		final int zz = this.z + loc.b;
-		final int yy = this.y + y;
-		return this.placer.getBlockData(xx, yy, zz);
-	}
-	public void setBlockData(final int x, final int y, final int z, final BlockData data) {
-		final Iabcd loc = Rotate(new Iabcd(x, z, this.w, this.d), this.rotation);
-		final int xx = this.x + loc.a;
-		final int zz = this.z + loc.b;
-		final int yy = this.y + y;
-		this.placer.setBlockData(xx, yy, zz, data);
-	}
-
-
-
-	public BlockPlotter type(final char chr, final Material type, final String...special) {
-		return this.type(chr, type)
-				.special(chr, special);
+	public BlockPlotter type(final char chr, final String type) {
+		return this.type(chr, Bukkit.createBlockData(type));
 	}
 	public BlockPlotter type(final char chr, final Material type) {
-		this.types.put(Character.valueOf(chr), type);
+		return this.type(chr, Bukkit.createBlockData(type));
+	}
+	public BlockPlotter type(final char chr, final BlockData block) {
+		this.types.put(Character.valueOf(chr), block);
 		return this;
 	}
 
-	public BlockPlotter special(final char chr, final String...special) {
-		final Set<String> set = this.getSpecialSet(chr);
-		for (final String sp : special)
-			set.add(sp);
-		return this;
-	}
 
-	public Set<String> getSpecialSet(final char chr) {
-		// existing
-		{
-			final Set<String> set = this.special.get(Character.valueOf(chr));
-			if (set != null)
-				return set;
-		}
-		// new set
-		{
-			final Set<String> set = new HashSet<String>();
-			this.special.put(Character.valueOf(chr), set);
-			return set;
-		}
+
+	public void setBlock(final int x, final int y, final int z, final BlockData type) {
+		final Iabcd loc = Rotate(new Iabcd(x, z, this.w, this.d), this.rotation);
+		final int xx = this.x + loc.a;
+		final int zz = this.z + loc.b;
+		final int yy = this.y + y;
+		this.placer.setBlock(xx, yy, zz, type);
+	}
+	public BlockData getBlock(final int x, final int y, final int z) {
+		final Iabcd loc = Rotate(new Iabcd(x, z, this.w, this.d), this.rotation);
+		final int xx = this.x + loc.a;
+		final int zz = this.z + loc.b;
+		final int yy = this.y + y;
+		return this.placer.getBlock(xx, yy, zz);
 	}
 
 

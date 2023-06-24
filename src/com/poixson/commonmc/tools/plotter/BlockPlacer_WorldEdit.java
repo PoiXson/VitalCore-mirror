@@ -1,6 +1,5 @@
 package com.poixson.commonmc.tools.plotter;
 
-import org.bukkit.Material;
 import org.bukkit.block.data.BlockData;
 
 import com.sk89q.worldedit.EditSession;
@@ -30,34 +29,21 @@ public class BlockPlacer_WorldEdit extends BlockPlacer {
 
 
 	@Override
-	public Material getType(final int x, final int y, final int z) {
-		return BukkitAdapter.adapt(
-			this.session.getBlock(this.origin.add(x, y, z)).getBlockType()
-		);
-	}
-	@Override
-	public void setType(final int x, final int y, final int z, final Material type) {
-		try {
-			this.session.setBlock(
-				this.origin.add(x, y, z),
-				BukkitAdapter.adapt(type.createBlockData())
-			);
-		} catch (MaxChangedBlocksException e) {
-			e.printStackTrace();
-		}
-	}
-
-
-
-	@Override
-	public BlockData getBlockData(final int x, final int y, final int z) {
+	public BlockData getBlock(final int x, final int y, final int z) {
 		return BukkitAdapter.adapt(
 			this.session.getBlock(this.origin.add(x, y, z))
 		);
 	}
 	@Override
-	public void setBlockData(final int x, final int y, final int z, final BlockData data) {
-//TODO
+	public void setBlock(final int x, final int y, final int z, final BlockData type) {
+		try {
+			this.session.setBlock(
+				this.origin.add(x, y, z),
+				BukkitAdapter.adapt(type)
+			);
+		} catch (MaxChangedBlocksException e) {
+			e.printStackTrace();
+		}
 	}
 
 
