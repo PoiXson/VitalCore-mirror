@@ -55,11 +55,13 @@ public class LocationStoreManager extends BukkitRunnable {
 
 	@Override
 	public void run() {
-		final Iterator<Entry<Iab, LocationStore>> it = this.regions.entrySet().iterator();
-		while (it.hasNext()) {
-			final Entry<Iab, LocationStore> entry = it.next();
-			if (entry.getValue().should_unload())
-				this.regions.remove(entry.getKey());
+		synchronized (this.regions) {
+			final Iterator<Entry<Iab, LocationStore>> it = this.regions.entrySet().iterator();
+			while (it.hasNext()) {
+				final Entry<Iab, LocationStore> entry = it.next();
+				if (entry.getValue().should_unload())
+					this.regions.remove(entry.getKey());
+			}
 		}
 	}
 	public void saveAll() {
@@ -96,7 +98,7 @@ public class LocationStoreManager extends BukkitRunnable {
 		final int regionZ = Math.floorDiv(z, 512);
 		final Iab loc = new Iab(regionX, regionZ);
 		// cached
-		{
+		synchronized (this.regions) {
 			final LocationStore store = this.regions.get(loc);
 			if (store != null) {
 				store.markAccessed();
