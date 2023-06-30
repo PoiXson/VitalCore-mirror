@@ -21,9 +21,9 @@ import com.poixson.tools.dao.Iab;
 public class LocationStoreManager extends BukkitRunnable {
 
 	protected final String type;
-	protected final File path;
 
-	protected final AtomicBoolean loaded = new AtomicBoolean(false);
+	protected final File path;
+	protected final AtomicBoolean inited = new AtomicBoolean(false);
 
 	protected final ConcurrentHashMap<Iab, LocationStore> regions = new ConcurrentHashMap<Iab, LocationStore>();
 
@@ -36,8 +36,8 @@ public class LocationStoreManager extends BukkitRunnable {
 
 
 
-	public void load() {
-		if (this.loaded.compareAndSet(false, true)) {
+	public void init() {
+		if (this.inited.compareAndSet(false, true)) {
 			if (!this.path.isDirectory()) {
 				if (!this.path.mkdir())
 					throw new RuntimeException("Failed to create directory: " + this.path.toString());
@@ -65,7 +65,7 @@ public class LocationStoreManager extends BukkitRunnable {
 		}
 	}
 	public void saveAll() {
-		load();
+		init();
 		for (final LocationStore store : this.regions.values()) {
 			try {
 				store.save();
@@ -93,7 +93,7 @@ public class LocationStoreManager extends BukkitRunnable {
 
 
 	public LocationStore getRegion(final int x, final int z) {
-		load();
+		init();
 		final int regionX = Math.floorDiv(x, 512);
 		final int regionZ = Math.floorDiv(z, 512);
 		final Iab loc = new Iab(regionX, regionZ);
