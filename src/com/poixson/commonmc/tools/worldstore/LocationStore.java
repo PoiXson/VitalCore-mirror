@@ -44,44 +44,48 @@ public class LocationStore {
 
 
 
-	public synchronized void load(final int regionX, final int regionZ) throws IOException {
+	public void load(final int regionX, final int regionZ) throws IOException {
 		this.locations.clear();
 		if (file.isFile()) {
-			final BufferedReader reader = Files.newBufferedReader(this.file.toPath());
-			final Type token = new TypeToken<HashSet<String>>() {}.getType();
-			final Set<String> set = (new Gson()).fromJson(reader, token);
-			String[] split;
-			int x, z;
-			for (final String entry : set) {
-				try {
-					split = entry.split(",");
-					if (split.length != 2) throw new NumberFormatException();
-					x = Integer.parseInt(split[0].trim());
-					z = Integer.parseInt(split[1].trim());
-					this.locations.add(new Iab(x, z));
-				} catch (NumberFormatException e) {
-					LOG.warning(String.format(
-						"%sInvalid entry '%s' in file: %s",
-						LOG_PREFIX, entry, this.file.toString()
-					));
-					continue;
+			synchronized (this.locations) {
+				final BufferedReader reader = Files.newBufferedReader(this.file.toPath());
+				final Type token = new TypeToken<HashSet<String>>() {}.getType();
+				final Set<String> set = (new Gson()).fromJson(reader, token);
+				String[] split;
+				int x, z;
+				for (final String entry : set) {
+					try {
+						split = entry.split(",");
+						if (split.length != 2) throw new NumberFormatException();
+						x = Integer.parseInt(split[0].trim());
+						z = Integer.parseInt(split[1].trim());
+						this.locations.add(new Iab(x, z));
+					} catch (NumberFormatException e) {
+						LOG.warning(String.format(
+							"%sInvalid entry '%s' in file: %s",
+							LOG_PREFIX, entry, this.file.toString()
+						));
+						continue;
+					}
 				}
+				SafeClose(reader);
 			}
-			SafeClose(reader);
 		}
 	}
 	public boolean save() throws IOException {
 		if (this.changed.getAndSet(false)) {
-			final Set<String> result = new HashSet<String>();
-			final Iab[] set = this.locations.toArray(new Iab[0]);
-			for (final Iab loc : set)
-				result.add(loc.toString());
-			if (result.size() > 0) {
-				final String data = (new Gson()).toJson(result);
-				final BufferedWriter writer = new BufferedWriter(new FileWriter(this.file));
-				writer.write(data);
-				SafeClose(writer);
-				return true;
+			synchronized (this.locations) {
+				final Set<String> result = new HashSet<String>();
+				final Iab[] set = this.locations.toArray(new Iab[0]);
+				for (final Iab loc : set)
+					result.add(loc.toString());
+				if (result.size() > 0) {
+					final String data = (new Gson()).toJson(result);
+					final BufferedWriter writer = new BufferedWriter(new FileWriter(this.file));
+					writer.write(data);
+					SafeClose(writer);
+					return true;
+				}
 			}
 		}
 		return false;
