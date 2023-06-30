@@ -1,4 +1,4 @@
-package com.poixson.commonmc.tools.locationstore;
+package com.poixson.commonmc.tools.worldstore;
 
 import static com.poixson.commonmc.tools.plugin.xJavaPlugin.LOG;
 import static com.poixson.commonmc.tools.plugin.xJavaPlugin.LOG_PREFIX;
