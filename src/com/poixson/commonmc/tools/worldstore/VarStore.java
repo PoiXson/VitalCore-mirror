@@ -9,7 +9,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.nio.file.Files;
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -74,7 +74,7 @@ public class VarStore extends BukkitRunnable {
 		if (this.file.isFile()) {
 			synchronized (this.vars) {
 				final BufferedReader reader = Files.newBufferedReader(this.file.toPath());
-				final Type token = new TypeToken<HashSet<String>>() {}.getType();
+				final Type token = new TypeToken<HashMap<String, Object>>() {}.getType();
 				final Map<String, Object> map = (new Gson()).fromJson(reader, token);
 				final Iterator<Entry<String, Object>> it = map.entrySet().iterator();
 				while (it.hasNext()) {
@@ -111,16 +111,16 @@ public class VarStore extends BukkitRunnable {
 	public int getInt(final String key) {
 		final Object value = this.get(key);
 		if (value != null) {
-			if (value instanceof Integer)
-				return ((Integer)value).intValue();
+			if (value instanceof Integer) return ((Integer)value).intValue();
+			if (value instanceof Double ) return ((Double )value).intValue();
 		}
 		return Integer.MIN_VALUE;
 	}
 	public long getLong(final String key) {
 		final Object value = this.get(key);
 		if (value != null) {
-			if (value instanceof Long)
-				return ((Long)value).intValue();
+			if (value instanceof Long  ) return ((Long  )value).intValue();
+			if (value instanceof Double) return ((Double)value).intValue();
 		}
 		return Long.MIN_VALUE;
 	}
