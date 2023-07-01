@@ -1,7 +1,5 @@
 package com.poixson.commonmc.tools.worldstore;
 
-import static com.poixson.commonmc.tools.plugin.xJavaPlugin.LOG;
-import static com.poixson.commonmc.tools.plugin.xJavaPlugin.LOG_PREFIX;
 import static com.poixson.utils.Utils.SafeClose;
 
 import java.io.BufferedReader;
@@ -35,7 +33,6 @@ public class VarStore extends BukkitRunnable {
 
 	protected final ConcurrentHashMap<String, Object> vars = new ConcurrentHashMap<String, Object>();
 
-	protected final AtomicBoolean inited  = new AtomicBoolean(false);
 	protected final AtomicBoolean changed = new AtomicBoolean(false);
 
 
@@ -44,24 +41,13 @@ public class VarStore extends BukkitRunnable {
 		this(worldStr, "vars.json");
 	}
 	public VarStore(final String worldStr, final String filename) {
-		this.path = new File(BukkitUtils.GetServerPath(), worldStr+"/locs");
+		this.path = new File(BukkitUtils.GetServerPath(), worldStr);
 		this.file = new File(this.path, filename);
 	}
 
 
 
-	public void init() {
-		if (this.inited.compareAndSet(false, true)) {
-			if (!this.path.isDirectory()) {
-				if (!this.path.mkdir())
-					throw new RuntimeException("Failed to create directory: " + this.path.toString());
-				LOG.info(  String.format("%sCreated directory: %s", LOG_PREFIX, this.path.toString()));
-			}
-		}
-	}
-
 	public VarStore start(final JavaPlugin plugin) {
-		init();
 		try {
 			this.load();
 		} catch (IOException e) {
@@ -85,7 +71,6 @@ public class VarStore extends BukkitRunnable {
 
 
 	protected synchronized void load() throws IOException {
-		init();
 		if (this.file.isFile()) {
 			synchronized (this.vars) {
 				final BufferedReader reader = Files.newBufferedReader(this.file.toPath());
@@ -101,7 +86,6 @@ public class VarStore extends BukkitRunnable {
 		}
 	}
 	public boolean save() throws IOException {
-		init();
 		if (this.changed.getAndSet(false)) {
 			synchronized (this.vars) {
 				final String data = (new Gson()).toJson(this.vars);
