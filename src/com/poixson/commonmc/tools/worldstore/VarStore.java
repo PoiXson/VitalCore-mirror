@@ -53,7 +53,7 @@ public class VarStore extends BukkitRunnable {
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
-		this.runTaskTimerAsynchronously(plugin, DEFAULT_SAVE_DELAY, DEFAULT_SAVE_DELAY);
+		this.runTaskTimerAsynchronously(plugin, 40L, DEFAULT_SAVE_DELAY);
 		return this;
 	}
 
