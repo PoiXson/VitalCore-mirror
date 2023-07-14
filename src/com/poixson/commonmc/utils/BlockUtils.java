@@ -9,7 +9,7 @@ import com.poixson.tools.Keeper;
 import com.poixson.utils.Utils;
 
 
-public class BlockUtils {
+public final class BlockUtils {
 	private BlockUtils() {}
 	static { Keeper.add(new BlockUtils()); }
 

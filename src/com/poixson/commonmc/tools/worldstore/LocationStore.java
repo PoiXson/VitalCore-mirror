@@ -46,7 +46,7 @@ public class LocationStore {
 
 	public void load(final int regionX, final int regionZ) throws IOException {
 		this.locations.clear();
-		if (file.isFile()) {
+		if (this.file.isFile()) {
 			synchronized (this.locations) {
 				final BufferedReader reader = Files.newBufferedReader(this.file.toPath());
 				final Type token = new TypeToken<HashSet<String>>() {}.getType();
