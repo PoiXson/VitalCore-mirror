@@ -25,7 +25,7 @@ public class ScriptInstance implements Closeable {
 	protected final Script[] compiled;
 	protected final Scriptable scope;
 
-	protected final long STALE_TIMEOUT = xTime.ParseToLong("5m");
+	protected static final long STALE_TIMEOUT = xTime.ParseToLong("5m");
 	protected final AtomicLong lastUsed = new AtomicLong(0L);
 
 	protected final AtomicBoolean crashed = new AtomicBoolean(false);
