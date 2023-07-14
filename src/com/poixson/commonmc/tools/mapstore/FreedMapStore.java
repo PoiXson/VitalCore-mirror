@@ -51,13 +51,19 @@ public class FreedMapStore extends xListener<pxnCommonPlugin> {
 		this.freed.clear();
 		if (this.file.isFile()) {
 			LOG.info(LOG_PREFIX + "Loading: freed-maps.json");
-			final BufferedReader reader = Files.newBufferedReader(this.file.toPath());
-			final Type token = new TypeToken<HashSet<Integer>>() {}.getType();
-			final Set<Integer> set = (new Gson()).fromJson(reader, token);
-			for (final Integer id : set)
-				this.freed.add(id);
-			this.changed.set(false);
-			SafeClose(reader);
+			BufferedReader reader = null;
+			try {
+				reader = Files.newBufferedReader(this.file.toPath());
+				final Type token = new TypeToken<HashSet<Integer>>() {}.getType();
+				final Set<Integer> set = (new Gson()).fromJson(reader, token);
+				for (final Integer id : set)
+					this.freed.add(id);
+				this.changed.set(false);
+			} catch (IOException e) {
+				throw e;
+			} finally {
+				SafeClose(reader);
+			}
 		} else {
 			LOG.info(LOG_PREFIX + "File not found: freed-maps.json");
 			this.changed.set(true);
@@ -73,11 +79,17 @@ public class FreedMapStore extends xListener<pxnCommonPlugin> {
 					result[i++] = id.intValue();
 			}
 			LOG.info(String.format("%sSaving [%d] freed maps", LOG_PREFIX, result.length));
-			final String data = (new Gson()).toJson(result);
-			final BufferedWriter writer = new BufferedWriter(new FileWriter(this.file));
-			writer.write(data);;
-			SafeClose(writer);
-			return true;
+			BufferedWriter writer = null;
+			try {
+				final String data = (new Gson()).toJson(result);
+				writer = new BufferedWriter(new FileWriter(this.file));
+				writer.write(data);
+				return true;
+			} catch (IOException e) {
+				throw e;
+			} finally {
+				SafeClose(writer);
+			}
 		}
 		return false;
 	}
