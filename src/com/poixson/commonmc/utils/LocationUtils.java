@@ -152,6 +152,16 @@ public final class LocationUtils {
 		}
 		return null;
 	}
+	public static BlockFace RotationToFace(final Rotation rotation) {
+		switch (rotation) {
+		case NONE:              return BlockFace.SOUTH;
+		case CLOCKWISE:         return BlockFace.WEST;
+		case FLIPPED:           return BlockFace.NORTH;
+		case COUNTER_CLOCKWISE: return BlockFace.EAST;
+		default: break;
+		}
+		return null;
+	}
 
 
 
