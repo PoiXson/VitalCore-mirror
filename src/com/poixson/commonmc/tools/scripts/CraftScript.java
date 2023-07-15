@@ -3,6 +3,7 @@ package com.poixson.commonmc.tools.scripts;
 import static com.poixson.commonmc.pxnCommonPlugin.LOG_PREFIX;
 import static com.poixson.utils.Utils.SafeClose;
 
+import java.io.Closeable;
 import java.io.FileNotFoundException;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -21,7 +22,7 @@ import com.poixson.commonmc.tools.scripts.loader.ScriptSourceDAO;
 import com.poixson.tools.CoolDown;
 
 
-public class CraftScript {
+public class CraftScript implements Closeable {
 	protected static final Logger LOG = Logger.getLogger("Minecraft");
 
 	protected final ScriptLoader loader;
@@ -31,6 +32,8 @@ public class CraftScript {
 	protected final AtomicReference<Script[]> compiled = new AtomicReference<Script[]>(null);
 
 	protected final CoolDown reloadCool = new CoolDown("5s");
+
+	protected final AtomicBoolean stopping = new AtomicBoolean(false);
 
 
 
@@ -62,6 +65,18 @@ public class CraftScript {
 
 
 
+	@Override
+	public void close() {
+		if (this.stopping.compareAndSet(false, true)) {
+//TODO
+		}
+	}
+	public boolean isStopping() {
+		return this.stopping.get();
+	}
+
+
+
 	public Object getVariable(final String name) {
 		return this.scope.get(name, this.scope);
 	}
@@ -72,9 +87,11 @@ public class CraftScript {
 
 
 	public void run() {
+		if (this.stopping.get()) return;
 		this.getScriptInstance();
 	}
 	public Object call(final String funcName, final Object...args) {
+		if (this.stopping.get()) return null;
 		final ScriptInstance instance = this.getScriptInstance();
 		return instance.call(funcName, args);
 	}
