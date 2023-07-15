@@ -75,6 +75,9 @@ public class ScriptLoader_File implements ScriptLoader {
 		// load sources
 		{
 			final LinkedList<ScriptSourceDAO> list = new LinkedList<ScriptSourceDAO>();
+			try {
+				this.loadSourcesRecursive(list, "prepend.js");
+			} catch (FileNotFoundException ignore) {}
 			this.loadSourcesRecursive(list, this.filename);
 			final ScriptSourceDAO[] sources = list.toArray(new ScriptSourceDAO[0]);
 			if (this.sources.compareAndSet(null, sources))
