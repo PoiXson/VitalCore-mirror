@@ -9,14 +9,12 @@ import java.awt.Transparency;
 import java.awt.image.BufferedImage;
 import java.io.Closeable;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Rotation;
-import org.bukkit.World;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.GlowItemFrame;
@@ -56,14 +54,12 @@ public class MapScreen extends MapRenderer implements Runnable, Closeable {
 	protected final BukkitRunnable run;
 	protected final AtomicBoolean closed = new AtomicBoolean(false);
 
-	protected final AtomicReference<Player> nearest_player = new AtomicReference<Player>(null);
-	protected final AtomicInteger           nearest_check  = new AtomicInteger(0);
-
 
 
 	public MapScreen(final JavaPlugin plugin, final int map_id,
 			final Location loc, final BlockFace facing,
 			final int map_size, final PixelSource source) {
+		super(true); // contextual - per player
 		this.plugin = plugin;
 		this.map_id = map_id;
 		this.map_size = map_size;
@@ -105,7 +101,6 @@ public class MapScreen extends MapRenderer implements Runnable, Closeable {
 
 
 	public void start(final int fps) {
-		this.findNearestPlayer();
 		if (fps > 1) {
 			final int rate = Math.floorDiv(20, fps);
 			this.run.runTaskTimer(this.plugin, 2L, rate);
@@ -129,9 +124,7 @@ public class MapScreen extends MapRenderer implements Runnable, Closeable {
 
 	@Override
 	public void run() {
-		this.nearest_check.incrementAndGet();
-		final Player player = this.findNearestPlayer();
-		if (player != null)
+		for (final Player player : Bukkit.getOnlinePlayers())
 			player.sendMap(this.view);
 	}
 
@@ -239,35 +232,6 @@ public class MapScreen extends MapRenderer implements Runnable, Closeable {
 			}
 		}
 		return new Iabcd(min_x, min_y, max_x-min_x, max_y-min_y);
-	}
-
-
-
-	public Player findNearestPlayer() {
-		if (this.nearest_check.get() >= DEFAULT_NEAREST_CHECK_FRAMES) {
-			this.nearest_check.set(0);
-			final World world = this.loc.getWorld();
-			double nearest_dist   = Double.MAX_VALUE;
-			Player nearest_player = null;
-			double dist;
-			for (final Player player : Bukkit.getOnlinePlayers()) {
-				if (world.equals(player.getWorld())) {
-					dist = this.loc.distance(player.getLocation());
-					if (nearest_dist > dist) {
-						nearest_dist   = dist;
-						nearest_player = player;
-					}
-				}
-			}
-			if (nearest_dist <= DEFAULT_MAX_DISTANCE) {
-				this.nearest_player.set(nearest_player);
-				return nearest_player;
-			} else {
-				this.nearest_player.set(null);
-				return null;
-			}
-		}
-		return this.nearest_player.get();
 	}
 
 
