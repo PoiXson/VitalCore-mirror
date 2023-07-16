@@ -120,13 +120,7 @@ public class CraftScript implements Closeable {
 			}
 			// new instance
 			{
-				ScriptSourceDAO[] sources;
-				try {
-					sources = this.loader.getSources();
-				} catch (FileNotFoundException e) {
-					e.printStackTrace();
-					return null;
-				}
+				final ScriptSourceDAO[] sources = this.getSources();
 				final Script[] compiled = this.getCompiledScripts(sources);
 				final ScriptInstance instance =
 					new ScriptInstance(
@@ -144,6 +138,15 @@ public class CraftScript implements Closeable {
 				return existing;
 			}
 		}
+	}
+
+	public ScriptSourceDAO[] getSources() {
+		try {
+			return this.loader.getSources();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	protected Script[] getCompiledScripts(final ScriptSourceDAO[] sources) {
