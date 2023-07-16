@@ -58,7 +58,8 @@ public class CraftScript implements Closeable {
 			try {
 				if (safe) this.scope = context.initStandardObjects(null, true);
 				else      this.scope = new ImporterTopLevel(context);
-				this.scope.put("out", this.scope, System.out);
+				this.scope.put("out",      this.scope, System.out);
+				this.scope.put("stopping", this.scope, Boolean.FALSE);
 			} finally {
 				SafeClose(context);
 			}
@@ -69,6 +70,7 @@ public class CraftScript implements Closeable {
 
 	@Override
 	public void close() {
+		this.scope.put("stopping", this.scope, Boolean.TRUE);
 		if (this.stopping.compareAndSet(false, true)) {
 //TODO
 		}
