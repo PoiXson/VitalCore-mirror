@@ -44,7 +44,6 @@ public class MapScreen extends MapRenderer implements Runnable, Closeable {
 
 	public final int  map_id;
 	public final int  map_size;
-	public final long map_rate;
 
 	public final Location  loc;
 	public final BlockFace facing;
@@ -70,12 +69,10 @@ public class MapScreen extends MapRenderer implements Runnable, Closeable {
 
 	public MapScreen(final JavaPlugin plugin, final int map_id,
 			final Location loc, final BlockFace facing,
-			final int map_size, final int map_fps,
-			final PixelSource source) {
+			final int map_size, final PixelSource source) {
 		this.plugin = plugin;
 		this.map_id = map_id;
 		this.map_size = map_size;
-		this.map_rate = Math.floorDiv(20L, (long)map_fps);
 		this.loc    = loc;
 		this.facing = facing;
 		this.pixel_source = source;
@@ -107,9 +104,12 @@ public class MapScreen extends MapRenderer implements Runnable, Closeable {
 
 
 
-	public void start() {
+	public void start(final int fps) {
 		this.findNearestPlayer();
-		this.run.runTaskTimer(this.plugin, 2L, this.map_rate);
+		if (fps > 1) {
+			final int rate = Math.floorDiv(20, fps);
+			this.run.runTaskTimer(this.plugin, 2L, rate);
+		}
 	}
 
 //TODO: remember to close to free maps

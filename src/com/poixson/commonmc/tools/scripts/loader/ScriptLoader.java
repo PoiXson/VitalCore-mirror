@@ -10,6 +10,9 @@ public interface ScriptLoader {
 	public void reload();
 
 	public String getName();
+
+	public int getFPS(final int def);
+
 	public ScriptSourceDAO[] getSources() throws FileNotFoundException;
 
 

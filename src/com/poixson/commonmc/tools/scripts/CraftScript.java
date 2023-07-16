@@ -25,6 +25,8 @@ import com.poixson.tools.CoolDown;
 public class CraftScript implements Closeable {
 	protected static final Logger LOG = Logger.getLogger("Minecraft");
 
+	public static final int DEFAULT_FPS = 1;
+
 	protected final ScriptLoader loader;
 	protected final Scriptable scope;
 
@@ -188,6 +190,15 @@ public class CraftScript implements Closeable {
 				SafeClose(instance);
 			}
 		}
+	}
+
+
+
+	public int getFPS() {
+		return this.getFPS(DEFAULT_FPS);
+	}
+	public int getFPS(final int def) {
+		return this.loader.getFPS(DEFAULT_FPS);
 	}
 
 

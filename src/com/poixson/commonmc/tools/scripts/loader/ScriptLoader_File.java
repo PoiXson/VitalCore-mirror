@@ -18,6 +18,7 @@ public class ScriptLoader_File implements ScriptLoader {
 	protected final String path_local;
 	protected final String path_resource;
 	protected final String filename;
+	protected Integer fps = null;
 
 	protected final AtomicReference<ScriptSourceDAO[]> sources =
 			new AtomicReference<ScriptSourceDAO[]>(null);
@@ -45,6 +46,16 @@ public class ScriptLoader_File implements ScriptLoader {
 	@Override
 	public String getName() {
 		return this.filename;
+	}
+
+
+
+	@Override
+	public int getFPS(final int def) {
+		final Integer fps = this.fps;
+		if (fps != null)
+			return fps.intValue();
+		return def;
 	}
 
 
@@ -132,6 +143,9 @@ public class ScriptLoader_File implements ScriptLoader {
 					switch (key) {
 					case "include":
 						this.loadSourcesRecursive(list, parts[1].trim());
+						break;
+					case "fps":
+						this.fps = Integer.valueOf(parts[1].trim());
 						break;
 					default:
 						LOG.warning(String.format("%sUnknown statement: %s  in file: %s", LOG_PREFIX, line, filename));
