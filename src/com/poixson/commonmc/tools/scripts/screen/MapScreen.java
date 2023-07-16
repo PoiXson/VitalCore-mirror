@@ -53,17 +53,11 @@ public class MapScreen extends MapRenderer implements Runnable, Closeable {
 
 	protected final PixelSource pixel_source;
 
+	protected final BukkitRunnable run;
 	protected final AtomicBoolean closed = new AtomicBoolean(false);
 
 	protected final AtomicReference<Player> nearest_player = new AtomicReference<Player>(null);
 	protected final AtomicInteger           nearest_check  = new AtomicInteger(0);
-
-	protected final BukkitRunnable run = new BukkitRunnable() {
-		@Override
-		public void run() {
-			MapScreen.this.run();
-		}
-	};
 
 
 
@@ -100,6 +94,12 @@ public class MapScreen extends MapRenderer implements Runnable, Closeable {
 		for (final MapRenderer render : this.view.getRenderers())
 			this.view.removeRenderer(render);
 		this.view.addRenderer(this);
+		this.run = new BukkitRunnable() {
+			@Override
+			public void run() {
+				MapScreen.this.run();
+			}
+		};
 	}
 
 
@@ -112,7 +112,7 @@ public class MapScreen extends MapRenderer implements Runnable, Closeable {
 		}
 	}
 
-//TODO: remember to close to free maps
+//TODO: remember to close and free maps
 	@Override
 	public void close() {
 		try {
@@ -136,7 +136,7 @@ public class MapScreen extends MapRenderer implements Runnable, Closeable {
 	}
 
 	@Override
-	public void render(final MapView map, final MapCanvas canvas, final Player player) {
+	public void render(final MapView view, final MapCanvas canvas, final Player player) {
 		if (this.closed.get()) return;
 		final Image img_mask = this.img_screen_mask.get();
 		if (img_mask == null) {

@@ -20,8 +20,7 @@ public class ScriptLoader_File implements ScriptLoader {
 	protected final String filename;
 	protected Integer fps = null;
 
-	protected final AtomicReference<ScriptSourceDAO[]> sources =
-			new AtomicReference<ScriptSourceDAO[]>(null);
+	protected final AtomicReference<ScriptSourceDAO[]> sources = new AtomicReference<ScriptSourceDAO[]>(null);
 
 
 
@@ -113,32 +112,33 @@ public class ScriptLoader_File implements ScriptLoader {
 		// parse header
 		if (found.code.startsWith("//#")) {
 			String code = found.code;
-			String line;
+			String stmt;
 			int pos;
 			LOOP_LINES:
 			while (code.startsWith("//#")) {
 				pos = code.indexOf('\n');
 				if (pos == -1) {
-					line = code;
+					stmt = code;
 					code = "";
 				} else {
-					line = code.substring(0, pos);
+					stmt = code.substring(0, pos);
 					code = code.substring(pos + 1);
 				}
-				line = line.substring(3).trim();
-				if (line.length() == 0)
+				stmt = stmt.substring(3).trim();
+				if (stmt.length() == 0)
 					continue LOOP_LINES;
-				pos = line.indexOf('=');
+				pos = stmt.indexOf('=');
 				// statement
 				if (pos == -1) {
-					switch (line) {
+					switch (stmt) {
+//TODO
 					default:
-						LOG.warning(String.format("%sUnknown statement: %s  in file: %s", LOG_PREFIX, line, filename));
+						LOG.warning(String.format("%sUnknown statement: %s  in file: %s", LOG_PREFIX, stmt, filename));
 						break;
 					}
 				// key/value
 				} else {
-					final String[] parts = line.split("=", 2);
+					final String[] parts = stmt.split("=", 2);
 					final String key = parts[0].trim();
 					switch (key) {
 					case "include":
@@ -148,7 +148,7 @@ public class ScriptLoader_File implements ScriptLoader {
 						this.fps = Integer.valueOf(parts[1].trim());
 						break;
 					default:
-						LOG.warning(String.format("%sUnknown statement: %s  in file: %s", LOG_PREFIX, line, filename));
+						LOG.warning(String.format("%sUnknown statement: %s  in file: %s", LOG_PREFIX, stmt, filename));
 						break;
 					}
 				}
