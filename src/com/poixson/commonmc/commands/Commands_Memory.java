@@ -13,8 +13,8 @@ public class Commands_Memory extends pxnCommandsHandler<pxnCommonPlugin> {
 
 	public Commands_Memory(final pxnCommonPlugin plugin) {
 		super(plugin,
-			"mem",
-			"memory"
+			"xmem",
+			"xmemory"
 		);
 		this.addCommand(new Command_Memory(plugin));
 	}

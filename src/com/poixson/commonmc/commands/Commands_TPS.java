@@ -18,8 +18,8 @@ public class Commands_TPS extends pxnCommandsHandler<pxnCommonPlugin> {
 
 	public Commands_TPS(final pxnCommonPlugin plugin) {
 		super(plugin,
-			"tps",
-			"lag"
+			"xtps",
+			"xlag"
 		);
 		this.addCommand(new Command_TPS(plugin));
 	}
