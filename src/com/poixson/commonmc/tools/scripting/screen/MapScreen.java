@@ -1,4 +1,4 @@
-package com.poixson.commonmc.tools.scripts.screen;
+package com.poixson.commonmc.tools.scripting.screen;
 
 import static com.poixson.commonmc.utils.ItemUtils.SetMapID;
 import static com.poixson.commonmc.utils.MapUtils.NearestMapColor;

@@ -1,4 +1,4 @@
-package com.poixson.commonmc.tools.scripts.loader;
+package com.poixson.commonmc.tools.scripting.loader;
 
 import static com.poixson.commonmc.pxnCommonPlugin.LOG_PREFIX;
 import static com.poixson.utils.FileUtils.GetLastModified;

@@ -1,4 +1,4 @@
-package com.poixson.commonmc.tools.scripts;
+package com.poixson.commonmc.tools.scripting.engine;
 
 import static com.poixson.commonmc.pxnCommonPlugin.LOG_PREFIX;
 import static com.poixson.utils.Utils.SafeClose;
@@ -17,8 +17,9 @@ import org.mozilla.javascript.ImporterTopLevel;
 import org.mozilla.javascript.Script;
 import org.mozilla.javascript.Scriptable;
 
-import com.poixson.commonmc.tools.scripts.loader.ScriptLoader;
-import com.poixson.commonmc.tools.scripts.loader.ScriptSourceDAO;
+import com.poixson.commonmc.tools.scripting.loader.ScriptLoader;
+import com.poixson.commonmc.tools.scripting.loader.ScriptSourceDAO;
+import com.poixson.commonmc.tools.scripts.ScriptInstance;
 import com.poixson.tools.CoolDown;
 
 
@@ -42,7 +43,7 @@ public class CraftScript implements Closeable {
 	private static final AtomicBoolean inited = new AtomicBoolean(false);
 	static {
 		if (inited.compareAndSet(false, true))
-			pxnContextFactory.init();
+			ScriptContextFactory.init();
 	}
 
 

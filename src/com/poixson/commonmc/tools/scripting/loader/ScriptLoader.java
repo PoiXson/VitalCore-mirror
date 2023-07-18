@@ -1,4 +1,4 @@
-package com.poixson.commonmc.tools.scripts.loader;
+package com.poixson.commonmc.tools.scripting.loader;
 
 import java.io.FileNotFoundException;
 

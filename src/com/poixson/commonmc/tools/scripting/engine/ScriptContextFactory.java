@@ -1,4 +1,4 @@
-package com.poixson.commonmc.tools.scripts;
+package com.poixson.commonmc.tools.scripting.engine;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -8,7 +8,7 @@ import org.mozilla.javascript.ContextFactory;
 import com.poixson.tools.Keeper;
 
 
-public class pxnContextFactory extends ContextFactory {
+public class ScriptContextFactory extends ContextFactory {
 
 	protected static final AtomicBoolean inited = new AtomicBoolean(false);
 
@@ -16,7 +16,7 @@ public class pxnContextFactory extends ContextFactory {
 
 	public static void init() {
 		if (inited.compareAndSet(false, true)) {
-			final pxnContextFactory factory = new pxnContextFactory();
+			final ScriptContextFactory factory = new ScriptContextFactory();
 			ContextFactory.initGlobal(factory);
 			Keeper.add(factory);
 		}

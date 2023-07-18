@@ -1,4 +1,4 @@
-package com.poixson.commonmc.tools.scripts.exceptions;
+package com.poixson.commonmc.tools.scripting.exceptions;
 
 
 public class JSFunctionNotFoundException extends RuntimeException {

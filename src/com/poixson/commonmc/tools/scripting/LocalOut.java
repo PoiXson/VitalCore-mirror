@@ -1,4 +1,4 @@
-package com.poixson.commonmc.tools.scripts;
+package com.poixson.commonmc.tools.scripting;
 
 import java.io.OutputStream;
 
