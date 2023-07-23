@@ -1,7 +1,7 @@
 package com.poixson.commonmc.tools.scripting.exceptions;
 
 
-public class JSFunctionNotFoundException extends RuntimeException {
+public class JSFunctionNotFoundException extends NullPointerException {
 	private static final long serialVersionUID = 1L;
 
 
