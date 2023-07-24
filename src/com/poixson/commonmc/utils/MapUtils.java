@@ -18,11 +18,11 @@ public final class MapUtils {
 
 
 
-	public static void DrawImagePixels(final Color[][] pixels,
+	public static void DrawImagePixels(final int[][] pixels,
 			final int x, final int y, final BufferedImage img) {
 		DrawImagePixels(pixels, x, y, img, (BufferedImage)null);
 	}
-	public static void DrawImagePixels(final Color[][] pixels,
+	public static void DrawImagePixels(final int[][] pixels,
 			final int x, final int y, final BufferedImage img,
 			final BufferedImage mask) {
 		final int w = pixels[0].length - 1;
@@ -39,21 +39,21 @@ public final class MapUtils {
 				if (xx < 0 || xx > w
 				||  yy < 0 || yy > h)
 					continue LOOP_X;
-				if (mask != null && !Color.WHITE.equals(new Color(mask.getRGB(ix, iy))))
+				if (mask != null && Color.WHITE.getRGB() != mask.getRGB(ix, iy))
 					continue LOOP_X;
-				pixels[yy][xx] = new Color(img.getRGB(ix, iy));
+				pixels[yy][xx] = img.getRGB(ix, iy);
 			} // end LOOP_X
 		} // end LOOP_Y
 	}
-	public static void DrawImagePixels(final Color[][] pixels,
+	public static void DrawImagePixels(final int[][] pixels,
 			final int x, final int y, final BufferedImage img,
-			final Color mask) {
+			final int mask) {
 		final int w = pixels[0].length - 1;
 		final int h = pixels.length    - 1;
 		final int img_w = img.getWidth(null);
 		final int img_h = img.getHeight(null);
 		int xx, yy;
-		Color c;
+		int c;
 		//LOOP_Y:
 		for (int iy=0; iy<img_h; iy++) {
 			yy = iy + y;
@@ -63,8 +63,8 @@ public final class MapUtils {
 				if (xx < 0 || xx > w
 				||  yy < 0 || yy > h)
 					continue LOOP_X;
-				c = new Color(img.getRGB(ix, iy));
-				if (!mask.equals(c))
+				c = img.getRGB(ix, iy);
+				if (c != mask)
 					pixels[yy][xx] = c;
 			} // end LOOP_X
 		} // end LOOP_Y
