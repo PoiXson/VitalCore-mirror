@@ -15,6 +15,10 @@ public final class MapUtils {
 	public static Color NearestMapColor(final Color color) {
 		return MapPalette.getColor(MapPalette.matchColor(color));
 	}
+	@SuppressWarnings("deprecation")
+	public static int NearestMapColor(final int color) {
+		return MapPalette.getColor(MapPalette.matchColor(new Color(color))).getRGB();
+	}
 
 
 
@@ -29,6 +33,7 @@ public final class MapUtils {
 		final int h = pixels.length    - 1;
 		final int img_w = img.getWidth(null);
 		final int img_h = img.getHeight(null);
+		final int color_white = Color.WHITE.getRGB();
 		int xx, yy;
 		//LOOP_Y:
 		for (int iy=0; iy<img_h; iy++) {
@@ -39,7 +44,7 @@ public final class MapUtils {
 				if (xx < 0 || xx > w
 				||  yy < 0 || yy > h)
 					continue LOOP_X;
-				if (mask != null && Color.WHITE.getRGB() != mask.getRGB(ix, iy))
+				if (mask != null && mask.getRGB(ix, iy) != color_white)
 					continue LOOP_X;
 				pixels[yy][xx] = img.getRGB(ix, iy);
 			} // end LOOP_X

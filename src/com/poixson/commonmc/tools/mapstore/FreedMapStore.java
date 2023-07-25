@@ -78,7 +78,7 @@ public class FreedMapStore extends xListener<pxnCommonPlugin> {
 				for (final Integer id : list)
 					result[i++] = id.intValue();
 			}
-			LOG.info(String.format("%sSaving [%d] freed maps", LOG_PREFIX, result.length));
+			LOG.info(String.format("%sSaving %d freed maps", LOG_PREFIX, result.length));
 			BufferedWriter writer = null;
 			try {
 				final String data = (new Gson()).toJson(result);

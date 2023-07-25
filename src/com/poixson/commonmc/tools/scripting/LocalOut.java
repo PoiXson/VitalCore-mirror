@@ -39,6 +39,7 @@ public class LocalOut extends OutputStream {
 
 
 
+	@Override
 	public void flush() {
 		String str = this.buffer.toString();
 		this.buffer.setLength(0);
@@ -57,6 +58,7 @@ public class LocalOut extends OutputStream {
 			}
 		}
 	}
+	@Override
 	public void close() {
 		this.flush();
 	}
