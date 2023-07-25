@@ -1,161 +1,78 @@
 package com.poixson.commonmc.tools.scripting.engine;
 
-import static com.poixson.commonmc.pxnCommonPlugin.LOG_PREFIX;
+import static com.poixson.utils.Utils.GetMS;
 import static com.poixson.utils.Utils.SafeClose;
 
-import java.io.Closeable;
 import java.io.FileNotFoundException;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.LinkedTransferQueue;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicReference;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.Logger;
 
 import org.mozilla.javascript.Context;
+import org.mozilla.javascript.Function;
 import org.mozilla.javascript.ImporterTopLevel;
 import org.mozilla.javascript.Script;
 import org.mozilla.javascript.Scriptable;
 
+import com.poixson.commonmc.tools.scripting.exceptions.JSFunctionNotFoundException;
 import com.poixson.commonmc.tools.scripting.loader.ScriptLoader;
 import com.poixson.commonmc.tools.scripting.loader.ScriptSourceDAO;
-import com.poixson.commonmc.tools.scripts.ScriptInstance;
-import com.poixson.tools.CoolDown;
+import com.poixson.tools.xTime;
+import com.poixson.tools.abstractions.StaticKeyValue;
+import com.poixson.tools.abstractions.xStartStop;
+import com.poixson.utils.Utils;
 
 
-public class CraftScript implements Closeable {
-	protected static final Logger LOG = Logger.getLogger("Minecraft");
+public class CraftScript implements Runnable, xStartStop {
+	public static final Logger LOG = Logger.getLogger("Minecraft");
+	public static final String LOG_PREFIX = "[Script] ";
+	protected static final AtomicBoolean inited = new AtomicBoolean(false);
 
-	public static final int DEFAULT_FPS = 1;
+	public static final long STALE_TIMEOUT = xTime.ParseToLong("5m");
 
+	protected final CraftScriptManager manager;
 	protected final ScriptLoader loader;
+
+	protected final boolean safe;
+
 	protected final Scriptable scope;
+	protected final Script[] compiled;
 
-	protected final ConcurrentHashMap<Thread, ScriptInstance> instances = new ConcurrentHashMap<Thread, ScriptInstance>();
-	protected final AtomicReference<Script[]> compiled = new AtomicReference<Script[]>(null);
-
-	protected final CoolDown reloadCool = new CoolDown("5s");
+	protected final LinkedBlockingQueue<StaticKeyValue<String, Object[]>> actions = new LinkedBlockingQueue<StaticKeyValue<String, Object[]>>();
 
 	protected final AtomicBoolean stopping = new AtomicBoolean(false);
+	protected final AtomicLong last_used = new AtomicLong(0L);
 
 
 
-	private static final AtomicBoolean inited = new AtomicBoolean(false);
-	static {
+	public CraftScript(final CraftScriptManager manager, final boolean safe)
+			throws FileNotFoundException {
 		if (inited.compareAndSet(false, true))
 			ScriptContextFactory.init();
-	}
-
-
-
-	public CraftScript(final ScriptLoader loader) {
-		this(loader, true);
-	}
-	public CraftScript(final ScriptLoader loader, final boolean safe) {
-		this.loader = loader;
+		this.manager  = manager;
+		this.loader   = manager.getLoader();
+		this.safe     = safe;
+		this.resetLastUsed();
+		final ScriptSourceDAO[] sources = this.getSources();
 		// top level scope
 		{
 			final Context context = Context.enter();
 			try {
 				if (safe) this.scope = context.initStandardObjects(null, true);
 				else      this.scope = new ImporterTopLevel(context);
-				this.scope.put("out",      this.scope, System.out);
-				this.scope.put("stopping", this.scope, Boolean.FALSE);
+				this.scope.put("out",  this.scope, System.out);
+				this.scope.put("stop", this.scope, Boolean.FALSE);
 			} finally {
 				SafeClose(context);
 			}
-		}
-	}
-
-
-
-	@Override
-	public void close() {
-		this.scope.put("stopping", this.scope, Boolean.TRUE);
-		if (this.stopping.compareAndSet(false, true)) {
-//TODO
-		}
-	}
-	public boolean isStopping() {
-		return this.stopping.get();
-	}
-
-
-
-	public Object getVariable(final String name) {
-		return this.scope.get(name, this.scope);
-	}
-	public void setVariable(final String name, final Object value) {
-		this.scope.put(name, this.scope, value);
-	}
-
-
-
-	public void run() {
-		if (this.stopping.get()) return;
-		this.getScriptInstance();
-	}
-	public Object call(final String funcName, final Object...args) {
-		if (this.stopping.get()) return null;
-		final ScriptInstance instance = this.getScriptInstance();
-		return instance.call(funcName, args);
-	}
-
-	public ScriptInstance getScriptInstance() {
-		// check modified files
-		synchronized (this.reloadCool) {
-			if (this.reloadCool.again()
-			&&  this.loader.hasChanged()) {
-				LOG.info(String.format("%sReloading script: %s", LOG_PREFIX, this.loader.getName()));
-				this.reload();
-			}
-		}
-		// script instance
-		{
-			final Thread thread = Thread.currentThread();
-			// existing instance
-			{
-				final ScriptInstance script = this.instances.get(thread);
-				if (script != null)
-					return script;
-			}
-			// new instance
-			{
-				final ScriptSourceDAO[] sources = this.getSources();
-				final Script[] compiled = this.getCompiledScripts(sources);
-				final ScriptInstance instance =
-					new ScriptInstance(
-						this,
-						this.loader,
-						this.scope,
-						compiled
-					);
-				final ScriptInstance existing = this.instances.putIfAbsent(thread, instance);
-				if (existing == null) {
-					// initial run
-					instance.run();
-					return instance;
-				}
-				return existing;
-			}
-		}
-	}
-
-	public ScriptSourceDAO[] getSources() {
-		try {
-			return this.loader.getSources();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-
-	protected Script[] getCompiledScripts(final ScriptSourceDAO[] sources) {
-		// existing
-		{
-			final Script[] compiled = this.compiled.get();
-			if (compiled != null)
-				return compiled;
 		}
 		// compile
 		{
@@ -168,43 +85,220 @@ public class CraftScript implements Closeable {
 					final Script script = context.compileString(src.code, src.filename, 1, null);
 					list.add(script);
 				}
-				final Script[] compiled = list.toArray(new Script[0]);
-				if (this.compiled.compareAndSet(null, compiled))
-					return compiled;
-			} catch (Exception e) {
-				e.printStackTrace();
-				return null;
+				this.compiled = list.toArray(new Script[0]);
 			} finally {
 				SafeClose(context);
 			}
 		}
-		return this.getCompiledScripts(sources);
 	}
 
 
 
-	public void reload() {
-		synchronized (this.instances) {
-			this.reloadCool.reset();
-			this.loader.reload();
-			this.compiled.set(null);
-			// unload instances
-			final Iterator<Thread> it = this.instances.keySet().iterator();
-			while (it.hasNext()) {
-				final Thread key = it.next();
-				final ScriptInstance instance = this.instances.remove(key);
-				SafeClose(instance);
+	@Override
+	public void start() {
+		if (this.stopping.get()) return;
+		this.resetLastUsed();
+		this.run();
+	}
+
+	@Override
+	public void stop() {
+		this.stopping.set(true);
+		this.setVariable("stop", Boolean.TRUE);
+	}
+
+
+
+	@Override
+	public void run() {
+		if (this.stopping.get()) return;
+		this.resetLastUsed();
+		// run script
+		this.pushVars();
+		try {
+			final Context context = Context.enter();
+			try {
+				for (final Script src : this.compiled) {
+					src.exec(context, this.scope);
+					this.resetLastUsed();
+				}
+			} catch (Exception e) {
+				this.stop();
+				e.printStackTrace();
+				return;
+			} finally {
+				SafeClose(context);
+				this.resetLastUsed();
 			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		this.pullVars();
+	}
+	public void runLoop() {
+		RUN_LOOP:
+		while (!this.stopping.get()) {
+			try {
+				final StaticKeyValue<String, Object[]> entry = this.actions.poll(100L, TimeUnit.MILLISECONDS);
+				if (entry != null) {
+					if ("loop".equals(entry.key)) this.call("loop");
+					else                          this.call("action", entry.key, entry.value);
+				}
+			} catch (JSFunctionNotFoundException ignore) {
+				continue RUN_LOOP;
+			} catch (InterruptedException e) {
+				break RUN_LOOP;
+			} catch (Exception e) {
+				e.printStackTrace();
+				this.stop();
+				break RUN_LOOP;
+			}
+		}
+	}
+
+	public Object call(final String funcName, final Object...args)
+			throws JSFunctionNotFoundException {
+		if (this.stopping.get()) return null;
+		this.resetLastUsed();
+		if (Utils.isEmpty(funcName)) throw new RuntimeException("Cannot call function, no name provided");
+		this.pushVars();
+		final Context context = Context.enter();
+		final Object result;
+		try {
+			final Object funcObj = this.scope.get(funcName, this.scope);
+			if (  funcObj == null             ) throw new JSFunctionNotFoundException(this.loader.getName(), funcName, funcObj);
+			if (!(funcObj instanceof Function)) throw new JSFunctionNotFoundException(this.loader.getName(), funcName, funcObj);
+			final Function func = (Function) funcObj;
+			result = func.call(context, this.scope, this.scope, args);
+		} catch (JSFunctionNotFoundException e) {
+			throw e;
+		} catch (Exception e) {
+			this.stop();
+			e.printStackTrace();
+			return e;
+		} finally {
+			SafeClose(context);
+			this.resetLastUsed();
+		}
+		this.pullVars();
+		return result;
+	}
+
+
+
+	public ScriptSourceDAO[] getSources() throws FileNotFoundException {
+		if (this.stopping.get()) return null;
+		try {
+			return this.loader.getSources();
+		} catch (FileNotFoundException e) {
+			this.stop();
+			throw e;
 		}
 	}
 
 
 
-	public int getFPS() {
-		return this.getFPS(DEFAULT_FPS);
+	public void addAction(final String key, final Object...args) {
+		final int size = this.actions.size();
+		if (size > 0 && size % 100 == 0)
+			throw new RuntimeException("Script actions queue overloaded! " + Integer.toString(size));
+		this.actions.offer(new StaticKeyValue<String, Object[]>(key, args));
 	}
-	public int getFPS(final int def) {
-		return this.loader.getFPS(DEFAULT_FPS);
+
+	public void tick() {
+		this.addAction("loop");
+	}
+
+
+
+	// -------------------------------------------------------------------------------
+	// variables
+
+
+
+	public Object getVariable(final String name) {
+		return this.scope.get(name, this.scope);
+	}
+	public void setVariable(final String name, final Object value) {
+		this.scope.put(name, this.scope, value);
+	}
+
+
+
+	// push variables to script
+	protected void pushVars() {
+		final LinkedList<String> removing = new LinkedList<String>();
+		final Iterator<Entry<String, Object>> it = this.manager.vars_in.entrySet().iterator();
+		while (it.hasNext()) {
+			final Entry<String, Object> entry = it.next();
+			this.setVariable(entry.getKey(), entry.getValue());
+			removing.add(entry.getKey());
+		}
+		for (final String key : removing)
+			this.manager.vars_in.remove(key);
+	}
+
+	// pull variables from script
+	protected void pullVars() {
+		final ConcurrentMap<String, Object> vars_out = new ConcurrentHashMap<String, Object>();
+		for (final String key : this.manager.exports)
+			vars_out.put(key, ConvertThreadSafe(this.getVariable(key)));
+		this.manager.vars_out.set(vars_out);
+	}
+
+
+
+	// -------------------------------------------------------------------------------
+	// stale
+
+
+
+	public void resetLastUsed() {
+		this.last_used.set(GetMS());
+	}
+
+//TODO: use this
+	public boolean isStale() {
+		return this.isStale(GetMS());
+	}
+	public boolean isStale(final long time) {
+		final long since = this.getSinceLastUsed(time);
+		if (since == -1L)
+			return false;
+		return (since > STALE_TIMEOUT);
+	}
+
+	public long getSinceLastUsed() {
+		return this.getSinceLastUsed(GetMS());
+	}
+	public long getSinceLastUsed(final long time) {
+		final long last = this.last_used.get();
+		if (last <= 0L)
+			return -1L;
+		return time - last;
+	}
+
+
+
+	public static Object ConvertThreadSafe(final Object obj) {
+		final String type = obj.getClass().getName();
+		TYPE_SWITCH:
+		switch (type) {
+		case "[[I": {
+			final LinkedTransferQueue<LinkedTransferQueue<Integer>> list =
+					new LinkedTransferQueue<LinkedTransferQueue<Integer>>();
+			final int[][] array = (int[][]) obj;
+			for (final int[] arr : array) {
+				final LinkedTransferQueue<Integer> lst = new LinkedTransferQueue<Integer>();
+				for (final int entry : arr)
+					lst.add(Integer.valueOf(entry));
+				list.add(lst);
+			}
+			return list;
+		}
+		default: break TYPE_SWITCH;
+		}
+		return obj;
 	}
 
 
