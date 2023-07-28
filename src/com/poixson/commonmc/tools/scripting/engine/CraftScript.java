@@ -296,6 +296,18 @@ public class CraftScript implements Runnable, xStartStop {
 			}
 			return list;
 		}
+		case "[[Ljava.awt.Color;": {
+			final LinkedTransferQueue<LinkedTransferQueue<Integer>> list =
+					new LinkedTransferQueue<LinkedTransferQueue<Integer>>();
+			final Color[][] array = (Color[][]) obj;
+			for (final Color[] arr : array) {
+				final LinkedTransferQueue<Integer> lst = new LinkedTransferQueue<Integer>();
+				for (final Color entry : arr)
+					lst.add(Integer.valueOf(entry.getRGB()));
+				list.add(lst);
+			}
+			return list;
+		}
 		default: break TYPE_SWITCH;
 		}
 		return obj;
