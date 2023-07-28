@@ -7,6 +7,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import com.poixson.tools.abstractions.xStartStop;
+import com.poixson.utils.NumberUtils;
 
 
 public class MapSenderTask extends BukkitRunnable implements xStartStop {
@@ -41,7 +42,7 @@ public class MapSenderTask extends BukkitRunnable implements xStartStop {
 		this.start( (long)Math.floorDiv(20, fps) );
 	}
 	public void start(final long rate) {
-		this.runTaskTimer(this.plugin, 2L, rate);
+		this.runTaskTimer(this.plugin, 2L, NumberUtils.MinMax(rate, 1L, 20L));
 	}
 
 	@Override
