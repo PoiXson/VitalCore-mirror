@@ -29,6 +29,7 @@ public class CraftScriptManager implements xStartStop {
 	protected final AtomicReference<Map<String, Object>> vars_out = new AtomicReference<Map<String, Object>>(null);
 	protected final ConcurrentHashMap<String, Object>    vars_in  = new ConcurrentHashMap<String, Object>();
 	protected final CopyOnWriteArraySet<String>          exports  = new CopyOnWriteArraySet<String>();
+	protected final CopyOnWriteArraySet<String>          imports  = new CopyOnWriteArraySet<String>();
 
 	protected final CoolDown reload_cool = new CoolDown("5s");
 
@@ -62,11 +63,8 @@ public class CraftScriptManager implements xStartStop {
 		}
 	}
 	protected boolean doStart() {
+		this.updateImportsExports();
 		try {
-			final ScriptLoader loader = this.loader.get();
-			for (final String var : loader.getExports())
-				this.exports.add(var);
-			loader.getExports();
 			final boolean safe = this.safe.get();
 			final CraftScript script = new CraftScript(this, safe);
 			if (this.script.compareAndSet(null, script)) {
@@ -146,6 +144,7 @@ public class CraftScriptManager implements xStartStop {
 	}
 	public CraftScriptManager setLoader(final ScriptLoader loader) {
 		this.loader.set(loader);
+		this.updateImportsExports();
 		return this;
 	}
 
@@ -156,6 +155,30 @@ public class CraftScriptManager implements xStartStop {
 	public CraftScriptManager setThreaded(final boolean threaded) {
 		this.threaded.set(threaded);
 		return this;
+	}
+
+
+
+	public void updateImportsExports() {
+		final ScriptLoader loader = this.loader.get();
+		if (loader != null) {
+			for (final String var : loader.getExports()) this.exports.add(var);
+			for (final String var : loader.getImports()) this.imports.add(var);
+		}
+	}
+
+	public String[] getImports() {
+		return this.imports.toArray(new String[0]);
+	}
+	public String[] getExports() {
+		return this.exports.toArray(new String[0]);
+	}
+
+	public boolean hasImport(final String key) {
+		return this.imports.contains(key);
+	}
+	public boolean hasExport(final String key) {
+		return this.exports.contains(key);
 	}
 
 
@@ -187,16 +210,6 @@ public class CraftScriptManager implements xStartStop {
 		}
 		return this;
 	}
-
-//TODO: remove this
-//	public CraftScriptManager addExportVariable(final String name) {
-//		this.vars_export.add(name);
-//		return this;
-//	}
-//	public CraftScriptManager removeExportVariable(final String name) {
-//		this.vars_export.remove(name);
-//		return this;
-//	}
 
 
 
