@@ -159,6 +159,18 @@ public class CraftScriptManager implements xStartStop {
 
 
 
+	public boolean hasFlag(final String key) {
+		final ScriptLoader loader = this.loader.get();
+		return (loader == null ? false : loader.hasFlag(key));
+	}
+	public String getFlag(final String key) {
+		final ScriptLoader loader = this.loader.get();
+		return (loader == null ? null : loader.getFlag(key));
+	}
+	public int getFlagInt(final String key) {
+		final String str = this.getFlag(key);
+		return (str == null ? Integer.MIN_VALUE : Integer.parseInt(str));
+	}
 	public void updateImportsExports() {
 		final ScriptLoader loader = this.loader.get();
 		if (loader != null) {

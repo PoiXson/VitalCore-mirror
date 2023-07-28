@@ -96,6 +96,10 @@ public abstract class ScriptLoader {
 
 
 
+	public boolean hasFlag(final String key) {
+		final Map<String, String> flags = this.flags.get();
+		return (flags == null ? false : flags.containsKey(key));
+	}
 	public String getFlag(final String key) {
 		final Map<String, String> flags = this.flags.get();
 		return (flags == null ? null : flags.get(key));
