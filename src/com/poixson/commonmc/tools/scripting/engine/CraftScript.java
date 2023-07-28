@@ -3,6 +3,7 @@ package com.poixson.commonmc.tools.scripting.engine;
 import static com.poixson.utils.Utils.GetMS;
 import static com.poixson.utils.Utils.SafeClose;
 
+import java.awt.Color;
 import java.io.FileNotFoundException;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -36,7 +37,8 @@ public class CraftScript implements Runnable, xStartStop {
 	public static final String LOG_PREFIX = "[Script] ";
 	protected static final AtomicBoolean inited = new AtomicBoolean(false);
 
-	public static final long STALE_TIMEOUT = xTime.ParseToLong("5m");
+	public static final long DEFAULT_STALE_TIMEOUT = xTime.ParseToLong("5m");
+	public static final int  DEFAULT_PLAYER_DISTANCE = 10;
 
 	protected final CraftScriptManager manager;
 	protected final ScriptLoader loader;
@@ -57,9 +59,9 @@ public class CraftScript implements Runnable, xStartStop {
 			throws FileNotFoundException {
 		if (inited.compareAndSet(false, true))
 			ScriptContextFactory.init();
-		this.manager  = manager;
-		this.loader   = manager.getLoader();
-		this.safe     = safe;
+		this.manager = manager;
+		this.loader  = manager.getLoader();
+		this.safe    = safe;
 		this.resetLastUsed();
 		final ScriptSourceDAO[] sources = this.getSources();
 		// top level scope
@@ -141,8 +143,11 @@ public class CraftScript implements Runnable, xStartStop {
 			try {
 				final StaticKeyValue<String, Object[]> entry = this.actions.poll(100L, TimeUnit.MILLISECONDS);
 				if (entry != null) {
-					if ("loop".equals(entry.key)) this.call("loop");
-					else                          this.call("action", entry.key, entry.value);
+					KEY_SWITCH:
+					switch (entry.key) {
+					case "loop": this.call("loop");                           break KEY_SWITCH;
+					default:     this.call("action", entry.key, entry.value); break KEY_SWITCH;
+					}
 				}
 			} catch (JSFunctionNotFoundException ignore) {
 				continue RUN_LOOP;
@@ -265,7 +270,7 @@ public class CraftScript implements Runnable, xStartStop {
 		final long since = this.getSinceLastUsed(time);
 		if (since == -1L)
 			return false;
-		return (since > STALE_TIMEOUT);
+		return (since > DEFAULT_STALE_TIMEOUT);
 	}
 
 	public long getSinceLastUsed() {
@@ -273,9 +278,7 @@ public class CraftScript implements Runnable, xStartStop {
 	}
 	public long getSinceLastUsed(final long time) {
 		final long last = this.last_used.get();
-		if (last <= 0L)
-			return -1L;
-		return time - last;
+		return (last > 0L ? time-last : -1L);
 	}
 
 
@@ -284,6 +287,7 @@ public class CraftScript implements Runnable, xStartStop {
 		final String type = obj.getClass().getName();
 		TYPE_SWITCH:
 		switch (type) {
+		// int[][]
 		case "[[I": {
 			final LinkedTransferQueue<LinkedTransferQueue<Integer>> list =
 					new LinkedTransferQueue<LinkedTransferQueue<Integer>>();
@@ -296,6 +300,7 @@ public class CraftScript implements Runnable, xStartStop {
 			}
 			return list;
 		}
+		// Color[][]
 		case "[[Ljava.awt.Color;": {
 			final LinkedTransferQueue<LinkedTransferQueue<Integer>> list =
 					new LinkedTransferQueue<LinkedTransferQueue<Integer>>();
@@ -308,7 +313,10 @@ public class CraftScript implements Runnable, xStartStop {
 			}
 			return list;
 		}
-		default: break TYPE_SWITCH;
+		// unhandled type
+		default:
+			LOG.warning(String.format("%sUnhandled export variable type: %s", LOG_PREFIX, type));
+			break TYPE_SWITCH;
 		}
 		return obj;
 	}

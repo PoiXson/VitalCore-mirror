@@ -176,7 +176,7 @@ public class MapScreen extends MapRenderer implements xStartStop {
 				}
 			};
 			if (this.task_sender.compareAndSet(null, task)) {
-				task.start( this.fps.get() );
+				task.start(this.fps.get());
 				return task;
 			}
 		}

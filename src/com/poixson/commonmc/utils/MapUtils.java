@@ -15,9 +15,8 @@ public final class MapUtils {
 	public static Color NearestMapColor(final Color color) {
 		return MapPalette.getColor(MapPalette.matchColor(color));
 	}
-	@SuppressWarnings("deprecation")
 	public static int NearestMapColor(final int color) {
-		return MapPalette.getColor(MapPalette.matchColor(new Color(color))).getRGB();
+		return NearestMapColor(new Color(color)).getRGB();
 	}
 
 

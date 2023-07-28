@@ -98,9 +98,7 @@ public abstract class ScriptLoader {
 
 	public String getFlag(final String key) {
 		final Map<String, String> flags = this.flags.get();
-		if (flags != null)
-			return flags.get(key);
-		return null;
+		return (flags == null ? null : flags.get(key));
 	}
 
 
