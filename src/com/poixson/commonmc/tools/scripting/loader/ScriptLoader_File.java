@@ -63,14 +63,16 @@ public class ScriptLoader_File extends ScriptLoader {
 		{
 			final LinkedList<ScriptSourceDAO> list = new LinkedList<ScriptSourceDAO>();
 			final Map<String, String>        flags = new HashMap<String, String>();
+			final Set<String>              imports = new HashSet<String>();
 			final Set<String>              exports = new HashSet<String>();
 			try {
-				this.loadSources("prepend.js", list, flags, exports);
+				this.loadSources("prepend.js", list, flags, imports, exports);
 			} catch (FileNotFoundException ignore) {}
-			this.loadSources(this.filename, list, flags, exports);
+			this.loadSources(this.filename, list, flags, imports, exports);
 			final ScriptSourceDAO[] sources = list.toArray(new ScriptSourceDAO[0]);
 			if (this.sources.compareAndSet(null, sources)) {
 				this.flags.set(Collections.unmodifiableMap(flags));
+				this.imports.set(imports.toArray(new String[0]));
 				this.exports.set(exports.toArray(new String[0]));
 				return sources;
 			}
@@ -84,7 +86,8 @@ public class ScriptLoader_File extends ScriptLoader {
 	@Override
 	protected void loadSources(final String filename,
 			final LinkedList<ScriptSourceDAO> list,
-			final Map<String, String> flags, final Set<String> exports)
+			final Map<String, String> flags,
+			final Set<String> imports, final Set<String> exports)
 			throws FileNotFoundException {
 		// find local or resource file
 		final ScriptSourceDAO found =
@@ -95,7 +98,7 @@ public class ScriptLoader_File extends ScriptLoader {
 				filename
 			);
 		if (found == null) throw new FileNotFoundException(filename);
-		this.parseHeader(found.code, list, flags, exports);
+		this.parseHeader(found.code, list, flags, imports, exports);
 		list.add(found);
 	}
 

@@ -15,6 +15,7 @@ public abstract class ScriptLoader {
 
 	protected final AtomicReference<ScriptSourceDAO[]> sources = new AtomicReference<ScriptSourceDAO[]>(null);
 	protected final AtomicReference<Map<String, String>> flags = new AtomicReference<Map<String, String>>(null);
+	protected final AtomicReference<String[]>          imports = new AtomicReference<String[]>(null);
 	protected final AtomicReference<String[]>          exports = new AtomicReference<String[]>(null);
 
 
@@ -36,12 +37,14 @@ public abstract class ScriptLoader {
 
 	protected abstract void loadSources(final String filename,
 			final LinkedList<ScriptSourceDAO> list,
-			final Map<String, String> flags, final Set<String> exports)
+			final Map<String, String> flags,
+			final Set<String> imports, final Set<String> exports)
 			throws FileNotFoundException;
 
 	protected void parseHeader(final String code,
 			final LinkedList<ScriptSourceDAO> list,
-			final Map<String, String> flags, final Set<String> exports)
+			final Map<String, String> flags,
+			final Set<String> imports, final Set<String> exports)
 			throws FileNotFoundException {
 		if (!code.startsWith("//#")) return;
 		{
@@ -71,10 +74,12 @@ public abstract class ScriptLoader {
 					FLAG_SWITCH:
 					switch (key) {
 					//#include=file.js
-					case "include": this.loadSources(val, list, flags, exports); break FLAG_SWITCH;
+					case "include": this.loadSources(val, list, flags, imports, exports); break FLAG_SWITCH;
+					//#import=var
+					case "import": imports.add(val); break FLAG_SWITCH;
 					//#export=var
-					case "export": exports.add(val);    break FLAG_SWITCH;
-					default:       flags.put(key, val); break FLAG_SWITCH;
+					case "export": exports.add(val); break FLAG_SWITCH;
+					default:    flags.put(key, val); break FLAG_SWITCH;
 					} // end FLAG_SWITCH
 				}
 			} // end LOOP_LINES
@@ -103,8 +108,13 @@ public abstract class ScriptLoader {
 	public Map<String, String> getFlags() {
 		return this.flags.get();
 	}
+	public String[] getImports() {
+		final String[] imports = this.imports.get();
+		return (imports == null ? new String[0] : imports);
+	}
 	public String[] getExports() {
-		return this.exports.get();
+		final String[] exports = this.exports.get();
+		return (exports == null ? new String[0] : exports);
 	}
 
 
