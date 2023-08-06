@@ -2,9 +2,12 @@ package com.poixson.commonmc.utils;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.bukkit.Location;
 import org.bukkit.block.BlockFace;
+import org.bukkit.entity.Player;
 import org.bukkit.map.MapPalette;
 import org.bukkit.util.Vector;
 
@@ -14,6 +17,21 @@ import com.poixson.tools.dao.Iabcd;
 
 public final class ScriptUtils {
 	private ScriptUtils() {}
+
+
+
+	public static Map<String, Object> PlayerToHashMap(final Player player) {
+		final Map<String, Object> map = new ConcurrentHashMap<String, Object>();
+		final Location loc = player.getLocation();
+		map.put("name", player.getName());
+		map.put("uuid", player.getUniqueId().toString());
+		map.put("x", Double.valueOf(loc.getX()));
+		map.put("y", Double.valueOf(loc.getY()));
+		map.put("z", Double.valueOf(loc.getZ()));
+		map.put("yaw",   Float.valueOf(loc.getYaw()));
+		map.put("pitch", Float.valueOf(loc.getPitch()));
+		return map;
+	}
 
 
 
