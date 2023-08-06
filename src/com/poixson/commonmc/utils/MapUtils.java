@@ -3,11 +3,67 @@ package com.poixson.commonmc.utils;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 
+import org.bukkit.Location;
+import org.bukkit.block.BlockFace;
 import org.bukkit.map.MapPalette;
+import org.bukkit.util.Vector;
+
+import com.poixson.tools.dao.Iab;
+import com.poixson.tools.dao.Iabcd;
 
 
 public final class MapUtils {
 	private MapUtils() {}
+
+
+
+	public static Iab FixCursorPosition(final Vector vec, final int map_size,
+			final Iabcd screen_size, final BlockFace facing) {
+		final int y = ((int)Math.round( map_size * (1.0-(vec.getY()%1.0)) )) - screen_size.b;
+		final double vec_x;
+		FACING_SWITCH:
+		switch (facing) {
+		case NORTH: case SOUTH: vec_x = vec.getX(); break FACING_SWITCH;
+		case EAST:  case WEST:  vec_x = vec.getZ(); break FACING_SWITCH;
+		default: throw new RuntimeException("Unknown cursor direction: " + facing.toString());
+		}
+		int x = ((int)Math.round( map_size * (vec_x%1.0) )) - screen_size.a;
+		// reverse direction
+		FACING_SWITCH:
+		switch (facing) {
+		case NORTH: case EAST: x = screen_size.c - x; break FACING_SWITCH;
+		case SOUTH: case WEST: break FACING_SWITCH;
+		default: throw new RuntimeException("Unknown cursor direction: " + facing.toString());
+		}
+		return new Iab(x, y);
+	}
+	public static Iab FixClickPosition(final Vector vec, final int map_size,
+			final Iabcd screen_size, final BlockFace facing, final Location player_loc) {
+		int y = ((int)Math.round( map_size * (0.5-(vec.getY()%1.0)) )) - screen_size.b - 1;
+		final double vec_x;
+		FACING_SWITCH:
+		switch (facing) {
+		case NORTH: case SOUTH: vec_x = vec.getX() + 0.5; break FACING_SWITCH;
+		case EAST:  case WEST:  vec_x = vec.getZ() + 0.5; break FACING_SWITCH;
+		default: throw new RuntimeException("Unknown click direction: " + facing.toString());
+		}
+		int x = ((int)Math.round( map_size * (vec_x%1.0) )) - screen_size.a;
+		// reverse direction
+		FACING_SWITCH:
+		switch (facing) {
+		case NORTH: case EAST: x = screen_size.c - x; break FACING_SWITCH;
+		case SOUTH: case WEST: break FACING_SWITCH;
+		default: throw new RuntimeException("Unknown click direction: " + facing.toString());
+		}
+		// correct for angle and map distance from wall
+		{
+			final double angle_x = 45.0 - ((player_loc.getYaw()   + 225.0) % 90.0);
+			final double angle_y = 45.0 - ((player_loc.getPitch() + 225.0) % 90.0);
+			x += (int)Math.round(0.0 - (Math.tan(angle_x / 45.0) * (0.03125 * map_size)));
+			y += (int)Math.round(0.0 - (Math.tan(angle_y / 45.0) * (0.03125 * map_size)));
+		}
+		return new Iab(x, y);
+	}
 
 
 
