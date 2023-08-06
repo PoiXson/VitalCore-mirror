@@ -146,7 +146,14 @@ public class CraftScript implements Runnable, xStartStop {
 					KEY_SWITCH:
 					switch (entry.key) {
 					case "loop": this.call("loop");                           break KEY_SWITCH;
-					default:     this.call("action", entry.key, entry.value); break KEY_SWITCH;
+					default: {
+						final LinkedList<Object> args = new LinkedList<Object>();
+						args.add(entry.key);
+						for (final Object arg : entry.value)
+							args.add(arg);
+						this.call("action", args.toArray(new Object[0]));
+						break KEY_SWITCH;
+					}
 					}
 				}
 			} catch (JSFunctionNotFoundException ignore) {
