@@ -222,6 +222,9 @@ public class MapScreen extends MapRenderer implements xStartStop {
 	public Location getLocation() {
 		return this.loc;
 	}
+	public BlockFace getFacing() {
+		return this.facing;
+	}
 
 
 

@@ -177,6 +177,7 @@ implements CommandExecutor, TabCompleter {
 			pc.setTabCompleter(tabComp);
 	}
 
+//TODO: permissions
 	@Override
 	public List<String> onTabComplete(
 			final CommandSender sender, final Command cmd,

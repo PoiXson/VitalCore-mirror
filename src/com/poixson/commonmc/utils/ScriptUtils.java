@@ -117,7 +117,8 @@ public final class ScriptUtils {
 				if (xx < 0 || xx > w
 				||  yy < 0 || yy > h)
 					continue LOOP_X;
-				if (mask != null && mask.getRGB(ix, iy) != color_white)
+				if (mask != null
+				&&  mask.getRGB(ix, iy) != color_white)
 					continue LOOP_X;
 				pixels[yy][xx] = new Color(img.getRGB(ix, iy));
 			} // end LOOP_X

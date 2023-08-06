@@ -80,6 +80,7 @@ public class CraftScriptManager implements xStartStop {
 	@Override
 	public void stop() {
 //TODO: which thread
+//TODO: use stop action
 		final CraftScript script = this.script.getAndSet(null);
 		if (script != null)
 			script.stop();

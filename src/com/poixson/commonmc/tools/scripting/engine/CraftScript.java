@@ -145,7 +145,8 @@ public class CraftScript implements Runnable, xStartStop {
 				if (entry != null) {
 					KEY_SWITCH:
 					switch (entry.key) {
-					case "loop": this.call("loop");                           break KEY_SWITCH;
+					case "loop":  this.call("loop");               break KEY_SWITCH;
+					case "click": this.call("click", entry.value); break KEY_SWITCH;
 					default: {
 						final LinkedList<Object> args = new LinkedList<Object>();
 						args.add(entry.key);
