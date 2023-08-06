@@ -12,8 +12,8 @@ import com.poixson.tools.dao.Iab;
 import com.poixson.tools.dao.Iabcd;
 
 
-public final class MapUtils {
-	private MapUtils() {}
+public final class ScriptUtils {
+	private ScriptUtils() {}
 
 
 
