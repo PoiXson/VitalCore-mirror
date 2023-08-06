@@ -12,8 +12,6 @@ import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.ServicesManager;
 
 import com.poixson.commonmc.charts.pxnPluginsChart;
-import com.poixson.commonmc.commands.Commands_Memory;
-import com.poixson.commonmc.commands.Commands_TPS;
 import com.poixson.commonmc.events.PlayerMoveManager;
 import com.poixson.commonmc.events.PluginSaveManager;
 import com.poixson.commonmc.tools.mapstore.FreedMapStore;
@@ -40,10 +38,6 @@ public class pxnCommonPlugin extends xJavaPlugin {
 
 	// ticks per second
 	protected final AtomicReference<TicksPerSecond> tpsManager   = new AtomicReference<TicksPerSecond>(null);
-
-	// commands
-	protected final AtomicReference<Commands_TPS>    commandsTPS = new AtomicReference<Commands_TPS>(null);
-	protected final AtomicReference<Commands_Memory> commandsMem = new AtomicReference<Commands_Memory>(null);
 
 
 
@@ -87,22 +81,6 @@ public class pxnCommonPlugin extends xJavaPlugin {
 			manager.startLater();
 		}
 		super.onEnable();
-		// /tps
-		{
-			final Commands_TPS commands = new Commands_TPS(this);
-			final Commands_TPS previous = this.commandsTPS.getAndSet(commands);
-			if (previous != null)
-				previous.unregister();
-			commands.register();
-		}
-		// /mem
-		{
-			final Commands_Memory commands = new Commands_Memory(this);
-			final Commands_Memory previous = this.commandsMem.getAndSet(commands);
-			if (previous != null)
-				previous.unregister();
-			commands.register();
-		}
 		// player move listeners
 		{
 			final PlayerMoveManager manager = new PlayerMoveManager(this);
@@ -169,18 +147,6 @@ public class pxnCommonPlugin extends xJavaPlugin {
 			final pxnPluginsChart listener = this.pluginsListener.getAndSet(null);
 			if (listener != null)
 				listener.unregister();
-		}
-		// /tps
-		{
-			final Commands_TPS commands = this.commandsTPS.getAndSet(null);
-			if (commands != null)
-				commands.unregister();
-		}
-		// /mem
-		{
-			final Commands_Memory commands = this.commandsMem.getAndSet(null);
-			if (commands != null)
-				commands.unregister();
 		}
 	}
 
