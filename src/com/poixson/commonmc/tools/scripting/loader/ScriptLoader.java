@@ -46,13 +46,24 @@ public abstract class ScriptLoader {
 			final Map<String, String> flags,
 			final Set<String> imports, final Set<String> exports)
 			throws FileNotFoundException {
-		if (!code.startsWith("//#")) return;
-		{
-			String lines = code;
-			String line;
-			int pos;
-			LOOP_LINES:
-			while (lines.startsWith("//#")) {
+		String lines = code;
+		String line;
+		int pos;
+		LOOP_LINES:
+		while (true) {
+			// blank line
+			if (lines.startsWith("\n")) {
+				lines = lines.substring(1);
+				continue LOOP_LINES;
+			}
+			// block comment
+			if (lines.startsWith("/*")) {
+				pos = lines.indexOf("*/");
+				if (pos == -1) return;
+				lines = lines.substring(pos + 2);
+				continue LOOP_LINES;
+			}
+			if (lines.startsWith("//#")) {
 				pos = lines.indexOf('\n');
 				if (pos == -1) {
 					line  = lines.substring(3).trim();
@@ -82,8 +93,16 @@ public abstract class ScriptLoader {
 					default:    flags.put(key, val); break FLAG_SWITCH;
 					} // end FLAG_SWITCH
 				}
-			} // end LOOP_LINES
-		} // end LOOP_SOURCES
+				continue LOOP_LINES;
+			} // end //#
+			if (lines.startsWith("//")) {
+				pos = lines.indexOf("\n");
+				if (pos == -1) break LOOP_LINES;
+				lines = lines.substring(pos + 1);
+				continue LOOP_LINES;
+			}
+			break LOOP_LINES;
+		} // end LOOP_LINES
 	}
 
 
