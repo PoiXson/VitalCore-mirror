@@ -10,6 +10,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.bukkit.Location;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.MapMeta;
 import org.bukkit.map.MapPalette;
 import org.bukkit.util.Vector;
@@ -40,7 +41,6 @@ public final class ScriptUtils {
 
 	// -------------------------------------------------------------------------------
 	// map scale
-	public static Iab FixCursorPosition(final Vector vec, final int map_size,
 
 
 
@@ -50,6 +50,15 @@ public final class ScriptUtils {
 		meta.setMapId(id);
 		map.setItemMeta(meta);
 	}
+
+
+
+	// -------------------------------------------------------------------------------
+	// cursor position on map
+
+
+
+	public static Iab FixCursorPosition(final Vector vec,
 			final Iabcd screen_size, final BlockFace facing) {
 		final int y = ((int)Math.round( map_size * (1.0-(vec.getY()%1.0)) )) - screen_size.b;
 		final double vec_x;
@@ -69,6 +78,7 @@ public final class ScriptUtils {
 		}
 		return new Iab(x, y);
 	}
+//TODO: doesn't work properly with angles over 45 degrees
 	public static Iab FixClickPosition(final Vector vec,
 			final Iabcd screen_size, final BlockFace facing, final Location player_loc) {
 		int y = ((int)Math.round( map_size * (0.5-(vec.getY()%1.0)) )) - screen_size.b - 1;
@@ -84,7 +94,7 @@ public final class ScriptUtils {
 		FACING_SWITCH:
 		switch (facing) {
 		case NORTH: case EAST: x = screen_size.c - x; break FACING_SWITCH;
-		case SOUTH: case WEST: break FACING_SWITCH;
+		case SOUTH: case WEST:                        break FACING_SWITCH;
 		default: throw new RuntimeException("Unknown click direction: " + facing.toString());
 		}
 		// correct for angle and map distance from wall
@@ -96,6 +106,11 @@ public final class ScriptUtils {
 		}
 		return new Iab(x, y);
 	}
+
+
+
+	// -------------------------------------------------------------------------------
+	// drawing on maps
 
 
 

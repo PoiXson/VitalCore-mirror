@@ -35,10 +35,8 @@ public class MapScreen extends MapRenderer implements xStartStop {
 	protected final JavaPlugin plugin;
 
 	public static final int map_size = 128;
-	protected final int  map_id;
-	protected final AtomicInteger map_size = new AtomicInteger(128);
-	protected final AtomicReference<Iabcd> screen_size = new AtomicReference<Iabcd>(null);
 
+	protected final int map_id;
 	protected final Location  loc;
 	protected final BlockFace facing;
 	protected final ItemStack map;
@@ -48,7 +46,8 @@ public class MapScreen extends MapRenderer implements xStartStop {
 	protected final AtomicInteger fps      = new AtomicInteger(1);
 	protected final AtomicInteger fps_last = new AtomicInteger(1);
 
-	public final AtomicReference<BufferedImage> img_screen_mask = new AtomicReference<BufferedImage>(null);
+	protected final AtomicReference<BufferedImage> img_screen_mask = new AtomicReference<BufferedImage>(null);
+	protected final AtomicReference<Iabcd> screen_size = new AtomicReference<Iabcd>(null);
 
 	protected final AtomicReference<MapSenderTask> task_sender   = new AtomicReference<MapSenderTask>(null);
 	protected final AtomicReference<Runnable>      tick_listener = new AtomicReference<Runnable>(null);
@@ -58,13 +57,16 @@ public class MapScreen extends MapRenderer implements xStartStop {
 
 
 	public MapScreen(final JavaPlugin plugin, final int map_id,
-			final Location loc, final BlockFace facing) {
-		super(true); // contextual - per player
+			final Location loc, final BlockFace facing, final boolean contextual) {
+		// contextual - per player rendering
+		super(contextual);
 		this.plugin = plugin;
+		this.map_id = map_id;
 		this.loc    = loc;
 		this.facing = facing;
-		this.map_id = map_id;
 		// map in frame
+		this.map = new ItemStack(Material.FILLED_MAP, 1);
+		SetMapID(this.map, this.map_id);
 		this.frame = (GlowItemFrame) loc.getWorld().spawnEntity(loc, EntityType.GLOW_ITEM_FRAME);
 		this.frame.setRotation(Rotation.NONE);
 		this.frame.setFacingDirection(facing);
@@ -72,8 +74,6 @@ public class MapScreen extends MapRenderer implements xStartStop {
 		this.frame.setPersistent(true);
 		this.frame.setInvulnerable(true);
 		this.frame.setVisible(false);
-		this.map = new ItemStack(Material.FILLED_MAP, 1);
-		SetMapID(this.map, this.map_id);
 		this.frame.setItem(this.map);
 		// map view
 		this.view = BukkitUtils.GetMapView(map_id);
@@ -81,11 +81,18 @@ public class MapScreen extends MapRenderer implements xStartStop {
 		this.view.setTrackingPosition(false);
 		this.view.setCenterX(0);
 		this.view.setCenterZ(0);
-		this.view.setLocked(true);
 		for (final MapRenderer render : this.view.getRenderers())
 			this.view.removeRenderer(render);
 		this.view.addRenderer(this);
+		this.view.setLocked(true);
 	}
+
+
+
+// not needed
+//	@Override
+//	public void initialize(final MapView view) {
+//	}
 
 
 
@@ -238,6 +245,7 @@ public class MapScreen extends MapRenderer implements xStartStop {
 
 
 	public void setScreenMask(final BufferedImage img) {
+		this.screen_size.set(null);
 		this.img_screen_mask.set(img);
 		this.screen_size.set(null);
 	}
@@ -255,32 +263,34 @@ public class MapScreen extends MapRenderer implements xStartStop {
 			int min_y = Integer.MAX_VALUE;
 			int max_x = Integer.MIN_VALUE;
 			int max_y = Integer.MIN_VALUE;
-			final BufferedImage img = this.img_screen_mask.get();
-			if (img == null) {
-				min_x = 0; max_x = map_size - 1;
-				min_y = 0; max_y = map_size - 1;
+			final BufferedImage mask = this.img_screen_mask.get();
+			// no screen mask
+			if (mask == null) {
+				min_x = min_y = 0;
+				max_x = max_y = map_size - 1;
+			// find mask size in + shape
 			} else {
 				final int half = Math.floorDiv(map_size, 2);
 				for (int ix=0; ix<half; ix++) {
-					if (Color.BLACK.equals(new Color(img.getRGB(half-ix, half)))) {
+					if (Color.BLACK.equals(new Color(mask.getRGB(half-ix, half)))) {
 						min_x = (half - ix) + 1;
 						break;
 					}
 				}
 				for (int ix=0; ix<half; ix++) {
-					if (Color.BLACK.equals(new Color(img.getRGB(half+ix, half)))) {
+					if (Color.BLACK.equals(new Color(mask.getRGB(half+ix, half)))) {
 						max_x = half + ix;
 						break;
 					}
 				}
 				for (int iy=0; iy<half; iy++) {
-					if (Color.BLACK.equals(new Color(img.getRGB(half, half-iy)))) {
+					if (Color.BLACK.equals(new Color(mask.getRGB(half, half-iy)))) {
 						min_y = (half - iy) + 1;
 						break;
 					}
 				}
 				for (int iy=0; iy<half; iy++) {
-					if (Color.BLACK.equals(new Color(img.getRGB(half, half+iy)))) {
+					if (Color.BLACK.equals(new Color(mask.getRGB(half, half+iy)))) {
 						max_y = half + iy;
 						break;
 					}
