@@ -20,7 +20,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.map.MapCanvas;
 import org.bukkit.map.MapRenderer;
 import org.bukkit.map.MapView;
-import org.bukkit.map.MapView.Scale;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.poixson.commonmc.pxnCommonPlugin;
@@ -35,6 +34,7 @@ public class MapScreen extends MapRenderer implements xStartStop {
 
 	protected final JavaPlugin plugin;
 
+	public final int map_size = 128;
 	protected final int  map_id;
 	protected final AtomicInteger map_size = new AtomicInteger(128);
 	protected final AtomicReference<Iabcd> screen_size = new AtomicReference<Iabcd>(null);
@@ -57,16 +57,13 @@ public class MapScreen extends MapRenderer implements xStartStop {
 
 
 
-	public MapScreen(final JavaPlugin plugin,
-			final Location loc, final BlockFace facing,
-			final int map_id, final int map_size) {
+	public MapScreen(final JavaPlugin plugin, final int map_id,
+			final Location loc, final BlockFace facing) {
 		super(true); // contextual - per player
 		this.plugin = plugin;
 		this.loc    = loc;
 		this.facing = facing;
 		this.map_id = map_id;
-		if (map_size > 0)
-			this.map_size.set(map_size);
 		// map in frame
 		this.frame = (GlowItemFrame) loc.getWorld().spawnEntity(loc, EntityType.GLOW_ITEM_FRAME);
 		this.frame.setRotation(Rotation.NONE);
@@ -81,9 +78,6 @@ public class MapScreen extends MapRenderer implements xStartStop {
 		// map view
 		this.view = BukkitUtils.GetMapView(map_id);
 		if (this.view == null) throw new RuntimeException(String.format("Failed to get map view: %d", map_id));
-//TODO: not working properly
-		this.view.setScale(Scale.FARTHEST);
-//		this.view.setScale(Scale.CLOSEST);
 		this.view.setTrackingPosition(false);
 		this.view.setCenterX(0);
 		this.view.setCenterZ(0);
@@ -231,9 +225,6 @@ public class MapScreen extends MapRenderer implements xStartStop {
 	public int getMapID() {
 		return this.map_id;
 	}
-	public int getMapSize() {
-		return this.map_size.get();
-	}
 
 
 
@@ -264,13 +255,12 @@ public class MapScreen extends MapRenderer implements xStartStop {
 			int min_y = Integer.MAX_VALUE;
 			int max_x = Integer.MIN_VALUE;
 			int max_y = Integer.MIN_VALUE;
-			final int map_size = this.map_size.get();
 			final BufferedImage img = this.img_screen_mask.get();
 			if (img == null) {
 				min_x = 0; max_x = map_size - 1;
 				min_y = 0; max_y = map_size - 1;
 			} else {
-				final int half = Math.floorDiv(map_size, 2);
+				final int half = Math.floorDiv(this.map_size, 2);
 				for (int ix=0; ix<half; ix++) {
 					if (Color.BLACK.equals(new Color(img.getRGB(half-ix, half)))) {
 						min_x = (half - ix) + 1;
