@@ -1,6 +1,6 @@
 package com.poixson.commonmc.tools.scripting.screen;
 
-import static com.poixson.commonmc.utils.ItemUtils.SetMapID;
+import static com.poixson.commonmc.utils.ScriptUtils.SetMapID;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;

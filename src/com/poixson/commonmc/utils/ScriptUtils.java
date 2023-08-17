@@ -8,6 +8,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.bukkit.Location;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.meta.MapMeta;
 import org.bukkit.map.MapPalette;
 import org.bukkit.util.Vector;
 
@@ -35,7 +36,18 @@ public final class ScriptUtils {
 
 
 
+	// -------------------------------------------------------------------------------
+	// map scale
 	public static Iab FixCursorPosition(final Vector vec, final int map_size,
+
+
+
+	@SuppressWarnings("deprecation")
+	public static void SetMapID(final ItemStack map, final int id) {
+		final MapMeta meta = (MapMeta) map.getItemMeta();
+		meta.setMapId(id);
+		map.setItemMeta(meta);
+	}
 			final Iabcd screen_size, final BlockFace facing) {
 		final int y = ((int)Math.round( map_size * (1.0-(vec.getY()%1.0)) )) - screen_size.b;
 		final double vec_x;
