@@ -34,7 +34,7 @@ public class MapScreen extends MapRenderer implements xStartStop {
 
 	protected final JavaPlugin plugin;
 
-	public final int map_size = 128;
+	public static final int map_size = 128;
 	protected final int  map_id;
 	protected final AtomicInteger map_size = new AtomicInteger(128);
 	protected final AtomicReference<Iabcd> screen_size = new AtomicReference<Iabcd>(null);
@@ -260,7 +260,7 @@ public class MapScreen extends MapRenderer implements xStartStop {
 				min_x = 0; max_x = map_size - 1;
 				min_y = 0; max_y = map_size - 1;
 			} else {
-				final int half = Math.floorDiv(this.map_size, 2);
+				final int half = Math.floorDiv(map_size, 2);
 				for (int ix=0; ix<half; ix++) {
 					if (Color.BLACK.equals(new Color(img.getRGB(half-ix, half)))) {
 						min_x = (half - ix) + 1;

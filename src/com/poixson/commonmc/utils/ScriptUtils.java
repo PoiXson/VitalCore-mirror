@@ -1,5 +1,7 @@
 package com.poixson.commonmc.utils;
 
+import static com.poixson.commonmc.tools.scripting.screen.MapScreen.map_size;
+
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.util.Map;
@@ -67,7 +69,7 @@ public final class ScriptUtils {
 		}
 		return new Iab(x, y);
 	}
-	public static Iab FixClickPosition(final Vector vec, final int map_size,
+	public static Iab FixClickPosition(final Vector vec,
 			final Iabcd screen_size, final BlockFace facing, final Location player_loc) {
 		int y = ((int)Math.round( map_size * (0.5-(vec.getY()%1.0)) )) - screen_size.b - 1;
 		final double vec_x;
