@@ -1,16 +1,23 @@
 package com.poixson.commonmc.tools.scripting.engine;
 
-//import static com.poixson.commonmc.tools.scripting.engine.CraftScript.LOG;
-//import static com.poixson.commonmc.tools.scripting.engine.CraftScript.LOG_PREFIX;
+import static com.poixson.commonmc.tools.scripting.engine.CraftScript.LOG;
+import static com.poixson.commonmc.tools.scripting.engine.CraftScript.LOG_PREFIX;
 
 import java.io.FileNotFoundException;
+import java.io.PrintStream;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
+import org.bukkit.Location;
+import org.bukkit.plugin.java.JavaPlugin;
+
+import com.poixson.commonmc.tools.scripting.LocalOut;
 import com.poixson.commonmc.tools.scripting.events.ScriptLoadedEvent;
 import com.poixson.commonmc.tools.scripting.events.ScriptLoadedListener;
 import com.poixson.commonmc.tools.scripting.loader.ScriptLoader;
@@ -28,11 +35,14 @@ public class CraftScriptManager implements xStartStop {
 	// params
 	protected final AtomicBoolean safe     = new AtomicBoolean(true);
 	protected final AtomicBoolean threaded = new AtomicBoolean(false);
+	protected final JavaPlugin plugin;
+	protected final PrintStream out;
 
-	protected final AtomicReference<Map<String, Object>> vars_out = new AtomicReference<Map<String, Object>>(null);
-	protected final ConcurrentHashMap<String, Object>    vars_in  = new ConcurrentHashMap<String, Object>();
-	protected final CopyOnWriteArraySet<String>          exports  = new CopyOnWriteArraySet<String>();
-	protected final CopyOnWriteArraySet<String>          imports  = new CopyOnWriteArraySet<String>();
+	protected final AtomicReference<Map<String, Object>> vars_out   = new AtomicReference<Map<String, Object>>(null);
+	protected final ConcurrentHashMap<String, Object>    vars_in    = new ConcurrentHashMap<String, Object>();
+	protected final ConcurrentHashMap<String, Object>    vars_start = new ConcurrentHashMap<String, Object>();
+	protected final CopyOnWriteArraySet<String>          exports    = new CopyOnWriteArraySet<String>();
+	protected final CopyOnWriteArraySet<String>          imports    = new CopyOnWriteArraySet<String>();
 
 	protected final CoolDown reload_cool = new CoolDown("5s");
 
@@ -40,7 +50,25 @@ public class CraftScriptManager implements xStartStop {
 
 
 
-	public CraftScriptManager() {
+//	public CraftScriptManager() {
+//		this(null, null);
+//	}
+	public CraftScriptManager(final JavaPlugin plugin, final Location loc) {
+		this.plugin = plugin;
+		this.setVariable("plugin", plugin);
+		if (loc == null) {
+			this.out = null;
+			this.setVariable("location_x", Integer.valueOf(0));
+			this.setVariable("location_y", Integer.valueOf(0));
+			this.setVariable("location_z", Integer.valueOf(0));
+		} else {
+			this.out = new PrintStream(new LocalOut(loc));
+			this.setVariable("out", this.out);
+			this.setVariable("location_x", loc.getBlockX());
+			this.setVariable("location_y", loc.getBlockY());
+			this.setVariable("location_z", loc.getBlockZ());
+		}
+		this.setVariable("reboot", Boolean.FALSE);
 	}
 
 
@@ -77,6 +105,11 @@ public class CraftScriptManager implements xStartStop {
 			final boolean safe = this.safe.get();
 			final CraftScript script = new CraftScript(this, safe);
 			if (this.script.compareAndSet(null, script)) {
+				final Iterator<Entry<String, Object>> it = this.vars_start.entrySet().iterator();
+				while (it.hasNext()) {
+					final Entry<String, Object> entry = it.next();
+					this.setVariable(entry.getKey(), entry.getValue());
+				}
 				script.start();
 				this.getScript()
 					.runLoop();
@@ -114,14 +147,12 @@ public class CraftScriptManager implements xStartStop {
 
 
 	public CraftScript getScript() {
-//		if (this.stopping.get()) return null;
 		return this.script.get();
 	}
 
 
 
 	public ScriptSourceDAO[] getSources() throws FileNotFoundException {
-//		if (this.stopping.get()) return null;
 		final CraftScript script = this.script.get();
 		if (script != null) {
 			try {
@@ -138,7 +169,6 @@ public class CraftScriptManager implements xStartStop {
 
 	public CraftScriptManager addAction(final String key, final Object...args) {
 		this.checkState();
-//		if (this.stopping.get()) return this;
 		final CraftScript script = this.getScript();
 		if (script != null)
 			script.addAction(key, args);
@@ -147,7 +177,6 @@ public class CraftScriptManager implements xStartStop {
 
 	public CraftScriptManager tick() {
 		this.checkState();
-//		if (this.stopping.get()) return this;
 		final CraftScript script = this.getScript();
 		if (script != null)
 			script.tick();
@@ -238,6 +267,7 @@ public class CraftScriptManager implements xStartStop {
 		return null;
 	}
 	public CraftScriptManager setVariable(final String name, final Object value) {
+		this.vars_start.put(name, value);
 		if (this.threaded.get()) {
 			this.vars_in.put(name, value);
 		} else {

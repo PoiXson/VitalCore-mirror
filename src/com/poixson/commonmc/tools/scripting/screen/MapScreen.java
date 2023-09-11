@@ -32,7 +32,6 @@ import com.poixson.tools.abstractions.xStartStop;
 import com.poixson.tools.dao.Iabcd;
 
 
-//TODO: check fps changed and reload task_sender
 public class MapScreen extends MapRenderer implements xStartStop {
 
 	protected final JavaPlugin plugin;
@@ -52,9 +51,8 @@ public class MapScreen extends MapRenderer implements xStartStop {
 	protected final AtomicReference<BufferedImage> img_screen_mask = new AtomicReference<BufferedImage>(null);
 	protected final AtomicReference<Iabcd> screen_size = new AtomicReference<Iabcd>(null);
 
-	protected final AtomicReference<MapSenderTask> task_sender   = new AtomicReference<MapSenderTask>(null);
-	protected final AtomicReference<Runnable>      tick_listener = new AtomicReference<Runnable>(null);
-	protected final AtomicReference<PixelSource>   pixel_source  = new AtomicReference<PixelSource>(null);
+	protected final AtomicReference<MapSenderTask> task_sender  = new AtomicReference<MapSenderTask>(null);
+	protected final AtomicReference<PixelSource>   pixel_source = new AtomicReference<PixelSource>(null);
 	protected final AtomicBoolean stopping = new AtomicBoolean(false);
 
 	protected final CopyOnWriteArrayList<ScreenFrameListener> listeners_frame = new CopyOnWriteArrayList<ScreenFrameListener>();
@@ -245,7 +243,13 @@ public class MapScreen extends MapRenderer implements xStartStop {
 		return this.fps.get();
 	}
 	public void setFPS(final int fps) {
-		this.fps.set(fps);
+		final int previous = this.fps.getAndSet(fps);
+		if (fps != previous) {
+			final MapSenderTask task = this.task_sender.getAndSet(null);
+			if (task != null)
+				task.stop();
+			this.start();
+		}
 	}
 
 
