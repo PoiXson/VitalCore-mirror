@@ -74,6 +74,8 @@ public class CraftScript implements xStartStop {
 				this.scope.put("out",    this.scope, System.out   );
 				this.scope.put("stop",   this.scope, Boolean.FALSE);
 				this.scope.put("reboot", this.scope, Boolean.FALSE);
+				final String file_self = this.loader.getScriptFile();
+				this.scope.put("file_self", this.scope, file_self);
 			} finally {
 				SafeClose(context);
 			}

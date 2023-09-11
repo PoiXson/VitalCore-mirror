@@ -115,6 +115,7 @@ public abstract class ScriptLoader {
 
 
 	public abstract String getName();
+	public abstract String getScriptFile();
 
 
 

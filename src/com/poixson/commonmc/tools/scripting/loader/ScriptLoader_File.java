@@ -1,5 +1,7 @@
 package com.poixson.commonmc.tools.scripting.loader;
 
+import static com.poixson.utils.FileUtils.MergePaths;
+
 import java.io.FileNotFoundException;
 import java.util.Collections;
 import java.util.HashMap;
@@ -27,7 +29,7 @@ public class ScriptLoader_File extends ScriptLoader {
 		super(plugin);
 		this.path_local    = path_local;
 		this.path_resource = path_resource;
-		this.filename      = filename;
+		this.filename = filename;
 	}
 
 
@@ -111,6 +113,11 @@ public class ScriptLoader_File extends ScriptLoader {
 	@Override
 	public String getName() {
 		return this.filename;
+	}
+
+	@Override
+	public String getScriptFile() {
+		return MergePaths(this.path_local, this.filename);
 	}
 
 
