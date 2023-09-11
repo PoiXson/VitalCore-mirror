@@ -126,6 +126,7 @@ public class CraftScriptManager implements xStartStop {
 
 
 	public CraftScriptManager addAction(final String key, final Object...args) {
+		this.checkState();
 //		if (this.stopping.get()) return this;
 		final CraftScript script = this.getScript();
 		if (script != null)
@@ -134,6 +135,7 @@ public class CraftScriptManager implements xStartStop {
 	}
 
 	public CraftScriptManager tick() {
+		this.checkState();
 //		if (this.stopping.get()) return this;
 		final CraftScript script = this.getScript();
 		if (script != null)
@@ -237,23 +239,27 @@ public class CraftScriptManager implements xStartStop {
 
 
 
-}
-/*
-//TODO: use this
 	public void checkState() {
-		if (this.stopping.get()) return;
+		// reboot flagged
+		final CraftScript script = this.script.get();
+		if (script != null) {
+			if (script.isRebooting()) {
+				this.reload();
+				return;
+			}
+		}
 		// check modified files
-		synchronized (this.reload_cool) {
-			if (this.reload_cool.again()) {
-				final ScriptLoader loader = this.loader.get();
-				if (loader != null) {
-					if (loader.hasChanged()) {
-						LOG.info(String.format("%sReloading script: %s", LOG_PREFIX, loader.getName()));
-						this.reload();
-						return;
-					}
-				}
+		if (this.reload_cool.again()) {
+			final ScriptLoader loader = this.loader.get();
+			if (loader != null
+			&&  loader.hasChanged()) {
+				LOG.info(String.format("%sReloading script: %s", LOG_PREFIX, loader.getName()));
+				this.reload();
+				return;
 			}
 		}
 	}
-*/
+
+
+
+}

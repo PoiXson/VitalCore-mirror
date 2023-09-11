@@ -86,16 +86,14 @@ public class ScriptSourceDAO {
 
 
 	public boolean hasFileChanged() {
-		if (!this.isReal)
-			return false;
-		{
+		if (this.isReal) {
 			final File file = new File(this.path_local, this.filename);
 			try {
-				final long last = GetLastModified(file) * 1000L;
-				return (last > this.timestamp);
+				final long last = GetLastModified(file);
+				return (last > 0L) && (last*1000L > this.timestamp);
 			} catch (IOException ignore) {}
-			return false;
 		}
+		return false;
 	}
 
 
