@@ -44,18 +44,19 @@ public class CraftScriptManager implements xStartStop {
 	public void start() {
 		// threaded
 		if (this.threaded.get()) {
-			final Thread thread = new Thread() {
-				@Override
-				public void run() {
-					CraftScriptManager.this.doStart();
-					CraftScriptManager.this.getScript()
-						.runLoop();
+			final Thread existing = this.thread.get();
+			if (existing == null) {
+				final Thread thread = new Thread() {
+					@Override
+					public void run() {
+						CraftScriptManager.this.doStart();
+					}
+				};
+				if (this.thread.compareAndSet(null, thread)) {
+					final ScriptLoader loader = this.loader.get();
+					thread.setName(thread.getName() + "-Script-" + loader.getName());
+					thread.start();
 				}
-			};
-			if (this.thread.compareAndSet(null, thread)) {
-				final ScriptLoader loader = this.loader.get();
-				thread.setName(thread.getName() + "-Script-" + loader.getName());
-				thread.start();
 			}
 		// not threaded
 		} else {
@@ -69,6 +70,8 @@ public class CraftScriptManager implements xStartStop {
 			final CraftScript script = new CraftScript(this, safe);
 			if (this.script.compareAndSet(null, script)) {
 				script.start();
+				this.getScript()
+					.runLoop();
 				return true;
 			}
 		} catch (FileNotFoundException e) {
@@ -84,12 +87,16 @@ public class CraftScriptManager implements xStartStop {
 		final CraftScript script = this.script.getAndSet(null);
 		if (script != null)
 			script.stop();
+		this.thread.set(null);
 	}
 
 	public void reload() {
 		final CraftScript script = this.script.getAndSet(null);
 		if (script != null)
-			this.stop();
+			script.stop();
+		final ScriptLoader loader = this.loader.get();
+		loader.reload();
+		this.thread.set(null);
 		this.start();
 	}
 
@@ -152,6 +159,10 @@ public class CraftScriptManager implements xStartStop {
 	public CraftScriptManager setSafeScope(final boolean safe) {
 		this.safe.set(safe);
 		return this;
+	}
+
+	public boolean isThreaded() {
+		return this.threaded.get();
 	}
 	public CraftScriptManager setThreaded(final boolean threaded) {
 		this.threaded.set(threaded);

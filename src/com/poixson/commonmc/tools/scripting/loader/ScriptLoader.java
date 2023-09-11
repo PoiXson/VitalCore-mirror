@@ -28,6 +28,9 @@ public abstract class ScriptLoader {
 
 	public void reload() {
 		this.sources.set(null);
+		try {
+			this.getSources();
+		} catch (FileNotFoundException ignore) {}
 	}
 
 	public abstract boolean hasChanged();

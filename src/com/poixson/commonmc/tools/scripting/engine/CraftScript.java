@@ -32,7 +32,7 @@ import com.poixson.tools.abstractions.xStartStop;
 import com.poixson.utils.Utils;
 
 
-public class CraftScript implements Runnable, xStartStop {
+public class CraftScript implements xStartStop {
 	public static final Logger LOG = Logger.getLogger("Minecraft");
 	public static final String LOG_PREFIX = "[Script] ";
 	protected static final AtomicBoolean inited = new AtomicBoolean(false);
@@ -50,7 +50,8 @@ public class CraftScript implements Runnable, xStartStop {
 
 	protected final LinkedBlockingQueue<StaticKeyValue<String, Object[]>> actions = new LinkedBlockingQueue<StaticKeyValue<String, Object[]>>();
 
-	protected final AtomicBoolean stopping = new AtomicBoolean(false);
+	protected final AtomicBoolean stopping  = new AtomicBoolean(false);
+	protected final AtomicBoolean rebooting = new AtomicBoolean(false);
 	protected final AtomicLong last_used = new AtomicLong(0L);
 
 
@@ -70,8 +71,9 @@ public class CraftScript implements Runnable, xStartStop {
 			try {
 				if (safe) this.scope = context.initStandardObjects(null, true);
 				else      this.scope = new ImporterTopLevel(context);
-				this.scope.put("out",  this.scope, System.out);
-				this.scope.put("stop", this.scope, Boolean.FALSE);
+				this.scope.put("out",    this.scope, System.out   );
+				this.scope.put("stop",   this.scope, Boolean.FALSE);
+				this.scope.put("reboot", this.scope, Boolean.FALSE);
 			} finally {
 				SafeClose(context);
 			}
@@ -96,24 +98,9 @@ public class CraftScript implements Runnable, xStartStop {
 
 
 
-	@Override
-	public void start() {
-		if (this.stopping.get()) return;
-		this.resetLastUsed();
-		this.run();
-	}
-
-	@Override
-	public void stop() {
-		this.stopping.set(true);
-		this.setVariable("stop", Boolean.TRUE);
-	}
-
-
-
-	@Override
-	public void run() {
-		if (this.stopping.get()) return;
+	public void runScript() {
+		if (this.stopping.get())
+			return;
 		this.resetLastUsed();
 		// run script
 		this.pushVars();
@@ -156,6 +143,12 @@ public class CraftScript implements Runnable, xStartStop {
 						break KEY_SWITCH;
 					}
 					}
+					final Object obj_reboot = this.getVariable("reboot");
+					if (obj_reboot != null && obj_reboot instanceof Boolean) {
+						final Boolean reboot = (Boolean) obj_reboot;
+						if (reboot.booleanValue())
+							this.reboot();
+					}
 				}
 			} catch (JSFunctionNotFoundException ignore) {
 				continue RUN_LOOP;
@@ -166,12 +159,13 @@ public class CraftScript implements Runnable, xStartStop {
 				this.stop();
 				break RUN_LOOP;
 			}
-		}
+		} // end RUN_LOOP
 	}
 
 	public Object call(final String funcName, final Object...args)
 			throws JSFunctionNotFoundException {
-		if (this.stopping.get()) return null;
+		if (this.stopping.get())
+			return null;
 		this.resetLastUsed();
 		if (Utils.isEmpty(funcName)) throw new RuntimeException("Cannot call function, no name provided");
 		this.pushVars();
@@ -200,7 +194,8 @@ public class CraftScript implements Runnable, xStartStop {
 
 
 	public ScriptSourceDAO[] getSources() throws FileNotFoundException {
-		if (this.stopping.get()) return null;
+		if (this.stopping.get())
+			return null;
 		try {
 			return this.loader.getSources();
 		} catch (FileNotFoundException e) {
@@ -262,7 +257,34 @@ public class CraftScript implements Runnable, xStartStop {
 
 
 	// -------------------------------------------------------------------------------
-	// stale
+	// state
+
+
+
+	@Override
+	public void start() {
+		if (this.stopping.get())
+			return;
+		this.resetLastUsed();
+		this.runScript();
+	}
+	@Override
+	public void stop() {
+		this.stopping.set(true);
+		this.setVariable("stop", Boolean.TRUE);
+	}
+	public void reboot() {
+		this.rebooting.set(true);
+		this.setVariable("reboot", Boolean.TRUE);
+		this.stop();
+	}
+
+	public boolean isStopping() {
+		return this.stopping.get();
+	}
+	public boolean isRebooting() {
+		return this.rebooting.get();
+	}
 
 
 
