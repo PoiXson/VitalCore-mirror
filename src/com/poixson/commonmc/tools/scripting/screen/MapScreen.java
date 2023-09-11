@@ -4,6 +4,7 @@ import static com.poixson.commonmc.utils.ScriptUtils.SetMapID;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
@@ -24,6 +25,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.poixson.commonmc.pxnCommonPlugin;
 import com.poixson.commonmc.tools.mapstore.FreedMapStore;
+import com.poixson.commonmc.tools.scripting.events.ScreenFrameEvent;
+import com.poixson.commonmc.tools.scripting.events.ScreenFrameListener;
 import com.poixson.commonmc.utils.BukkitUtils;
 import com.poixson.tools.abstractions.xStartStop;
 import com.poixson.tools.dao.Iabcd;
@@ -53,6 +56,8 @@ public class MapScreen extends MapRenderer implements xStartStop {
 	protected final AtomicReference<Runnable>      tick_listener = new AtomicReference<Runnable>(null);
 	protected final AtomicReference<PixelSource>   pixel_source  = new AtomicReference<PixelSource>(null);
 	protected final AtomicBoolean stopping = new AtomicBoolean(false);
+
+	protected final CopyOnWriteArrayList<ScreenFrameListener> listeners_frame = new CopyOnWriteArrayList<ScreenFrameListener>();
 
 
 
@@ -173,7 +178,8 @@ public class MapScreen extends MapRenderer implements xStartStop {
 				@Override
 				public void run() {
 					super.run();
-					MapScreen.this.tick();
+					(new ScreenFrameEvent(MapScreen.this))
+						.call(MapScreen.this.listeners_frame.toArray(new ScreenFrameListener[0]));
 				}
 			};
 			if (this.task_sender.compareAndSet(null, task)) {
@@ -191,16 +197,16 @@ public class MapScreen extends MapRenderer implements xStartStop {
 
 
 
-	// tick
-	public MapScreen setTickListener(final Runnable listener) {
-		this.tick_listener.set(listener);
+	// tick/frame listener
+	public MapScreen register(final ScreenFrameListener listener) {
+		this.listeners_frame.add(listener);
 		return this;
 	}
-	protected void tick() {
-		final Runnable listener = this.tick_listener.get();
-		if (listener != null)
-			listener.run();
+	public void unregister(final ScreenFrameListener listener) {
+		this.listeners_frame.remove(listener);
 	}
+
+
 
 	// pixels
 	public MapScreen setPixelSource(final PixelSource source) {

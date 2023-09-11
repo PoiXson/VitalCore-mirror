@@ -6,10 +6,13 @@ package com.poixson.commonmc.tools.scripting.engine;
 import java.io.FileNotFoundException;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
+import com.poixson.commonmc.tools.scripting.events.ScriptLoadedEvent;
+import com.poixson.commonmc.tools.scripting.events.ScriptLoadedListener;
 import com.poixson.commonmc.tools.scripting.loader.ScriptLoader;
 import com.poixson.commonmc.tools.scripting.loader.ScriptSourceDAO;
 import com.poixson.tools.CoolDown;
@@ -33,6 +36,8 @@ public class CraftScriptManager implements xStartStop {
 
 	protected final CoolDown reload_cool = new CoolDown("5s");
 
+	protected final CopyOnWriteArrayList<ScriptLoadedListener> listeners_loaded = new CopyOnWriteArrayList<ScriptLoadedListener>();
+
 
 
 	public CraftScriptManager() {
@@ -54,6 +59,9 @@ public class CraftScriptManager implements xStartStop {
 				};
 				if (this.thread.compareAndSet(null, thread)) {
 					final ScriptLoader loader = this.loader.get();
+					// script loaded event
+					(new ScriptLoadedEvent(this))
+						.call(this.listeners_loaded.toArray(new ScriptLoadedListener[0]));
 					thread.setName(thread.getName() + "-Script-" + loader.getName());
 					thread.start();
 				}
@@ -96,6 +104,9 @@ public class CraftScriptManager implements xStartStop {
 			script.stop();
 		final ScriptLoader loader = this.loader.get();
 		loader.reload();
+		// script loaded event
+		(new ScriptLoadedEvent(this))
+			.call(this.listeners_loaded.toArray(new ScriptLoadedListener[0]));
 		this.thread.set(null);
 		this.start();
 	}
@@ -258,6 +269,20 @@ public class CraftScriptManager implements xStartStop {
 				return;
 			}
 		}
+	}
+
+
+
+	// -------------------------------------------------------------------------------
+	// event listeners
+
+
+
+	public void register(final ScriptLoadedListener listener) {
+		this.listeners_loaded.add(listener);
+	}
+	public void unregister(final ScriptLoadedListener listener) {
+		this.listeners_loaded.remove(listener);
 	}
 
 
