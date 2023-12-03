@@ -1,4 +1,4 @@
-package com.poixson.commonmc.events;
+package com.poixson.pluginlib.events;
 
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;

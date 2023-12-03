@@ -1,7 +1,7 @@
-package com.poixson.commonmc.tools;
+package com.poixson.pluginlib.tools;
 
-import static com.poixson.commonmc.pxnCommonPlugin.LOG_PREFIX;
-import static com.poixson.commonmc.tools.plugin.xJavaPlugin.LOG;
+import static com.poixson.pluginlib.pxnPluginLib.LOG_PREFIX;
+import static com.poixson.pluginlib.tools.plugin.xJavaPlugin.LOG;
 
 import java.util.HashSet;
 import java.util.concurrent.CopyOnWriteArraySet;

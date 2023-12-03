@@ -1,4 +1,4 @@
-package com.poixson.commonmc.tools.wizards.steps;
+package com.poixson.pluginlib.tools.wizards.steps;
 
 import java.io.Closeable;
 import java.util.concurrent.atomic.AtomicReference;
@@ -6,8 +6,8 @@ import java.util.concurrent.atomic.AtomicReference;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.poixson.commonmc.tools.plugin.xJavaPlugin;
-import com.poixson.commonmc.tools.wizards.Wizard;
+import com.poixson.pluginlib.tools.plugin.xJavaPlugin;
+import com.poixson.pluginlib.tools.wizards.Wizard;
 import com.poixson.utils.Utils;
 
 

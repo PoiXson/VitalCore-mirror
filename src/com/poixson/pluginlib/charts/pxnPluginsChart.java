@@ -1,4 +1,4 @@
-package com.poixson.commonmc.charts;
+package com.poixson.pluginlib.charts;
 
 import java.util.concurrent.Callable;
 
@@ -9,24 +9,24 @@ import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.event.server.PluginEnableEvent;
 import org.bukkit.plugin.Plugin;
 
-import com.poixson.commonmc.pxnCommonPlugin;
-import com.poixson.commonmc.tools.plugin.xJavaPlugin;
-import com.poixson.commonmc.tools.plugin.xListener;
+import com.poixson.pluginlib.pxnPluginLib;
+import com.poixson.pluginlib.tools.plugin.xJavaPlugin;
+import com.poixson.pluginlib.tools.plugin.xListener;
 
 
-public class pxnPluginsChart extends xListener<pxnCommonPlugin> implements Callable<String> {
+public class pxnPluginsChart extends xListener<pxnPluginLib> implements Callable<String> {
 
 
 
-	public pxnPluginsChart(final pxnCommonPlugin plugin) {
+	public pxnPluginsChart(final pxnPluginLib plugin) {
 		super(plugin);
-		if (!(plugin instanceof pxnCommonPlugin))
-			throw new RuntimeException("Class instance outside of pxnCommonPlugin");
+		if (!(plugin instanceof pxnPluginLib))
+			throw new RuntimeException("Class instance outside of pxnPluginLib");
 	}
 
 
 
-	public static SimplePie GetChart(final pxnCommonPlugin plugin) {
+	public static SimplePie GetChart(final pxnPluginLib plugin) {
 		return new SimplePie(
 			"plugins_count",
 			new pxnPluginsChart(plugin)

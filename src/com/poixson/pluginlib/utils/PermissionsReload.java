@@ -1,4 +1,4 @@
-package com.poixson.commonmc.utils;
+package com.poixson.pluginlib.utils;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;

@@ -1,4 +1,4 @@
-package com.poixson.commonmc.events;
+package com.poixson.pluginlib.events;
 
 import org.bukkit.Bukkit;
 import org.bukkit.World;
@@ -7,15 +7,15 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.world.WorldSaveEvent;
 import org.bukkit.plugin.PluginManager;
 
-import com.poixson.commonmc.pxnCommonPlugin;
-import com.poixson.commonmc.tools.plugin.xListener;
+import com.poixson.pluginlib.pxnPluginLib;
+import com.poixson.pluginlib.tools.plugin.xListener;
 
 
-public class PluginSaveManager extends xListener<pxnCommonPlugin> {
+public class PluginSaveManager extends xListener<pxnPluginLib> {
 
 
 
-	public PluginSaveManager(pxnCommonPlugin plugin) {
+	public PluginSaveManager(pxnPluginLib plugin) {
 		super(plugin);
 	}
 

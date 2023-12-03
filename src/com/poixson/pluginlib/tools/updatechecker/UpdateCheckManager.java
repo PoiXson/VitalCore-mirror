@@ -1,7 +1,7 @@
-package com.poixson.commonmc.tools.updatechecker;
+package com.poixson.pluginlib.tools.updatechecker;
 
-import static com.poixson.commonmc.pxnCommonPlugin.LOG_PREFIX;
-import static com.poixson.commonmc.tools.plugin.xJavaPlugin.LOG;
+import static com.poixson.pluginlib.pxnPluginLib.LOG_PREFIX;
+import static com.poixson.pluginlib.tools.plugin.xJavaPlugin.LOG;
 
 import java.util.HashSet;
 import java.util.Iterator;
@@ -12,8 +12,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import com.poixson.commonmc.pxnCommonPlugin;
-import com.poixson.commonmc.tools.plugin.xJavaPlugin;
+import com.poixson.pluginlib.pxnPluginLib;
+import com.poixson.pluginlib.tools.plugin.xJavaPlugin;
 import com.poixson.tools.xTime;
 import com.poixson.tools.abstractions.xStartStop;
 import com.poixson.utils.ThreadUtils;
@@ -22,7 +22,7 @@ import com.poixson.utils.Utils;
 
 public class UpdateCheckManager extends BukkitRunnable implements xStartStop {
 
-	protected final pxnCommonPlugin plugin;
+	protected final pxnPluginLib plugin;
 
 	protected final long delay  = (new xTime( "5s")).ticks(50L);
 	protected final long loop   = (new xTime( "5m")).ticks(50L);
@@ -36,7 +36,7 @@ public class UpdateCheckManager extends BukkitRunnable implements xStartStop {
 
 
 
-	public UpdateCheckManager(final pxnCommonPlugin plugin) {
+	public UpdateCheckManager(final pxnPluginLib plugin) {
 		this.plugin = plugin;
 		this.listenerPlayerJoin = new PlayerJoinListener(plugin, this);
 	}

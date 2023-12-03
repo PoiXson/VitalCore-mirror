@@ -1,10 +1,10 @@
-package com.poixson.commonmc.tools.commands;
+package com.poixson.pluginlib.tools.commands;
 
 import java.util.LinkedList;
 
 import org.bukkit.command.CommandSender;
 
-import com.poixson.commonmc.tools.plugin.xJavaPlugin;
+import com.poixson.pluginlib.tools.plugin.xJavaPlugin;
 import com.poixson.utils.Utils;
 
 

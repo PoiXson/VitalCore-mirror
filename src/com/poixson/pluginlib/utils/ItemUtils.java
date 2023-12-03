@@ -1,4 +1,4 @@
-package com.poixson.commonmc.utils;
+package com.poixson.pluginlib.utils;
 
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;

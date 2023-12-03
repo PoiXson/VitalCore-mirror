@@ -1,4 +1,4 @@
-package com.poixson.commonmc.tools.worldstore;
+package com.poixson.pluginlib.tools.worldstore;
 
 import static com.poixson.utils.Utils.SafeClose;
 
@@ -21,7 +21,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.poixson.commonmc.utils.BukkitUtils;
+import com.poixson.pluginlib.utils.BukkitUtils;
 import com.poixson.tools.xTime;
 
 

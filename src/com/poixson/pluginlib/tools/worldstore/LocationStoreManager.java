@@ -1,7 +1,7 @@
-package com.poixson.commonmc.tools.worldstore;
+package com.poixson.pluginlib.tools.worldstore;
 
-import static com.poixson.commonmc.tools.plugin.xJavaPlugin.LOG;
-import static com.poixson.commonmc.tools.plugin.xJavaPlugin.LOG_PREFIX;
+import static com.poixson.pluginlib.tools.plugin.xJavaPlugin.LOG;
+import static com.poixson.pluginlib.tools.plugin.xJavaPlugin.LOG_PREFIX;
 
 import java.io.File;
 import java.io.IOException;
@@ -14,7 +14,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import com.poixson.commonmc.utils.BukkitUtils;
+import com.poixson.pluginlib.utils.BukkitUtils;
 import com.poixson.tools.dao.Iab;
 
 

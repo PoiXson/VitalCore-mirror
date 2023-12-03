@@ -1,4 +1,4 @@
-package com.poixson.commonmc.tools.plugin;
+package com.poixson.pluginlib.tools.plugin;
 
 import org.bukkit.Bukkit;
 import org.bukkit.event.HandlerList;

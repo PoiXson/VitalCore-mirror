@@ -1,4 +1,4 @@
-package com.poixson.commonmc;
+package com.poixson.pluginlib;
 
 import java.io.IOException;
 import java.util.concurrent.CopyOnWriteArraySet;
@@ -11,17 +11,16 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.ServicesManager;
 
-import com.poixson.commonmc.charts.pxnPluginsChart;
-import com.poixson.commonmc.events.PlayerMoveManager;
-import com.poixson.commonmc.events.PluginSaveManager;
-import com.poixson.commonmc.tools.mapstore.FreedMapStore;
-import com.poixson.commonmc.tools.plugin.xJavaPlugin;
-import com.poixson.commonmc.tools.tps.TicksPerSecond;
-import com.poixson.commonmc.tools.updatechecker.UpdateCheckManager;
+import com.poixson.pluginlib.charts.pxnPluginsChart;
+import com.poixson.pluginlib.events.PlayerMoveManager;
+import com.poixson.pluginlib.events.PluginSaveManager;
+import com.poixson.pluginlib.tools.FreedMapStore;
+import com.poixson.pluginlib.tools.plugin.xJavaPlugin;
+import com.poixson.pluginlib.tools.updatechecker.UpdateCheckManager;
 import com.poixson.tools.Keeper;
 
 
-public class pxnCommonPlugin extends xJavaPlugin {
+public class pxnPluginLib extends xJavaPlugin {
 	@Override public int getSpigotPluginID() { return 107049; }
 	@Override public int getBStatsID() {       return 17785;  }
 	public static final String LOG_PREFIX = "[pxnCommon] ";
@@ -41,8 +40,8 @@ public class pxnCommonPlugin extends xJavaPlugin {
 
 
 
-	public pxnCommonPlugin() {
-		super(pxnCommonPlugin.class);
+	public pxnPluginLib() {
+		super(pxnPluginLib.class);
 		this.keeper = Keeper.get();
 	}
 
@@ -51,7 +50,7 @@ public class pxnCommonPlugin extends xJavaPlugin {
 	@Override
 	public void onEnable() {
 		final ServicesManager services = Bukkit.getServicesManager();
-		services.register(pxnCommonPlugin.class, this, this, ServicePriority.Normal);
+		services.register(pxnPluginLib.class, this, this, ServicePriority.Normal);
 		// plugins listener
 		{
 			final pxnPluginsChart listener = new pxnPluginsChart(this);
@@ -184,9 +183,9 @@ public class pxnCommonPlugin extends xJavaPlugin {
 
 
 
-	public static pxnCommonPlugin GetCommonPlugin() {
-		final pxnCommonPlugin plugin = Bukkit.getServicesManager().load(pxnCommonPlugin.class);
-		if (plugin == null) throw new RuntimeException("pxnCommonPlugin not loaded");
+	public static pxnPluginLib GetCommonPlugin() {
+		final pxnPluginLib plugin = Bukkit.getServicesManager().load(pxnPluginLib.class);
+		if (plugin == null) throw new RuntimeException("pxnPluginLib not loaded");
 		return plugin;
 	}
 	public static TicksPerSecond GetTicksManager() {
@@ -194,7 +193,7 @@ public class pxnCommonPlugin extends xJavaPlugin {
 		return plugin.tpsManager.get();
 	}
 	public static FreedMapStore GetFreedMapStore() {
-		final pxnCommonPlugin plugin = GetCommonPlugin();
+		final pxnPluginLib plugin = GetCommonPlugin();
 		// already loaded
 		{
 			final FreedMapStore store = plugin.freedMaps.get();

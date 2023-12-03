@@ -1,4 +1,4 @@
-package com.poixson.commonmc.events;
+package com.poixson.pluginlib.events;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -8,19 +8,19 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.plugin.PluginManager;
 
-import com.poixson.commonmc.pxnCommonPlugin;
-import com.poixson.commonmc.events.OutsideOfWorldEvent.Outside;
-import com.poixson.commonmc.tools.plugin.xListener;
+import com.poixson.pluginlib.pxnPluginLib;
+import com.poixson.pluginlib.events.OutsideOfWorldEvent.Outside;
+import com.poixson.pluginlib.tools.plugin.xListener;
 
 
-public class PlayerMoveManager extends xListener<pxnCommonPlugin> {
+public class PlayerMoveManager extends xListener<pxnPluginLib> {
 
 	public static final int WORLD_MIN_Y = -64;
 	public static final int WORLD_MAX_Y = 319;
 
 
 
-	public PlayerMoveManager(final pxnCommonPlugin plugin) {
+	public PlayerMoveManager(final pxnPluginLib plugin) {
 		super(plugin);
 	}
 

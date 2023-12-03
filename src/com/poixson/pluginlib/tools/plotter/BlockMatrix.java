@@ -1,4 +1,4 @@
-package com.poixson.commonmc.tools.plotter;
+package com.poixson.pluginlib.tools.plotter;
 
 import java.util.Arrays;
 

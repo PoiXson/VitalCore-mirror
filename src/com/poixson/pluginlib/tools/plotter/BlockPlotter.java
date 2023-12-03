@@ -1,7 +1,7 @@
-package com.poixson.commonmc.tools.plotter;
+package com.poixson.pluginlib.tools.plotter;
 
-import static com.poixson.commonmc.utils.LocationUtils.AxToIxyz;
-import static com.poixson.commonmc.utils.LocationUtils.Rotate;
+import static com.poixson.pluginlib.utils.LocationUtils.AxToIxyz;
+import static com.poixson.pluginlib.utils.LocationUtils.Rotate;
 
 import java.util.HashMap;
 import java.util.HashSet;

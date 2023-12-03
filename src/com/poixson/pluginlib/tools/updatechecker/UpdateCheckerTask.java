@@ -1,6 +1,6 @@
-package com.poixson.commonmc.tools.updatechecker;
+package com.poixson.pluginlib.tools.updatechecker;
 
-import static com.poixson.commonmc.tools.plugin.xJavaPlugin.LOG;
+import static com.poixson.pluginlib.tools.plugin.xJavaPlugin.LOG;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
@@ -87,7 +87,7 @@ public class UpdateCheckerTask implements Runnable {
 			if (this.check_count.get() == 1) {
 				if (this.msgToPlayers.get()) {
 					for (final Player p : Bukkit.getOnlinePlayers()) {
-						if (p.isOp() || p.hasPermission("pxncommon.updates"))
+						if (p.isOp() || p.hasPermission("pxnpluginlib.updates"))
 							p.sendMessage(msg);
 					}
 				}

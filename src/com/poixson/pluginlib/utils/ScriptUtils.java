@@ -1,6 +1,6 @@
-package com.poixson.commonmc.utils;
+package com.poixson.pluginlib.utils;
 
-import static com.poixson.commonmc.tools.scripting.screen.MapScreen.map_size;
+import static com.poixson.pluginlib.tools.scripting.screen.MapScreen.map_size;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;

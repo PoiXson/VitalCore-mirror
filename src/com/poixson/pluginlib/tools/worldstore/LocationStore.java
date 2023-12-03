@@ -1,7 +1,7 @@
-package com.poixson.commonmc.tools.worldstore;
+package com.poixson.pluginlib.tools.worldstore;
 
-import static com.poixson.commonmc.tools.plugin.xJavaPlugin.LOG;
-import static com.poixson.commonmc.tools.plugin.xJavaPlugin.LOG_PREFIX;
+import static com.poixson.pluginlib.tools.plugin.xJavaPlugin.LOG;
+import static com.poixson.pluginlib.tools.plugin.xJavaPlugin.LOG_PREFIX;
 import static com.poixson.utils.Utils.SafeClose;
 
 import java.io.BufferedReader;

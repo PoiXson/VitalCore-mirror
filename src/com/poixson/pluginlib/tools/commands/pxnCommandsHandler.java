@@ -1,4 +1,4 @@
-package com.poixson.commonmc.tools.commands;
+package com.poixson.pluginlib.tools.commands;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,8 +15,8 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.server.ServerCommandEvent;
 
-import com.poixson.commonmc.tools.plugin.xJavaPlugin;
-import com.poixson.commonmc.tools.plugin.xListener;
+import com.poixson.pluginlib.tools.plugin.xJavaPlugin;
+import com.poixson.pluginlib.tools.plugin.xListener;
 import com.poixson.utils.Utils;
 
 

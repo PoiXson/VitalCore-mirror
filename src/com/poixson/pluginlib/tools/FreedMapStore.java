@@ -1,7 +1,7 @@
-package com.poixson.commonmc.tools.mapstore;
+package com.poixson.pluginlib.tools;
 
-import static com.poixson.commonmc.tools.plugin.xJavaPlugin.LOG;
-import static com.poixson.commonmc.tools.plugin.xJavaPlugin.LOG_PREFIX;
+import static com.poixson.pluginlib.tools.plugin.xJavaPlugin.LOG;
+import static com.poixson.pluginlib.tools.plugin.xJavaPlugin.LOG_PREFIX;
 import static com.poixson.utils.Utils.SafeClose;
 
 import java.io.BufferedReader;
@@ -23,12 +23,12 @@ import org.bukkit.map.MapView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.poixson.commonmc.pxnCommonPlugin;
-import com.poixson.commonmc.events.PluginSaveEvent;
-import com.poixson.commonmc.tools.plugin.xListener;
+import com.poixson.pluginlib.pxnPluginLib;
+import com.poixson.pluginlib.events.PluginSaveEvent;
+import com.poixson.pluginlib.tools.plugin.xListener;
 
 
-public class FreedMapStore extends xListener<pxnCommonPlugin> {
+public class FreedMapStore extends xListener<pxnPluginLib> {
 
 	public static final int MAX_MAP_ID = Integer.MAX_VALUE;
 
@@ -40,7 +40,7 @@ public class FreedMapStore extends xListener<pxnCommonPlugin> {
 
 
 
-	public FreedMapStore(final pxnCommonPlugin plugin, final String path) {
+	public FreedMapStore(final pxnPluginLib plugin, final String path) {
 		super(plugin);
 		this.file = new File(path, "freed-maps.json");
 	}

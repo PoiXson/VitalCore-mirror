@@ -1,4 +1,4 @@
-package com.poixson.commonmc.tools;
+package com.poixson.pluginlib.tools;
 
 import java.lang.ref.SoftReference;
 import java.util.HashMap;

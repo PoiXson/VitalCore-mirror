@@ -1,4 +1,4 @@
-package com.poixson.commonmc.tools.plugin;
+package com.poixson.pluginlib.tools.plugin;
 
 import java.io.File;
 import java.io.IOException;
@@ -14,8 +14,8 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.poixson.commonmc.events.PluginSaveEvent;
-import com.poixson.commonmc.tools.updatechecker.UpdateCheckManager;
+import com.poixson.pluginlib.events.PluginSaveEvent;
+import com.poixson.pluginlib.tools.updatechecker.UpdateCheckManager;
 import com.poixson.tools.AppProps;
 
 

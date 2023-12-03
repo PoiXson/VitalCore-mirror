@@ -1,4 +1,4 @@
-package com.poixson.commonmc.utils;
+package com.poixson.pluginlib.utils;
 
 import java.util.concurrent.atomic.AtomicReference;
 
