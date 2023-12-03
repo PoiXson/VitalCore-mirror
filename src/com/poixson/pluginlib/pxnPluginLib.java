@@ -22,7 +22,7 @@ import com.poixson.tools.Keeper;
 
 public class pxnPluginLib extends xJavaPlugin {
 	@Override public int getSpigotPluginID() { return 107049; }
-	@Override public int getBStatsID() {       return 17785;  }
+	@Override public int getBStatsID() {       return 20434;  }
 	public static final String LOG_PREFIX = "[pxnCommon] ";
 	public static final String CHAT_PREFIX = ChatColor.AQUA + LOG_PREFIX + ChatColor.WHITE;
 
