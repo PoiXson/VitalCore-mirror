@@ -1,4 +1,4 @@
-pxnCommonPluginMC - Common utilities and tools for Bukkit/Spigot plugins
+pxnPluginLib - Common utilities and tools for Bukkit/Spigot plugins
 
 
 This plugin is a library required by other PoiXson plugins.
@@ -10,9 +10,9 @@ This plugin is a library required by other PoiXson plugins.
 
 
 Permission nodes:
-pxncommon.updates - receive notices of plugin updates
+pxnpluginlib.updates - receive notices of plugin updates
 
 
 Discord: https://discord.gg/jHgP2a3kDx
 
-Dev Builds: https://dl.poixson.com/mcplugins/pxnCommonPluginMC/
+Dev Builds: https://dl.poixson.com/mcplugins/pxnPluginLib/

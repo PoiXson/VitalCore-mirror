@@ -1,5 +1,5 @@
 name: ${project.name}
-main: com.poixson.commonmc.pxnCommonPlugin
+main: com.poixson.pluginlib.pxnPluginLib
 version: ${project.version}
 api-version: ${spigot-short-version}
 load: STARTUP
@@ -24,11 +24,11 @@ commands:
         description: "Display the average ticks per second"
         usage: "Usage: /memory <cmd>"
 permissions:
-    pxncommon.*:
+    pxnpluginlib.*:
         default: op
-        description: Gives access to all pxn common commands.
+        description: Gives access to all pxn plugin lib commands.
         children:
-            pxncommon.updates: true
-    pxncommon.updates:
+            pxnpluginlib.updates: true
+    pxnpluginlib.updates:
         default: op
         description: Receive notices of plugin updates.

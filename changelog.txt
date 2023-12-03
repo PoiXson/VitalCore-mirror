@@ -1,4 +1,4 @@
-pxnCommonPluginMC - Common utilities and tools for Bukkit/Spigot plugins
+pxnPluginLib - Common utilities and tools for Bukkit/Spigot plugins
 
 
 2023-06-14 - 4.0.31
