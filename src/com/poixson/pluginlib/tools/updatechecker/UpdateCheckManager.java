@@ -2,6 +2,7 @@ package com.poixson.pluginlib.tools.updatechecker;
 
 import static com.poixson.pluginlib.pxnPluginLib.LOG_PREFIX;
 import static com.poixson.pluginlib.tools.plugin.xJavaPlugin.LOG;
+import static com.poixson.utils.Utils.GetMS;
 
 import java.util.HashSet;
 import java.util.Iterator;
@@ -17,7 +18,6 @@ import com.poixson.pluginlib.tools.plugin.xJavaPlugin;
 import com.poixson.tools.xTime;
 import com.poixson.tools.abstractions.xStartStop;
 import com.poixson.utils.ThreadUtils;
-import com.poixson.utils.Utils;
 
 
 public class UpdateCheckManager extends BukkitRunnable implements xStartStop {
@@ -68,7 +68,7 @@ public class UpdateCheckManager extends BukkitRunnable implements xStartStop {
 
 	@Override
 	public void run() {
-		final long now = Utils.GetMS();
+		final long now = GetMS();
 		final long last = this.lastCheck.get();
 		if (now - last >= this.period) {
 			this.lastCheck.set(now);

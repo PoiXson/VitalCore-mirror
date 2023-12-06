@@ -1,5 +1,7 @@
 package com.poixson.pluginlib.tools.commands;
 
+import static com.poixson.utils.Utils.IsEmpty;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArraySet;
@@ -17,7 +19,6 @@ import org.bukkit.event.server.ServerCommandEvent;
 
 import com.poixson.pluginlib.tools.plugin.xJavaPlugin;
 import com.poixson.pluginlib.tools.plugin.xListener;
-import com.poixson.utils.Utils;
 
 
 public abstract class pxnCommandsHandler<T extends xJavaPlugin>
@@ -71,7 +72,7 @@ implements CommandExecutor, TabCompleter {
 		this.cmds.add(cmd);
 	}
 	public boolean match(final String match) {
-		if (Utils.isEmpty(match))
+		if (IsEmpty(match))
 			return false;
 		final String matchLower = match.toLowerCase();
 		for (final String label : this.labels) {

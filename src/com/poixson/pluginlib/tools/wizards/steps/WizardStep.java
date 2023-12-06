@@ -1,5 +1,7 @@
 package com.poixson.pluginlib.tools.wizards.steps;
 
+import static com.poixson.utils.Utils.IsEmpty;
+
 import java.io.Closeable;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -8,7 +10,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.poixson.pluginlib.tools.plugin.xJavaPlugin;
 import com.poixson.pluginlib.tools.wizards.Wizard;
-import com.poixson.utils.Utils;
 
 
 public abstract class WizardStep<T extends xJavaPlugin>
@@ -74,10 +75,8 @@ implements Runnable, Closeable {
 
 
 	public void sendMessage(final String msg) {
-		if (Utils.isEmpty(msg))
-			this.wizard.sendMessage("");
-		else
-			this.wizard.sendMessage(this.chatPrefix + msg);
+		if (IsEmpty(msg)) this.wizard.sendMessage("");
+		else              this.wizard.sendMessage(this.chatPrefix + msg);
 	}
 	public void sendProgress(final String msg) {
 		this.wizard.sendMessage(

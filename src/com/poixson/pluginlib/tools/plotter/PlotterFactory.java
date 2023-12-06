@@ -2,6 +2,7 @@ package com.poixson.pluginlib.tools.plotter;
 
 import static com.poixson.pluginlib.utils.BlockMatrixUtils.LocsToArray;
 import static com.poixson.pluginlib.utils.BlockMatrixUtils.SizesToArray;
+import static com.poixson.utils.Utils.IsEmpty;
 
 import org.bukkit.World;
 import org.bukkit.block.BlockFace;
@@ -9,7 +10,6 @@ import org.bukkit.generator.ChunkGenerator.ChunkData;
 import org.bukkit.generator.LimitedRegion;
 
 import com.poixson.exceptions.RequiredArgumentException;
-import com.poixson.utils.Utils;
 
 
 public class PlotterFactory {
@@ -35,8 +35,8 @@ public class PlotterFactory {
 
 
 	public BlockPlotter build() {
-		if (this.placer == null)         throw new RequiredArgumentException("placer");
-		if (Utils.isEmpty(this.axis))    throw new RequiredArgumentException("axis");
+		if (this.placer == null) throw new RequiredArgumentException("placer");
+		if (IsEmpty(this.axis))  throw new RequiredArgumentException("axis");
 		if (this.axis.contains("x") || this.axis.contains("X")
 		||  this.axis.contains("e") || this.axis.contains("w")) {
 			if (this.x == Integer.MIN_VALUE) throw new RequiredArgumentException("x");

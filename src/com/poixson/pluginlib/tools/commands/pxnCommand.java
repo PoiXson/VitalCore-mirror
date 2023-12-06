@@ -1,11 +1,12 @@
 package com.poixson.pluginlib.tools.commands;
 
+import static com.poixson.utils.Utils.IsEmpty;
+
 import java.util.LinkedList;
 
 import org.bukkit.command.CommandSender;
 
 import com.poixson.pluginlib.tools.plugin.xJavaPlugin;
-import com.poixson.utils.Utils;
 
 
 public abstract class pxnCommand<T extends xJavaPlugin> {
@@ -41,12 +42,10 @@ public abstract class pxnCommand<T extends xJavaPlugin> {
 		return list.toArray(new String[0]);
 	}
 	public boolean match(final String[] args) {
-		if (Utils.isEmpty(args))
-			return this.isDefault();
-		return this.match(args[0]);
+		return (IsEmpty(args) ? this.isDefault() : this.match(args[0]));
 	}
 	public boolean match(final String match) {
-		if (Utils.isEmpty(match))
+		if (IsEmpty(match))
 			return this.isDefault();
 		final String matchLower = match.toLowerCase();
 		for (final String label : this.labels) {
@@ -57,7 +56,7 @@ public abstract class pxnCommand<T extends xJavaPlugin> {
 	}
 
 	public boolean isDefault() {
-		return Utils.isEmpty(this.labels);
+		return IsEmpty(this.labels);
 	}
 
 

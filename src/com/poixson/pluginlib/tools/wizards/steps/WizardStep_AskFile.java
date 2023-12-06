@@ -1,12 +1,13 @@
 package com.poixson.pluginlib.tools.wizards.steps;
 
+import static com.poixson.utils.Utils.IsEmpty;
+
 import java.io.File;
 import java.util.concurrent.atomic.AtomicReference;
 
 import com.poixson.pluginlib.tools.plugin.xJavaPlugin;
 import com.poixson.pluginlib.tools.wizards.Wizard;
 import com.poixson.utils.SanUtils;
-import com.poixson.utils.Utils;
 
 
 public abstract class WizardStep_AskFile<T extends xJavaPlugin>
@@ -39,7 +40,7 @@ extends WizardStep_Ask<T> {
 	@Override
 	public boolean validateAnswer() {
 		final String answer = this.getAnswer();
-		if (Utils.notEmpty(answer)) {
+		if (!IsEmpty(answer)) {
 			final String[] parts = this.filePattern.split("[*]");
 			final String pathStr =
 				(new StringBuilder())

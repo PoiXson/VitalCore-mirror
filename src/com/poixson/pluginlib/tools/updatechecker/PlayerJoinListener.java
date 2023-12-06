@@ -1,5 +1,7 @@
 package com.poixson.pluginlib.tools.updatechecker;
 
+import static com.poixson.utils.Utils.IsEmpty;
+
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -8,7 +10,6 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import com.poixson.pluginlib.pxnPluginLib;
 import com.poixson.pluginlib.tools.plugin.xListener;
-import com.poixson.utils.Utils;
 
 
 public class PlayerJoinListener extends xListener<pxnPluginLib> {
@@ -36,7 +37,7 @@ public class PlayerJoinListener extends xListener<pxnPluginLib> {
 						String msg;
 						for (final UpdateCheckerTask task : updates) {
 							msg = task.getUpdateMessage();
-							if (Utils.notEmpty(msg))
+							if (!IsEmpty(msg))
 								player.sendMessage(msg);
 						}
 					}

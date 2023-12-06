@@ -1,6 +1,7 @@
 package com.poixson.pluginlib.tools.updatechecker;
 
 import static com.poixson.pluginlib.tools.plugin.xJavaPlugin.LOG;
+import static com.poixson.utils.Utils.IsEmpty;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
@@ -14,7 +15,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 import com.google.common.util.concurrent.AtomicDouble;
 import com.poixson.exceptions.RequiredArgumentException;
 import com.poixson.utils.StringUtils;
-import com.poixson.utils.Utils;
 
 
 public class UpdateCheckerTask implements Runnable {
@@ -34,7 +34,7 @@ public class UpdateCheckerTask implements Runnable {
 			final int plugin_id, final String plugin_version) {
 		if (plugin == null) throw new NullPointerException();
 		if (plugin_id <= 0) throw new RuntimeException("Plugin ID not set in: " + plugin.getName());
-		if (Utils.isEmpty(plugin_version)) throw new RequiredArgumentException("plugin_version");
+		if (IsEmpty(plugin_version)) throw new RequiredArgumentException("plugin_version");
 		this.plugin         = plugin;
 		this.plugin_id      = plugin_id;
 		this.plugin_version = plugin_version;
