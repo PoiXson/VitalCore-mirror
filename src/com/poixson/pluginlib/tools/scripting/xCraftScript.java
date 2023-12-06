@@ -1,4 +1,4 @@
-package com.poixson.commonmc.tools.scripting.engine;
+package com.poixson.pluginlib.tools.scripting;
 
 import static com.poixson.utils.Utils.GetMS;
 import static com.poixson.utils.Utils.SafeClose;

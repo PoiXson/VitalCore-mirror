@@ -1,8 +1,8 @@
-package com.poixson.commonmc.tools.scripting.events;
+package com.poixson.pluginlib.tools.scripting.events;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import com.poixson.commonmc.tools.scripting.screen.MapScreen;
+import com.poixson.pluginlib.tools.scripting.screen.MapScreen;
 
 
 public class ScreenFrameEvent {

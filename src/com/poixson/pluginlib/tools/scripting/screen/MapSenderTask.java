@@ -1,4 +1,4 @@
-package com.poixson.commonmc.tools.scripting.screen;
+package com.poixson.pluginlib.tools.scripting.screen;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;

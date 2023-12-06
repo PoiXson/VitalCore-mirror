@@ -12,12 +12,12 @@ public class OutsideOfWorldEvent extends PlayerMoveEvent {
 
 	private boolean cancel = false;
 
-	protected final Outside outside;
+	protected final OutsideOfWorld outside;
 	protected final int distance;
 
 
 
-	public enum Outside {
+	public static enum OutsideOfWorld {
 		SKY,
 		VOID
 	}
@@ -26,7 +26,7 @@ public class OutsideOfWorldEvent extends PlayerMoveEvent {
 
 	public OutsideOfWorldEvent(final Player player,
 			final Location from, final Location to,
-			final Outside outside, final int distance) {
+			final OutsideOfWorld outside, final int distance) {
 		super(player, from, to);
 		this.outside  = outside;
 		this.distance = distance;
@@ -55,7 +55,7 @@ public class OutsideOfWorldEvent extends PlayerMoveEvent {
 
 
 
-	public Outside getOutsideWhere() {
+	public OutsideOfWorld getOutsideWhere() {
 		return this.outside;
 	}
 

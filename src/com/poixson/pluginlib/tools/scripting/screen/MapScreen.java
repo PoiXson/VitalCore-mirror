@@ -1,6 +1,6 @@
-package com.poixson.commonmc.tools.scripting.screen;
+package com.poixson.pluginlib.tools.scripting.screen;
 
-import static com.poixson.commonmc.utils.ScriptUtils.SetMapID;
+import static com.poixson.pluginlib.utils.ScriptUtils.SetMapID;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
@@ -23,11 +23,11 @@ import org.bukkit.map.MapRenderer;
 import org.bukkit.map.MapView;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.poixson.pluginlib.tools.FreedMapStore;
 import com.poixson.commonmc.pxnCommonPlugin;
-import com.poixson.commonmc.tools.mapstore.FreedMapStore;
 import com.poixson.commonmc.tools.scripting.events.ScreenFrameEvent;
 import com.poixson.commonmc.tools.scripting.events.ScreenFrameListener;
-import com.poixson.commonmc.utils.BukkitUtils;
+import com.poixson.pluginlib.utils.BukkitUtils;
 import com.poixson.tools.abstractions.xStartStop;
 import com.poixson.tools.dao.Iabcd;
 

@@ -1,8 +1,8 @@
-package com.poixson.commonmc.tools.scripting.events;
+package com.poixson.pluginlib.tools.scripting.events;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import com.poixson.commonmc.tools.scripting.engine.CraftScriptManager;
+import com.poixson.scripting.xScriptManager;
 
 
 public class ScriptLoadedEvent {

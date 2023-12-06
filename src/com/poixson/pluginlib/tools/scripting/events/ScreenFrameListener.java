@@ -1,4 +1,4 @@
-package com.poixson.commonmc.tools.scripting.events;
+package com.poixson.pluginlib.tools.scripting.events;
 
 
 public interface ScreenFrameListener {

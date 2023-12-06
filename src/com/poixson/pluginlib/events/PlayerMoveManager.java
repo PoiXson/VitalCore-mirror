@@ -9,7 +9,7 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.plugin.PluginManager;
 
 import com.poixson.pluginlib.pxnPluginLib;
-import com.poixson.pluginlib.events.OutsideOfWorldEvent.Outside;
+import com.poixson.pluginlib.events.OutsideOfWorldEvent.OutsideOfWorld;
 import com.poixson.pluginlib.tools.plugin.xListener;
 
 
@@ -48,7 +48,7 @@ public class PlayerMoveManager extends xListener<pxnPluginLib> {
 					new OutsideOfWorldEvent(
 						player,
 						from, to,
-						Outside.VOID,
+						OutsideOfWorld.VOID,
 						WORLD_MIN_Y - to.getBlockY()
 					);
 				pm.callEvent(eventOutside);
@@ -59,7 +59,7 @@ public class PlayerMoveManager extends xListener<pxnPluginLib> {
 					new OutsideOfWorldEvent(
 						player,
 						from, to,
-						Outside.SKY,
+						OutsideOfWorld.SKY,
 						to.getBlockY() - WORLD_MAX_Y
 					);
 				pm.callEvent(eventOutside);
