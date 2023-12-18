@@ -35,9 +35,6 @@ public class pxnPluginLib extends xJavaPlugin {
 	protected final AtomicReference<FreedMapStore>         freedMaps = new AtomicReference<FreedMapStore>(null);
 	protected final AtomicReference<PluginSaveManager>  saveListener = new AtomicReference<PluginSaveManager>(null);
 
-	// ticks per second
-	protected final AtomicReference<TicksPerSecond> tpsManager   = new AtomicReference<TicksPerSecond>(null);
-
 
 
 	public pxnPluginLib() {
@@ -58,15 +55,6 @@ public class pxnPluginLib extends xJavaPlugin {
 			if (previous != null)
 				previous.unregister();
 			listener.register();
-		}
-		// ticks monitor
-		{
-			final TicksPerSecond manager = new TicksPerSecond(this);
-			final TicksPerSecond previous = this.tpsManager.getAndSet(manager);
-			if (previous != null)
-				previous.stop();
-			manager.start();
-			services.register(TicksPerSecond.class, manager, this, ServicePriority.Normal);
 		}
 		// update check manager
 		{
@@ -108,20 +96,11 @@ public class pxnPluginLib extends xJavaPlugin {
 	@Override
 	public void onDisable() {
 		super.onDisable();
-		final ServicesManager services = Bukkit.getServicesManager();
 		// save listener
 		{
 			final PluginSaveManager listener = this.saveListener.getAndSet(null);
 			if (listener != null)
 				listener.unregister();
-		}
-		// ticks monitor
-		{
-			final TicksPerSecond manager = this.tpsManager.getAndSet(null);
-			if (manager != null) {
-				manager.stop();
-				services.unregister(manager);
-			}
 		}
 		// update check manager
 		{
@@ -187,10 +166,6 @@ public class pxnPluginLib extends xJavaPlugin {
 		final pxnPluginLib plugin = Bukkit.getServicesManager().load(pxnPluginLib.class);
 		if (plugin == null) throw new RuntimeException("pxnPluginLib not loaded");
 		return plugin;
-	}
-	public static TicksPerSecond GetTicksManager() {
-		final pxnCommonPlugin plugin = GetCommonPlugin();
-		return plugin.tpsManager.get();
 	}
 	public static FreedMapStore GetFreedMapStore() {
 		final pxnPluginLib plugin = GetCommonPlugin();
