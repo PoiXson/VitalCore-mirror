@@ -1,11 +1,12 @@
 package com.poixson.pluginlib.tools;
 
 import static com.poixson.pluginlib.pxnPluginLib.LOG_PREFIX;
-import static com.poixson.pluginlib.tools.plugin.xJavaPlugin.LOG;
+import static com.poixson.pluginlib.tools.plugin.xJavaPlugin.Log;
 
 import java.util.HashSet;
 import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -65,7 +66,7 @@ public abstract class DelayedChestFiller extends BukkitRunnable {
 	}
 	public static void stop() {
 		stopping.set(true);
-		LOG.info(LOG_PREFIX + "Finishing chest population..");
+		Log().info(LOG_PREFIX + "Finishing chest population..");
 		int count = 0;
 		while (!fillers.isEmpty()) {
 			final HashSet<DelayedChestFiller> remove = new HashSet<DelayedChestFiller>();
@@ -84,7 +85,7 @@ public abstract class DelayedChestFiller extends BukkitRunnable {
 			}
 		}
 		if (count > 0)
-			LOG.info(LOG_PREFIX + "Finished populating chests: " + Integer.toString(count));
+			Log().info(LOG_PREFIX + "Finished populating chests: " + Integer.toString(count));
 	}
 
 
@@ -122,6 +123,12 @@ public abstract class DelayedChestFiller extends BukkitRunnable {
 	}
 
 	public abstract void fill(final Inventory chest);
+
+
+
+	public Logger log() {
+		return this.plugin.getLogger();
+	}
 
 
 

@@ -1,6 +1,5 @@
 package com.poixson.pluginlib.tools.worldstore;
 
-import static com.poixson.pluginlib.tools.plugin.xJavaPlugin.LOG;
 import static com.poixson.pluginlib.tools.plugin.xJavaPlugin.LOG_PREFIX;
 
 import java.io.File;
@@ -10,6 +9,7 @@ import java.util.Iterator;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.logging.Logger;
 
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -41,7 +41,7 @@ public class LocationStoreManager extends BukkitRunnable {
 			if (!this.path.isDirectory()) {
 				if (!this.path.mkdir())
 					throw new RuntimeException("Failed to create directory: " + this.path.toString());
-				LOG.info(  String.format("%sCreated directory: %s", LOG_PREFIX, this.path.toString()));
+				this.log().info(String.format("%sCreated directory: %s", LOG_PREFIX, this.path.toString()));
 			}
 		}
 	}
@@ -177,6 +177,12 @@ public class LocationStoreManager extends BukkitRunnable {
 			return nearest;
 		}
 		return null;
+	}
+
+
+
+	public Logger log() {
+		return Logger.getLogger("Minecraft");
 	}
 
 

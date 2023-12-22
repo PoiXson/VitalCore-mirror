@@ -20,7 +20,6 @@ import com.poixson.tools.AppProps;
 
 
 public abstract class xJavaPlugin extends JavaPlugin {
-	public static final Logger LOG = Logger.getLogger("Minecraft");
 	public static final String LOG_PREFIX  = "[pxn] ";
 	public static final String CHAT_PREFIX = ChatColor.AQUA + LOG_PREFIX + ChatColor.WHITE;
 
@@ -123,7 +122,7 @@ public abstract class xJavaPlugin extends JavaPlugin {
 		if (!path.isDirectory()) {
 			if (!path.mkdir())
 				throw new RuntimeException("Failed to create directory: " + path.toString());
-			LOG.info(LOG_PREFIX + "Created directory: " + path.toString());
+			this.log().info(LOG_PREFIX + "Created directory: " + path.toString());
 		}
 	}
 
@@ -163,6 +162,15 @@ public abstract class xJavaPlugin extends JavaPlugin {
 			xJavaPlugin.this.onSave();
 		}
 
+	}
+
+
+
+	public Logger log() {
+		return this.getLogger();
+	}
+	public static Logger Log() {
+		return Logger.getLogger("Minecraft");
 	}
 
 

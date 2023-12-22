@@ -1,11 +1,11 @@
 package com.poixson.pluginlib.tools.updatechecker;
 
-import static com.poixson.pluginlib.tools.plugin.xJavaPlugin.LOG;
 import static com.poixson.utils.Utils.IsEmpty;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -81,7 +81,7 @@ public class UpdateCheckerTask implements Runnable {
 					.replace(""+ChatColor.RED,   "")
 					.replace(""+ChatColor.WHITE, "");
 				for (final String line : str.split("\n"))
-					LOG.info(line);
+					this.log().info(line);
 			}
 			// message to players
 			if (this.check_count.get() == 1) {
@@ -109,6 +109,12 @@ public class UpdateCheckerTask implements Runnable {
 
 	public String getUpdateMessage() {
 		return this.updateMsg.get();
+	}
+
+
+
+	public Logger log() {
+		return this.plugin.getLogger();
 	}
 
 

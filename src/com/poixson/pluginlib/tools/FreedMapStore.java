@@ -1,6 +1,5 @@
 package com.poixson.pluginlib.tools;
 
-import static com.poixson.pluginlib.tools.plugin.xJavaPlugin.LOG;
 import static com.poixson.pluginlib.tools.plugin.xJavaPlugin.LOG_PREFIX;
 import static com.poixson.utils.Utils.SafeClose;
 
@@ -15,6 +14,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.ConcurrentSkipListSet;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
@@ -50,7 +50,7 @@ public class FreedMapStore extends xListener<pxnPluginLib> {
 	public synchronized void load() throws IOException {
 		this.freed.clear();
 		if (this.file.isFile()) {
-			LOG.info(LOG_PREFIX + "Loading: freed-maps.json");
+			this.log().info(LOG_PREFIX + "Loading: freed-maps.json");
 			BufferedReader reader = null;
 			try {
 				reader = Files.newBufferedReader(this.file.toPath());
@@ -65,7 +65,7 @@ public class FreedMapStore extends xListener<pxnPluginLib> {
 				SafeClose(reader);
 			}
 		} else {
-			LOG.info(LOG_PREFIX + "File not found: freed-maps.json");
+			this.log().info(LOG_PREFIX + "File not found: freed-maps.json");
 			this.changed.set(true);
 		}
 	}
@@ -78,7 +78,7 @@ public class FreedMapStore extends xListener<pxnPluginLib> {
 				for (final Integer id : list)
 					result[i++] = id.intValue();
 			}
-			LOG.info(String.format("%sSaving %d freed maps", LOG_PREFIX, result.length));
+			this.log().info(String.format("%sSaving %d freed maps", LOG_PREFIX, result.length));
 			BufferedWriter writer = null;
 			try {
 				final String data = (new Gson()).toJson(result);
@@ -118,6 +118,12 @@ public class FreedMapStore extends xListener<pxnPluginLib> {
 		final boolean result = this.freed.add(Integer.valueOf(map_id));
 		this.changed.set(true);
 		return result;
+	}
+
+
+
+	public Logger log() {
+		return this.plugin.getLogger();
 	}
 
 
