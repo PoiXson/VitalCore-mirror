@@ -23,6 +23,8 @@ public final class BukkitUtils {
 	private BukkitUtils() {}
 	static { Keeper.add(new BukkitUtils()); }
 
+	public static final int MAP_SIZE = 128;
+
 	public static ConcurrentHashMap<String, WeakReference<BlockData>> blocksCache =
 			new ConcurrentHashMap<String, WeakReference<BlockData>>();
 

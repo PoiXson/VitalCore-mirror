@@ -1,6 +1,6 @@
 package com.poixson.pluginlib.utils;
 
-import static com.poixson.pluginlib.tools.scripting.screen.MapScreen.map_size;
+import static com.poixson.pluginlib.utils.BukkitUtils.MAP_SIZE;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
@@ -60,7 +60,7 @@ public final class ScriptUtils {
 
 	public static Iab FixCursorPosition(final Vector vec,
 			final Iabcd screen_size, final BlockFace facing) {
-		final int y = ((int)Math.round( map_size * (1.0-(vec.getY()%1.0)) )) - screen_size.b;
+		final int y = ((int)Math.round( MAP_SIZE * (1.0-(vec.getY()%1.0)) )) - screen_size.b;
 		final double vec_x;
 		FACING_SWITCH:
 		switch (facing) {
@@ -68,7 +68,7 @@ public final class ScriptUtils {
 		case EAST:  case WEST:  vec_x = vec.getZ(); break FACING_SWITCH;
 		default: throw new RuntimeException("Unknown cursor direction: " + facing.toString());
 		}
-		int x = ((int)Math.round( map_size * (vec_x%1.0) )) - screen_size.a;
+		int x = ((int)Math.round( MAP_SIZE * (vec_x%1.0) )) - screen_size.a;
 		// reverse direction
 		FACING_SWITCH:
 		switch (facing) {
@@ -81,7 +81,7 @@ public final class ScriptUtils {
 //TODO: doesn't work properly with angles over 45 degrees
 	public static Iab FixClickPosition(final Vector vec,
 			final Iabcd screen_size, final BlockFace facing, final Location player_loc) {
-		int y = ((int)Math.round( map_size * (0.5-(vec.getY()%1.0)) )) - screen_size.b - 1;
+		int y = ((int)Math.round( MAP_SIZE * (0.5-(vec.getY()%1.0)) )) - screen_size.b - 1;
 		final double vec_x;
 		FACING_SWITCH:
 		switch (facing) {
@@ -89,7 +89,7 @@ public final class ScriptUtils {
 		case EAST:  case WEST:  vec_x = vec.getZ() + 0.5; break FACING_SWITCH;
 		default: throw new RuntimeException("Unknown click direction: " + facing.toString());
 		}
-		int x = ((int)Math.round( map_size * (vec_x%1.0) )) - screen_size.a;
+		int x = ((int)Math.round( MAP_SIZE * (vec_x%1.0) )) - screen_size.a;
 		// reverse direction
 		FACING_SWITCH:
 		switch (facing) {
@@ -101,8 +101,8 @@ public final class ScriptUtils {
 		{
 			final double angle_x = 45.0 - ((player_loc.getYaw()   + 225.0) % 90.0);
 			final double angle_y = 45.0 - ((player_loc.getPitch() + 225.0) % 90.0);
-			x += (int)Math.round(0.0 - (Math.tan(angle_x / 45.0) * (0.03125 * map_size)));
-			y += (int)Math.round(0.0 - (Math.tan(angle_y / 45.0) * (0.03125 * map_size)));
+			x += (int)Math.round(0.0 - (Math.tan(angle_x / 45.0) * (0.03125 * MAP_SIZE)));
+			y += (int)Math.round(0.0 - (Math.tan(angle_y / 45.0) * (0.03125 * MAP_SIZE)));
 		}
 		return new Iab(x, y);
 	}
