@@ -1,4 +1,4 @@
-package com.poixson.pluginlib.tools.scripting;
+package com.poixson.pluginlib.tools;
 
 import static com.poixson.utils.Utils.IsEmpty;
 
@@ -9,14 +9,14 @@ import org.bukkit.entity.Player;
 import com.poixson.tools.abstractions.OutputStreamLineRemapper;
 
 
-public class LocalOut extends OutputStreamLineRemapper {
+public class LocalPlayerOut extends OutputStreamLineRemapper {
 
 	protected final Location loc;
 	protected final int radius;
 
 
 
-	public LocalOut(final Location loc, final int radius) {
+	public LocalPlayerOut(final Location loc, final int radius) {
 		super();
 		this.loc    = loc;
 		this.radius = radius;
