@@ -47,7 +47,6 @@ public class LocationStoreManager extends BukkitRunnable {
 	}
 
 	public LocationStoreManager start(final JavaPlugin plugin) {
-		init();
 		this.runTaskTimerAsynchronously(plugin, 20L, 20L);
 		return this;
 	}
