@@ -1,4 +1,4 @@
-package com.poixson.pluginlib.tools.updatechecker;
+package com.poixson.tools.updatechecker;
 
 import static com.poixson.pluginlib.pxnPluginLib.LOG_PREFIX;
 import static com.poixson.utils.Utils.GetMS;
@@ -14,7 +14,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import com.poixson.pluginlib.pxnPluginLib;
-import com.poixson.pluginlib.tools.plugin.xJavaPlugin;
+import com.poixson.tools.xJavaPlugin;
 import com.poixson.tools.xTime;
 import com.poixson.tools.abstractions.xStartStop;
 import com.poixson.utils.ThreadUtils;

@@ -1,4 +1,4 @@
-package com.poixson.pluginlib.utils;
+package com.poixson.utils;
 
 import static com.poixson.pluginlib.utils.BukkitUtils.MAP_SIZE;
 
@@ -19,8 +19,8 @@ import com.poixson.tools.dao.Iab;
 import com.poixson.tools.dao.Iabcd;
 
 
-public final class ScriptUtils {
-	private ScriptUtils() {}
+public class CraftScriptUtils {
+	private CraftScriptUtils() {}
 
 
 

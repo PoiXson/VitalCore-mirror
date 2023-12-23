@@ -1,4 +1,4 @@
-package com.poixson.pluginlib.events;
+package com.poixson.tools.events;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Player;

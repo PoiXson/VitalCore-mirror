@@ -1,4 +1,4 @@
-package com.poixson.pluginlib.tools.plugin;
+package com.poixson.tools;
 
 import java.io.File;
 import java.io.IOException;
@@ -14,9 +14,9 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.poixson.pluginlib.events.PluginSaveEvent;
-import com.poixson.pluginlib.tools.updatechecker.UpdateCheckManager;
-import com.poixson.tools.AppProps;
+import com.poixson.tools.events.PluginSaveEvent;
+import com.poixson.tools.events.xListener;
+import com.poixson.tools.updatechecker.UpdateCheckManager;
 
 
 public abstract class xJavaPlugin extends JavaPlugin {

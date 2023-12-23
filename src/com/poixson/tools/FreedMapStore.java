@@ -1,6 +1,6 @@
-package com.poixson.pluginlib.tools;
+package com.poixson.tools;
 
-import static com.poixson.pluginlib.tools.plugin.xJavaPlugin.LOG_PREFIX;
+import static com.poixson.tools.xJavaPlugin.LOG_PREFIX;
 import static com.poixson.utils.Utils.SafeClose;
 
 import java.io.BufferedReader;
@@ -24,8 +24,8 @@ import org.bukkit.map.MapView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.poixson.pluginlib.pxnPluginLib;
-import com.poixson.pluginlib.events.PluginSaveEvent;
-import com.poixson.pluginlib.tools.plugin.xListener;
+import com.poixson.tools.events.PluginSaveEvent;
+import com.poixson.tools.events.xListener;
 
 
 public class FreedMapStore extends xListener<pxnPluginLib> {

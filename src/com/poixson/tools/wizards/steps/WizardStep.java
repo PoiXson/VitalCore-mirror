@@ -1,4 +1,4 @@
-package com.poixson.pluginlib.tools.wizards.steps;
+package com.poixson.tools.wizards.steps;
 
 import static com.poixson.utils.Utils.IsEmpty;
 
@@ -8,8 +8,8 @@ import java.util.concurrent.atomic.AtomicReference;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.poixson.pluginlib.tools.plugin.xJavaPlugin;
-import com.poixson.pluginlib.tools.wizards.Wizard;
+import com.poixson.tools.xJavaPlugin;
+import com.poixson.tools.wizards.Wizard;
 
 
 public abstract class WizardStep<T extends xJavaPlugin>

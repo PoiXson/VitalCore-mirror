@@ -1,6 +1,7 @@
-package com.poixson.pluginlib.tools.worldstore;
+package com.poixson.tools.worldstore;
 
-import static com.poixson.pluginlib.tools.plugin.xJavaPlugin.LOG_PREFIX;
+import static com.poixson.tools.xJavaPlugin.LOG_PREFIX;
+import static com.poixson.utils.BukkitUtils.GetServerPath;
 
 import java.io.File;
 import java.io.IOException;
@@ -14,7 +15,6 @@ import java.util.logging.Logger;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import com.poixson.pluginlib.utils.BukkitUtils;
 import com.poixson.tools.dao.Iab;
 
 
@@ -31,7 +31,7 @@ public class LocationStoreManager extends BukkitRunnable {
 
 	public LocationStoreManager(final String worldStr, final String type) {
 		this.type = type;
-		this.path = new File(BukkitUtils.GetServerPath(), worldStr+"/locs");
+		this.path = new File(GetServerPath(), worldStr+"/locs");
 	}
 
 

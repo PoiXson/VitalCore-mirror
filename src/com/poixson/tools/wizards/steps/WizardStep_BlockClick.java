@@ -1,4 +1,4 @@
-package com.poixson.pluginlib.tools.wizards.steps;
+package com.poixson.tools.wizards.steps;
 
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -15,9 +15,9 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
-import com.poixson.pluginlib.tools.plugin.xJavaPlugin;
-import com.poixson.pluginlib.tools.wizards.Wizard;
-import com.poixson.pluginlib.utils.BukkitUtils;
+import com.poixson.tools.xJavaPlugin;
+import com.poixson.tools.wizards.Wizard;
+import com.poixson.utils.BukkitUtils;
 
 
 public abstract class WizardStep_BlockClick<T extends xJavaPlugin>

@@ -1,4 +1,4 @@
-package com.poixson.pluginlib.events;
+package com.poixson.tools.events;
 
 import org.bukkit.Bukkit;
 import org.bukkit.World;
@@ -8,7 +8,6 @@ import org.bukkit.event.world.WorldSaveEvent;
 import org.bukkit.plugin.PluginManager;
 
 import com.poixson.pluginlib.pxnPluginLib;
-import com.poixson.pluginlib.tools.plugin.xListener;
 
 
 public class PluginSaveManager extends xListener<pxnPluginLib> {

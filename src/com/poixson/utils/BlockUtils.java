@@ -1,4 +1,4 @@
-package com.poixson.pluginlib.utils;
+package com.poixson.utils;
 
 import static com.poixson.utils.Utils.IsEmpty;
 

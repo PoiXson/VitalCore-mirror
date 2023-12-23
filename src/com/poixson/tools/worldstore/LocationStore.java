@@ -1,6 +1,6 @@
-package com.poixson.pluginlib.tools.worldstore;
+package com.poixson.tools.worldstore;
 
-import static com.poixson.pluginlib.tools.plugin.xJavaPlugin.LOG_PREFIX;
+import static com.poixson.tools.xJavaPlugin.LOG_PREFIX;
 import static com.poixson.utils.Utils.SafeClose;
 
 import java.io.BufferedReader;

@@ -1,16 +1,16 @@
-package com.poixson.pluginlib.utils;
+package com.poixson.utils;
 
-import static com.poixson.pluginlib.utils.LocationUtils.AxToFace;
-import static com.poixson.pluginlib.utils.LocationUtils.AxToIxyz;
-import static com.poixson.pluginlib.utils.LocationUtils.AxToIxz;
-import static com.poixson.pluginlib.utils.LocationUtils.FaceToAxChar;
-import static com.poixson.pluginlib.utils.LocationUtils.FaceToAxString;
-import static com.poixson.pluginlib.utils.LocationUtils.FaceToAxis;
-import static com.poixson.pluginlib.utils.LocationUtils.FaceToIxyz;
-import static com.poixson.pluginlib.utils.LocationUtils.FaceToIxz;
-import static com.poixson.pluginlib.utils.LocationUtils.Rotate;
-import static com.poixson.pluginlib.utils.LocationUtils.ValueToFaceQuarter;
-import static com.poixson.pluginlib.utils.LocationUtils.YawToRotation;
+import static com.poixson.utils.LocationUtils.AxToFace;
+import static com.poixson.utils.LocationUtils.AxToIxyz;
+import static com.poixson.utils.LocationUtils.AxToIxz;
+import static com.poixson.utils.LocationUtils.FaceToAxChar;
+import static com.poixson.utils.LocationUtils.FaceToAxString;
+import static com.poixson.utils.LocationUtils.FaceToAxis;
+import static com.poixson.utils.LocationUtils.FaceToIxyz;
+import static com.poixson.utils.LocationUtils.FaceToIxz;
+import static com.poixson.utils.LocationUtils.Rotate;
+import static com.poixson.utils.LocationUtils.ValueToFaceQuarter;
+import static com.poixson.utils.LocationUtils.YawToRotation;
 
 import org.bukkit.Axis;
 import org.bukkit.Rotation;

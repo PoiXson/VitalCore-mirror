@@ -1,4 +1,4 @@
-package com.poixson.pluginlib.tools.wizards.steps;
+package com.poixson.tools.wizards.steps;
 
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -8,9 +8,9 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
-import com.poixson.pluginlib.tools.plugin.xJavaPlugin;
-import com.poixson.pluginlib.tools.wizards.Wizard;
-import com.poixson.pluginlib.utils.BukkitUtils;
+import com.poixson.tools.xJavaPlugin;
+import com.poixson.tools.wizards.Wizard;
+import com.poixson.utils.BukkitUtils;
 
 
 public abstract class WizardStep_Ask<T extends xJavaPlugin>

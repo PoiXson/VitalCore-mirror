@@ -1,4 +1,4 @@
-package com.poixson.pluginlib.tools;
+package com.poixson.tools;
 
 import org.bukkit.Location;
 import org.bukkit.block.Block;

@@ -1,4 +1,4 @@
-package com.poixson.pluginlib.events;
+package com.poixson.tools.events;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -9,8 +9,7 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.plugin.PluginManager;
 
 import com.poixson.pluginlib.pxnPluginLib;
-import com.poixson.pluginlib.events.OutsideOfWorldEvent.OutsideOfWorld;
-import com.poixson.pluginlib.tools.plugin.xListener;
+import com.poixson.tools.events.OutsideOfWorldEvent.OutsideOfWorld;
 
 
 public class PlayerMoveManager extends xListener<pxnPluginLib> {

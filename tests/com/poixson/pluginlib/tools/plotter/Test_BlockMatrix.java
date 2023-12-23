@@ -1,4 +1,4 @@
-package com.poixson.pluginlib.tools.plotter;
+package com.poixson.tools.plotter;
 
 import org.junit.Assert;
 import org.junit.Test;

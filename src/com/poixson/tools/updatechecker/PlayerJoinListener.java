@@ -1,4 +1,4 @@
-package com.poixson.pluginlib.tools.updatechecker;
+package com.poixson.tools.updatechecker;
 
 import static com.poixson.utils.Utils.IsEmpty;
 
@@ -9,7 +9,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import com.poixson.pluginlib.pxnPluginLib;
-import com.poixson.pluginlib.tools.plugin.xListener;
+import com.poixson.tools.events.xListener;
 
 
 public class PlayerJoinListener extends xListener<pxnPluginLib> {

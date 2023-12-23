@@ -10,8 +10,8 @@ import org.bukkit.event.server.PluginEnableEvent;
 import org.bukkit.plugin.Plugin;
 
 import com.poixson.pluginlib.pxnPluginLib;
-import com.poixson.pluginlib.tools.plugin.xJavaPlugin;
-import com.poixson.pluginlib.tools.plugin.xListener;
+import com.poixson.tools.xJavaPlugin;
+import com.poixson.tools.events.xListener;
 
 
 public class pxnPluginsChart extends xListener<pxnPluginLib> implements Callable<String> {

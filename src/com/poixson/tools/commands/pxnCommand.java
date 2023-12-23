@@ -1,4 +1,4 @@
-package com.poixson.pluginlib.tools.commands;
+package com.poixson.tools.commands;
 
 import static com.poixson.utils.Utils.IsEmpty;
 
@@ -6,7 +6,7 @@ import java.util.LinkedList;
 
 import org.bukkit.command.CommandSender;
 
-import com.poixson.pluginlib.tools.plugin.xJavaPlugin;
+import com.poixson.tools.xJavaPlugin;
 
 
 public abstract class pxnCommand<T extends xJavaPlugin> {

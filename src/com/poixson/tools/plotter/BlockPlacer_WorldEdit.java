@@ -1,4 +1,4 @@
-package com.poixson.pluginlib.tools.plotter;
+package com.poixson.tools.plotter;
 
 import org.bukkit.block.data.BlockData;
 

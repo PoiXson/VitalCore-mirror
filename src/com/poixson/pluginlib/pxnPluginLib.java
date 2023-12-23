@@ -12,12 +12,12 @@ import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.ServicesManager;
 
 import com.poixson.pluginlib.charts.pxnPluginsChart;
-import com.poixson.pluginlib.events.PlayerMoveManager;
-import com.poixson.pluginlib.events.PluginSaveManager;
-import com.poixson.pluginlib.tools.FreedMapStore;
-import com.poixson.pluginlib.tools.plugin.xJavaPlugin;
-import com.poixson.pluginlib.tools.updatechecker.UpdateCheckManager;
+import com.poixson.tools.FreedMapStore;
 import com.poixson.tools.Keeper;
+import com.poixson.tools.xJavaPlugin;
+import com.poixson.tools.events.PlayerMoveManager;
+import com.poixson.tools.events.PluginSaveManager;
+import com.poixson.tools.updatechecker.UpdateCheckManager;
 
 
 public class pxnPluginLib extends xJavaPlugin {

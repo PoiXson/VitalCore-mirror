@@ -1,4 +1,4 @@
-package com.poixson.pluginlib.tools.worldstore;
+package com.poixson.tools.worldstore;
 
 import static com.poixson.utils.Utils.SafeClose;
 
@@ -21,8 +21,8 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.poixson.pluginlib.utils.BukkitUtils;
 import com.poixson.tools.xTime;
+import com.poixson.utils.BukkitUtils;
 
 
 public class VarStore extends BukkitRunnable {

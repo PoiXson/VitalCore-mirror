@@ -1,4 +1,4 @@
-package com.poixson.pluginlib.tools.commands;
+package com.poixson.tools.commands;
 
 import static com.poixson.utils.Utils.IsEmpty;
 
@@ -17,8 +17,8 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.server.ServerCommandEvent;
 
-import com.poixson.pluginlib.tools.plugin.xJavaPlugin;
-import com.poixson.pluginlib.tools.plugin.xListener;
+import com.poixson.tools.xJavaPlugin;
+import com.poixson.tools.events.xListener;
 
 
 public abstract class pxnCommandsHandler<T extends xJavaPlugin>

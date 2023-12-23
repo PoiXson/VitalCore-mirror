@@ -1,7 +1,7 @@
-package com.poixson.pluginlib.tools.plotter;
+package com.poixson.tools.plotter;
 
-import static com.poixson.pluginlib.utils.BlockMatrixUtils.LocsToArray;
-import static com.poixson.pluginlib.utils.BlockMatrixUtils.SizesToArray;
+import static com.poixson.utils.BlockMatrixUtils.LocsToArray;
+import static com.poixson.utils.BlockMatrixUtils.SizesToArray;
 import static com.poixson.utils.Utils.IsEmpty;
 
 import org.bukkit.World;

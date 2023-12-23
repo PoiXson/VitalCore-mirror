@@ -1,4 +1,4 @@
-package com.poixson.pluginlib.tools.updatechecker;
+package com.poixson.tools.updatechecker;
 
 import static com.poixson.utils.Utils.IsEmpty;
 

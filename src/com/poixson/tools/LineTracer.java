@@ -1,4 +1,4 @@
-package com.poixson.pluginlib.tools;
+package com.poixson.tools;
 
 import java.util.HashSet;
 import java.util.LinkedList;
