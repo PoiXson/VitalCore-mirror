@@ -1,18 +1,11 @@
 package com.poixson.utils;
 
-import static com.poixson.pluginlib.utils.BukkitUtils.MAP_SIZE;
-
-import java.awt.Color;
-import java.awt.image.BufferedImage;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.bukkit.Location;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.MapMeta;
-import org.bukkit.map.MapPalette;
 import org.bukkit.util.Vector;
 
 import com.poixson.tools.dao.Iab;
@@ -21,6 +14,8 @@ import com.poixson.tools.dao.Iabcd;
 
 public class CraftScriptUtils {
 	private CraftScriptUtils() {}
+
+	public static final int MAP_SIZE = 128;
 
 
 
@@ -36,25 +31,6 @@ public class CraftScriptUtils {
 		map.put("pitch", Float.valueOf(loc.getPitch()));
 		return map;
 	}
-
-
-
-	// -------------------------------------------------------------------------------
-	// map scale
-
-
-
-	@SuppressWarnings("deprecation")
-	public static void SetMapID(final ItemStack map, final int id) {
-		final MapMeta meta = (MapMeta) map.getItemMeta();
-		meta.setMapId(id);
-		map.setItemMeta(meta);
-	}
-
-
-
-	// -------------------------------------------------------------------------------
-	// cursor position on map
 
 
 
@@ -105,78 +81,6 @@ public class CraftScriptUtils {
 			y += (int)Math.round(0.0 - (Math.tan(angle_y / 45.0) * (0.03125 * MAP_SIZE)));
 		}
 		return new Iab(x, y);
-	}
-
-
-
-	// -------------------------------------------------------------------------------
-	// drawing on maps
-
-
-
-	@SuppressWarnings("deprecation")
-	public static Color NearestMapColor(final Color color) {
-		return MapPalette.getColor(MapPalette.matchColor(color));
-	}
-	public static int NearestMapColor(final int color) {
-		return NearestMapColor(new Color(color)).getRGB();
-	}
-
-
-
-	public static void DrawImagePixels(final Color[][] pixels,
-			final int x, final int y, final BufferedImage img) {
-		DrawImagePixels_ImgMask(pixels, x, y, img, null);
-	}
-	public static void DrawImagePixels_ImgMask(final Color[][] pixels,
-			final int x, final int y, final BufferedImage img,
-			final BufferedImage mask) {
-		final int w = pixels[0].length - 1;
-		final int h = pixels.length    - 1;
-		final int img_w = img.getWidth(null);
-		final int img_h = img.getHeight(null);
-		final int color_white = Color.WHITE.getRGB();
-		int xx, yy;
-		//LOOP_Y:
-		for (int iy=0; iy<img_h; iy++) {
-			yy = iy + y;
-			LOOP_X:
-			for (int ix=0; ix<img_w; ix++) {
-				xx = ix + x;
-				if (xx < 0 || xx > w
-				||  yy < 0 || yy > h)
-					continue LOOP_X;
-				if (mask != null
-				&&  mask.getRGB(ix, iy) != color_white)
-					continue LOOP_X;
-				pixels[yy][xx] = new Color(img.getRGB(ix, iy));
-			} // end LOOP_X
-		} // end LOOP_Y
-	}
-	public static void DrawImagePixels_ColorMask(final Color[][] pixels,
-			final int x, final int y, final BufferedImage img,
-			final Color mask) {
-		final int w = pixels[0].length - 1;
-		final int h = pixels.length    - 1;
-		final int img_w = img.getWidth(null);
-		final int img_h = img.getHeight(null);
-		final int color_mask = mask.getRGB();
-		int xx, yy;
-		int c;
-		//LOOP_Y:
-		for (int iy=0; iy<img_h; iy++) {
-			yy = iy + y;
-			LOOP_X:
-			for (int ix=0; ix<img_w; ix++) {
-				xx = ix + x;
-				if (xx < 0 || xx > w
-				||  yy < 0 || yy > h)
-					continue LOOP_X;
-				c = img.getRGB(ix, iy);
-				if (c != color_mask)
-					pixels[yy][xx] = new Color(c);
-			} // end LOOP_X
-		} // end LOOP_Y
 	}
 
 
