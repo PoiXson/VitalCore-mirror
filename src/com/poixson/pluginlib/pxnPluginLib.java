@@ -29,6 +29,7 @@ public class pxnPluginLib extends xJavaPlugin {
 	protected final Keeper keeper;
 
 	protected final CopyOnWriteArraySet<xJavaPlugin> plugins = new CopyOnWriteArraySet<xJavaPlugin>();
+
 	protected final AtomicReference<pxnPluginsChart> pluginsListener = new AtomicReference<pxnPluginsChart>(null);
 	protected final AtomicReference<UpdateCheckManager> checkManager = new AtomicReference<UpdateCheckManager>(null);
 	protected final AtomicReference<PlayerMoveManager>  moveManager  = new AtomicReference<PlayerMoveManager>(null);
@@ -96,6 +97,7 @@ public class pxnPluginLib extends xJavaPlugin {
 	@Override
 	public void onDisable() {
 		super.onDisable();
+//		final ServicesManager services = Bukkit.getServicesManager();
 		// save listener
 		{
 			final PluginSaveManager listener = this.saveListener.getAndSet(null);

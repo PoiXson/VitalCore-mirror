@@ -24,9 +24,6 @@ public final class BukkitUtils {
 	private BukkitUtils() {}
 	static { Keeper.add(new BukkitUtils()); }
 
-	public static ConcurrentHashMap<String, WeakReference<BlockData>> blocksCache =
-			new ConcurrentHashMap<String, WeakReference<BlockData>>();
-
 
 
 	public static boolean EqualsUUID(final UUID uuidA, final UUID uuidB) {
@@ -88,9 +85,8 @@ public final class BukkitUtils {
 		BroadcastWorld(Bukkit.getWorld(worldName), msg);
 	}
 	public static void BroadcastWorld(final World world, final String msg) {
-		for (final Player player : world.getPlayers()) {
+		for (final Player player : world.getPlayers())
 			player.sendMessage(msg);
-		}
 	}
 
 
