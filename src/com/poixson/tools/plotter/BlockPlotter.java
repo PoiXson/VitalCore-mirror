@@ -154,6 +154,9 @@ public class BlockPlotter implements Runnable {
 	public BlockPlotter type(final char chr, final Material type) {
 		return this.type(chr, Bukkit.createBlockData(type));
 	}
+	public BlockPlotter type(final char chr, final Material type, final String params) {
+		return this.type(chr, Bukkit.createBlockData(type, params));
+	}
 	public BlockPlotter type(final char chr, final BlockData block) {
 		this.types.put(Character.valueOf(chr), block);
 		return this;
