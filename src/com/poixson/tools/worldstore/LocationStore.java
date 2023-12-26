@@ -1,6 +1,9 @@
 package com.poixson.tools.worldstore;
 
+import static com.poixson.tools.worldstore.LocationStoreManager.DEFAULT_DELAY_UNLOAD;
+import static com.poixson.tools.worldstore.LocationStoreManager.DEFAULT_DELAY_SAVE;
 import static com.poixson.tools.xJavaPlugin.LOG_PREFIX;
+import static com.poixson.utils.Utils.GetMS;
 import static com.poixson.utils.Utils.SafeClose;
 
 import java.io.BufferedReader;
@@ -13,28 +16,22 @@ import java.nio.file.Files;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.Logger;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.poixson.tools.xTime;
 import com.poixson.tools.dao.Iab;
 
 
 public class LocationStore {
 
-	public static final int DELAY_SAVE   = (int) (new xTime("10s")).get(TimeUnit.SECONDS);
-	public static final int DELAY_UNLOAD = (int) (new xTime( "3m")).get(TimeUnit.SECONDS);
-
 	protected final File file;
 
 	public final CopyOnWriteArraySet<Iab> locations = new CopyOnWriteArraySet<Iab>();
 
-	protected final AtomicBoolean changed = new AtomicBoolean(false);
-	protected final AtomicInteger state   = new AtomicInteger(0);
+	protected final AtomicLong last_used    = new AtomicLong(0L);
+	protected final AtomicLong last_changed = new AtomicLong(0L);
 
 
 
@@ -73,17 +70,58 @@ public class LocationStore {
 		}
 	}
 	public boolean save() throws IOException {
-		if (this.changed.getAndSet(false)) {
-			synchronized (this.locations) {
-				final Set<String> result = new HashSet<String>();
-				final Iab[] set = this.locations.toArray(new Iab[0]);
-				for (final Iab loc : set)
-					result.add(loc.toString());
-				if (result.size() > 0) {
-					final String data = (new Gson()).toJson(result);
-					final BufferedWriter writer = new BufferedWriter(new FileWriter(this.file));
-					writer.write(data);
-					SafeClose(writer);
+		this.last_changed.set(0L);
+		final Set<String> result = new HashSet<String>();
+		final Iab[] set = this.locations.toArray(new Iab[0]);
+		for (final Iab loc : set)
+			result.add(loc.toString());
+		if (result.size() > 0) {
+			final String data = (new Gson()).toJson(result);
+			final BufferedWriter writer = new BufferedWriter(new FileWriter(this.file));
+			writer.write(data);
+			SafeClose(writer);
+			return true;
+		}
+		return false;
+	}
+
+
+
+	public boolean isStale() {
+		return this.isStale(GetMS());
+	}
+	public boolean isStale(final long time) {
+		boolean saved = false;
+		// last changed
+		{
+			final long last = this.last_changed.get();
+			if (last > 0L) {
+				final long since = time - last;
+				if (since > DEFAULT_DELAY_SAVE) {
+					saved = true;
+					try {
+						this.save();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		}
+		// last accessed
+		{
+			final long last = this.last_used.get();
+			if (last <= 0L) {
+				this.last_used.compareAndSet(last, time);
+			} else {
+				final long since = time - last;
+				if (since > DEFAULT_DELAY_UNLOAD) {
+					if (!saved) {
+						try {
+							this.save();
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+					}
 					return true;
 				}
 			}
@@ -93,49 +131,37 @@ public class LocationStore {
 
 
 
-	protected boolean should_unload() {
-		final int state = this.state.incrementAndGet();
-		// save
-		if (this.changed.get()) {
-			if (state == DELAY_SAVE) {
-				try {
-					this.save();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-			return false;
-		}
-		// unload
-		if (state > DELAY_UNLOAD) {
-			try {
-				this.save();
-			} catch (IOException ignore) {}
-			return true;
-		}
-		return false;
-	}
 	public void markAccessed() {
-		this.state.set(0);
+		this.markAccessed(GetMS());
+	}
+	public void markAccessed(final long time) {
+		this.last_used.set(time);
+	}
+
+	public void markChanged() {
+		this.markChanged(GetMS());
+	}
+	public void markChanged(final long time) {
+		this.markAccessed(time);
+		this.last_changed.set(time);
 	}
 
 
 
 	public boolean add(final int x, final int z) {
-		this.state.set(0);
 		final boolean result = this.locations.add(new Iab(x, z));
-		this.changed.set(true);
+		this.markChanged();
 		return result;
 	}
 	public boolean remove(final int x, final int z) {
-		this.state.set(0);
 		final boolean result = this.locations.remove(new Iab(x, z));
-		this.changed.set(true);
+		this.markChanged();
 		return result;
 	}
 	public boolean contains(final int x, final int z) {
-		this.state.set(0);
-		return this.locations.contains(new Iab(x, z));
+		final boolean result = this.locations.contains(new Iab(x, z));
+		this.markAccessed();
+		return result;
 	}
 
 

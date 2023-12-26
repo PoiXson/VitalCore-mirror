@@ -2,6 +2,7 @@ package com.poixson.tools.worldstore;
 
 import static com.poixson.tools.xJavaPlugin.LOG_PREFIX;
 import static com.poixson.utils.BukkitUtils.GetServerPath;
+import static com.poixson.utils.Utils.GetMS;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,13 +13,25 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Logger;
 
-import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import com.poixson.tools.xJavaPlugin;
+import com.poixson.tools.xTime;
 import com.poixson.tools.dao.Iab;
+import com.poixson.tools.events.PluginSaveEvent;
+import com.poixson.tools.events.xListener;
 
 
 public class LocationStoreManager extends BukkitRunnable {
+
+	public static final long DEFAULT_INTERVAL     = xTime.Parse("10s").ticks(50L);
+	public static final long DEFAULT_DELAY_UNLOAD = xTime.ParseToLong("3m");
+	public static final long DEFAULT_DELAY_SAVE   = xTime.ParseToLong("30s");
+
+	protected final xJavaPlugin plugin;
+	protected final xListener<xJavaPlugin> listenerSave;
 
 	protected final String type;
 
@@ -29,9 +42,16 @@ public class LocationStoreManager extends BukkitRunnable {
 
 
 
-	public LocationStoreManager(final String worldStr, final String type) {
+	public LocationStoreManager(final xJavaPlugin plugin, final String worldStr, final String type) {
+		this.plugin = plugin;
 		this.type = type;
 		this.path = new File(GetServerPath(), worldStr+"/locs");
+		this.listenerSave = new xListener<xJavaPlugin>(plugin) {
+			@EventHandler(priority=EventPriority.NORMAL, ignoreCancelled=true)
+			public void onPluginSave(final PluginSaveEvent event) {
+				LocationStoreManager.this.save();
+			}
+		};
 	}
 
 
@@ -46,25 +66,38 @@ public class LocationStoreManager extends BukkitRunnable {
 		}
 	}
 
-	public LocationStoreManager start(final JavaPlugin plugin) {
-		this.runTaskTimerAsynchronously(plugin, 20L, 20L);
+	public LocationStoreManager start() {
+		this.listenerSave.register();
+		this.runTaskTimerAsynchronously(this.plugin, DEFAULT_INTERVAL, DEFAULT_INTERVAL);
 		return this;
+	}
+	public void stop() {
+		try {
+			this.cancel();
+		} catch (Exception ignore) {}
+		this.listenerSave.unregister();
+		this.save();
 	}
 
 
 
 	@Override
 	public void run() {
-		synchronized (this.regions) {
-			final Iterator<Entry<Iab, LocationStore>> it = this.regions.entrySet().iterator();
-			while (it.hasNext()) {
-				final Entry<Iab, LocationStore> entry = it.next();
-				if (entry.getValue().should_unload())
-					this.regions.remove(entry.getKey());
+		final long time = GetMS();
+		final Iterator<Entry<Iab, LocationStore>> it = this.regions.entrySet().iterator();
+		while (it.hasNext()) {
+			final Entry<Iab, LocationStore> entry = it.next();
+			if (entry.getValue().isStale(time)) {
+				try {
+					entry.getValue().save();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				this.regions.remove(entry.getKey());
 			}
 		}
 	}
-	public void saveAll() {
+	public void save() {
 		init();
 		for (final LocationStore store : this.regions.values()) {
 			try {
