@@ -1,8 +1,13 @@
 package com.poixson.utils;
 
+import static com.poixson.utils.Utils.IsEmpty;
+
+import java.util.LinkedList;
+
 import org.bukkit.Axis;
 import org.bukkit.Rotation;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.data.Directional;
 
 import com.poixson.tools.Keeper;
 import com.poixson.tools.dao.Iab;
@@ -259,6 +264,30 @@ public final class LocationUtils {
 		case "se": return BlockFace.SOUTH_EAST;
 		case "sw": return BlockFace.SOUTH_WEST;
 		default: return null;
+		}
+	}
+
+	// rotate a block in a 2x2 area
+	public static BlockFace[] RotsToFaces2x2(final String rots) {
+		if (IsEmpty(rots)) return null;
+		final String lower = rots.toLowerCase();
+		final LinkedList<BlockFace> list = new LinkedList<BlockFace>();
+		for (int i=0; i<4; i++) {
+			final BlockFace face = AxToFace(lower.charAt(i));
+			if (face == null) throw new RuntimeException("Invalid carpet rotation: "+lower.charAt(i));
+			list.addLast(face);
+		}
+		return list.toArray(new BlockFace[0]);
+	}
+	public static void ApplyRots2x2(final BlockFace[] faces, final Directional tile, final int x, final int z) {
+		if (faces == null) return;
+		if (tile  == null) return;
+		if (z % 2 == 0) {
+			if (x % 2 == 0) tile.setFacing(faces[0]); // even even
+			else            tile.setFacing(faces[2]); // odd  even
+		} else {
+			if (x % 2 == 0) tile.setFacing(faces[1]); // even odd
+			else            tile.setFacing(faces[3]); // odd  odd
 		}
 	}
 
