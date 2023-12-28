@@ -26,6 +26,15 @@ public final class BlockUtils {
 	public static BlockData StringToBlockData(final String blockStr) {
 		return Bukkit.createBlockData(blockStr);
 	}
+	public static Material StringToMaterial(final AtomicReference<String> atomic, final String def) {
+		String type = atomic.get();
+		if (IsEmpty(type))
+			type = def;
+		final int pos = type.indexOf('[');
+		if (pos != -1)
+			type = type.substring(0, pos-1);
+		return Material.matchMaterial(type);
+	}
 
 
 
