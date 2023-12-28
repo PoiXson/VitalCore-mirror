@@ -269,7 +269,11 @@ public final class LocationUtils {
 
 	// rotate a block in a 2x2 area
 	public static BlockFace[] RotsToFaces2x2(final String rots) {
-		if (IsEmpty(rots)) return null;
+		if (IsEmpty(rots)
+		|| "-"   .equals(rots)
+		|| "none".equals(rots)
+		|| "null".equals(rots)) return null;
+		if (rots.length() != 4) throw new RuntimeException("Invalid block rotations: "+rots);
 		final String lower = rots.toLowerCase();
 		final LinkedList<BlockFace> list = new LinkedList<BlockFace>();
 		for (int i=0; i<4; i++) {
