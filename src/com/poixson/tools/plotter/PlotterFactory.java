@@ -36,21 +36,21 @@ public class PlotterFactory {
 
 	public BlockPlotter build() {
 		if (this.placer == null) throw new RequiredArgumentException("placer");
-		if (IsEmpty(this.axis))  throw new RequiredArgumentException("axis");
+		if (IsEmpty(this.axis)) this.axis = "use";
 		if (this.axis.contains("x") || this.axis.contains("X")
 		||  this.axis.contains("e") || this.axis.contains("w")) {
-			if (this.x == Integer.MIN_VALUE) throw new RequiredArgumentException("x");
-			if (this.w == Integer.MIN_VALUE) throw new RequiredArgumentException("w");
+			if (this.x == Integer.MIN_VALUE) this.x = 0;
+			if (this.w == Integer.MIN_VALUE) this.w = 1;
 		}
 		if (this.axis.contains("y") || this.axis.contains("Y")
 		||  this.axis.contains("u") || this.axis.contains("d")) {
-			if (this.y == Integer.MIN_VALUE) throw new RequiredArgumentException("y");
-			if (this.h == Integer.MIN_VALUE) throw new RequiredArgumentException("h");
+			if (this.y == Integer.MIN_VALUE) this.y = 0;
+			if (this.h == Integer.MIN_VALUE) this.h = 1;
 		}
 		if (this.axis.contains("z") || this.axis.contains("Z")
 		||  this.axis.contains("n") || this.axis.contains("s")) {
-			if (this.z == Integer.MIN_VALUE) throw new RequiredArgumentException("z");
-			if (this.d == Integer.MIN_VALUE) throw new RequiredArgumentException("d");
+			if (this.z == Integer.MIN_VALUE) this.z = 0;
+			if (this.d == Integer.MIN_VALUE) this.d = 1;
 		}
 		final int[] locs  = LocsToArray( this.axis, this.x, this.y, this.z);
 		final int[] sizes = SizesToArray(this.axis, this.w, this.h, this.d);
