@@ -164,6 +164,10 @@ public class BlockPlotter implements Runnable {
 
 
 
+	public void setBlock(final int x, final int y, final int z, final char chr) {
+		final BlockData type = this.types.get(Character.valueOf(chr));
+		this.setBlock(x, y, z, type);
+	}
 	public void setBlock(final int x, final int y, final int z, final BlockData type) {
 		final Iabcd loc = Rotate(new Iabcd(x, z, this.w, this.d), this.rotation);
 		final int xx = this.x + loc.a;
