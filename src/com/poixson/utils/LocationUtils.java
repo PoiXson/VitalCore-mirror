@@ -7,7 +7,6 @@ import java.util.LinkedList;
 import org.bukkit.Axis;
 import org.bukkit.Rotation;
 import org.bukkit.block.BlockFace;
-import org.bukkit.block.data.Directional;
 
 import com.poixson.tools.Keeper;
 import com.poixson.tools.dao.Iab;
@@ -282,17 +281,6 @@ public final class LocationUtils {
 			list.addLast(face);
 		}
 		return list.toArray(new BlockFace[0]);
-	}
-	public static void ApplyRots2x2(final BlockFace[] faces, final Directional tile, final int x, final int z) {
-		if (faces == null) return;
-		if (tile  == null) return;
-		if (z % 2 == 0) {
-			if (x % 2 == 0) tile.setFacing(faces[0]); // even even
-			else            tile.setFacing(faces[2]); // odd  even
-		} else {
-			if (x % 2 == 0) tile.setFacing(faces[1]); // even odd
-			else            tile.setFacing(faces[3]); // odd  odd
-		}
 	}
 
 
