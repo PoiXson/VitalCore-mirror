@@ -100,7 +100,10 @@ public class BlockPlotter implements Runnable {
 
 	@Override
 	public void run() {
-		run(this.matrix, 0, 0, 0);
+		this.run(0, 0, 0);
+	}
+	public void run(final int x, final int y, final int z) {
+		this.run(this.matrix, x, y, z);
 	}
 	protected void run(final BlockMatrix matrix,
 			final int x, final int y, final int z) {
