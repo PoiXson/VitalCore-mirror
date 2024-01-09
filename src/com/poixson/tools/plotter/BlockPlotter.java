@@ -39,11 +39,7 @@ public class BlockPlotter implements Runnable {
 
 	public BlockPlotter(final BlockPlacer placer,
 			final String axis, final int[] locs, final int[] sizes) {
-		this.placer = placer;
-		this.matrix = new BlockMatrix(axis, locs, sizes);
-		this.axis = axis;
-		this.x = this.matrix.getX(); this.y = this.matrix.getY(); this.z = this.matrix.getZ();
-		this.w = this.matrix.getW(); this.h = this.matrix.getH(); this.d = this.matrix.getD();
+		this(placer, new BlockMatrix(axis, locs, sizes));
 	}
 	public BlockPlotter(final BlockPlacer placer, final BlockMatrix matrix) {
 		this.placer = placer;
