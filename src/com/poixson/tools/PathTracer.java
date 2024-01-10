@@ -10,6 +10,8 @@ import com.poixson.utils.NumberUtils;
 
 public class PathTracer {
 
+	public static final int DEFAULT_MAX_CACHE_STEP = 100;
+
 	protected final FastNoiseLiteD noise;
 
 	protected final ConcurrentHashMap<Integer, Double> cache;
@@ -88,7 +90,7 @@ public class PathTracer {
 				valueW = this.noise.getNoise(x-1.0, i);
 				x += (valueW - valueE) * 5.0;
 			}
-			step = NumberUtils.MinMax( (int)Math.floor(Math.pow(i, 0.5)), 3, 1000 );
+			step = NumberUtils.MinMax( (int)Math.floor(Math.pow(i, 0.5)), 3, DEFAULT_MAX_CACHE_STEP );
 			local.put(Integer.valueOf(i), Double.valueOf(x));
 			if (i % step == 0)
 				this.cache.put(Integer.valueOf(i), Double.valueOf(x));
