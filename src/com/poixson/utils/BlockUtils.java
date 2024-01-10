@@ -50,14 +50,14 @@ public final class BlockUtils {
 
 
 
-	public static boolean isSign(final Material type) {
-		if (isWallSign(type))        return true;
-		if (isStandingSign(type))    return true;
-		if (isHangingSign(type))     return true;
-		if (isHangingWallSign(type)) return true;
+	public static boolean IsSign(final Material type) {
+		if (IsWallSign(type))        return true;
+		if (IsStandingSign(type))    return true;
+		if (IsHangingSign(type))     return true;
+		if (IsHangingWallSign(type)) return true;
 		return false;
 	}
-	public static boolean isWallSign(final Material type) {
+	public static boolean IsWallSign(final Material type) {
 		switch (type) {
 		case ACACIA_WALL_SIGN:
 		case BAMBOO_WALL_SIGN:
@@ -74,7 +74,7 @@ public final class BlockUtils {
 		}
 		return false;
 	}
-	public static boolean isStandingSign(final Material type) {
+	public static boolean IsStandingSign(final Material type) {
 		switch (type) {
 		case ACACIA_SIGN:
 		case BAMBOO_SIGN:
@@ -91,7 +91,7 @@ public final class BlockUtils {
 		}
 		return false;
 	}
-	public static boolean isHangingSign(final Material type) {
+	public static boolean IsHangingSign(final Material type) {
 		switch (type) {
 		case ACACIA_HANGING_SIGN:
 		case BAMBOO_HANGING_SIGN:
@@ -108,7 +108,7 @@ public final class BlockUtils {
 		}
 		return false;
 	}
-	public static boolean isHangingWallSign(final Material type) {
+	public static boolean IsHangingWallSign(final Material type) {
 		switch (type) {
 		case ACACIA_WALL_HANGING_SIGN:
 		case BAMBOO_WALL_HANGING_SIGN:
