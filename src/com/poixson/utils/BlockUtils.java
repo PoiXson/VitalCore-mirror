@@ -125,6 +125,26 @@ public final class BlockUtils {
 		}
 		return false;
 	}
+	public static boolean IsButton(final Material type) {
+		switch (type) {
+		case STONE_BUTTON:
+		case OAK_BUTTON:
+		case SPRUCE_BUTTON:
+		case BIRCH_BUTTON:
+		case JUNGLE_BUTTON:
+		case ACACIA_BUTTON:
+		case DARK_OAK_BUTTON:
+		case MANGROVE_BUTTON:
+		case CHERRY_BUTTON:
+		case BAMBOO_BUTTON:
+		case CRIMSON_BUTTON:
+		case WARPED_BUTTON:
+		case POLISHED_BLACKSTONE_BUTTON:
+			return true;
+		default: break;
+		}
+		return false;
+	}
 
 
 
