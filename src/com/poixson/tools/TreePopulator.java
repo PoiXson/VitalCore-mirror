@@ -1,18 +1,14 @@
 package com.poixson.tools;
 
-import java.util.Random;
-
 import org.bukkit.Material;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.block.data.type.Leaves;
-import org.bukkit.generator.BlockPopulator;
 import org.bukkit.generator.LimitedRegion;
-import org.bukkit.generator.WorldInfo;
 
 import com.poixson.utils.FastNoiseLiteD;
 
 
-public class TreePopulator extends BlockPopulator {
+public class TreePopulator {
 
 	protected final FastNoiseLiteD noise;
 
@@ -34,18 +30,20 @@ public class TreePopulator extends BlockPopulator {
 
 
 
-	@Override
-	public void populate(final WorldInfo world, final Random rnd,
-	final int chunkX, final int chunkZ, final LimitedRegion region) {
+	public int populate(final int chunkX, final int chunkZ, final LimitedRegion region) {
+		int count = 0;
 		int x, z;
 		for (int iz=0; iz<16; iz++) {
 			for (int ix=0; ix<16; ix++) {
 				x = ix + (chunkX * 16);
 				z = iz + (chunkZ * 16);
-				if (this.isTree(x, z))
+				if (this.isTree(x, z)) {
 					this.build(x, z, region);
+					count++;
+				}
 			}
 		}
+		return count;
 	}
 
 
