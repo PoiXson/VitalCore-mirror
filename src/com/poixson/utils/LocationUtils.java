@@ -82,6 +82,9 @@ public final class LocationUtils {
 		}
 		return dir;
 	}
+	public static char Rotate(final char ax, final BlockFace rotate) {
+		return Rotate(ax, FaceToRot(rotate));
+	}
 
 
 
@@ -91,14 +94,8 @@ public final class LocationUtils {
 			return axis;
 		final StringBuilder result = new StringBuilder();
 		final int len = axis.length();
-		for (int i=0; i<len; i++) {
-			switch (rotate) {
-			case WEST:  result.append(Rotate(axis.charAt(i), 0.25)); break;
-			case NORTH: result.append(Rotate(axis.charAt(i), 0.5 )); break;
-			case EAST:  result.append(Rotate(axis.charAt(i), 0.75)); break;
-			default: break;
-			}
-		}
+		for (int i=0; i<len; i++)
+			result.append(Rotate(axis.charAt(i), FaceToRot(rotate)));
 		return result.toString();
 	}
 
@@ -109,6 +106,14 @@ public final class LocationUtils {
 
 
 
+	public static double FaceToRot(final BlockFace facing) {
+		switch (facing) {
+		case WEST:  return 0.25;
+		case NORTH: return 0.5;
+		case EAST:  return 0.75;
+		default:    return 0.0;
+		}
+	}
 	public static BlockFace YawToFace(final float yaw) {
 		float way = yaw + 22.5f;
 		while (way < 0)
