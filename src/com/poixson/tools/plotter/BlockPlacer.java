@@ -1,5 +1,6 @@
 package com.poixson.tools.plotter;
 
+import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.generator.ChunkGenerator.ChunkData;
@@ -57,6 +58,15 @@ public class BlockPlacer {
 		if (this.region != null) {
 			if (this.region.isInRegion(x, y, z))
 				this.region.setBlockData(x, y, z, type);
+		} else throw new InvalidValueException("world/chunk/region");
+	}
+	public void setBlock(final int x, final int y, final int z, final Material type) {
+		if (this.world     != null) this.world    .setType( x, y, z, type); else
+		if (this.chunk     != null) this.chunk    .setBlock(x, y, z, type); else
+		if (this.worldedit != null) this.worldedit.setType( x, y, z, type); else
+		if (this.region != null) {
+			if (this.region.isInRegion(x, y, z))
+				this.region.setType(x, y, z, type);
 		} else throw new InvalidValueException("world/chunk/region");
 	}
 
