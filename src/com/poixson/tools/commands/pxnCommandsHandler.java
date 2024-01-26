@@ -22,8 +22,7 @@ import com.poixson.tools.events.xListener;
 
 
 public abstract class pxnCommandsHandler<T extends xJavaPlugin>
-extends xListener<xJavaPlugin>
-implements CommandExecutor, TabCompleter {
+extends xListener implements CommandExecutor, TabCompleter {
 
 	protected final String[] labels;
 

@@ -6,13 +6,13 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 
-public abstract class xListener<T extends JavaPlugin> implements Listener {
+public abstract class xListener implements Listener {
 
-	protected final T plugin;
+	protected final JavaPlugin plugin;
 
 
 
-	public xListener(final T plugin) {
+	public xListener(final JavaPlugin plugin) {
 		this.plugin = plugin;
 	}
 

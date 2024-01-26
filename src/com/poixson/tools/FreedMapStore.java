@@ -28,7 +28,7 @@ import com.poixson.tools.events.PluginSaveEvent;
 import com.poixson.tools.events.xListener;
 
 
-public class FreedMapStore extends xListener<pxnPluginLib> {
+public class FreedMapStore extends xListener {
 
 	public static final int MAX_MAP_ID = Integer.MAX_VALUE;
 

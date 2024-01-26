@@ -10,7 +10,7 @@ import org.bukkit.plugin.PluginManager;
 import com.poixson.pluginlib.pxnPluginLib;
 
 
-public class PluginSaveManager extends xListener<pxnPluginLib> {
+public class PluginSaveManager extends xListener {
 
 
 

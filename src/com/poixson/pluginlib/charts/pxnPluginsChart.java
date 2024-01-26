@@ -14,12 +14,15 @@ import com.poixson.tools.xJavaPlugin;
 import com.poixson.tools.events.xListener;
 
 
-public class pxnPluginsChart extends xListener<pxnPluginLib> implements Callable<String> {
+public class pxnPluginsChart extends xListener implements Callable<String> {
+
+	protected final pxnPluginLib plugin;
 
 
 
 	public pxnPluginsChart(final pxnPluginLib plugin) {
 		super(plugin);
+		this.plugin = plugin;
 		if (!(plugin instanceof pxnPluginLib))
 			throw new RuntimeException("Class instance outside of pxnPluginLib");
 	}

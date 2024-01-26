@@ -12,7 +12,7 @@ import com.poixson.pluginlib.pxnPluginLib;
 import com.poixson.tools.events.OutsideOfWorldEvent.OutsideOfWorld;
 
 
-public class PlayerMoveManager extends xListener<pxnPluginLib> {
+public class PlayerMoveManager extends xListener {
 
 	public static final int WORLD_MIN_Y = -64;
 	public static final int WORLD_MAX_Y = 319;

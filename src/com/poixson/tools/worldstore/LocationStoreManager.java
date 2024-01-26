@@ -31,7 +31,7 @@ public class LocationStoreManager extends BukkitRunnable {
 	public static final long DEFAULT_DELAY_SAVE   = xTime.ParseToLong("30s");
 
 	protected final xJavaPlugin plugin;
-	protected final xListener<xJavaPlugin> listenerSave;
+	protected final xListener listener_save;
 
 	protected final String type;
 
@@ -46,7 +46,7 @@ public class LocationStoreManager extends BukkitRunnable {
 		this.plugin = plugin;
 		this.type = type;
 		this.path = new File(GetServerPath(), worldStr+"/locs");
-		this.listenerSave = new xListener<xJavaPlugin>(plugin) {
+		this.listener_save = new xListener(plugin) {
 			@EventHandler(priority=EventPriority.NORMAL, ignoreCancelled=true)
 			public void onPluginSave(final PluginSaveEvent event) {
 				LocationStoreManager.this.save();
@@ -67,7 +67,7 @@ public class LocationStoreManager extends BukkitRunnable {
 	}
 
 	public LocationStoreManager start() {
-		this.listenerSave.register();
+		this.listener_save.register();
 		this.runTaskTimerAsynchronously(this.plugin, DEFAULT_INTERVAL, DEFAULT_INTERVAL);
 		return this;
 	}
@@ -75,7 +75,7 @@ public class LocationStoreManager extends BukkitRunnable {
 		try {
 			this.cancel();
 		} catch (Exception ignore) {}
-		this.listenerSave.unregister();
+		this.listener_save.unregister();
 		this.save();
 	}
 

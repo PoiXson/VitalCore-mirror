@@ -12,7 +12,7 @@ import com.poixson.pluginlib.pxnPluginLib;
 import com.poixson.tools.events.xListener;
 
 
-public class PlayerJoinListener extends xListener<pxnPluginLib> {
+public class PlayerJoinListener extends xListener {
 
 	protected final UpdateCheckManager manager;
 

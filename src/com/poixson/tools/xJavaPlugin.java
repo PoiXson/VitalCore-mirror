@@ -151,9 +151,9 @@ public abstract class xJavaPlugin extends JavaPlugin {
 
 
 
-	class LocalPluginSaveListener extends xListener<xJavaPlugin> {
+	class LocalPluginSaveListener extends xListener {
 
-		public LocalPluginSaveListener(final xJavaPlugin plugin) {
+		public LocalPluginSaveListener(final JavaPlugin plugin) {
 			super(plugin);
 		}
 
