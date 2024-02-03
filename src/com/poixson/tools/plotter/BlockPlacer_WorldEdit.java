@@ -19,7 +19,6 @@ public class BlockPlacer_WorldEdit extends BlockPlacer {
 
 
 
-
 	public BlockPlacer_WorldEdit(final BlockVector3 origin,
 			final CraftScriptContext context, final EditSession session) {
 		super(null, null, null, null);

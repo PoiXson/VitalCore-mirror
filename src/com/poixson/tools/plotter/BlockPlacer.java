@@ -25,7 +25,7 @@ public class BlockPlacer {
 	public BlockPlacer(final ChunkData             chunk    ) { this(null,  chunk, null,   null   ); }
 	public BlockPlacer(final LimitedRegion         region   ) { this(null,  null,  region, null   ); }
 	public BlockPlacer(final BlockPlacer_WorldEdit worldedit) { this(null,  null,  null, worldedit); }
-	public BlockPlacer(final World world, final ChunkData chunk,
+	protected BlockPlacer(final World world, final ChunkData chunk,
 			final LimitedRegion region, final BlockPlacer_WorldEdit worldedit) {
 		this.world     = world;
 		this.chunk     = chunk;
