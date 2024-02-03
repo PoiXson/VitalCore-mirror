@@ -8,6 +8,7 @@ import java.util.LinkedList;
 import java.util.Map;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.BlockFace;
@@ -68,6 +69,13 @@ public class BlockPlotter {
 	}
 	public BlockPlotter xz(final int x, final int z) {
 		this.x = x; this.z = z;
+		return this;
+	}
+
+	public BlockPlotter loc(final Location loc) {
+		this.x = loc.getBlockX();
+		this.y = loc.getBlockY();
+		this.z = loc.getBlockZ();
 		return this;
 	}
 
