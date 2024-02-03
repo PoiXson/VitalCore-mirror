@@ -23,8 +23,6 @@ public class pxnPluginsChart extends xListener implements Callable<String> {
 	public pxnPluginsChart(final pxnPluginLib plugin) {
 		super(plugin);
 		this.plugin = plugin;
-		if (!(plugin instanceof pxnPluginLib))
-			throw new RuntimeException("Class instance outside of pxnPluginLib");
 	}
 
 
