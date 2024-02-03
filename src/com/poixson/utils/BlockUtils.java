@@ -19,12 +19,21 @@ public final class BlockUtils {
 
 
 
-	public static BlockData StringToBlockData(final AtomicReference<String> atomic, final String def) {
+	public static BlockData StringToBlockData(final AtomicReference<String> atomic, final String def,
+			final String...tags) {
 		final String blockStr = atomic.get();
-		return (IsEmpty(blockStr) ? StringToBlockData(def) : StringToBlockData(blockStr));
+		return (IsEmpty(blockStr) ? StringToBlockData(def, tags) : StringToBlockData(blockStr, tags));
 	}
-	public static BlockData StringToBlockData(final String blockStr) {
-		return Bukkit.createBlockData(blockStr);
+	public static BlockData StringToBlockData(final String blockStr,
+			final String...tags) {
+		String str = blockStr;
+		if (!IsEmpty(tags)) {
+			final int size = tags.length;
+			if (size % 2 != 0) throw new IllegalArgumentException("Invalid tags");
+			for (int i=0; i<size; i+=2)
+				str = str.replace(tags[i], tags[i+1]);
+		}
+		return Bukkit.createBlockData(str);
 	}
 	public static Material StringToMaterial(final AtomicReference<String> atomic, final String def) {
 		String type = atomic.get();
