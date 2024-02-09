@@ -17,6 +17,7 @@ import org.bukkit.map.MapPalette;
 import org.bukkit.map.MapView;
 import org.bukkit.potion.PotionEffect;
 
+import com.poixson.scripting.PixelsHolder;
 import com.poixson.tools.Keeper;
 
 
@@ -135,15 +136,13 @@ public final class BukkitUtils {
 
 
 
-	public static void DrawImagePixels(final Color[][] pixels,
+	public static void DrawImagePixels(final PixelsHolder pixels,
 			final int x, final int y, final BufferedImage img) {
 		DrawImagePixels_ImgMask(pixels, x, y, img, null);
 	}
-	public static void DrawImagePixels_ImgMask(final Color[][] pixels,
+	public static void DrawImagePixels_ImgMask(final PixelsHolder pixels,
 			final int x, final int y, final BufferedImage img,
 			final BufferedImage mask) {
-		final int w = pixels[0].length - 1;
-		final int h = pixels.length    - 1;
 		final int img_w = img.getWidth(null);
 		final int img_h = img.getHeight(null);
 		final int color_white = Color.WHITE.getRGB();
@@ -154,21 +153,19 @@ public final class BukkitUtils {
 			LOOP_X:
 			for (int ix=0; ix<img_w; ix++) {
 				xx = ix + x;
-				if (xx < 0 || xx > w
-				||  yy < 0 || yy > h)
+				if (xx < 0 || xx >= pixels.size
+				||  yy < 0 || yy >= pixels.size)
 					continue LOOP_X;
 				if (mask != null
 				&&  mask.getRGB(ix, iy) != color_white)
 					continue LOOP_X;
-				pixels[yy][xx] = new Color(img.getRGB(ix, iy));
+				pixels.set(xx, yy, new Color(img.getRGB(ix, iy)));
 			} // end LOOP_X
 		} // end LOOP_Y
 	}
-	public static void DrawImagePixels_ColorMask(final Color[][] pixels,
+	public static void DrawImagePixels_ColorMask(final PixelsHolder pixels,
 			final int x, final int y, final BufferedImage img,
 			final Color mask) {
-		final int w = pixels[0].length - 1;
-		final int h = pixels.length    - 1;
 		final int img_w = img.getWidth(null);
 		final int img_h = img.getHeight(null);
 		final int color_mask = mask.getRGB();
@@ -180,12 +177,12 @@ public final class BukkitUtils {
 			LOOP_X:
 			for (int ix=0; ix<img_w; ix++) {
 				xx = ix + x;
-				if (xx < 0 || xx > w
-				||  yy < 0 || yy > h)
+				if (xx < 0 || xx >= pixels.size
+				||  yy < 0 || yy >= pixels.size)
 					continue LOOP_X;
 				c = img.getRGB(ix, iy);
 				if (c != color_mask)
-					pixels[yy][xx] = new Color(c);
+					pixels.set(xx, yy, new Color(c));
 			} // end LOOP_X
 		} // end LOOP_Y
 	}
