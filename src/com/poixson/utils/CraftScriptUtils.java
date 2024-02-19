@@ -34,6 +34,18 @@ public class CraftScriptUtils {
 
 
 
+	public static String GetLocationScriptFile(final Location loc) {
+		return String.format(
+			"%s_%dx_%dy_%dz.js",
+			loc.getWorld().getName(),
+			loc.getBlockX(),
+			loc.getBlockY(),
+			loc.getBlockZ()
+		);
+	}
+
+
+
 	public static Iab FixCursorPosition(final Vector vec,
 			final Iabcd screen_size, final BlockFace facing) {
 		final int y = ((int)Math.round( MAP_SIZE * (1.0-(vec.getY()%1.0)) )) - screen_size.b;
