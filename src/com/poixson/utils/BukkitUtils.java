@@ -17,7 +17,6 @@ import org.bukkit.map.MapPalette;
 import org.bukkit.map.MapView;
 import org.bukkit.potion.PotionEffect;
 
-import com.poixson.scripting.PixelsHolder;
 import com.poixson.tools.Keeper;
 
 
@@ -136,11 +135,11 @@ public final class BukkitUtils {
 
 
 
-	public static void DrawImagePixels(final PixelsHolder pixels,
+	public static void DrawImagePixels(final Color[][] pixels,
 			final int x, final int y, final BufferedImage img) {
 		DrawImagePixels_ImgMask(pixels, x, y, img, null);
 	}
-	public static void DrawImagePixels_ImgMask(final PixelsHolder pixels,
+	public static void DrawImagePixels_ImgMask(final Color[][] pixels,
 			final int x, final int y, final BufferedImage img,
 			final BufferedImage mask) {
 		final int img_w = img.getWidth(null);
@@ -153,17 +152,17 @@ public final class BukkitUtils {
 			LOOP_X:
 			for (int ix=0; ix<img_w; ix++) {
 				xx = ix + x;
-				if (xx < 0 || xx >= pixels.size
-				||  yy < 0 || yy >= pixels.size)
+				if (xx < 0 || xx >= pixels[iy].length
+				||  yy < 0 || yy >= pixels.length)
 					continue LOOP_X;
 				if (mask != null
 				&&  mask.getRGB(ix, iy) != color_white)
 					continue LOOP_X;
-				pixels.set(xx, yy, new Color(img.getRGB(ix, iy)));
+				pixels[yy][xx] = new Color(img.getRGB(ix, iy));
 			} // end LOOP_X
 		} // end LOOP_Y
 	}
-	public static void DrawImagePixels_ColorMask(final PixelsHolder pixels,
+	public static void DrawImagePixels_ColorMask(final Color[][] pixels,
 			final int x, final int y, final BufferedImage img,
 			final Color mask) {
 		final int img_w = img.getWidth(null);
@@ -177,12 +176,12 @@ public final class BukkitUtils {
 			LOOP_X:
 			for (int ix=0; ix<img_w; ix++) {
 				xx = ix + x;
-				if (xx < 0 || xx >= pixels.size
-				||  yy < 0 || yy >= pixels.size)
+				if (xx < 0 || xx >= pixels[iy].length
+				||  yy < 0 || yy >= pixels.length)
 					continue LOOP_X;
 				c = img.getRGB(ix, iy);
 				if (c != color_mask)
-					pixels.set(xx, yy, new Color(c));
+					pixels[yy][xx] = new Color(c);
 			} // end LOOP_X
 		} // end LOOP_Y
 	}
