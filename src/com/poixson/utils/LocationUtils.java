@@ -1,10 +1,12 @@
 package com.poixson.utils;
 
+import static com.poixson.utils.BukkitUtils.EqualsWorld;
 import static com.poixson.utils.Utils.IsEmpty;
 
 import java.util.LinkedList;
 
 import org.bukkit.Axis;
+import org.bukkit.Location;
 import org.bukkit.Rotation;
 import org.bukkit.block.BlockFace;
 
@@ -17,6 +19,19 @@ import com.poixson.tools.dao.Iabcd;
 public final class LocationUtils {
 	private LocationUtils() {}
 	static { Keeper.add(new LocationUtils()); }
+
+
+
+	public static int SquareDistance(final Location locA, final Location locB) {
+		int distance = Integer.MAX_VALUE;
+		if (EqualsWorld(locA, locB)) {
+			int dist;
+			dist = Math.abs(locA.getBlockX() - locB.getBlockX()); if (distance > dist) distance = dist;
+			dist = Math.abs(locA.getBlockY() - locB.getBlockY()); if (distance > dist) distance = dist;
+			dist = Math.abs(locA.getBlockZ() - locB.getBlockZ()); if (distance > dist) distance = dist;
+		}
+		return distance;
+	}
 
 
 
