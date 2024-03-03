@@ -76,7 +76,7 @@ implements Runnable, Closeable {
 
 	public void sendMessage(final String msg) {
 		if (IsEmpty(msg)) this.wizard.sendMessage("");
-		else              this.wizard.sendMessage(this.chatPrefix + msg);
+		else              this.wizard.sendMessage(this.chatPrefix+msg);
 	}
 	public void sendProgress(final String msg) {
 		this.wizard.sendMessage(

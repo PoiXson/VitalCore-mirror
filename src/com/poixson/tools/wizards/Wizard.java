@@ -71,7 +71,7 @@ public class Wizard<T extends xJavaPlugin> {
 				try {
 					step.run();
 				} catch (Exception e) {
-					this.sendMessage(this.chatPrefix + "ERROR: " + e.getMessage());
+					this.sendMessage(String.format("%sERROR: %s", this.chatPrefix, e.getMessage()));
 					throw(e);
 				}
 				return;
@@ -98,7 +98,7 @@ public class Wizard<T extends xJavaPlugin> {
 	public void timeout() {
 		final int count = this.timeoutCount.incrementAndGet();
 		if (count >= this.timeoutSeconds) {
-			this.sendMessage(this.chatPrefix + "Wizard timeout.");
+			this.sendMessage(this.chatPrefix+"Wizard timeout.");
 			this.sendMessage("");
 			this.cancel();
 		}

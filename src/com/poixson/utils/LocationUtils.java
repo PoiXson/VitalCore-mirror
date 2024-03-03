@@ -56,7 +56,7 @@ public final class LocationUtils {
 
 	// rotate BlockFace by double
 	public static BlockFace Rotate(final BlockFace face, final double rotation) {
-		if (rotation < 0.0) throw new RuntimeException("Invalid rotation: " + Double.toString(rotation));
+		if (rotation < 0.0) throw new RuntimeException("Invalid rotation: "+Double.toString(rotation));
 		double rot = rotation % 1.0;
 		if (rot == 0.0)
 			return face;
@@ -71,7 +71,7 @@ public final class LocationUtils {
 			case SOUTH_WEST: dir = BlockFace.WEST;       break;
 			case WEST:       dir = BlockFace.NORTH_WEST; break;
 			case NORTH_WEST: dir = BlockFace.NORTH;      break;
-			default: throw new RuntimeException("Invalid direction: " + face.toString());
+			default: throw new RuntimeException("Invalid direction: "+face.toString());
 			}
 			rot -= 0.125;
 		}
@@ -79,7 +79,7 @@ public final class LocationUtils {
 	}
 	// rotate ax by double
 	public static char Rotate(final char ax, final double rotation) {
-		if (rotation < 0.0) throw new RuntimeException("Invalid rotation: " + Double.toString(rotation));
+		if (rotation < 0.0) throw new RuntimeException("Invalid rotation: "+Double.toString(rotation));
 		double rot = rotation % 1.0;
 		if (rot == 0.0)
 			return ax;
@@ -91,7 +91,7 @@ public final class LocationUtils {
 			case 'e': dir = 's'; break;
 			case 's': dir = 'w'; break;
 			case 'w': dir = 'n'; break;
-			default: throw new RuntimeException("Invalid direction: " + dir);
+			default: throw new RuntimeException("Invalid direction: "+dir);
 			}
 			rot -= 0.25;
 		}

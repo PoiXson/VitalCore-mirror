@@ -59,8 +59,8 @@ public class LocationStoreManager extends BukkitRunnable {
 		if (this.inited.compareAndSet(false, true)) {
 			if (!this.path.isDirectory()) {
 				if (!this.path.mkdir())
-					throw new RuntimeException("Failed to create directory: " + this.path.toString());
-				this.log().info("Created directory: " + this.path.toString());
+					throw new RuntimeException("Failed to create directory: "+this.path.toString());
+				this.log().info("Created directory: "+this.path.toString());
 			}
 		}
 	}

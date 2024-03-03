@@ -20,7 +20,7 @@ import com.poixson.tools.updatechecker.UpdateCheckManager;
 
 
 public abstract class xJavaPlugin extends JavaPlugin {
-	public static final String CHAT_PREFIX = ChatColor.AQUA + "[pxn] " + ChatColor.WHITE;
+	public static final String CHAT_PREFIX = ChatColor.AQUA+"[pxn] "+ChatColor.WHITE;
 
 	protected final AtomicReference<Metrics> metrics = new AtomicReference<Metrics>(null);
 	protected final AppProps props;
@@ -120,8 +120,8 @@ public abstract class xJavaPlugin extends JavaPlugin {
 		final File path = this.getDataFolder();
 		if (!path.isDirectory()) {
 			if (!path.mkdir())
-				throw new RuntimeException("Failed to create directory: " + path.toString());
-			this.log().info("Created directory: " + path.toString());
+				throw new RuntimeException("Failed to create directory: "+path.toString());
+			this.log().info("Created directory: "+path.toString());
 		}
 	}
 

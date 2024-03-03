@@ -33,7 +33,7 @@ public class UpdateCheckerTask implements Runnable {
 	public UpdateCheckerTask(final JavaPlugin plugin,
 			final int plugin_id, final String plugin_version) {
 		if (plugin == null) throw new NullPointerException();
-		if (plugin_id <= 0) throw new RuntimeException("Plugin ID not set in: " + plugin.getName());
+		if (plugin_id <= 0) throw new RuntimeException("Plugin ID not set in: "+plugin.getName());
 		if (IsEmpty(plugin_version)) throw new RequiredArgumentException("plugin_version");
 		this.plugin         = plugin;
 		this.plugin_id      = plugin_id;

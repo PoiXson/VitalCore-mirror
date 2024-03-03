@@ -84,7 +84,7 @@ public abstract class DelayedChestFiller extends BukkitRunnable {
 			}
 		}
 		if (count > 0)
-			Log().info("Finished populating chests: " + Integer.toString(count));
+			Log().info("Finished populating chests: "+Integer.toString(count));
 	}
 
 

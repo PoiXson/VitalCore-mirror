@@ -50,12 +50,12 @@ extends WizardStep_Ask<T> {
 				.toString();
 			final File file = new File(this.path, pathStr);
 			if (!file.isFile()) {
-				this.sendMessage("File not found: " + file.getName());
+				this.sendMessage("File not found: "+file.getName());
 				this.answer.set(null);
 				return false;
 			}
 			if (!file.canRead()) {
-				this.sendMessage("Cannot read file: " + file.getName());
+				this.sendMessage("Cannot read file: "+file.getName());
 				this.answer.set(null);
 				return false;
 			}

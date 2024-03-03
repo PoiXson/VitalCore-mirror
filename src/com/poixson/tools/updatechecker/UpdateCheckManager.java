@@ -104,7 +104,7 @@ public class UpdateCheckManager extends BukkitRunnable implements xStartStop {
 	}
 	public UpdateCheckerTask addPlugin(final JavaPlugin plugin, final int spigot_id, final String plugin_version) {
 		if (spigot_id <= 0) {
-			this.log().warning("Plugin ID not set in: " + plugin.getName());
+			this.log().warning("Plugin ID not set in: "+plugin.getName());
 			return null;
 		}
 		final UpdateCheckerTask dao = new UpdateCheckerTask(plugin, spigot_id, plugin_version);
