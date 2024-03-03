@@ -78,7 +78,7 @@ public class ScreenPanel extends MapRenderer implements Closeable {
 		this.frame.setItem(this.map);
 		// map view
 		this.view = GetMapView(this.map_id);
-		if (this.view == null) throw new RuntimeException(String.format("Failed to get map view: %d", this.map_id));
+		if (this.view == null) throw new RuntimeException("Failed to get map view: " + Integer.toString(this.map_id));
 		this.view.setLocked(true);
 		this.view.setTrackingPosition(false);
 		this.view.setCenterX(0);

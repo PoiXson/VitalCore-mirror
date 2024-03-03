@@ -1,6 +1,5 @@
 package com.poixson.tools;
 
-import static com.poixson.pluginlib.pxnPluginLib.LOG_PREFIX;
 import static com.poixson.tools.xJavaPlugin.Log;
 
 import java.util.HashSet;
@@ -66,7 +65,7 @@ public abstract class DelayedChestFiller extends BukkitRunnable {
 	}
 	public static void stop() {
 		stopping.set(true);
-		Log().info(LOG_PREFIX + "Finishing chest population..");
+		Log().info("Finishing chest population..");
 		int count = 0;
 		while (!fillers.isEmpty()) {
 			final HashSet<DelayedChestFiller> remove = new HashSet<DelayedChestFiller>();
@@ -85,7 +84,7 @@ public abstract class DelayedChestFiller extends BukkitRunnable {
 			}
 		}
 		if (count > 0)
-			Log().info(LOG_PREFIX + "Finished populating chests: " + Integer.toString(count));
+			Log().info("Finished populating chests: " + Integer.toString(count));
 	}
 
 

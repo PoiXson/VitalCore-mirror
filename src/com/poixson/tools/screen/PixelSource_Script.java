@@ -1,6 +1,5 @@
 package com.poixson.tools.screen;
 
-import static com.poixson.pluginlib.pxnPluginLib.LOG_PREFIX;
 import static com.poixson.tools.xJavaPlugin.Log;
 import static com.poixson.utils.BukkitUtils.EqualsLocation;
 import static com.poixson.utils.CraftScriptUtils.FixCursorPosition;
@@ -121,7 +120,7 @@ public class PixelSource_Script extends PixelSource {
 //TODO: how to handle this?
 				if (this.frames.size() > 10
 				&&  this.frames.size() % 10 == 0)
-					Log().warning(String.format("%sFrame buffer is filling?! [%d]", LOG_PREFIX, Integer.valueOf(this.frames.size())));
+					Log().warning(String.format("Frame buffer is filling?! [%d]", Integer.valueOf(this.frames.size())));
 			}
 		}
 	}

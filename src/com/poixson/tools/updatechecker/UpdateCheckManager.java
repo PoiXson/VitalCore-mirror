@@ -1,6 +1,5 @@
 package com.poixson.tools.updatechecker;
 
-import static com.poixson.pluginlib.pxnPluginLib.LOG_PREFIX;
 import static com.poixson.utils.Utils.GetMS;
 
 import java.util.HashSet;
@@ -73,8 +72,7 @@ public class UpdateCheckManager extends BukkitRunnable implements xStartStop {
 		if (now - last >= this.period) {
 			this.lastCheck.set(now);
 			this.log().info(String.format(
-				"%sFetching latest versions for %d plugins..",
-				LOG_PREFIX,
+				"Fetching latest versions for %d plugins..",
 				Integer.valueOf(this.checkers.size())
 			));
 			boolean available = false;
@@ -87,7 +85,7 @@ public class UpdateCheckManager extends BukkitRunnable implements xStartStop {
 				ThreadUtils.Sleep("1s");
 			}
 			if (!available)
-				this.log().info(LOG_PREFIX + "You have the latest versions");
+				this.log().info("You have the latest versions");
 		}
 	}
 
@@ -106,11 +104,7 @@ public class UpdateCheckManager extends BukkitRunnable implements xStartStop {
 	}
 	public UpdateCheckerTask addPlugin(final JavaPlugin plugin, final int spigot_id, final String plugin_version) {
 		if (spigot_id <= 0) {
-			this.log().warning(String.format(
-				"%sPlugin ID not set in: %s",
-				LOG_PREFIX,
-				plugin.getName()
-			));
+			this.log().warning("Plugin ID not set in: " + plugin.getName());
 			return null;
 		}
 		final UpdateCheckerTask dao = new UpdateCheckerTask(plugin, spigot_id, plugin_version);

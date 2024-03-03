@@ -1,6 +1,5 @@
 package com.poixson.tools;
 
-import static com.poixson.tools.xJavaPlugin.LOG_PREFIX;
 import static com.poixson.utils.Utils.SafeClose;
 
 import java.io.BufferedReader;
@@ -50,7 +49,7 @@ public class FreedMapStore extends xListener {
 	public synchronized void load() throws IOException {
 		this.freed.clear();
 		if (this.file.isFile()) {
-			this.log().info(LOG_PREFIX + "Loading: freed-maps.json");
+			this.log().info("Loading: freed-maps.json");
 			BufferedReader reader = null;
 			try {
 				reader = Files.newBufferedReader(this.file.toPath());
@@ -65,7 +64,7 @@ public class FreedMapStore extends xListener {
 				SafeClose(reader);
 			}
 		} else {
-			this.log().info(LOG_PREFIX + "File not found: freed-maps.json");
+			this.log().info("File not found: freed-maps.json");
 			this.changed.set(true);
 		}
 	}
@@ -78,7 +77,7 @@ public class FreedMapStore extends xListener {
 				for (final Integer id : list)
 					result[i++] = id.intValue();
 			}
-			this.log().info(String.format("%sSaving %d freed maps", LOG_PREFIX, result.length));
+			this.log().info(String.format("Saving %d freed maps", Integer.valueOf(result.length)));
 			BufferedWriter writer = null;
 			try {
 				final String data = (new Gson()).toJson(result);

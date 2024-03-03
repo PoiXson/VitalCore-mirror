@@ -1,6 +1,5 @@
 package com.poixson.tools.worldstore;
 
-import static com.poixson.tools.xJavaPlugin.LOG_PREFIX;
 import static com.poixson.utils.BukkitUtils.GetServerPath;
 import static com.poixson.utils.Utils.GetMS;
 
@@ -61,7 +60,7 @@ public class LocationStoreManager extends BukkitRunnable {
 			if (!this.path.isDirectory()) {
 				if (!this.path.mkdir())
 					throw new RuntimeException("Failed to create directory: " + this.path.toString());
-				this.log().info(String.format("%sCreated directory: %s", LOG_PREFIX, this.path.toString()));
+				this.log().info("Created directory: " + this.path.toString());
 			}
 		}
 	}

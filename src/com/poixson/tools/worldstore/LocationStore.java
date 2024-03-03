@@ -1,8 +1,7 @@
 package com.poixson.tools.worldstore;
 
-import static com.poixson.tools.worldstore.LocationStoreManager.DEFAULT_DELAY_UNLOAD;
 import static com.poixson.tools.worldstore.LocationStoreManager.DEFAULT_DELAY_SAVE;
-import static com.poixson.tools.xJavaPlugin.LOG_PREFIX;
+import static com.poixson.tools.worldstore.LocationStoreManager.DEFAULT_DELAY_UNLOAD;
 import static com.poixson.utils.Utils.GetMS;
 import static com.poixson.utils.Utils.SafeClose;
 
@@ -59,8 +58,8 @@ public class LocationStore {
 						this.locations.add(new Iab(x, z));
 					} catch (NumberFormatException e) {
 						this.log().warning(String.format(
-							"%sInvalid entry '%s' in file: %s",
-							LOG_PREFIX, entry, this.file.toString()
+							"Invalid entry '%s' in file: %s",
+							entry, this.file.toString()
 						));
 						continue;
 					}
