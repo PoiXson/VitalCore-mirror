@@ -8,19 +8,17 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.plugin.PluginManager;
 
-import com.poixson.pluginlib.pxnPluginLib;
 import com.poixson.tools.events.OutsideOfWorldEvent.OutsideOfWorld;
 
 
-public class PlayerMoveManager extends xListener {
+public class PlayerMoveManager implements xListener {
 
 	public static final int WORLD_MIN_Y = -64;
 	public static final int WORLD_MAX_Y = 319;
 
 
 
-	public PlayerMoveManager(final pxnPluginLib plugin) {
-		super(plugin);
+	public PlayerMoveManager() {
 	}
 
 

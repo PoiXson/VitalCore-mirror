@@ -14,14 +14,13 @@ import com.poixson.tools.xJavaPlugin;
 import com.poixson.tools.events.xListener;
 
 
-public class pxnPluginsChart extends xListener implements Callable<String> {
+public class pxnPluginsChart implements Callable<String>, xListener {
 
 	protected final pxnPluginLib plugin;
 
 
 
 	public pxnPluginsChart(final pxnPluginLib plugin) {
-		super(plugin);
 		this.plugin = plugin;
 	}
 

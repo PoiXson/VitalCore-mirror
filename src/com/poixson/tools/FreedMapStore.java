@@ -27,9 +27,11 @@ import com.poixson.tools.events.PluginSaveEvent;
 import com.poixson.tools.events.xListener;
 
 
-public class FreedMapStore extends xListener {
+public class FreedMapStore implements xListener {
 
 	public static final int MAX_MAP_ID = Integer.MAX_VALUE;
+
+	protected final pxnPluginLib plugin;
 
 	protected final ConcurrentSkipListSet<Integer> freed = new ConcurrentSkipListSet<Integer>();
 
@@ -40,7 +42,7 @@ public class FreedMapStore extends xListener {
 
 
 	public FreedMapStore(final pxnPluginLib plugin, final String path) {
-		super(plugin);
+		this.plugin = plugin;
 		this.file = new File(path, "freed-maps.json");
 	}
 

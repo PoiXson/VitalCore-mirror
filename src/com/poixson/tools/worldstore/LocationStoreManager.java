@@ -14,23 +14,22 @@ import java.util.logging.Logger;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import com.poixson.tools.xJavaPlugin;
 import com.poixson.tools.xTime;
 import com.poixson.tools.dao.Iab;
 import com.poixson.tools.events.PluginSaveEvent;
 import com.poixson.tools.events.xListener;
 
 
-public class LocationStoreManager extends BukkitRunnable {
+public class LocationStoreManager extends BukkitRunnable implements xListener {
 
 	public static final long DEFAULT_INTERVAL     = xTime.Parse("10s").ticks(50L);
 	public static final long DEFAULT_DELAY_UNLOAD = xTime.ParseToLong("3m");
 	public static final long DEFAULT_DELAY_SAVE   = xTime.ParseToLong("30s");
 
-	protected final xJavaPlugin plugin;
-	protected final xListener listener_save;
+	protected final JavaPlugin plugin;
 
 	protected final String type;
 
@@ -41,16 +40,10 @@ public class LocationStoreManager extends BukkitRunnable {
 
 
 
-	public LocationStoreManager(final xJavaPlugin plugin, final String worldStr, final String type) {
+	public LocationStoreManager(final JavaPlugin plugin, final String worldStr, final String type) {
 		this.plugin = plugin;
 		this.type = type;
 		this.path = new File(GetServerPath(), worldStr+"/locs");
-		this.listener_save = new xListener(plugin) {
-			@EventHandler(priority=EventPriority.NORMAL, ignoreCancelled=true)
-			public void onPluginSave(final PluginSaveEvent event) {
-				LocationStoreManager.this.save();
-			}
-		};
 	}
 
 
@@ -66,7 +59,7 @@ public class LocationStoreManager extends BukkitRunnable {
 	}
 
 	public LocationStoreManager start() {
-		this.listener_save.register();
+		this.register(this.plugin);
 		this.runTaskTimerAsynchronously(this.plugin, DEFAULT_INTERVAL, DEFAULT_INTERVAL);
 		return this;
 	}
@@ -74,7 +67,7 @@ public class LocationStoreManager extends BukkitRunnable {
 		try {
 			this.cancel();
 		} catch (Exception ignore) {}
-		this.listener_save.unregister();
+		this.unregister();
 		this.save();
 	}
 
@@ -105,6 +98,13 @@ public class LocationStoreManager extends BukkitRunnable {
 				e.printStackTrace();
 			}
 		}
+	}
+
+
+
+	@EventHandler(priority=EventPriority.NORMAL, ignoreCancelled=true)
+	public void onPluginSave(final PluginSaveEvent event) {
+		LocationStoreManager.this.save();
 	}
 
 

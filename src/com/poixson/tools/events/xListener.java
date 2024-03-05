@@ -6,23 +6,15 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 
-public abstract class xListener implements Listener {
-
-	protected final JavaPlugin plugin;
+public interface xListener extends Listener {
 
 
 
-	public xListener(final JavaPlugin plugin) {
-		this.plugin = plugin;
-	}
-
-
-
-	public void register() {
+	public default void register(final JavaPlugin plugin) {
 		Bukkit.getPluginManager()
-			.registerEvents(this, this.plugin);
+			.registerEvents(this, plugin);
 	}
-	public void unregister() {
+	public default void unregister() {
 		HandlerList.unregisterAll(this);
 	}
 

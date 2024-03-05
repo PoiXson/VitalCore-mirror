@@ -60,11 +60,11 @@ public abstract class xJavaPlugin extends JavaPlugin {
 		UpdateCheckManager.Register(this);
 		// save listener
 		{
-			final LocalPluginSaveListener listener = new LocalPluginSaveListener(this);
+			final LocalPluginSaveListener listener = new LocalPluginSaveListener();
 			final LocalPluginSaveListener previous = this.saveListener.getAndSet(listener);
 			if (previous != null)
 				previous.unregister();
-			listener.register();
+			listener.register(this);
 		}
 	}
 	@Override
@@ -150,11 +150,7 @@ public abstract class xJavaPlugin extends JavaPlugin {
 
 
 
-	class LocalPluginSaveListener extends xListener {
-
-		public LocalPluginSaveListener(final JavaPlugin plugin) {
-			super(plugin);
-		}
+	class LocalPluginSaveListener implements xListener {
 
 		@EventHandler(priority=EventPriority.NORMAL, ignoreCancelled=true)
 		public void onPluginSave(final PluginSaveEvent event) {

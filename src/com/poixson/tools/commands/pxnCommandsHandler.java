@@ -16,13 +16,14 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.server.ServerCommandEvent;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import com.poixson.tools.xJavaPlugin;
 import com.poixson.tools.events.xListener;
 
 
 public abstract class pxnCommandsHandler<T extends xJavaPlugin>
-extends xListener implements CommandExecutor, TabCompleter {
+implements CommandExecutor, TabCompleter, xListener {
 
 	protected final String[] labels;
 
@@ -32,19 +33,18 @@ extends xListener implements CommandExecutor, TabCompleter {
 
 
 
-	public pxnCommandsHandler(final T plugin, final String...labels) {
-		super(plugin);
+	public pxnCommandsHandler(final String...labels) {
 		this.labels = labels;
 	}
 
 
 
 	@Override
-	public void register() {
+	public void register(final JavaPlugin plugin) {
 		if (this.hasOverrides())
-			super.register();
+			xListener.super.register(plugin);
 		for (final String label : this.labels) {
-			final PluginCommand pc = this.plugin.getCommand(label);
+			final PluginCommand pc = plugin.getCommand(label);
 			if (pc == null) continue;
 			pc.setExecutor(this);
 			this.pcs.add(pc);
@@ -52,7 +52,7 @@ extends xListener implements CommandExecutor, TabCompleter {
 	}
 	@Override
 	public void unregister() {
-		super.unregister();
+		xListener.super.unregister();
 		for (final PluginCommand pc : this.pcs)
 			pc.setExecutor(null);
 		this.pcs.clear();

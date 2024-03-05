@@ -54,7 +54,7 @@ public class pxnPluginLib extends xJavaPlugin {
 			final pxnPluginsChart previous = this.pluginsListener.getAndSet(listener);
 			if (previous != null)
 				previous.unregister();
-			listener.register();
+			listener.register(this);
 		}
 		// update check manager
 		{
@@ -70,19 +70,19 @@ public class pxnPluginLib extends xJavaPlugin {
 		super.onEnable();
 		// player move listeners
 		{
-			final PlayerMoveManager manager = new PlayerMoveManager(this);
+			final PlayerMoveManager manager = new PlayerMoveManager();
 			final PlayerMoveManager previous = this.moveManager.getAndSet(manager);
 			if (previous != null)
 				previous.unregister();
-			manager.register();
+			manager.register(this);
 		}
 		// save listener
 		{
-			final PluginSaveManager listener = new PluginSaveManager(this);
+			final PluginSaveManager listener = new PluginSaveManager();
 			final PluginSaveManager previous = this.saveListener.getAndSet(listener);
 			if (previous != null)
 				previous.unregister();
-			listener.register();
+			listener.register(this);
 		}
 		// custom stats
 		{
@@ -186,7 +186,7 @@ public class pxnPluginLib extends xJavaPlugin {
 				} catch (IOException e) {
 					throw new RuntimeException(e);
 				}
-				store.register();
+				store.register(plugin);
 				final ServicesManager services = Bukkit.getServicesManager();
 				services.register(FreedMapStore.class, store, plugin, ServicePriority.Normal);
 				return store;

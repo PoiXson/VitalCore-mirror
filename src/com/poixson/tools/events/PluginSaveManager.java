@@ -7,15 +7,12 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.world.WorldSaveEvent;
 import org.bukkit.plugin.PluginManager;
 
-import com.poixson.pluginlib.pxnPluginLib;
 
-
-public class PluginSaveManager extends xListener {
+public class PluginSaveManager implements xListener {
 
 
 
-	public PluginSaveManager(pxnPluginLib plugin) {
-		super(plugin);
+	public PluginSaveManager() {
 	}
 
 
