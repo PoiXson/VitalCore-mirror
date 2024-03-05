@@ -57,7 +57,7 @@ public abstract class xJavaPlugin extends JavaPlugin {
 			}
 		}
 		// update checker
-		UpdateCheckManager.Register(this);
+		UpdateCheckManager.RegisterPlugin(this);
 		// save listener
 		{
 			final LocalPluginSaveListener listener = new LocalPluginSaveListener();
@@ -78,7 +78,7 @@ public abstract class xJavaPlugin extends JavaPlugin {
 		super.onDisable();
 		this.metrics.set(null);
 		// update checker
-		UpdateCheckManager.Unregister(this);
+		UpdateCheckManager.UnregisterPlugin(this);
 		// stop schedulers
 		try {
 			Bukkit.getScheduler()

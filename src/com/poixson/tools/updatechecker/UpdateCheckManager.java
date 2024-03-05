@@ -1,6 +1,7 @@
 package com.poixson.tools.updatechecker;
 
 import static com.poixson.utils.Utils.GetMS;
+import static com.poixson.utils.Utils.IsEmpty;
 
 import java.util.HashSet;
 import java.util.Iterator;
@@ -9,6 +10,10 @@ import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -16,10 +21,11 @@ import com.poixson.pluginlib.pxnPluginLib;
 import com.poixson.tools.xJavaPlugin;
 import com.poixson.tools.xTime;
 import com.poixson.tools.abstractions.xStartStop;
+import com.poixson.tools.events.xListener;
 import com.poixson.utils.ThreadUtils;
 
 
-public class UpdateCheckManager extends BukkitRunnable implements xStartStop {
+public class UpdateCheckManager extends BukkitRunnable implements xStartStop, xListener {
 
 	protected final pxnPluginLib plugin;
 
@@ -31,13 +37,10 @@ public class UpdateCheckManager extends BukkitRunnable implements xStartStop {
 
 	protected final ConcurrentHashMap<Integer, UpdateCheckerTask> checkers = new ConcurrentHashMap<Integer, UpdateCheckerTask>();
 
-	protected final PlayerJoinListener listenerPlayerJoin;
-
 
 
 	public UpdateCheckManager(final pxnPluginLib plugin) {
 		this.plugin = plugin;
-		this.listenerPlayerJoin = new PlayerJoinListener(plugin, this);
 	}
 
 
@@ -45,7 +48,7 @@ public class UpdateCheckManager extends BukkitRunnable implements xStartStop {
 	@Override
 	public void start() {
 		this.runTaskTimerAsynchronously(this.plugin, this.delay, this.loop);
-		this.listenerPlayerJoin.register();
+		this.register(this.plugin);
 	}
 	public void startLater() {
 		(new BukkitRunnable() {
@@ -60,7 +63,7 @@ public class UpdateCheckManager extends BukkitRunnable implements xStartStop {
 		try {
 			this.cancel();
 		} catch (IllegalStateException ignore) {}
-		this.listenerPlayerJoin.unregister();
+		this.unregister();
 	}
 
 
@@ -91,12 +94,35 @@ public class UpdateCheckManager extends BukkitRunnable implements xStartStop {
 
 
 
-	public static UpdateCheckerTask Register(final xJavaPlugin plugin) {
+	@EventHandler(priority=EventPriority.LOWEST)
+	public void onPlayerJoin(final PlayerJoinEvent event) {
+		if (this.hasUpdate()) {
+			final Player player = event.getPlayer();
+			if (player.isOp() || player.hasPermission("pxnpluginlib.updates")) {
+				(new BukkitRunnable() {
+					@Override
+					public void run() {
+						final UpdateCheckerTask[] updates = UpdateCheckManager.this.getUpdatesToPlayers();
+						String msg;
+						for (final UpdateCheckerTask task : updates) {
+							msg = task.getUpdateMessage();
+							if (!IsEmpty(msg))
+								player.sendMessage(msg);
+						}
+					}
+				}).runTaskLater(this.plugin, 10L);
+			}
+		}
+	}
+
+
+
+	public static UpdateCheckerTask RegisterPlugin(final xJavaPlugin plugin) {
 		final int spigot_id = plugin.getSpigotPluginID();
 		final String version = plugin.getPluginVersion();
-		return Register(plugin, spigot_id, version);
+		return RegisterPlugin(plugin, spigot_id, version);
 	}
-	public static UpdateCheckerTask Register(final JavaPlugin plugin, final int spigot_id, final String version) {
+	public static UpdateCheckerTask RegisterPlugin(final JavaPlugin plugin, final int spigot_id, final String version) {
 		if (spigot_id <= 0) return null;
 		final UpdateCheckManager manager = Bukkit.getServicesManager().load(UpdateCheckManager.class);
 		if (manager == null) throw new RuntimeException("UpdateCheckManager is not available");
@@ -114,19 +140,18 @@ public class UpdateCheckManager extends BukkitRunnable implements xStartStop {
 
 
 
-	public static boolean Unregister(final xJavaPlugin plugin) {
+	public static boolean UnregisterPlugin(final xJavaPlugin plugin) {
 		final int spigot_id  = plugin.getSpigotPluginID();
-		return Unregister(spigot_id);
+		return UnregisterPlugin(spigot_id);
 	}
-	public static boolean Unregister(final int spigot_id) {
+	public static boolean UnregisterPlugin(final int spigot_id) {
 		if (spigot_id <= 0) return false;
 		final UpdateCheckManager manager = Bukkit.getServicesManager().load(UpdateCheckManager.class);
 		if (manager == null) throw new RuntimeException("UpdateCheckManager is not available");
 		return manager.removePlugin(spigot_id);
 	}
 	public boolean removePlugin(final int spigot_id) {
-		final UpdateCheckerTask dao = this.checkers.remove(Integer.valueOf(spigot_id));
-		return (dao != null);
+		return (null != this.checkers.remove(Integer.valueOf(spigot_id)));
 	}
 
 
