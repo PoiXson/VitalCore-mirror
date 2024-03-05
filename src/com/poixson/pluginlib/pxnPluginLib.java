@@ -32,7 +32,7 @@ public class pxnPluginLib extends xJavaPlugin {
 	protected final AtomicReference<pxnPluginsChart> pluginsListener = new AtomicReference<pxnPluginsChart>(null);
 	protected final AtomicReference<UpdateCheckManager> checkManager = new AtomicReference<UpdateCheckManager>(null);
 	protected final AtomicReference<PlayerMoveManager>  moveManager  = new AtomicReference<PlayerMoveManager>(null);
-	protected final AtomicReference<FreedMapStore>         freedMaps = new AtomicReference<FreedMapStore>(null);
+	protected final AtomicReference<FreedMapStore>      freedMaps    = new AtomicReference<FreedMapStore>(null);
 	protected final AtomicReference<PluginSaveManager>  saveListener = new AtomicReference<PluginSaveManager>(null);
 
 
@@ -186,7 +186,7 @@ public class pxnPluginLib extends xJavaPlugin {
 				} catch (IOException e) {
 					throw new RuntimeException(e);
 				}
-				store.register(plugin);
+				store.register();
 				final ServicesManager services = Bukkit.getServicesManager();
 				services.register(FreedMapStore.class, store, plugin, ServicePriority.Normal);
 				return store;

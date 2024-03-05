@@ -48,6 +48,12 @@ public class FreedMapStore implements xListener {
 
 
 
+	public void register() {
+		xListener.super.register(this.plugin);
+	}
+
+
+
 	public synchronized void load() throws IOException {
 		this.freed.clear();
 		if (this.file.isFile()) {
