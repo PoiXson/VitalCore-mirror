@@ -2,8 +2,6 @@ package com.poixson.utils;
 
 import static com.poixson.utils.Utils.IsEmpty;
 
-import java.util.concurrent.atomic.AtomicReference;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.data.BlockData;
@@ -19,24 +17,21 @@ public final class BlockUtils {
 
 
 
-	public static BlockData StringToBlockData(final AtomicReference<String> atomic, final String def,
-			final String...tags) {
-		final String blockStr = atomic.get();
-		return (IsEmpty(blockStr) ? StringToBlockData(def, tags) : StringToBlockData(blockStr, tags));
+	public static BlockData StringToBlockDataDef(final String mat, final String def, final String...tags) {
+		return (IsEmpty(mat) ? StringToBlockData(def, tags) : StringToBlockData(mat, tags));
 	}
-	public static BlockData StringToBlockData(final String blockStr,
-			final String...tags) {
-		String str = blockStr;
+	public static BlockData StringToBlockData(final String mat, final String...tags) {
+		String type = mat;
 		if (!IsEmpty(tags)) {
 			final int size = tags.length;
 			if (size % 2 != 0) throw new IllegalArgumentException("Invalid tags");
 			for (int i=0; i<size; i+=2)
-				str = str.replace(tags[i], tags[i+1]);
+				type = type.replace(tags[i], tags[i+1]);
 		}
-		return Bukkit.createBlockData(str);
+		return Bukkit.createBlockData(type);
 	}
-	public static Material StringToMaterial(final AtomicReference<String> atomic, final String def) {
-		String type = atomic.get();
+	public static Material StringToMaterial(final String mat, final String def) {
+		String type = mat;
 		if (IsEmpty(type))
 			type = def;
 		final int pos = type.indexOf('[');
