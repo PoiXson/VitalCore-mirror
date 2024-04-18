@@ -1,6 +1,6 @@
 package com.poixson.tools.translations;
 
-import org.bukkit.entity.BlockDisplay;
+import org.bukkit.entity.Display;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Transformation;
@@ -15,7 +15,7 @@ public class TaskTranslation extends BukkitRunnable implements xStartStop {
 
 	protected final JavaPlugin plugin;
 
-	public final BlockDisplay[] entities;
+	public final Display[] entities;
 	public final Dabc movement;
 
 	protected final int delay;
@@ -24,7 +24,7 @@ public class TaskTranslation extends BukkitRunnable implements xStartStop {
 
 
 	public TaskTranslation(final JavaPlugin plugin,
-			final BlockDisplay[] entities, final Dabc movement,
+			final Display[] entities, final Dabc movement,
 			final int delay, final int duration) {
 		this.plugin   = plugin;
 		this.entities = entities;
@@ -33,11 +33,11 @@ public class TaskTranslation extends BukkitRunnable implements xStartStop {
 		this.duration = duration;
 	}
 	public TaskTranslation(final JavaPlugin plugin,
-			final BlockDisplay entity, final Dabc movement,
+			final Display entity, final Dabc movement,
 			final int delay, final int duration) {
 		this(
 			plugin,
-			new BlockDisplay[] { entity },
+			new Display[] { entity },
 			movement, delay, duration
 		);
 	}
@@ -59,7 +59,7 @@ public class TaskTranslation extends BukkitRunnable implements xStartStop {
 
 	@Override
 	public void run() {
-		for (final BlockDisplay entity : this.entities) {
+		for (final Display entity : this.entities) {
 			entity.setPersistent(false);
 			entity.setInterpolationDelay(-1);
 			entity.setInterpolationDuration(this.duration);
