@@ -21,6 +21,7 @@ public final class BlockUtils {
 		return (IsEmpty(mat) ? StringToBlockData(def, tags) : StringToBlockData(mat, tags));
 	}
 	public static BlockData StringToBlockData(final String mat, final String...tags) {
+		if (IsEmpty(mat)) return null;
 		String type = mat;
 		if (!IsEmpty(tags)) {
 			final int size = tags.length;
@@ -31,6 +32,7 @@ public final class BlockUtils {
 		return Bukkit.createBlockData(type);
 	}
 	public static Material StringToMaterial(final String mat, final String def) {
+		if (IsEmpty(mat)) return null;
 		String type = mat;
 		if (IsEmpty(type))
 			type = def;
