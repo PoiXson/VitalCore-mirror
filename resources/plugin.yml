@@ -11,18 +11,6 @@ website: ${project.url}
 description: ${project.description}
 permission-message: "You don't have permission to use this command."
 commands:
-    tps:
-        description: "Display the average ticks per second"
-        usage: "Usage: /tps <cmd>"
-    lag:
-        description: "Display the average ticks per second"
-        usage: "Usage: /lag <cmd>"
-    mem:
-        description: "Display the average ticks per second"
-        usage: "Usage: /mem <cmd>"
-    memory:
-        description: "Display the average ticks per second"
-        usage: "Usage: /memory <cmd>"
 permissions:
     pxnpluginlib.*:
         default: op
