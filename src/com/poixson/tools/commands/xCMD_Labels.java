@@ -1,63 +1,45 @@
 package com.poixson.tools.commands;
 
-import static com.poixson.utils.Utils.IsEmpty;
-
-import java.util.LinkedList;
-
 import org.bukkit.command.CommandSender;
 
-import com.poixson.tools.xJavaPlugin;
+import com.poixson.utils.StringUtils;
 
 
-public abstract class pxnCommand<T extends xJavaPlugin> {
+public abstract class xCMD_Labels implements xCMD {
 
-	protected final T plugin;
-
-	public final String[] labels;
-	public final boolean override;
+	protected final String[] labels;
 
 
 
-	public pxnCommand(final T plugin, final String...labels) {
-		this(plugin, false, labels);
-	}
-	public pxnCommand(final T plugin, final boolean enableOverride, final String...labels) {
-		this.plugin = plugin;
-		this.override = enableOverride;
-		this.labels   = labels;
+	public xCMD_Labels(final String...labels) {
+		this.labels = labels;
 	}
 
 
 
-	public abstract boolean run(final CommandSender sender, final String label, final String[] args);
-
-
-
-	public String[] getMatches(final String arg) {
-		final LinkedList<String> list = new LinkedList<String>();
+	@Override
+	public boolean match(final String label) {
 		for (final String lbl : this.labels) {
-			if (lbl.startsWith(arg))
-				list.add(lbl);
-		}
-		return list.toArray(new String[0]);
-	}
-	public boolean match(final String[] args) {
-		return (IsEmpty(args) ? this.isDefault() : this.match(args[0]));
-	}
-	public boolean match(final String match) {
-		if (IsEmpty(match))
-			return this.isDefault();
-		final String matchLower = match.toLowerCase();
-		for (final String label : this.labels) {
-			if (matchLower.equals(label))
+			if (StringUtils.MatchString(lbl, label))
 				return true;
 		}
 		return false;
 	}
 
-	public boolean isDefault() {
-		return IsEmpty(this.labels);
+	@Override
+	public String[] getLabels() {
+		return this.labels;
 	}
+
+	@Override
+	public boolean hasOverrides() {
+		return false;
+	}
+
+
+
+	@Override
+	public abstract boolean run(final CommandSender sender, final String[] args);
 
 
 
