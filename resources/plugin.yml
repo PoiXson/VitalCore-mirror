@@ -9,14 +9,139 @@ softdepend:
 authors: [ lorenzop ]
 website: ${project.url}
 description: ${project.description}
-permission-message: "You don't have permission to use this command."
 commands:
+    help:
+        description: ""
+        usage: "Usage: /help"
+    list:
+        description: ""
+        usage: "Usage: /list"
+    home:
+        description: ""
+        usage: "Usage: /home"
+    tp:
+        description: ""
+        usage: "Usage: /tp"
+    jump:
+        description: ""
+        usage: "Usage: /jump"
+    motd:
+        description: ""
+        usage: "Usage: /motd"
+    broadcast:
+        description: ""
+        usage: "Usage: /broadcast"
+    msg:
+        description: ""
+        usage: "Usage: /msg"
+    me:
+        description: ""
+        usage: "Usage: /me"
+    gm:
+        description: ""
+        usage: "Usage: /gm"
+    feed:
+        description: ""
+        usage: "Usage: /feed"
+    heal:
+        description: ""
+        usage: "Usage: /heal"
+    speed:
+        description: ""
+        usage: "Usage: /speed"
+    workbench:
+        description: ""
+        usage: "Usage: /workbench"
+    enderchest:
+        description: ""
+        usage: "Usage: /enderchest"
+    powertool:
+        description: ""
+        usage: "Usage: /powertool"
+    backup:
+        description: ""
+        usage: "Usage: /backup"
+    gc:
+        description: ""
+        usage: "Usage: /gc"
 permissions:
-    pxnpluginlib.*:
+    pxn.*:
         default: op
         description: Gives access to all pxn plugin lib commands.
         children:
-            pxnpluginlib.updates: true
-    pxnpluginlib.updates:
+            pxn.updates:        true
+            pxn.cmd.help:       true
+            pxn.cmd.list:       true
+            pxn.cmd.home:       true
+            pxn.cmd.tp:         true
+            pxn.cmd.jump:       true
+            pxn.cmd.motd:       true
+            pxn.cmd.broadcast:  true
+            pxn.cmd.msg:        true
+            pxn.cmd.me:         true
+            pxn.cmd.gm:         true
+            pxn.cmd.feed:       true
+            pxn.cmd.heal:       true
+            pxn.cmd.speed:      true
+            pxn.cmd.workbench:  true
+            pxn.cmd.enderchest: true
+            pxn.cmd.powertool:  true
+            pxn.cmd.backup:     true
+            pxn.cmd.gc:         true
+    pxn.updates:
         default: op
         description: Receive notices of plugin updates.
+    pxn.cmd.help:
+        default: true
+        description: Allow the /help command.
+    pxn.cmd.list:
+        default: true
+        description: Allow the /list command.
+    pxn.cmd.home:
+        default: true
+        description: Allow the /home command.
+    pxn.cmd.tp:
+        default: op
+        description: Allow the /tp command.
+    pxn.cmd.jump:
+        default: op
+        description: Allow the /jump command.
+    pxn.cmd.motd:
+        default: true
+        description: Allow the /motd command.
+    pxn.cmd.broadcast:
+        default: op
+        description: Allow the /broadcast command.
+    pxn.cmd.msg:
+        default: true
+        description: Allow the /msg command.
+    pxn.cmd.me:
+        default: true
+        description: Allow the /me command.
+    pxn.cmd.gm:
+        default: op
+        description: Allow the /gm command.
+    pxn.cmd.feed:
+        default: op
+        description: Allow the /feed command.
+    pxn.cmd.heal:
+        default: op
+        description: Allow the /heal command.
+    pxn.cmd.speed:
+        default: op
+        description: Allow the /speed command.
+    pxn.cmd.workbench:
+        default: op
+        description: Allow the /workbench command.
+    pxn.cmd.enderchest:
+        default: op
+        description: Allow the /enderchest command.
+    pxn.cmd.powertool:
+        default: op
+        description: Allow the /powertool command.
+    pxn.cmd.backup:
+        default: op
+        description: Allow the /backup command.
+    pxn.cmd.gc:
+        default: op
+        description: Allow the /gc command.

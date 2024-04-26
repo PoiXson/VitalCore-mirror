@@ -12,6 +12,7 @@ import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.ServicesManager;
 
 import com.poixson.pluginlib.charts.pxnPluginsChart;
+import com.poixson.pluginlib.commands.Commands;
 import com.poixson.tools.FreedMapStore;
 import com.poixson.tools.Keeper;
 import com.poixson.tools.xJavaPlugin;
@@ -35,11 +36,14 @@ public class pxnPluginLib extends xJavaPlugin {
 	protected final AtomicReference<FreedMapStore>      freedMaps    = new AtomicReference<FreedMapStore>(null);
 	protected final AtomicReference<PluginSaveManager>  saveListener = new AtomicReference<PluginSaveManager>(null);
 
+	protected final Commands commands;
+
 
 
 	public pxnPluginLib() {
 		super(pxnPluginLib.class);
 		this.keeper = Keeper.get();
+		this.commands = new Commands(this);
 	}
 
 
@@ -84,6 +88,8 @@ public class pxnPluginLib extends xJavaPlugin {
 				previous.unregister();
 			listener.register(this);
 		}
+		// commands
+		this.commands.register();
 		// custom stats
 		{
 			final Metrics metrics = this.metrics.get();
@@ -97,6 +103,8 @@ public class pxnPluginLib extends xJavaPlugin {
 	@Override
 	public void onDisable() {
 		super.onDisable();
+		// commands
+		this.commands.unregister();
 //		final ServicesManager services = Bukkit.getServicesManager();
 		// save listener
 		{
