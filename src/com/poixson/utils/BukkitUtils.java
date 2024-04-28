@@ -1,23 +1,35 @@
 package com.poixson.utils;
 
 import static com.poixson.tools.xJavaPlugin.Log;
+import static com.poixson.utils.Utils.IsEmpty;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedList;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.command.CommandMap;
+import org.bukkit.command.PluginCommand;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.MapMeta;
 import org.bukkit.map.MapPalette;
 import org.bukkit.map.MapView;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.PluginManager;
+import org.bukkit.plugin.SimplePluginManager;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
 
 import com.poixson.tools.Keeper;
@@ -217,6 +229,74 @@ public final class BukkitUtils {
 		if (freed_mb >= 10)
 			Log().info(String.format("Freed memory: %dMB", Integer.valueOf(freed_mb)));
 		return freed_mb;
+	}
+
+
+
+	// -------------------------------------------------------------------------------
+	// commands
+
+
+
+	public static PluginCommand GetCommand(final JavaPlugin plugin,
+			final String namespace, final String[] labels, final String desc, final String usage) {
+		if (IsEmpty(namespace))
+			return GetCommand(plugin, labels[0], labels, desc, usage);
+		final LinkedList<String> list = new LinkedList<String>();
+		for (final String label : labels)
+			list.addLast(label);
+		final String first = list.removeFirst();
+		PluginCommand plugin_command;
+		// existing command
+		plugin_command = plugin.getCommand(first);
+		// register new command
+		if (plugin_command == null)
+			plugin_command = NewCommand(plugin, namespace, labels);
+		if (plugin_command == null)
+			return null;
+		if (!IsEmpty(list)) plugin_command.setAliases(list);
+		if (!IsEmpty(desc)) plugin_command.setDescription(desc);
+		if (IsEmpty(plugin_command.getUsage())) {
+			if (IsEmpty(usage)) plugin_command.setUsage("Invalid command");
+			else                plugin_command.setUsage(usage);
+		}
+		return plugin_command;
+	}
+
+	public static PluginCommand NewCommand(final Plugin plugin,
+			final String namespace, final String[] labels) {
+		if (IsEmpty(namespace))
+			return NewCommand(plugin, labels[0], labels);
+		try {
+			final Constructor<PluginCommand> construct =
+				PluginCommand.class.getDeclaredConstructor(String.class, Plugin.class);
+			construct.setAccessible(true);
+			final PluginManager manager = Bukkit.getPluginManager();
+			if (manager instanceof SimplePluginManager) {
+				final Field field = SimplePluginManager.class.getDeclaredField("commandMap");
+				field.setAccessible(true);
+				final CommandMap map = (CommandMap) field.get(Bukkit.getPluginManager());
+				final ArrayList<String> list = new ArrayList<String>();
+				int index = 0;
+				final String first = labels[0];
+				for (final String label : labels) {
+					if (index++ == 0) continue;
+					list.add(label);
+				}
+				final PluginCommand plugin_command = construct.newInstance(first, plugin);
+				if (!IsEmpty(list))
+					plugin_command.setAliases(list);
+				map.register(namespace, plugin_command);
+				return plugin_command;
+			}
+		} catch (NoSuchFieldException      e) { throw new RuntimeException(e);
+		} catch (NoSuchMethodException     e) { throw new RuntimeException(e);
+		} catch (SecurityException         e) { throw new RuntimeException(e);
+		} catch (InstantiationException    e) { throw new RuntimeException(e);
+		} catch (IllegalAccessException    e) { throw new RuntimeException(e);
+		} catch (IllegalArgumentException  e) { throw new RuntimeException(e);
+		} catch (InvocationTargetException e) { throw new RuntimeException(e); }
+		return null;
 	}
 
 
