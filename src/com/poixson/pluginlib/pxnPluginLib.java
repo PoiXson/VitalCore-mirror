@@ -36,14 +36,13 @@ public class pxnPluginLib extends xJavaPlugin {
 	protected final AtomicReference<FreedMapStore>      freedMaps    = new AtomicReference<FreedMapStore>(null);
 	protected final AtomicReference<PluginSaveManager>  saveListener = new AtomicReference<PluginSaveManager>(null);
 
-	protected final Commands commands;
+	protected final AtomicReference<Commands> commands = new AtomicReference<Commands>(null);
 
 
 
 	public pxnPluginLib() {
 		super(pxnPluginLib.class);
 		this.keeper = Keeper.get();
-		this.commands = new Commands(this);
 	}
 
 
@@ -89,7 +88,12 @@ public class pxnPluginLib extends xJavaPlugin {
 			listener.register(this);
 		}
 		// commands
-		this.commands.register();
+		{
+			final Commands commands = new Commands(this);
+			final Commands previous = this.commands.getAndSet(commands);
+			if (previous != null)
+				previous.close();
+		}
 		// custom stats
 		{
 			final Metrics metrics = this.metrics.get();
@@ -104,7 +108,11 @@ public class pxnPluginLib extends xJavaPlugin {
 	public void onDisable() {
 		super.onDisable();
 		// commands
-		this.commands.unregister();
+		{
+			final Commands commands = this.commands.getAndSet(null);
+			if (commands != null)
+				commands.close();
+		}
 //		final ServicesManager services = Bukkit.getServicesManager();
 		// save listener
 		{
@@ -162,6 +170,7 @@ public class pxnPluginLib extends xJavaPlugin {
 	}
 	@Override
 	protected void configDefaults(final FileConfiguration cfg) {
+		Commands.ConfigDefaults(config);
 	}
 
 

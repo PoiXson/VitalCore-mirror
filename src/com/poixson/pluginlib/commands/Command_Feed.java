@@ -2,22 +2,29 @@ package com.poixson.pluginlib.commands;
 
 import org.bukkit.command.CommandSender;
 
-import com.poixson.tools.commands.xCMD_Labels;
+import com.poixson.pluginlib.pxnPluginLib;
+import com.poixson.tools.commands.pxnCommandRoot;
 
 
-public class Command_Feed extends xCMD_Labels {
+public class Command_Feed extends pxnCommandRoot {
 
 
 
-	public Command_Feed() {
-		super("feed");
+	public Command_Feed(final pxnPluginLib plugin) {
+		super(
+			plugin,
+			"Restore full hunger.", // desc
+			null, // usage
+			"pxn.cmd.feed", // perm
+			"feed"
+		);
 	}
 
 
 
 	@Override
-	public boolean run(final CommandSender sender, final String[] args) {
-//TODO
+	public boolean onCommand(final CommandSender sender, final String[] args) {
+System.out.println("COMMAND:"); for (final String arg : args) System.out.println("  "+arg);
 return false;
 	}
 
