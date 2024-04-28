@@ -35,6 +35,8 @@ public class Commands implements Closeable {
 //	protected final Command_Feed            cmd_feed;            // /feed
 //	protected final Command_Heal            cmd_heal;            // /heal
 //	protected final Command_Speed           cmd_speed;           // /speed
+//	protected final Command_Speed_Walk      cmd_speed_walk;      // /walkspeed
+//	protected final Command_Speed_Fly       cmd_speed_fly        // /flyspeed
 //	protected final Command_Workbench       cmd_workbench;       // /workbench
 //	protected final Command_Enderchest      cmd_enderchest;      // /enderchest
 //	protected final Command_PowerTool       cmd_powertool;       // /powertool
@@ -54,7 +56,6 @@ public class Commands implements Closeable {
 //		if (cfg.getBoolean("gm"        )) this.cmd_gm         = new Command_GM        (plugin); else this.cmd_gm         = null; // /gm
 //		if (cfg.getBoolean("feed"      )) this.cmd_feed       = new Command_Feed      (plugin); else this.cmd_feed       = null; // /feed
 //		if (cfg.getBoolean("heal"      )) this.cmd_heal       = new Command_Heal      (plugin); else this.cmd_heal       = null; // /heal
-//		if (cfg.getBoolean("speed"     )) this.cmd_speed      = new Command_Speed     (plugin); else this.cmd_speed      = null; // /speed
 //		if (cfg.getBoolean("workbench" )) this.cmd_workbench  = new Command_Workbench (plugin); else this.cmd_workbench  = null; // /workbench
 //		if (cfg.getBoolean("enderchest")) this.cmd_enderchest = new Command_Enderchest(plugin); else this.cmd_enderchest = null; // /enderchest
 //		if (cfg.getBoolean("powertool" )) this.cmd_powertool  = new Command_PowerTool (plugin); else this.cmd_powertool  = null; // /powertool
@@ -107,6 +108,15 @@ public class Commands implements Closeable {
 //			this.cmd_msg   = null; // /msg
 //			this.cmd_reply = null; // /reply
 //		}
+//		if (cfg.getBoolean("speed")) {
+//			this.cmd_speed      = new Command_Speed     (plugin); // /speed
+//			this.cmd_speed_walk = new Command_Speed_Walk(plugin); // /walkspeed
+//			this.cmd_speed_fly  = new Command_Speed_Fly (plugin); // /flyspeed
+//		} else {
+//			this.cmd_speed      = null; // /speed
+//			this.cmd_speed_walk = null; // /walkspeed
+//			this.cmd_speed_fly  = null; // /flyspeed
+//		}
 	}
 
 
@@ -138,6 +148,8 @@ public class Commands implements Closeable {
 //		if (this.cmd_feed            != null) this.cmd_feed           .close();
 //		if (this.cmd_heal            != null) this.cmd_heal           .close();
 //		if (this.cmd_speed           != null) this.cmd_speed          .close();
+//		if (this.cmd_speed_walk      != null) this.cmd_speed_walk     .close();
+//		if (this.cmd_speed_fly       != null) this.cmd_speed_fly      .close();
 //		if (this.cmd_workbench       != null) this.cmd_workbench      .close();
 //		if (this.cmd_enderchest      != null) this.cmd_enderchest     .close();
 //		if (this.cmd_powertool       != null) this.cmd_powertool      .close();
