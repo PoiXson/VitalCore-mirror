@@ -18,12 +18,7 @@ permissions:
             pxn.cmd.help:          true
             pxn.cmd.list:          true
             pxn.cmd.home:          true
-            pxn.cmd.tp:            true
-            pxn.cmd.tp.here:       true
-            pxn.cmd.tp.ask:        true
-            pxn.cmd.tp.askhere:    true
-            pxn.cmd.tp.allhere:    true
-            pxn.cmd.tp.askallhere: true
+            pxn.cmd.tp.*:          true
             pxn.cmd.jump:          true
             pxn.cmd.motd:          true
             pxn.cmd.broadcast:     true
