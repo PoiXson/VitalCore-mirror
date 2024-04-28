@@ -2,6 +2,8 @@ package com.poixson.pluginlib.commands;
 
 import static com.poixson.utils.BukkitUtils.GarbageCollect;
 
+import java.util.List;
+
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -10,6 +12,7 @@ import com.poixson.pluginlib.pxnPluginLib;
 import com.poixson.tools.commands.pxnCommandRoot;
 
 
+// /gc
 public class Command_GC extends pxnCommandRoot {
 
 
@@ -44,6 +47,15 @@ public class Command_GC extends pxnCommandRoot {
 		}
 		sender.sendMessage(msg.toString());
 		return true;
+	}
+
+
+
+	@Override
+	public List<String> onTabComplete(final CommandSender sender, final String[] args) {
+//TODO
+System.out.println("TAB:"); for (final String arg : args) System.out.println("  "+arg);
+return null;
 	}
 
 

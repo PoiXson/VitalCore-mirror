@@ -1,5 +1,7 @@
 package com.poixson.pluginlib.commands;
 
+import java.util.List;
+
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -8,6 +10,7 @@ import com.poixson.pluginlib.pxnPluginLib;
 import com.poixson.tools.commands.pxnCommandRoot;
 
 
+// /enderchest
 public class Command_Enderchest extends pxnCommandRoot {
 
 
@@ -36,6 +39,15 @@ public class Command_Enderchest extends pxnCommandRoot {
 			return true;
 		}
 		return false;
+	}
+
+
+
+	@Override
+	public List<String> onTabComplete(final CommandSender sender, final String[] args) {
+//TODO
+System.out.println("TAB:"); for (final String arg : args) System.out.println("  "+arg);
+return null;
 	}
 
 
