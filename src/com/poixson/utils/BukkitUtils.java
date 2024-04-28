@@ -238,10 +238,10 @@ public final class BukkitUtils {
 
 
 
-	public static PluginCommand GetCommand(final JavaPlugin plugin,
-			final String namespace, final String[] labels, final String desc, final String usage) {
+	public static PluginCommand GetCommand(final JavaPlugin plugin, final String namespace,
+			final String[] labels, final String desc, final String usage, final String perm) {
 		if (IsEmpty(namespace))
-			return GetCommand(plugin, labels[0], labels, desc, usage);
+			return GetCommand(plugin, labels[0], labels, desc, usage, perm);
 		final LinkedList<String> list = new LinkedList<String>();
 		for (final String label : labels)
 			list.addLast(label);
@@ -260,6 +260,7 @@ public final class BukkitUtils {
 			if (IsEmpty(usage)) plugin_command.setUsage("Invalid command");
 			else                plugin_command.setUsage(usage);
 		}
+		if (!IsEmpty(perm)) plugin_command.setPermission(perm);
 		return plugin_command;
 	}
 
