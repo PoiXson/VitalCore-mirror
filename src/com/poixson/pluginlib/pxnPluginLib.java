@@ -49,6 +49,7 @@ public class pxnPluginLib extends xJavaPlugin {
 
 	@Override
 	public void onEnable() {
+		final FileConfiguration config = this.getConfig();
 		final ServicesManager services = Bukkit.getServicesManager();
 		services.register(pxnPluginLib.class, this, this, ServicePriority.Normal);
 		// plugins listener
@@ -60,7 +61,7 @@ public class pxnPluginLib extends xJavaPlugin {
 			listener.register(this);
 		}
 		// update check manager
-		{
+		if (config.getBoolean("Check for Updates")) {
 			final UpdateCheckManager manager = new UpdateCheckManager(this);
 			final UpdateCheckManager previous = this.checkManager.getAndSet(manager);
 			if (previous != null)
@@ -171,6 +172,7 @@ public class pxnPluginLib extends xJavaPlugin {
 	@Override
 	protected void configDefaults(final FileConfiguration cfg) {
 		Commands.ConfigDefaults(config);
+		config.addDefault("Check for Updates", Boolean.TRUE);
 	}
 
 
