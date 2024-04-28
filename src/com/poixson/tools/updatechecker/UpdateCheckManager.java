@@ -98,7 +98,8 @@ public class UpdateCheckManager extends BukkitRunnable implements xStartStop, xL
 	public void onPlayerJoin(final PlayerJoinEvent event) {
 		if (this.hasUpdate()) {
 			final Player player = event.getPlayer();
-			if (player.isOp() || player.hasPermission("pxnpluginlib.updates")) {
+			if (player.isOp()
+			|| player.hasPermission("pxn.updates")) {
 				(new BukkitRunnable() {
 					@Override
 					public void run() {
@@ -125,7 +126,7 @@ public class UpdateCheckManager extends BukkitRunnable implements xStartStop, xL
 	public static UpdateCheckerTask RegisterPlugin(final JavaPlugin plugin, final int spigot_id, final String version) {
 		if (spigot_id <= 0) return null;
 		final UpdateCheckManager manager = Bukkit.getServicesManager().load(UpdateCheckManager.class);
-		if (manager == null) throw new RuntimeException("UpdateCheckManager is not available");
+		if (manager == null) return null;
 		return manager.addPlugin(plugin, spigot_id, version);
 	}
 	public UpdateCheckerTask addPlugin(final JavaPlugin plugin, final int spigot_id, final String plugin_version) {

@@ -30,11 +30,11 @@ public class pxnPluginLib extends xJavaPlugin {
 
 	protected final CopyOnWriteArraySet<xJavaPlugin> plugins = new CopyOnWriteArraySet<xJavaPlugin>();
 
-	protected final AtomicReference<pxnPluginsChart> pluginsListener = new AtomicReference<pxnPluginsChart>(null);
-	protected final AtomicReference<UpdateCheckManager> checkManager = new AtomicReference<UpdateCheckManager>(null);
-	protected final AtomicReference<PlayerMoveManager>  moveManager  = new AtomicReference<PlayerMoveManager>(null);
-	protected final AtomicReference<FreedMapStore>      freedMaps    = new AtomicReference<FreedMapStore>(null);
-	protected final AtomicReference<PluginSaveManager>  saveListener = new AtomicReference<PluginSaveManager>(null);
+	protected final AtomicReference<pxnPluginsChart>  pluginsListener = new AtomicReference<pxnPluginsChart>(null);
+	protected final AtomicReference<UpdateCheckManager> updateChecker = new AtomicReference<UpdateCheckManager>(null);
+	protected final AtomicReference<PlayerMoveManager>  moveManager   = new AtomicReference<PlayerMoveManager>(null);
+	protected final AtomicReference<FreedMapStore>      freedMaps     = new AtomicReference<FreedMapStore>(null);
+	protected final AtomicReference<PluginSaveManager>  saveListener  = new AtomicReference<PluginSaveManager>(null);
 
 	protected final AtomicReference<Commands> commands = new AtomicReference<Commands>(null);
 
@@ -63,7 +63,7 @@ public class pxnPluginLib extends xJavaPlugin {
 		// update check manager
 		if (config.getBoolean("Check for Updates")) {
 			final UpdateCheckManager manager = new UpdateCheckManager(this);
-			final UpdateCheckManager previous = this.checkManager.getAndSet(manager);
+			final UpdateCheckManager previous = this.updateChecker.getAndSet(manager);
 			if (previous != null)
 				previous.stop();
 			services.register(UpdateCheckManager.class, manager, this, ServicePriority.Normal);
@@ -123,7 +123,7 @@ public class pxnPluginLib extends xJavaPlugin {
 		}
 		// update check manager
 		{
-			final UpdateCheckManager manager = this.checkManager.getAndSet(null);
+			final UpdateCheckManager manager = this.updateChecker.getAndSet(null);
 			if (manager != null)
 				manager.stop();
 		}
@@ -156,6 +156,7 @@ public class pxnPluginLib extends xJavaPlugin {
 
 	@Override
 	protected void loadConfigs() {
+		super.loadConfigs();
 		// config.yml
 		{
 			final FileConfiguration cfg = this.getConfig();
@@ -166,11 +167,11 @@ public class pxnPluginLib extends xJavaPlugin {
 	}
 	@Override
 	protected void saveConfigs() {
-		// config.yml
 		super.saveConfig();
 	}
 	@Override
-	protected void configDefaults(final FileConfiguration cfg) {
+	protected void configDefaults(final FileConfiguration config) {
+		super.configDefaults(config);
 		Commands.ConfigDefaults(config);
 		config.addDefault("Check for Updates", Boolean.TRUE);
 	}

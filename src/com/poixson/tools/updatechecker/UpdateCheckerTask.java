@@ -87,7 +87,8 @@ public class UpdateCheckerTask implements Runnable {
 			if (this.check_count.get() == 1) {
 				if (this.msgToPlayers.get()) {
 					for (final Player p : Bukkit.getOnlinePlayers()) {
-						if (p.isOp() || p.hasPermission("pxnpluginlib.updates"))
+						if (p.isOp()
+						|| p.hasPermission("pxn.updates"))
 							p.sendMessage(msg);
 					}
 				}

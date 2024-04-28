@@ -148,8 +148,6 @@ public class Commands implements Closeable {
 
 
 	public static void ConfigDefaults(final FileConfiguration config) {
-		if (!config.contains("Commands"))
-			config.set("Commands", config.createSection("Commands"));
 //		config.addDefault("Commands.help",       Boolean.FALSE);
 //		config.addDefault("Commands.list",       Boolean.FALSE);
 //		config.addDefault("Commands.home",       Boolean.FALSE);
