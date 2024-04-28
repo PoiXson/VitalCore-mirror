@@ -147,7 +147,6 @@ public class pxnPluginLib extends xJavaPlugin {
 
 	@Override
 	protected void loadConfigs() {
-		this.mkPluginDir();
 		// config.yml
 		{
 			final FileConfiguration cfg = this.getConfig();

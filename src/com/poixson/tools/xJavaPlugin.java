@@ -106,6 +106,7 @@ public abstract class xJavaPlugin extends JavaPlugin {
 
 
 	protected void loadConfigs() {
+		this.mkPluginDir();
 	}
 	protected void saveConfigs() {
 		this.config_changed.set(false);
