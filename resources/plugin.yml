@@ -14,25 +14,40 @@ permissions:
         default: op
         description: Gives access to all pxn plugin lib commands.
         children:
-            pxn.updates:        true
-            pxn.cmd.help:       true
-            pxn.cmd.list:       true
-            pxn.cmd.home:       true
-            pxn.cmd.tp:         true
-            pxn.cmd.jump:       true
-            pxn.cmd.motd:       true
-            pxn.cmd.broadcast:  true
-            pxn.cmd.msg:        true
-            pxn.cmd.me:         true
-            pxn.cmd.gm:         true
-            pxn.cmd.feed:       true
-            pxn.cmd.heal:       true
-            pxn.cmd.speed:      true
-            pxn.cmd.workbench:  true
-            pxn.cmd.enderchest: true
-            pxn.cmd.powertool:  true
-            pxn.cmd.backup:     true
-            pxn.cmd.gc:         true
+            pxn.updates:           true
+            pxn.cmd.help:          true
+            pxn.cmd.list:          true
+            pxn.cmd.home:          true
+            pxn.cmd.tp:            true
+            pxn.cmd.tp.here:       true
+            pxn.cmd.tp.ask:        true
+            pxn.cmd.tp.askhere:    true
+            pxn.cmd.tp.allhere:    true
+            pxn.cmd.tp.askallhere: true
+            pxn.cmd.jump:          true
+            pxn.cmd.motd:          true
+            pxn.cmd.broadcast:     true
+            pxn.cmd.msg:           true
+            pxn.cmd.me:            true
+            pxn.cmd.gm:            true
+            pxn.cmd.feed:          true
+            pxn.cmd.heal:          true
+            pxn.cmd.speed:         true
+            pxn.cmd.workbench:     true
+            pxn.cmd.enderchest:    true
+            pxn.cmd.powertool:     true
+            pxn.cmd.backup:        true
+            pxn.cmd.gc:            true
+    pxn.cmd.tp.*:
+        default: op
+        description: Gives access to all /tp commands.
+        children:
+            pxn.cmd.tp:            true
+            pxn.cmd.tp.here:       true
+            pxn.cmd.tp.ask:        true
+            pxn.cmd.tp.askhere:    true
+            pxn.cmd.tp.allhere:    true
+            pxn.cmd.tp.askallhere: true
     pxn.updates:
         default: op
         description: Receive notices of plugin updates.
@@ -48,6 +63,24 @@ permissions:
     pxn.cmd.tp:
         default: op
         description: Allow the /tp command.
+    pxn.cmd.tp.here:
+        default: op
+        description: Allow the /tp-here command.
+    pxn.cmd.tp.ask:
+        default: op
+        description: Allow the /tp-ask command.
+    pxn.cmd.tp.askhere:
+        default: op
+        description: Allow the /tp-ask-here command.
+    pxn.cmd.tp.allhere:
+        default: op
+        description: Allow the /tp-all-here command.
+    pxn.cmd.tp.askallhere:
+        default: op
+        description: Allow the /tp-ask-all-here command.
+    pxn.cmd.tp.offline:
+        default: op
+        description: Allow the /tp-offline command.
     pxn.cmd.jump:
         default: op
         description: Allow the /jump command.
