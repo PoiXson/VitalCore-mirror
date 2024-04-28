@@ -1,5 +1,7 @@
 package com.poixson.utils;
 
+import static com.poixson.tools.xJavaPlugin.Log;
+
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -8,6 +10,7 @@ import java.util.Collection;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -184,6 +187,36 @@ public final class BukkitUtils {
 					pixels[yy][xx] = new Color(c);
 			} // end LOOP_X
 		} // end LOOP_Y
+	}
+
+
+
+	// -------------------------------------------------------------------------------
+	// garbage collection
+
+
+
+	public static int GarbageCollect() {
+		final long mem = Runtime.getRuntime().freeMemory();
+		int count = 0;
+		for (final World world : Bukkit.getWorlds()) {
+			final Chunk[] chunks = world.getLoadedChunks();
+			for (final Chunk chunk : chunks) {
+				if (chunk.isForceLoaded())
+					continue;
+				if (chunk.unload(true))
+					count++;
+			}
+		}
+		System.gc();
+		if (count > 0)
+			Log().info(String.format("Unloaded %d chunks", Integer.valueOf(count)));
+		final long freed = mem - Runtime.getRuntime().freeMemory();
+		// >10MB
+		final int freed_mb = (int) (freed / 1024L / 1024L);
+		if (freed_mb >= 10)
+			Log().info(String.format("Freed memory: %dMB", Integer.valueOf(freed_mb)));
+		return freed_mb;
 	}
 
 
