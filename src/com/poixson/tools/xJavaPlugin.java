@@ -2,6 +2,7 @@ package com.poixson.tools;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.logging.Logger;
 
@@ -26,6 +27,7 @@ public abstract class xJavaPlugin extends JavaPlugin {
 	protected final AppProps props;
 
 	protected final AtomicReference<FileConfiguration> config = new AtomicReference<FileConfiguration>(null);
+	protected final AtomicBoolean config_changed = new AtomicBoolean(false);
 
 	// listeners
 	protected final AtomicReference<LocalPluginSaveListener> saveListener = new AtomicReference<LocalPluginSaveListener>(null);
@@ -48,6 +50,7 @@ public abstract class xJavaPlugin extends JavaPlugin {
 		super.onEnable();
 		// load configs
 		this.loadConfigs();
+		this.saveConfigs();
 		// bStats
 		{
 			final int id = this.getBStatsID();
@@ -87,17 +90,12 @@ public abstract class xJavaPlugin extends JavaPlugin {
 		// stop listeners
 		HandlerList.unregisterAll(this);
 		// save configs
-		this.saveConfigs();
+		if (this.config_changed.getAndSet(false))
+			this.saveConfigs();
 		this.config.set(null);
 		// services
 		Bukkit.getServicesManager()
 			.unregisterAll(this);
-	}
-
-
-
-	public void onSave() {
-		this.saveConfigs();
 	}
 
 
@@ -110,6 +108,7 @@ public abstract class xJavaPlugin extends JavaPlugin {
 	protected void loadConfigs() {
 	}
 	protected void saveConfigs() {
+		this.config_changed.set(false);
 	}
 	protected void configDefaults(final FileConfiguration cfg) {
 	}
@@ -154,7 +153,8 @@ public abstract class xJavaPlugin extends JavaPlugin {
 
 		@EventHandler(priority=EventPriority.NORMAL, ignoreCancelled=true)
 		public void onPluginSave(final PluginSaveEvent event) {
-			xJavaPlugin.this.onSave();
+			if (xJavaPlugin.this.config_changed.getAndSet(false))
+				xJavaPlugin.this.saveConfigs();
 		}
 
 	}
