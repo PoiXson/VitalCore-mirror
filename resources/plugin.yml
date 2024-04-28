@@ -9,61 +9,6 @@ softdepend:
 authors: [ lorenzop ]
 website: ${project.url}
 description: ${project.description}
-commands:
-    help:
-        description: ""
-        usage: "Usage: /help"
-    list:
-        description: ""
-        usage: "Usage: /list"
-    home:
-        description: ""
-        usage: "Usage: /home"
-    tp:
-        description: ""
-        usage: "Usage: /tp"
-    jump:
-        description: ""
-        usage: "Usage: /jump"
-    motd:
-        description: ""
-        usage: "Usage: /motd"
-    broadcast:
-        description: ""
-        usage: "Usage: /broadcast"
-    msg:
-        description: ""
-        usage: "Usage: /msg"
-    me:
-        description: ""
-        usage: "Usage: /me"
-    gm:
-        description: ""
-        usage: "Usage: /gm"
-    feed:
-        description: ""
-        usage: "Usage: /feed"
-    heal:
-        description: ""
-        usage: "Usage: /heal"
-    speed:
-        description: ""
-        usage: "Usage: /speed"
-    workbench:
-        description: ""
-        usage: "Usage: /workbench"
-    enderchest:
-        description: ""
-        usage: "Usage: /enderchest"
-    powertool:
-        description: ""
-        usage: "Usage: /powertool"
-    backup:
-        description: ""
-        usage: "Usage: /backup"
-    gc:
-        description: ""
-        usage: "Usage: /gc"
 permissions:
     pxn.*:
         default: op
