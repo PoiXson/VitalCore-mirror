@@ -16,11 +16,14 @@ public class Command_List extends pxnCommandRoot {
 	public Command_List(final pxnPluginLib plugin) {
 		super(
 			plugin,
+			"pxn", // namespace
 			"List the players currently online.", // desc
 			null, // usage
 			"pxn.cmd.list", // perm
-			"list",
-			"online"
+			new String[] { // labels
+				"list",
+				"online"
+			}
 		);
 	}
 

@@ -16,13 +16,16 @@ public class Command_Home_List extends pxnCommandRoot {
 	public Command_Home_List(final pxnPluginLib plugin) {
 		super(
 			plugin,
+			"pxn", // namespace
 			"List your saved homes.", // desc
 			null, // usage
 			"pxn.cmd.home", // perm
-			"homes",
-			"listhomes", "list-homes",
-			"homelist",  "home-list",
-			"homeslist", "homes-list"
+			new String[] { // labels
+				"homes",
+				"listhomes", "list-homes",
+				"homelist",  "home-list",
+				"homeslist", "homes-list"
+			}
 		);
 	}
 

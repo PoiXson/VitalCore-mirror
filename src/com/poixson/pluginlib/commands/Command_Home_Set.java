@@ -16,11 +16,14 @@ public class Command_Home_Set extends pxnCommandRoot {
 	public Command_Home_Set(final pxnPluginLib plugin) {
 		super(
 			plugin,
+			"pxn", // namespace
 			"Save a home location.", // desc
 			null, // usage
 			"pxn.cmd.home", // perm
-			"sethome",  "set-home",
-			"savehome", "save-home"
+			new String[] { // labels
+				"sethome",  "set-home",
+				"savehome", "save-home"
+			}
 		);
 	}
 

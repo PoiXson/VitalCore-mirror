@@ -18,10 +18,13 @@ public class Command_Enderchest extends pxnCommandRoot {
 	public Command_Enderchest(final pxnPluginLib plugin) {
 		super(
 			plugin,
+			"pxn", // namespace
 			"Open the Enderchest.", // desc
 			null, // usage
 			"pxn.cmd.enderchest", // perm
-			"enderchest"
+			new String[] { // labels
+				"enderchest"
+			}
 		);
 	}
 

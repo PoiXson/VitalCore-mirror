@@ -16,9 +16,13 @@ public class Command_GM extends pxnCommandRoot {
 	public Command_GM(final pxnPluginLib plugin) {
 		super(
 			plugin,
+			"pxn", // namespace
 			"Change game mode.", // desc
 			null, // usage
 			"pxn.cmd.gm", // perm
+			new String[] { // labels
+				"gm"
+			}
 			"gm"
 //			"gmc",
 //			"gms",

@@ -16,11 +16,14 @@ public class Command_Jump_Down extends pxnCommandRoot {
 	public Command_Jump_Down(final pxnPluginLib plugin) {
 		super(
 			plugin,
+			"pxn", // namespace
 			"Teleport into the nearest space below the location you are looking at.", // desc
 			null, // usage
 			"pxn.cmd.jump", // perm
-			"jd",
-			"jumpdown", "jump-down"
+			new String[] { // labels
+				"jd",
+				"jumpdown", "jump-down"
+			}
 		);
 	}
 

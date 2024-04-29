@@ -16,10 +16,13 @@ public class Command_TP_Offline extends pxnCommandRoot {
 	public Command_TP_Offline(final pxnPluginLib plugin) {
 		super(
 			plugin,
+			"pxn", // namespace
 			"Teleport to the last known location of a player.", // desc
 			null, // usage
 			"pxn.cmd.tp.offline", // perm
-			"tpoffline", "tp-offline"
+			new String[] { // labels
+				"tpoffline", "tp-offline"
+			}
 		);
 	}
 

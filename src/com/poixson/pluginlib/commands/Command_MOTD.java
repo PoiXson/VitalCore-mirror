@@ -16,10 +16,13 @@ public class Command_MOTD extends pxnCommandRoot {
 	public Command_MOTD(final pxnPluginLib plugin) {
 		super(
 			plugin,
+			"pxn", // namespace
 			null, // desc
 			null, // usage
 			"pxn.cmd.motd", // perm
-			"motd"
+			new String[] { // labels
+				"motd"
+			}
 		);
 	}
 

@@ -16,12 +16,15 @@ public class Command_TP_Ask extends pxnCommandRoot {
 	public Command_TP_Ask(final pxnPluginLib plugin) {
 		super(
 			plugin,
+			"pxn", // namespace
 			"Teleport to a location or world.", // desc
 			null, // usage
 			"pxn.cmd.tp.ask", // perm
-			"tpa", "tpask", "tp-ask",
-			"teleportask", "teleport-ask",
-			"askteleport", "ask-teleport"
+			new String[] { // labels
+				"tpa", "tpask", "tp-ask",
+				"teleportask", "teleport-ask",
+				"askteleport", "ask-teleport"
+			}
 		);
 	}
 

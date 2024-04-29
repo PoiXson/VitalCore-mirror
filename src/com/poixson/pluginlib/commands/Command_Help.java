@@ -16,10 +16,13 @@ public class Command_Help extends pxnCommandRoot {
 	public Command_Help(final pxnPluginLib plugin) {
 		super(
 			plugin,
+			"pxn", // namespace
 			null, // desc
 			null, // usage
 			"pxn.cmd.help", // perm
-			"help"
+			new String[] { // labels
+				"help"
+			}
 		);
 	}
 

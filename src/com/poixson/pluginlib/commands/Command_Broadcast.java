@@ -16,11 +16,14 @@ public class Command_Broadcast extends pxnCommandRoot {
 	public Command_Broadcast(final pxnPluginLib plugin) {
 		super(
 			plugin,
+			"pxn", // namespace
 			null, // desc
 			null, // usage
 			"pxn.cmd.broadcast", // perm
-			"broadcast",
-			"announce"
+			new String[] { // labels
+				"broadcast",
+				"announce"
+			}
 		);
 	}
 

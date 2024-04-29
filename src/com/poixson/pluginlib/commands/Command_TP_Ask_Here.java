@@ -16,11 +16,14 @@ public class Command_TP_Ask_Here extends pxnCommandRoot {
 	public Command_TP_Ask_Here(final pxnPluginLib plugin) {
 		super(
 			plugin,
+			"pxn", // namespace
 			"Ask other players to teleport to your current location.", // desc
 			null, // usage
 			"pxn.cmd.tp.askhere", // perm
-			"tpah", "tpahere",
-			"tpaskhere", "tp-ask-here"
+			new String[] { // labels
+				"tpah", "tpahere",
+				"tpaskhere", "tp-ask-here"
+			}
 		);
 	}
 

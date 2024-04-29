@@ -16,11 +16,14 @@ public class Command_Workbench extends pxnCommandRoot {
 	public Command_Workbench(final pxnPluginLib plugin) {
 		super(
 			plugin,
+			"pxn", // namespace
 			null, // desc
 			null, // usage
 			"pxn.cmd.workbench", // perm
-			"workbench",     "work-bench",
-			"craftingtable", "crafting-table"
+			new String[] { // labels
+				"workbench",     "work-bench",
+				"craftingtable", "crafting-table"
+			}
 		);
 	}
 

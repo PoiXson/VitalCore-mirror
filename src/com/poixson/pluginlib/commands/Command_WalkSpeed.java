@@ -16,10 +16,13 @@ public class Command_WalkSpeed extends pxnCommandRoot {
 	public Command_WalkSpeed(final pxnPluginLib plugin) {
 		super(
 			plugin,
+			"pxn", // namespace
 			null, // desc
 			null, // usage
 			"pxn.cmd.speed.walk", // perm
-			"walkspeed", "walk-speed"
+			new String[] { // labels
+				"walkspeed", "walk-speed"
+			}
 		);
 	}
 

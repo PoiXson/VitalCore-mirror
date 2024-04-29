@@ -16,10 +16,13 @@ public class Command_PowerTool extends pxnCommandRoot {
 	public Command_PowerTool(final pxnPluginLib plugin) {
 		super(
 			plugin,
+			"pxn", // namespace
 			null, // desc
 			null, // usage
 			"pxn.cmd.powertool", // perm
-			"powertool", "power-tool"
+			new String[] { // labels
+				"powertool", "power-tool"
+			}
 		);
 	}
 

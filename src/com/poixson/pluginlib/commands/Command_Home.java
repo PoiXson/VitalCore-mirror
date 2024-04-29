@@ -16,10 +16,13 @@ public class Command_Home extends pxnCommandRoot {
 	public Command_Home(final pxnPluginLib plugin) {
 		super(
 			plugin,
+			"pxn", // namespace
 			"Teleport to a saved home location.", // desc
 			null, // usage
 			"pxn.cmd.home", // perm
-			"home"
+			new String[] { // labels
+				"home"
+			}
 		);
 	}
 

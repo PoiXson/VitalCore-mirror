@@ -21,10 +21,13 @@ public class Command_Heal extends pxnCommandRoot {
 	public Command_Heal(final pxnPluginLib plugin) {
 		super(
 			plugin,
+			"pxn", // namespace
 			"Restore full health.", // desc
 			null, // usage
 			"pxn.cmd.heal", // perm
-			"heal"
+			new String[] { // labels
+				"heal"
+			}
 		);
 //TODO: rest
 	}

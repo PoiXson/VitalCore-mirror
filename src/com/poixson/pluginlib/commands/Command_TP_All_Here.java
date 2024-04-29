@@ -16,12 +16,15 @@ public class Command_TP_All_Here extends pxnCommandRoot {
 	public Command_TP_All_Here(final pxnPluginLib plugin) {
 		super(
 			plugin,
+			"pxn", // namespace
 			"Teleport all other players to your current location.", // desc
 			null, // usage
 			"pxn.cmd.tp.allhere", // perm
-			"tpah",
-			"tpall",  "tpallhere",
-			"tp-all", "tp-all-here"
+			new String[] { // labels
+				"tpah",
+				"tpall",  "tpallhere",
+				"tp-all", "tp-all-here"
+			}
 		);
 	}
 

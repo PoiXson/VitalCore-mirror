@@ -16,12 +16,15 @@ public class Command_Speed extends pxnCommandRoot {
 	public Command_Speed(final pxnPluginLib plugin) {
 		super(
 			plugin,
+			"pxn", // namespace
 			null, // desc
 			null, // usage
 			"pxn.cmd.speed", // perm
-			"speed",
-			"walkspeed",
-			"flyspeed"
+			new String[] { // labels
+				"speed",
+				"walkspeed",
+				"flyspeed"
+			}
 		);
 	}
 

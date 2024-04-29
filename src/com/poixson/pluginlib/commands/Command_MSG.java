@@ -16,10 +16,13 @@ public class Command_MSG extends pxnCommandRoot {
 	public Command_MSG(final pxnPluginLib plugin) {
 		super(
 			plugin,
+			"pxn", // namespace
 			"Send a private message to a player.", // desc
 			null, // usage
 			"pxn.cmd.msg", // perm
-			"m", "msg"
+			new String[] { // labels
+				"m", "msg"
+			}
 		);
 	}
 

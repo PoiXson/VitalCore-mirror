@@ -16,10 +16,13 @@ public class Command_Backup extends pxnCommandRoot {
 	public Command_Backup(final pxnPluginLib plugin) {
 		super(
 			plugin,
+			"pxn", // namespace
 			"Perform a backup of the worlds and configs.", // desc
 			null, // usage
 			"pxn.cmd.backup", // perm
-			"backup"
+			new String[] { // labels
+				"backup"
+			}
 		);
 	}
 

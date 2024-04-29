@@ -16,12 +16,15 @@ public class Command_Jump_Into extends pxnCommandRoot {
 	public Command_Jump_Into(final pxnPluginLib plugin) {
 		super(
 			plugin,
+			"pxn", // namespace
 			"Teleport through the location you are looking at.", // desc
 			null, // usage
 			"pxn.cmd.jump", // perm
-			"ji",
-			"jumpinto",    "jump-into",
-			"jumpthrough", "jump-through"
+			new String[] { // labels
+				"ji",
+				"jumpinto",    "jump-into",
+				"jumpthrough", "jump-through"
+			}
 		);
 	}
 

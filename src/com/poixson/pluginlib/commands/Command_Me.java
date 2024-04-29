@@ -16,10 +16,13 @@ public class Command_Me extends pxnCommandRoot {
 	public Command_Me(final pxnPluginLib plugin) {
 		super(
 			plugin,
+			"pxn", // namespace
 			null, // desc
 			null, // usage
 			"pxn.cmd.me", // perm
-			"me"
+			new String[] { // labels
+				"me"
+			}
 		);
 	}
 

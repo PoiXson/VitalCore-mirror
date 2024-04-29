@@ -20,10 +20,13 @@ public class Command_GC extends pxnCommandRoot {
 	public Command_GC(final pxnPluginLib plugin) {
 		super(
 			plugin,
+			"pxn", // namespace
 			"System.gc() and unload unused chunks.", // desc
 			null, // usage
 			"pxn.cmd.gc", // perm
-			"gc"
+			new String[] { // labels
+				"gc"
+			}
 		);
 	}
 

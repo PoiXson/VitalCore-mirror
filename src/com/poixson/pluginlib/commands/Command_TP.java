@@ -16,10 +16,13 @@ public class Command_TP extends pxnCommandRoot {
 	public Command_TP(final pxnPluginLib plugin) {
 		super(
 			plugin,
+			"pxn", // namespace
 			"Teleport to a location or world.", // desc
 			null, // usage
 			"pxn.cmd.tp", // perm
-			"tp"
+			new String[] { // labels
+				"tp"
+			}
 //TODO
 //			"tpconfirm",
 //			"tpcancel",

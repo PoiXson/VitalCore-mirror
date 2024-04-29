@@ -16,13 +16,16 @@ public class Command_Home_Del extends pxnCommandRoot {
 	public Command_Home_Del(final pxnPluginLib plugin) {
 		super(
 			plugin,
+			"pxn", // namespace
 			"Remove a saved home.", // desc
 			null, // usage
 			"pxn.cmd.home", // perm
-			"delhome",    "del-home",
-			"deletehome", "delete-home",
-			"rmhome",     "rm-home",
-			"removehome", "remove-home"
+			new String[] { // labels
+				"delhome",    "del-home",
+				"deletehome", "delete-home",
+				"rmhome",     "rm-home",
+				"removehome", "remove-home"
+			}
 		);
 	}
 

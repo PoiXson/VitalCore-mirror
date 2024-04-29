@@ -21,10 +21,13 @@ public class Command_Feed extends pxnCommandRoot {
 	public Command_Feed(final pxnPluginLib plugin) {
 		super(
 			plugin,
+			"pxn", // namespace
 			"Restore full hunger.", // desc
 			null, // usage
 			"pxn.cmd.feed", // perm
-			"feed"
+			new String[] { // labels
+				"feed"
+			}
 		);
 	}
 

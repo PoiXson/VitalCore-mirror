@@ -16,10 +16,13 @@ public class Command_FlySpeed extends pxnCommandRoot {
 	public Command_FlySpeed(final pxnPluginLib plugin) {
 		super(
 			plugin,
+			"pxn", // namespace
 			null, // desc
 			null, // usage
 			"pxn.cmd.speed.fly", // perm
-			"flyspeed", "fly-speed"
+			new String[] { // labels
+				"flyspeed", "fly-speed"
+			}
 		);
 	}
 
