@@ -25,6 +25,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityRegainHealthEvent;
 import org.bukkit.event.entity.EntityRegainHealthEvent.RegainReason;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.MapMeta;
 import org.bukkit.map.MapPalette;
@@ -306,6 +308,23 @@ public final class BukkitUtils {
 
 
 	// -------------------------------------------------------------------------------
+	// gui
+
+
+
+	public static void OpenWorkbench(final Player player) {
+		player.closeInventory();
+		final InventoryView gui = player.openWorkbench(null, true);
+		player.openInventory(gui);
+	}
+
+
+
+	public static void OpenEnderchest(final Player player) {
+		player.closeInventory();
+		final Inventory chest = player.getEnderChest();
+		player.openInventory(chest);
+	}
 
 
 
