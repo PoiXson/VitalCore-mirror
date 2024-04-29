@@ -26,8 +26,8 @@ public class Command_Workbench extends pxnCommandRoot {
 			null, // usage
 			"pxn.cmd.workbench", // perm
 			new String[] { // labels
-				"workbench",     "work-bench",
-				"craftingtable", "crafting-table"
+				"workbench",
+				"craftingtable"
 			}
 		);
 	}
@@ -40,6 +40,8 @@ public class Command_Workbench extends pxnCommandRoot {
 		final int num_args = args.length;
 		// other players
 		if (num_args > 0) {
+			if (!sender.hasPermission("pxn.cmd.workbench.other"))
+				return false;
 			int count = 0;
 			ARG_LOOP:
 			for (final String arg : args) {
@@ -53,7 +55,8 @@ public class Command_Workbench extends pxnCommandRoot {
 			}
 			if (count > 0) {
 				sender.sendMessage(String.format(
-					"Opened Workbench for %d player%s",
+					"%sOpened Workbench for %d player%s",
+					ChatColor.AQUA,
 					Integer.valueOf(count),
 					(count == 1 ? "" : "s")
 				));
@@ -61,6 +64,8 @@ public class Command_Workbench extends pxnCommandRoot {
 			}
 		// single player
 		} else {
+			if (!sender.hasPermission("pxn.cmd.workbench"))
+				return false;
 			OpenWorkbench(player);
 			return true;
 		}

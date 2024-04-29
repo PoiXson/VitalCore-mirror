@@ -39,6 +39,8 @@ public class Command_Feed extends pxnCommandRoot {
 		final int num_args = args.length;
 		// other players
 		if (num_args > 0) {
+			if (!sender.hasPermission("pxn.cmd.feed.other"))
+				return false;
 			int count = 0;
 			ARG_LOOP:
 			for (final String arg : args) {
@@ -53,7 +55,8 @@ public class Command_Feed extends pxnCommandRoot {
 			}
 			if (count > 0) {
 				sender.sendMessage(String.format(
-					"Fed %d player%s",
+					"%sFed %d player%s",
+					ChatColor.AQUA,
 					Integer.valueOf(count),
 					(count == 1 ? "" : "s")
 				));
@@ -61,6 +64,8 @@ public class Command_Feed extends pxnCommandRoot {
 			}
 		// single player
 		} else {
+			if (!sender.hasPermission("pxn.cmd.feed"))
+				return false;
 			FeedPlayer(player);
 			sender.sendMessage(ChatColor.GOLD+"You are fed");
 			return true;

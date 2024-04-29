@@ -39,6 +39,8 @@ public class Command_Enderchest extends pxnCommandRoot {
 		final int num_args = args.length;
 		// other players
 		if (num_args > 0) {
+			if (!sender.hasPermission("pxn.cmd.enderchest.other"))
+				return false;
 			int count = 0;
 			ARG_LOOP:
 			for (final String arg : args) {
@@ -52,7 +54,8 @@ public class Command_Enderchest extends pxnCommandRoot {
 			}
 			if (count > 0) {
 				sender.sendMessage(String.format(
-					"Opened Enderchest for %d player%s",
+					"%sOpened Enderchest for %d player%s",
+					ChatColor.AQUA,
 					Integer.valueOf(count),
 					(count == 1 ? "" : "s")
 				));
@@ -60,6 +63,8 @@ public class Command_Enderchest extends pxnCommandRoot {
 			}
 		// single player
 		} else {
+			if (!sender.hasPermission("pxn.cmd.enderchest"))
+				return false;
 			OpenEnderchest(player);
 			return true;
 		}

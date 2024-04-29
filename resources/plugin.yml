@@ -29,7 +29,9 @@ permissions:
             pxn.cmd.me:            true
             pxn.cmd.gm.*:          true
             pxn.cmd.feed:          true
+            pxn.cmd.feed.other:    true
             pxn.cmd.heal:          true
+            pxn.cmd.heal.other:    true
             pxn.cmd.speed.*:       true
             pxn.cmd.workbench:     true
             pxn.cmd.enderchest:    true
@@ -143,9 +145,15 @@ permissions:
     pxn.cmd.feed:
         default: op
         description: Allow the /feed command.
+    pxn.cmd.feed.other:
+        default: op
+        description: Allow the /feed <player> command.
     pxn.cmd.heal:
         default: op
         description: Allow the /heal command.
+    pxn.cmd.heal.other:
+        default: op
+        description: Allow the /heal <player> command.
 
     pxn.cmd.speed:
         default: op
