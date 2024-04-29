@@ -1,8 +1,13 @@
 package com.poixson.pluginlib.commands;
 
+import static com.poixson.utils.BukkitUtils.FeedPlayer;
+
 import java.util.List;
 
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 import com.poixson.pluginlib.pxnPluginLib;
 import com.poixson.tools.commands.pxnCommandRoot;
@@ -27,8 +32,37 @@ public class Command_Feed extends pxnCommandRoot {
 
 	@Override
 	public boolean onCommand(final CommandSender sender, final String[] args) {
-System.out.println("COMMAND:"); for (final String arg : args) System.out.println("  "+arg);
-return false;
+		final Player player = (sender instanceof Player ? (Player)sender : null);
+		final int num_args = args.length;
+		// other players
+		if (num_args > 0) {
+			int count = 0;
+			ARG_LOOP:
+			for (final String arg : args) {
+				final Player p = Bukkit.getPlayer(arg);
+				if (p == null) {
+					sender.sendMessage(String.format("%sPlayer not found: %s", ChatColor.GOLD, arg));
+					continue ARG_LOOP;
+				}
+				FeedPlayer(p);
+				p.sendMessage(ChatColor.GOLD+"You are fed");
+				count++;
+			}
+			if (count > 0) {
+				sender.sendMessage(String.format(
+					"Fed %d player%s",
+					Integer.valueOf(count),
+					(count == 1 ? "" : "s")
+				));
+				return true;
+			}
+		// single player
+		} else {
+			FeedPlayer(player);
+			sender.sendMessage(ChatColor.GOLD+"You are fed");
+			return true;
+		}
+		return false;
 	}
 
 

@@ -22,6 +22,9 @@ import org.bukkit.World;
 import org.bukkit.command.CommandMap;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.entity.Player;
+import org.bukkit.event.entity.EntityRegainHealthEvent;
+import org.bukkit.event.entity.EntityRegainHealthEvent.RegainReason;
+import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.MapMeta;
 import org.bukkit.map.MapPalette;
@@ -298,6 +301,47 @@ public final class BukkitUtils {
 		} catch (IllegalArgumentException  e) { throw new RuntimeException(e);
 		} catch (InvocationTargetException e) { throw new RuntimeException(e); }
 		return null;
+	}
+
+
+
+	// -------------------------------------------------------------------------------
+
+
+
+	public static void HealPlayer(final Player player) {
+		if (player.getHealth() == 0) return;
+		@SuppressWarnings("deprecation")
+		final double max_health = player.getMaxHealth();
+		final double amount = max_health - player.getHealth();
+		final EntityRegainHealthEvent event = new EntityRegainHealthEvent(player, amount, RegainReason.CUSTOM);
+		final PluginManager pm = Bukkit.getPluginManager();
+		pm.callEvent(event);
+		if (!event.isCancelled()) {
+			double amount_new = player.getHealth() + event.getAmount();
+			if (amount_new > max_health)
+				amount_new = max_health;
+			player.setHealth(amount_new);
+			if (player.getFoodLevel() < 20)
+				player.setFoodLevel(20);
+			player.setFireTicks(0);
+			for (final PotionEffect effect : player.getActivePotionEffects())
+				player.removePotionEffect(effect.getType());
+		}
+	}
+
+
+
+	public static void FeedPlayer(final Player player) {
+		final int amount = 30;
+		final FoodLevelChangeEvent event = new FoodLevelChangeEvent(player, amount);
+		final PluginManager pm = Bukkit.getPluginManager();
+		pm.callEvent(event);
+		if (!event.isCancelled()) {
+			player.setFoodLevel(Math.min(event.getFoodLevel(), 20));
+			player.setSaturation(10f);
+			player.setExhaustion( 0f);
+		}
 	}
 
 
