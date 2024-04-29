@@ -37,7 +37,7 @@ public class Commands implements Closeable {
 //	protected final Command_Speed           cmd_speed;           // /speed
 //	protected final Command_Speed_Walk      cmd_speed_walk;      // /walkspeed
 //	protected final Command_Speed_Fly       cmd_speed_fly        // /flyspeed
-//	protected final Command_Workbench       cmd_workbench;       // /workbench
+	protected final Command_Workbench       cmd_workbench;       // /workbench
 	protected final Command_Enderchest      cmd_enderchest;      // /enderchest
 //	protected final Command_PowerTool       cmd_powertool;       // /powertool
 //	protected final Command_Backup          cmd_backup;          // /backup
@@ -56,7 +56,7 @@ public class Commands implements Closeable {
 //		if (cfg.getBoolean("gm"        )) this.cmd_gm         = new Command_GM        (plugin); else this.cmd_gm         = null; // /gm
 		if (cfg.getBoolean("feed"      )) this.cmd_feed       = new Command_Feed      (plugin); else this.cmd_feed       = null; // /feed
 		if (cfg.getBoolean("heal"      )) this.cmd_heal       = new Command_Heal      (plugin); else this.cmd_heal       = null; // /heal
-//		if (cfg.getBoolean("workbench" )) this.cmd_workbench  = new Command_Workbench (plugin); else this.cmd_workbench  = null; // /workbench
+		if (cfg.getBoolean("workbench" )) this.cmd_workbench  = new Command_Workbench (plugin); else this.cmd_workbench  = null; // /workbench
 		if (cfg.getBoolean("enderchest")) this.cmd_enderchest = new Command_Enderchest(plugin); else this.cmd_enderchest = null; // /enderchest
 //		if (cfg.getBoolean("powertool" )) this.cmd_powertool  = new Command_PowerTool (plugin); else this.cmd_powertool  = null; // /powertool
 //		if (cfg.getBoolean("backup"    )) this.cmd_backup     = new Command_Backup    (plugin); else this.cmd_backup     = null; // /backup
@@ -150,7 +150,7 @@ public class Commands implements Closeable {
 //		if (this.cmd_speed           != null) this.cmd_speed          .close();
 //		if (this.cmd_speed_walk      != null) this.cmd_speed_walk     .close();
 //		if (this.cmd_speed_fly       != null) this.cmd_speed_fly      .close();
-//		if (this.cmd_workbench       != null) this.cmd_workbench      .close();
+		if (this.cmd_workbench       != null) this.cmd_workbench      .close();
 		if (this.cmd_enderchest      != null) this.cmd_enderchest     .close();
 //		if (this.cmd_powertool       != null) this.cmd_powertool      .close();
 //		if (this.cmd_backup          != null) this.cmd_backup         .close();
@@ -173,7 +173,7 @@ public class Commands implements Closeable {
 		config.addDefault("Commands.feed",       Boolean.FALSE);
 		config.addDefault("Commands.heal",       Boolean.FALSE);
 //		config.addDefault("Commands.speed",      Boolean.FALSE);
-//		config.addDefault("Commands.workbench",  Boolean.FALSE);
+		config.addDefault("Commands.workbench",  Boolean.FALSE);
 		config.addDefault("Commands.enderchest", Boolean.FALSE);
 //		config.addDefault("Commands.powertool",  Boolean.FALSE);
 //		config.addDefault("Commands.backup",     Boolean.FALSE);
