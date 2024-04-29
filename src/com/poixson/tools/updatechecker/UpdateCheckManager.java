@@ -148,8 +148,8 @@ public class UpdateCheckManager extends BukkitRunnable implements xStartStop, xL
 	public static boolean UnregisterPlugin(final int spigot_id) {
 		if (spigot_id <= 0) return false;
 		final UpdateCheckManager manager = Bukkit.getServicesManager().load(UpdateCheckManager.class);
-		if (manager == null) throw new RuntimeException("UpdateCheckManager is not available");
-		return manager.removePlugin(spigot_id);
+		if (manager == null) return false;
+		else                 return manager.removePlugin(spigot_id);
 	}
 	public boolean removePlugin(final int spigot_id) {
 		return (null != this.checkers.remove(Integer.valueOf(spigot_id)));
