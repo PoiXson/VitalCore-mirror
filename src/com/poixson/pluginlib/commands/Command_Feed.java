@@ -72,9 +72,8 @@ public class Command_Feed extends pxnCommandRoot {
 
 	@Override
 	public List<String> onTabComplete(final CommandSender sender, final String[] args) {
-//TODO
-System.out.println("TAB:"); for (final String arg : args) System.out.println("  "+arg);
-return null;
+		final String first = (args.length == 0 ? "" : args[0]);
+		return this.onTabComplete_Players(first);
 	}
 
 

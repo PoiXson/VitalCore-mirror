@@ -5,7 +5,9 @@ import static com.poixson.utils.Utils.IsEmpty;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 
 public class pxnCommand {
@@ -86,6 +88,23 @@ public class pxnCommand {
 				return label;
 		}
 		return null;
+	}
+
+
+
+	// -------------------------------------------------------------------------------
+	// tab completion
+
+
+
+	protected List<String> onTabComplete_Players(final String arg) {
+		final LinkedList<String> list = new LinkedList<String>();
+		for (final Player player : Bukkit.getOnlinePlayers()) {
+			final String name = player.getName();
+			if (name.startsWith(arg))
+				list.addLast(name);
+		}
+		return list;
 	}
 
 
