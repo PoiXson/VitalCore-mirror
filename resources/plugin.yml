@@ -24,7 +24,7 @@ permissions:
             pxn.cmd.broadcast:     true
             pxn.cmd.msg:           true
             pxn.cmd.me:            true
-            pxn.cmd.gm:            true
+            pxn.cmd.gm.*:          true
             pxn.cmd.feed:          true
             pxn.cmd.heal:          true
             pxn.cmd.speed.*:       true
@@ -43,6 +43,15 @@ permissions:
             pxn.cmd.tp.askhere:    true
             pxn.cmd.tp.allhere:    true
             pxn.cmd.tp.askallhere: true
+    pxn.cmd.gm.*:
+        default: op
+        description: Gives access to /gm commands.
+        children:
+            pxn.cmd.gm:      true
+            pxn.cmd.gm.c:    true
+            pxn.cmd.gm.s:    true
+            pxn.cmd.gm.a:    true
+            pxn.cmd.gm.spec: true
     pxn.cmd.speed.*:
         default: op
         description: Gives access to /walkspeed and /flyspeed commands.
@@ -101,6 +110,18 @@ permissions:
     pxn.cmd.gm:
         default: op
         description: Allow the /gm command.
+    pxn.cmd.gm.c:
+        default: op
+        description: Allow the /gmc command.
+    pxn.cmd.gm.s:
+        default: op
+        description: Allow the /gms command.
+    pxn.cmd.gm.a:
+        default: op
+        description: Allow the /gma command.
+    pxn.cmd.gm.spec:
+        default: op
+        description: Allow the /gmspec command.
     pxn.cmd.feed:
         default: op
         description: Allow the /feed command.

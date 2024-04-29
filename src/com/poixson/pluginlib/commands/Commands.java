@@ -32,6 +32,10 @@ public class Commands implements Closeable {
 //	protected final Command_Reply           cmd_reply;           // /reply
 //	protected final Command_Me              cmd_me;              // /me
 //	protected final Command_GM              cmd_gm;              // /gm
+//	protected final Command_GMC             cmd_gm_c;            // /gmc
+//	protected final Command_GMS             cmd_gm_s;            // /gms
+//	protected final Command_GMA             cmd_gm_a;            // /gma
+//	protected final Command_GMSpec          cmd_gm_spec;         // /gm-spec
 	protected final Command_Feed            cmd_feed;            // /feed
 	protected final Command_Heal            cmd_heal;            // /heal
 //	protected final Command_Speed           cmd_speed;           // /speed
@@ -53,7 +57,6 @@ public class Commands implements Closeable {
 //		if (cfg.getBoolean("motd"      )) this.cmd_motd       = new Command_MOTD      (plugin); else this.cmd_motd       = null; // /motd
 //		if (cfg.getBoolean("broadcast" )) this.cmd_broadcast  = new Command_Broadcast (plugin); else this.cmd_broadcast  = null; // /broadcast
 //		if (cfg.getBoolean("me"        )) this.cmd_me         = new Command_Me        (plugin); else this.cmd_me         = null; // /me
-//		if (cfg.getBoolean("gm"        )) this.cmd_gm         = new Command_GM        (plugin); else this.cmd_gm         = null; // /gm
 		if (cfg.getBoolean("feed"      )) this.cmd_feed       = new Command_Feed      (plugin); else this.cmd_feed       = null; // /feed
 		if (cfg.getBoolean("heal"      )) this.cmd_heal       = new Command_Heal      (plugin); else this.cmd_heal       = null; // /heal
 		if (cfg.getBoolean("workbench" )) this.cmd_workbench  = new Command_Workbench (plugin); else this.cmd_workbench  = null; // /workbench
@@ -108,6 +111,20 @@ public class Commands implements Closeable {
 //			this.cmd_msg   = null; // /msg
 //			this.cmd_reply = null; // /reply
 //		}
+//		// /gm
+//		if (cfg.getBoolean("gm")) {
+//			this.cmd_gm      = new Command_GM    (plugin); // /gm
+//			this.cmd_gm_c    = new Command_GMC   (plugin); // /gmc
+//			this.cmd_gm_s    = new Command_GMS   (plugin); // /gms
+//			this.cmd_gm_a    = new Command_GMA   (plugin); // /gma
+//			this.cmd_gm_spec = new Command_GMSpec(plugin); // /gm-spec
+//		} else {
+//			this.cmd_gm      = null; // /gm
+//			this.cmd_gm_c    = null; // /gmc
+//			this.cmd_gm_s    = null; // /gms
+//			this.cmd_gm_a    = null; // /gma
+//			this.cmd_gm_spec = null; // /gm-spec
+//		}
 //		if (cfg.getBoolean("speed")) {
 //			this.cmd_speed      = new Command_Speed     (plugin); // /speed
 //			this.cmd_speed_walk = new Command_Speed_Walk(plugin); // /walkspeed
@@ -145,6 +162,10 @@ public class Commands implements Closeable {
 //		if (this.cmd_reply           != null) this.cmd_reply          .close();
 //		if (this.cmd_me              != null) this.cmd_me             .close();
 //		if (this.cmd_gm              != null) this.cmd_gm             .close();
+//		if (this.cmd_gm_c            != null) this.cmd_gm_c           .close();
+//		if (this.cmd_gm_s            != null) this.cmd_gm_s           .close();
+//		if (this.cmd_gm_a            != null) this.cmd_gm_a           .close();
+//		if (this.cmd_gm_spec         != null) this.cmd_gm_spec        .close();
 		if (this.cmd_feed            != null) this.cmd_feed           .close();
 		if (this.cmd_heal            != null) this.cmd_heal           .close();
 //		if (this.cmd_speed           != null) this.cmd_speed          .close();

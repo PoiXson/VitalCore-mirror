@@ -8,20 +8,21 @@ import com.poixson.pluginlib.pxnPluginLib;
 import com.poixson.tools.commands.pxnCommandRoot;
 
 
-// /gm
-public class Command_GM extends pxnCommandRoot {
+// /gms
+public class Command_GMS extends pxnCommandRoot {
 
 
 
-	public Command_GM(final pxnPluginLib plugin) {
+	public Command_GMS(final pxnPluginLib plugin) {
 		super(
 			plugin,
 			"pxn", // namespace
-			"Change game mode.", // desc
+			"Change game mode to Survival.", // desc
 			null, // usage
-			"pxn.cmd.gm", // perm
+			"pxn.cmd.gm.s", // perm
 			new String[] { // labels
-				"gm", "gamemode", "game-mode"
+				"gms", "gm-s",
+				"gmsurvival", "gm-survival"
 			}
 		);
 	}
@@ -42,6 +43,15 @@ return false;
 System.out.println("TAB:"); for (final String arg : args) System.out.println("  "+arg);
 return null;
 	}
+
+
+
+
+
+
+
+
+
 
 
 
