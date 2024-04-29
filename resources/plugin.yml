@@ -74,6 +74,7 @@ permissions:
     pxn.cmd.home:
         default: true
         description: Allow the /home command.
+
     pxn.cmd.tp:
         default: op
         description: Allow the /tp command.
@@ -95,6 +96,7 @@ permissions:
     pxn.cmd.tp.offline:
         default: op
         description: Allow the /tp-offline command.
+
     pxn.cmd.back:
         default: op
         description: Allow the /back command.
@@ -104,9 +106,11 @@ permissions:
     pxn.cmd.bottom:
         default: op
         description: Allow the /bottom command.
+
     pxn.cmd.jump:
         default: op
         description: Allow the /jump command.
+
     pxn.cmd.motd:
         default: true
         description: Allow the /motd command.
@@ -119,6 +123,7 @@ permissions:
     pxn.cmd.me:
         default: true
         description: Allow the /me command.
+
     pxn.cmd.gm:
         default: op
         description: Allow the /gm command.
@@ -134,12 +139,14 @@ permissions:
     pxn.cmd.gm.spec:
         default: op
         description: Allow the /gmspec command.
+
     pxn.cmd.feed:
         default: op
         description: Allow the /feed command.
     pxn.cmd.heal:
         default: op
         description: Allow the /heal command.
+
     pxn.cmd.speed:
         default: op
         description: Allow the /speed command.
@@ -149,12 +156,14 @@ permissions:
     pxn.cmd.speed.fly:
         default: op
         description: Allow the /flyspeed command.
+
     pxn.cmd.workbench:
         default: op
         description: Allow the /workbench command.
     pxn.cmd.enderchest:
         default: op
         description: Allow the /enderchest command.
+
     pxn.cmd.powertool:
         default: op
         description: Allow the /powertool command.
