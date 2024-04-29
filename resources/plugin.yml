@@ -19,6 +19,9 @@ permissions:
             pxn.cmd.list:          true
             pxn.cmd.home:          true
             pxn.cmd.tp.*:          true
+            pxn.cmd.back:          true
+            pxn.cmd.top:           true
+            pxn.cmd.bottom:        true
             pxn.cmd.jump:          true
             pxn.cmd.motd:          true
             pxn.cmd.broadcast:     true
@@ -92,6 +95,15 @@ permissions:
     pxn.cmd.tp.offline:
         default: op
         description: Allow the /tp-offline command.
+    pxn.cmd.back:
+        default: op
+        description: Allow the /back command.
+    pxn.cmd.top:
+        default: op
+        description: Allow the /top command.
+    pxn.cmd.bottom:
+        default: op
+        description: Allow the /bottom command.
     pxn.cmd.jump:
         default: op
         description: Allow the /jump command.

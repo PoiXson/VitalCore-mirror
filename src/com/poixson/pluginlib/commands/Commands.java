@@ -23,6 +23,9 @@ public class Commands implements Closeable {
 //	protected final Command_TP_All_Here     cmd_tp_all_here;     // /tp-all-here
 //	protected final Command_TP_Ask_All_Here cmd_tp_ask_all_here; // /tp-ask-all-here
 //	protected final Command_TP_Offline      cmd_tp_offline;      // /tp-offline
+//	protected final Command_Back            cmd_back;            // /back
+//	protected final Command_Top             cmd_top;             // /top
+//	protected final Command_Bottom          cmd_bottom;          // /bottom
 //	protected final Command_Jump            cmd_jump;            // /jump
 //	protected final Command_Jump_Into       cmd_jump_into;       // /jump-into
 //	protected final Command_Jump_Down       cmd_jump_down;       // /jump-down
@@ -54,6 +57,9 @@ public class Commands implements Closeable {
 		final ConfigurationSection cfg = config.getConfigurationSection("Commands");
 //		if (cfg.getBoolean("help"      )) this.cmd_help       = new Command_Help      (plugin); else this.cmd_help       = null; // /help
 //		if (cfg.getBoolean("list"      )) this.cmd_list       = new Command_List      (plugin); else this.cmd_list       = null; // /list
+//		if (cfg.getBoolean("back"      )) this.cmd_back       = new Command_Back      (plugin); else this.cmd_back       = null; // /back
+//		if (cfg.getBoolean("top"       )) this.cmd_top        = new Command_Top       (plugin); else this.cmd_top        = null; // /top
+//		if (cfg.getBoolean("bottom"    )) this.cmd_bottom     = new Command_Bottom    (plugin); else this.cmd_bottom     = null; // /bottom
 //		if (cfg.getBoolean("motd"      )) this.cmd_motd       = new Command_MOTD      (plugin); else this.cmd_motd       = null; // /motd
 //		if (cfg.getBoolean("broadcast" )) this.cmd_broadcast  = new Command_Broadcast (plugin); else this.cmd_broadcast  = null; // /broadcast
 //		if (cfg.getBoolean("me"        )) this.cmd_me         = new Command_Me        (plugin); else this.cmd_me         = null; // /me
@@ -142,6 +148,9 @@ public class Commands implements Closeable {
 	public void close() {
 //		if (this.cmd_help            != null) this.cmd_help           .close();
 //		if (this.cmd_list            != null) this.cmd_list           .close();
+//		if (this.cmd_back            != null) this.cmd_back           .close();
+//		if (this.cmd_top             != null) this.cmd_top            .close();
+//		if (this.cmd_bottom          != null) this.cmd_bottom         .close();
 //		if (this.cmd_home            != null) this.cmd_home           .close();
 //		if (this.cmd_home_list       != null) this.cmd_home_list      .close();
 //		if (this.cmd_home_set        != null) this.cmd_home_set       .close();
@@ -183,6 +192,9 @@ public class Commands implements Closeable {
 	public static void ConfigDefaults(final FileConfiguration config) {
 //		config.addDefault("Commands.help",       Boolean.FALSE);
 //		config.addDefault("Commands.list",       Boolean.FALSE);
+//		config.addDefault("Commands.back",       Boolean.FALSE);
+//		config.addDefault("Commands.top",        Boolean.FALSE);
+//		config.addDefault("Commands.bottom",     Boolean.FALSE);
 //		config.addDefault("Commands.home",       Boolean.FALSE);
 //		config.addDefault("Commands.tp",         Boolean.FALSE);
 //		config.addDefault("Commands.jump",       Boolean.FALSE);
