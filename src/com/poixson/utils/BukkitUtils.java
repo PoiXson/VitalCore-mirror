@@ -18,6 +18,7 @@ import java.util.UUID;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
+import org.bukkit.Statistic;
 import org.bukkit.World;
 import org.bukkit.command.CommandMap;
 import org.bukkit.command.PluginCommand;
@@ -361,6 +362,12 @@ public final class BukkitUtils {
 			player.setSaturation(10f);
 			player.setExhaustion( 0f);
 		}
+	}
+
+
+
+	public static void RestPlayer(final Player player) {
+		player.setStatistic(Statistic.TIME_SINCE_REST, 0);
 	}
 
 

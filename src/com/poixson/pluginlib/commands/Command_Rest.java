@@ -1,6 +1,6 @@
 package com.poixson.pluginlib.commands;
 
-import static com.poixson.utils.BukkitUtils.HealPlayer;
+import static com.poixson.utils.BukkitUtils.RestPlayer;
 
 import java.util.List;
 
@@ -13,20 +13,20 @@ import com.poixson.pluginlib.pxnPluginLib;
 import com.poixson.tools.commands.pxnCommandRoot;
 
 
-// /heal
-public class Command_Heal extends pxnCommandRoot {
+// /rest
+public class Command_Rest extends pxnCommandRoot {
 
 
 
-	public Command_Heal(final pxnPluginLib plugin) {
+	public Command_Rest(final pxnPluginLib plugin) {
 		super(
 			plugin,
 			"pxn", // namespace
-			"Restore full health.", // desc
+			"Restore full rest.", // desc
 			null, // usage
-			"pxn.cmd.heal", // perm
+			"pxn.cmd.rest", // perm
 			new String[] { // labels
-				"heal"
+				"rest"
 			}
 		);
 	}
@@ -39,7 +39,7 @@ public class Command_Heal extends pxnCommandRoot {
 		final int num_args = args.length;
 		// other players
 		if (num_args > 0) {
-			if (!sender.hasPermission("pxn.cmd.heal.other"))
+			if (!sender.hasPermission("pxn.cmd.rest.other"))
 				return false;
 			int count = 0;
 			ARG_LOOP:
@@ -49,13 +49,13 @@ public class Command_Heal extends pxnCommandRoot {
 					sender.sendMessage(String.format("%sPlayer not found: %s", ChatColor.GOLD, arg));
 					continue ARG_LOOP;
 				}
-				HealPlayer(p);
-				p.sendMessage(ChatColor.GOLD+"You are healed");
+				RestPlayer(p);
+				p.sendMessage(ChatColor.GOLD+"You are rested");
 				count++;
 			}
 			if (count > 0) {
 				sender.sendMessage(String.format(
-					"%sHealed %d player%s",
+					"%sRested %d player%s",
 					ChatColor.AQUA,
 					Integer.valueOf(count),
 					(count == 1 ? "" : "s")
@@ -64,10 +64,10 @@ public class Command_Heal extends pxnCommandRoot {
 			}
 		// single player
 		} else {
-			if (!sender.hasPermission("pxn.cmd.heal"))
+			if (!sender.hasPermission("pxn.cmd.rest"))
 				return false;
-			HealPlayer(player);
-			sender.sendMessage(ChatColor.GOLD+"You are healed");
+			RestPlayer(player);
+			sender.sendMessage(ChatColor.GOLD+"You are rested");
 			return true;
 		}
 		return false;

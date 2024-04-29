@@ -32,6 +32,8 @@ permissions:
             pxn.cmd.feed.other:    true
             pxn.cmd.heal:          true
             pxn.cmd.heal.other:    true
+            pxn.cmd.rest:          true
+            pxn.cmd.rest.other:    true
             pxn.cmd.speed.*:       true
             pxn.cmd.workbench:     true
             pxn.cmd.enderchest:    true
@@ -154,6 +156,12 @@ permissions:
     pxn.cmd.heal.other:
         default: op
         description: Allow the /heal <player> command.
+    pxn.cmd.rest:
+        default: op
+        description: Allow the /rest command.
+    pxn.cmd.rest.other:
+        default: op
+        description: Allow the /rest <player> command.
 
     pxn.cmd.speed:
         default: op
