@@ -77,8 +77,7 @@ public class Command_Heal extends pxnCommandRoot {
 
 	@Override
 	public List<String> onTabComplete(final CommandSender sender, final String[] args) {
-		final String first = (args.length == 0 ? "" : args[0]);
-		return this.onTabComplete_Players(first);
+		return this.onTabComplete_Players(args);
 	}
 
 

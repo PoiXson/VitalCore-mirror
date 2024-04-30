@@ -2,7 +2,7 @@ package com.poixson.pluginlib.commands;
 
 import static com.poixson.utils.BukkitUtils.GarbageCollect;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.bukkit.ChatColor;
@@ -57,7 +57,7 @@ public class Command_GC extends pxnCommandRoot {
 
 	@Override
 	public List<String> onTabComplete(final CommandSender sender, final String[] args) {
-		return new ArrayList<String>();
+		return Collections.emptyList();
 	}
 
 
