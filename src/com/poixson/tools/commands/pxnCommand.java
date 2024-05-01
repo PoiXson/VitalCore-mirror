@@ -106,7 +106,7 @@ public class pxnCommand {
 		}
 		return list;
 	}
-	protected List<String> OnTabComplete_Players(final String[] args) {
+	protected List<String> onTabComplete_Players(final String[] args) {
 		final String first = (args.length == 0 ? "" : args[0]);
 		return onTabComplete_Players(first);
 	}
