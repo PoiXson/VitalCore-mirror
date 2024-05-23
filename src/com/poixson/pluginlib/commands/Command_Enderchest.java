@@ -42,12 +42,12 @@ public class Command_Enderchest extends pxnCommandRoot {
 			if (!sender.hasPermission("pxn.cmd.enderchest.other"))
 				return false;
 			int count = 0;
-			ARG_LOOP:
+			LOOP_ARG:
 			for (final String arg : args) {
 				final Player p = Bukkit.getPlayer(arg);
 				if (p == null) {
 					sender.sendMessage(String.format("%sPlayer not found: %s", ChatColor.GOLD, arg));
-					continue ARG_LOOP;
+					continue LOOP_ARG;
 				}
 				OpenEnderchest(p);
 				count++;

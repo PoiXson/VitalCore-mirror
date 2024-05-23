@@ -68,7 +68,7 @@ public class PixelSource_Script extends PixelSource {
 		// import players
 		if (import_players) {
 			final Map<String, Object> players = new ConcurrentHashMap<String, Object>();
-			//PLAYERS_LOOP:
+			//LOOP_PLAYERS:
 			for (final Player player : Bukkit.getOnlinePlayers()) {
 				final int distance = LocationUtils.SquareDistance(this.location, player.getLocation());
 				if (distance < DEFAULT_RADIUS) {
@@ -86,7 +86,7 @@ public class PixelSource_Script extends PixelSource {
 						}
 					} // end ray
 				} // end distance
-			} // end PLAYERS_LOOP
+			} // end LOOP_PLAYERS
 			this.script.setVariable("players", players);
 		}
 		// export pixels
