@@ -12,7 +12,7 @@ description: ${project.description}
 permissions:
     pxn.*:
         default: op
-        description: Gives access to all pxn plugin lib commands.
+        description: Allow all pxn plugin lib commands
         children:
             pxn.updates:           true
             pxn.cmd.help:          true
@@ -44,7 +44,7 @@ permissions:
             pxn.cmd.gc:            true
     pxn.cmd.tp.*:
         default: op
-        description: Gives access to all /tp commands.
+        description: "Allow all commands: /tp <...>"
         children:
             pxn.cmd.tp:            true
             pxn.cmd.tp.here:       true
@@ -54,7 +54,7 @@ permissions:
             pxn.cmd.tp.askallhere: true
     pxn.cmd.gm.*:
         default: op
-        description: Gives access to /gm commands.
+        description: "Allow all commands: /gm <...>"
         children:
             pxn.cmd.gm:      true
             pxn.cmd.gm.c:    true
@@ -63,7 +63,7 @@ permissions:
             pxn.cmd.gm.spec: true
     pxn.cmd.speed.*:
         default: op
-        description: Gives access to /walkspeed and /flyspeed commands.
+        description: "Allow commands: /walkspeed and /flyspeed"
         children:
             pxn.cmd.speed:      true
             pxn.cmd.speed.walk: true
@@ -73,49 +73,49 @@ permissions:
         description: Receive notices of plugin updates.
     pxn.cmd.help:
         default: true
-        description: Allow the /help command.
+        description: "Allow command: /help"
     pxn.cmd.list:
         default: true
-        description: Allow the /list command.
+        description: "Allow command: /list"
     pxn.cmd.home:
         default: true
-        description: Allow the /home command.
+        description: "Allow command: /home"
 
     pxn.cmd.tp:
         default: op
-        description: Allow the /tp command.
+        description: "Allow command: /tp"
     pxn.cmd.tp.here:
         default: op
-        description: Allow the /tp-here command.
+        description: "Allow command: /tp-here"
     pxn.cmd.tp.ask:
         default: op
-        description: Allow the /tp-ask command.
+        description: "Allow command: /tp-ask"
     pxn.cmd.tp.askhere:
         default: op
-        description: Allow the /tp-ask-here command.
+        description: "Allow command: /tp-ask-here"
     pxn.cmd.tp.allhere:
         default: op
-        description: Allow the /tp-all-here command.
+        description: "Allow command: /tp-all-here"
     pxn.cmd.tp.askallhere:
         default: op
-        description: Allow the /tp-ask-all-here command.
+        description: "Allow command: /tp-ask-all-here"
     pxn.cmd.tp.offline:
         default: op
-        description: Allow the /tp-offline command.
+        description: "Allow command: /tp-offline"
 
     pxn.cmd.back:
         default: op
-        description: Allow the /back command.
+        description: "Allow command: /back"
     pxn.cmd.top:
         default: op
-        description: Allow the /top command.
+        description: "Allow command: /top"
     pxn.cmd.bottom:
         default: op
-        description: Allow the /bottom command.
+        description: "Allow command: /bottom"
 
     pxn.cmd.jump:
         default: op
-        description: Allow the /jump command.
+        description: "Allow command: /jump"
     pxn.cmd.fly:
         default: op
         description: "Allow command: /fly"
@@ -125,75 +125,75 @@ permissions:
 
     pxn.cmd.motd:
         default: true
-        description: Allow the /motd command.
+        description: "Allow command: /motd"
     pxn.cmd.broadcast:
         default: op
-        description: Allow the /broadcast command.
+        description: "Allow command: /broadcast"
     pxn.cmd.msg:
         default: true
-        description: Allow the /msg command.
+        description: "Allow command: /msg"
     pxn.cmd.me:
         default: true
-        description: Allow the /me command.
+        description: "Allow command: /me"
 
     pxn.cmd.gm:
         default: op
-        description: Allow the /gm command.
+        description: "Allow command: /gm"
     pxn.cmd.gm.c:
         default: op
-        description: Allow the /gmc command.
+        description: "Allow command: /gmc"
     pxn.cmd.gm.s:
         default: op
-        description: Allow the /gms command.
+        description: "Allow command: /gms"
     pxn.cmd.gm.a:
         default: op
-        description: Allow the /gma command.
+        description: "Allow command: /gma"
     pxn.cmd.gm.spec:
         default: op
-        description: Allow the /gmspec command.
+        description: "Allow command: /gmspec"
 
     pxn.cmd.feed:
         default: op
-        description: Allow the /feed command.
+        description: "Allow command: /feed"
     pxn.cmd.feed.other:
         default: op
-        description: Allow the /feed <player> command.
+        description: "Allow command: /feed <player>"
     pxn.cmd.heal:
         default: op
-        description: Allow the /heal command.
+        description: "Allow command: /heal"
     pxn.cmd.heal.other:
         default: op
-        description: Allow the /heal <player> command.
+        description: "Allow command: /heal <player>"
     pxn.cmd.rest:
         default: op
-        description: Allow the /rest command.
+        description: "Allow command: /rest"
     pxn.cmd.rest.other:
         default: op
-        description: Allow the /rest <player> command.
+        description: "Allow command: /rest <player>"
 
     pxn.cmd.speed:
         default: op
-        description: Allow the /speed command.
+        description: "Allow command: /speed"
     pxn.cmd.speed.walk:
         default: op
-        description: Allow the /walkspeed command.
+        description: "Allow command: /walkspeed"
     pxn.cmd.speed.fly:
         default: op
-        description: Allow the /flyspeed command.
+        description: "Allow command: /flyspeed"
 
     pxn.cmd.workbench:
         default: op
-        description: Allow the /workbench command.
+        description: "Allow command: /workbench"
     pxn.cmd.enderchest:
         default: op
-        description: Allow the /enderchest command.
+        description: "Allow command: /enderchest"
 
     pxn.cmd.powertool:
         default: op
-        description: Allow the /powertool command.
+        description: "Allow command: /powertool"
     pxn.cmd.backup:
         default: op
-        description: Allow the /backup command.
+        description: "Allow command: /backup"
     pxn.cmd.gc:
         default: op
-        description: Allow the /gc command.
+        description: "Allow command: /gc"
