@@ -372,4 +372,12 @@ public final class BukkitUtils {
 
 
 
+	public static void AllowFlyPlayer(final Player player, final boolean can_fly) {
+		player.setAllowFlight(can_fly);
+		if (can_fly) player.setFallDistance(0f);
+		else         player.setFlying(false);
+	}
+
+
+
 }

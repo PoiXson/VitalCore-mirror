@@ -23,6 +23,8 @@ permissions:
             pxn.cmd.top:           true
             pxn.cmd.bottom:        true
             pxn.cmd.jump:          true
+            pxn.cmd.fly:           true
+            pxn.cmd.fly.other:     true
             pxn.cmd.motd:          true
             pxn.cmd.broadcast:     true
             pxn.cmd.msg:           true
@@ -114,6 +116,12 @@ permissions:
     pxn.cmd.jump:
         default: op
         description: Allow the /jump command.
+    pxn.cmd.fly:
+        default: op
+        description: "Allow command: /fly"
+    pxn.cmd.fly.other:
+        default: op
+        description: "Allow command: /fly <player>"
 
     pxn.cmd.motd:
         default: true

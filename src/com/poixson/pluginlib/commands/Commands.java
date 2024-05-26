@@ -29,6 +29,7 @@ public class Commands implements Closeable {
 //	protected final Command_Jump            cmd_jump;            // /jump
 //	protected final Command_Jump_Into       cmd_jump_into;       // /jump-into
 //	protected final Command_Jump_Down       cmd_jump_down;       // /jump-down
+	protected final Command_Fly             cmd_fly;             // /fly
 //	protected final Command_MOTD            cmd_motd;            // /motd
 //	protected final Command_Broadcast       cmd_broadcast;       // /broadcast
 //	protected final Command_MSG             cmd_msg;             // /msg
@@ -61,6 +62,7 @@ public class Commands implements Closeable {
 //		if (cfg.getBoolean("back"      )) this.cmd_back       = new Command_Back      (plugin); else this.cmd_back       = null; // /back
 //		if (cfg.getBoolean("top"       )) this.cmd_top        = new Command_Top       (plugin); else this.cmd_top        = null; // /top
 //		if (cfg.getBoolean("bottom"    )) this.cmd_bottom     = new Command_Bottom    (plugin); else this.cmd_bottom     = null; // /bottom
+		if (cfg.getBoolean("fly"       )) this.cmd_fly        = new Command_Fly       (plugin); else this.cmd_fly        = null; // /fly
 //		if (cfg.getBoolean("motd"      )) this.cmd_motd       = new Command_MOTD      (plugin); else this.cmd_motd       = null; // /motd
 //		if (cfg.getBoolean("broadcast" )) this.cmd_broadcast  = new Command_Broadcast (plugin); else this.cmd_broadcast  = null; // /broadcast
 //		if (cfg.getBoolean("me"        )) this.cmd_me         = new Command_Me        (plugin); else this.cmd_me         = null; // /me
@@ -167,6 +169,7 @@ public class Commands implements Closeable {
 //		if (this.cmd_jump            != null) this.cmd_jump           .close();
 //		if (this.cmd_jump_into       != null) this.cmd_jump_into      .close();
 //		if (this.cmd_jump_down       != null) this.cmd_jump_down      .close();
+		if (this.cmd_fly             != null) this.cmd_fly            .close();
 //		if (this.cmd_motd            != null) this.cmd_motd           .close();
 //		if (this.cmd_broadcast       != null) this.cmd_broadcast      .close();
 //		if (this.cmd_msg             != null) this.cmd_msg            .close();
@@ -201,6 +204,7 @@ public class Commands implements Closeable {
 //		config.addDefault("Commands.home",       Boolean.FALSE);
 //		config.addDefault("Commands.tp",         Boolean.FALSE);
 //		config.addDefault("Commands.jump",       Boolean.FALSE);
+		config.addDefault("Commands.fly",        Boolean.FALSE);
 //		config.addDefault("Commands.motd",       Boolean.FALSE);
 //		config.addDefault("Commands.broadcast",  Boolean.FALSE);
 //		config.addDefault("Commands.msg",        Boolean.FALSE);
