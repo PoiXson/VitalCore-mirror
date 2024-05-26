@@ -108,8 +108,8 @@ public class pxnCommand {
 		return list;
 	}
 	protected List<String> onTabComplete_Players(final String[] args) {
-		final String first = (args.length == 0 ? "" : args[0]);
-		return onTabComplete_Players(first);
+		final String last = (args.length == 0 ? "" : args[args.length-1]);
+		return onTabComplete_Players(last);
 	}
 
 
