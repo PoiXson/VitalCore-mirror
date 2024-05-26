@@ -98,10 +98,11 @@ public class pxnCommand {
 
 
 	protected List<String> onTabComplete_Players(final String arg) {
+		final String lower = arg.toLowerCase();
 		final LinkedList<String> list = new LinkedList<String>();
 		for (final Player player : Bukkit.getOnlinePlayers()) {
 			final String name = player.getName();
-			if (name.startsWith(arg))
+			if (name.toLowerCase().startsWith(lower))
 				list.addLast(name);
 		}
 		return list;
