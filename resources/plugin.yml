@@ -82,8 +82,9 @@ permissions:
     pxn.cmd.list:
         default: true
         description: "Allow command: /list"
+
     pxn.cmd.home:
-        default: true
+        default: op
         description: "Allow command: /home"
     pxn.cmd.world:
         default: op
@@ -141,7 +142,7 @@ permissions:
         description: "Allow command: /fly"
     pxn.cmd.fly.other:
         default: op
-        description: "Allow command: /fly <player>"
+        description: "Allow command: /fly <player>.."
 
     pxn.cmd.motd:
         default: true
@@ -177,19 +178,19 @@ permissions:
         description: "Allow command: /feed"
     pxn.cmd.feed.other:
         default: op
-        description: "Allow command: /feed <player>"
+        description: "Allow command: /feed <player>.."
     pxn.cmd.heal:
         default: op
         description: "Allow command: /heal"
     pxn.cmd.heal.other:
         default: op
-        description: "Allow command: /heal <player>"
+        description: "Allow command: /heal <player>.."
     pxn.cmd.rest:
         default: op
         description: "Allow command: /rest"
     pxn.cmd.rest.other:
         default: op
-        description: "Allow command: /rest <player>"
+        description: "Allow command: /rest <player>.."
 
     pxn.cmd.speed:
         default: op

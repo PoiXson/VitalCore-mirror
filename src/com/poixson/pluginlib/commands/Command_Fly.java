@@ -22,7 +22,7 @@ public class Command_Fly extends pxnCommandRoot {
 		super(
 			plugin,
 			"pxn", // namespace
-			null, // desc
+			"Toggle allow flying.", // desc
 			null, // usage
 			"pxn.cmd.fly", // perm
 			new String[] { // labels
