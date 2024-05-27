@@ -22,8 +22,7 @@ public class PluginSaveManager implements xListener {
 		final World world = event.getWorld();
 		if ("world".equals(world.getName())) {
 			final PluginManager pm = Bukkit.getPluginManager();
-			final PluginSaveEvent eventSave = new PluginSaveEvent();
-			pm.callEvent(eventSave);
+			pm.callEvent(new PluginSaveEvent());
 		}
 	}
 

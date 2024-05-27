@@ -40,14 +40,13 @@ public class pxnCommand {
 
 
 	public List<String> onTabComplete(final CommandSender sender, final String[] args) {
-		if (IsEmpty(args)) return null;
+		if (IsEmpty(args))          return null;
 		if (IsEmpty(this.children)) return null;
 		final LinkedList<String> found = new LinkedList<String>();
-		final LinkedList<String> list = new LinkedList<String>();
+		final LinkedList<String> list  = new LinkedList<String>();
 		for (final String arg : args)
 			list.addLast(arg);
 		final String first = list.removeFirst();
-
 		if (list.isEmpty()) {
 			for (final pxnCommand command : this.children) {
 				final String match = command.matchPart(first);

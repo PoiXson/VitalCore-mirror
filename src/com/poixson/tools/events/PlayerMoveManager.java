@@ -41,25 +41,25 @@ public class PlayerMoveManager implements xListener {
 			pm.callEvent(eventNormal);
 			// void event
 			if (to.getBlockY() < WORLD_MIN_Y) {
-				final OutsideOfWorldEvent eventOutside =
+				pm.callEvent(
 					new OutsideOfWorldEvent(
 						player,
 						from, to,
 						OutsideOfWorld.VOID,
 						WORLD_MIN_Y - to.getBlockY()
-					);
-				pm.callEvent(eventOutside);
+					)
+				);
 			} else
 			// sky event
 			if (to.getBlockY() > WORLD_MAX_Y) {
-				final OutsideOfWorldEvent eventOutside =
+				pm.callEvent(
 					new OutsideOfWorldEvent(
 						player,
 						from, to,
 						OutsideOfWorld.SKY,
 						to.getBlockY() - WORLD_MAX_Y
-					);
-				pm.callEvent(eventOutside);
+					)
+				);
 			}
 		}
 	}
