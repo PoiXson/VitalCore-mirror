@@ -66,6 +66,10 @@ public class Command_Heal extends pxnCommandRoot {
 		} else {
 			if (!sender.hasPermission("pxn.cmd.heal"))
 				return false;
+			if (player == null) {
+				sender.sendMessage("Cannot heal console");
+				return true;
+			}
 			HealPlayer(player);
 			sender.sendMessage(ChatColor.GOLD+"You are healed");
 			return true;

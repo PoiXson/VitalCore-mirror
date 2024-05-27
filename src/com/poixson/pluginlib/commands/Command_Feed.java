@@ -66,6 +66,10 @@ public class Command_Feed extends pxnCommandRoot {
 		} else {
 			if (!sender.hasPermission("pxn.cmd.feed"))
 				return false;
+			if (player == null) {
+				sender.sendMessage("Cannot feed console");
+				return true;
+			}
 			FeedPlayer(player);
 			sender.sendMessage(ChatColor.GOLD+"You are fed");
 			return true;

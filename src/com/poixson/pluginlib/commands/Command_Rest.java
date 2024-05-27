@@ -66,6 +66,10 @@ public class Command_Rest extends pxnCommandRoot {
 		} else {
 			if (!sender.hasPermission("pxn.cmd.rest"))
 				return false;
+			if (player == null) {
+				sender.sendMessage("Cannot rest console");
+				return true;
+			}
 			RestPlayer(player);
 			sender.sendMessage(ChatColor.GOLD+"You are rested");
 			return true;
