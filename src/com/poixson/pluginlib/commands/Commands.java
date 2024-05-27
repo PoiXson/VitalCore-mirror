@@ -16,6 +16,9 @@ public class Commands implements Closeable {
 //	protected final Command_Home_List       cmd_home_list;       // /list-homes
 //	protected final Command_Home_Set        cmd_home_set;        // /set-home
 //	protected final Command_Home_Del        cmd_home_del;        // /del-home
+	protected final Command_World           cmd_world;           // /world
+	protected final Command_Spawn           cmd_spawn;           // /spawn
+	protected final Command_SetSpawn        cmd_setspawn;        // /setspawn
 //	protected final Command_TP              cmd_tp;              // /tp
 //	protected final Command_TP_Here         cmd_tp_here;         // /tp-here
 //	protected final Command_TP_Ask          cmd_tp_ask;          // /tp-ask
@@ -59,6 +62,9 @@ public class Commands implements Closeable {
 		final ConfigurationSection cfg = config.getConfigurationSection("Commands");
 //		if (cfg.getBoolean("help"      )) this.cmd_help       = new Command_Help      (plugin); else this.cmd_help       = null; // /help
 //		if (cfg.getBoolean("list"      )) this.cmd_list       = new Command_List      (plugin); else this.cmd_list       = null; // /list
+		if (cfg.getBoolean("world"     )) this.cmd_world      = new Command_World     (plugin); else this.cmd_world      = null; // /world
+		if (cfg.getBoolean("spawn"     )) this.cmd_spawn      = new Command_Spawn     (plugin); else this.cmd_spawn      = null; // /spawn
+		if (cfg.getBoolean("setspawn"  )) this.cmd_setspawn   = new Command_SetSpawn  (plugin); else this.cmd_setspawn   = null; // /setspawn
 //		if (cfg.getBoolean("back"      )) this.cmd_back       = new Command_Back      (plugin); else this.cmd_back       = null; // /back
 //		if (cfg.getBoolean("top"       )) this.cmd_top        = new Command_Top       (plugin); else this.cmd_top        = null; // /top
 //		if (cfg.getBoolean("bottom"    )) this.cmd_bottom     = new Command_Bottom    (plugin); else this.cmd_bottom     = null; // /bottom
@@ -159,6 +165,9 @@ public class Commands implements Closeable {
 //		if (this.cmd_home_list       != null) this.cmd_home_list      .close();
 //		if (this.cmd_home_set        != null) this.cmd_home_set       .close();
 //		if (this.cmd_home_del        != null) this.cmd_home_del       .close();
+		if (this.cmd_world           != null) this.cmd_world          .close();
+		if (this.cmd_spawn           != null) this.cmd_spawn          .close();
+		if (this.cmd_setspawn        != null) this.cmd_setspawn       .close();
 //		if (this.cmd_tp              != null) this.cmd_tp             .close();
 //		if (this.cmd_tp_here         != null) this.cmd_tp_here        .close();
 //		if (this.cmd_tp_ask          != null) this.cmd_tp_ask         .close();
@@ -202,6 +211,9 @@ public class Commands implements Closeable {
 //		config.addDefault("Commands.top",        Boolean.FALSE);
 //		config.addDefault("Commands.bottom",     Boolean.FALSE);
 //		config.addDefault("Commands.home",       Boolean.FALSE);
+		config.addDefault("Commands.world",      Boolean.FALSE);
+		config.addDefault("Commands.spawn",      Boolean.FALSE);
+		config.addDefault("Commands.setspawn",   Boolean.FALSE);
 //		config.addDefault("Commands.tp",         Boolean.FALSE);
 //		config.addDefault("Commands.jump",       Boolean.FALSE);
 		config.addDefault("Commands.fly",        Boolean.FALSE);

@@ -18,6 +18,11 @@ permissions:
             pxn.cmd.help:          true
             pxn.cmd.list:          true
             pxn.cmd.home:          true
+            pxn.cmd.world:         true
+            pxn.cmd.world.other:   true
+            pxn.cmd.spawn:         true
+            pxn.cmd.spawn.other:   true
+            pxn.cmd.setspawn:      true
             pxn.cmd.tp.*:          true
             pxn.cmd.back:          true
             pxn.cmd.top:           true
@@ -80,6 +85,21 @@ permissions:
     pxn.cmd.home:
         default: true
         description: "Allow command: /home"
+    pxn.cmd.world:
+        default: op
+        description: "Allow command: /world <world>"
+    pxn.cmd.world.other:
+        default: op
+        description: "Allow command: /world <world> <player>.."
+    pxn.cmd.spawn:
+        default: op
+        description: "Allow command: /spawn"
+    pxn.cmd.spawn.other:
+        default: op
+        description: "Allow command: /spawn <player>.."
+    pxn.cmd.setspawn:
+        default: op
+        description: "Allow command: /setspawn"
 
     pxn.cmd.tp:
         default: op
