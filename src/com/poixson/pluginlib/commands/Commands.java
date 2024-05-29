@@ -54,6 +54,7 @@ public class Commands implements Closeable {
 //	protected final Command_PowerTool       cmd_powertool;       // /powertool
 //	protected final Command_Backup          cmd_backup;          // /backup
 	protected final Command_GC              cmd_gc;              // /gc
+	protected final Command_Uptime          cmd_uptime;          // /uptime
 
 
 
@@ -80,6 +81,7 @@ public class Commands implements Closeable {
 //		if (cfg.getBoolean("powertool" )) this.cmd_powertool  = new Command_PowerTool (plugin); else this.cmd_powertool  = null; // /powertool
 //		if (cfg.getBoolean("backup"    )) this.cmd_backup     = new Command_Backup    (plugin); else this.cmd_backup     = null; // /backup
 		if (cfg.getBoolean("gc"        )) this.cmd_gc         = new Command_GC        (plugin); else this.cmd_gc         = null; // /gc
+		if (cfg.getBoolean("uptime"    )) this.cmd_uptime     = new Command_Uptime    (plugin); else this.cmd_uptime    = null; // /uptime
 //		if (cfg.getBoolean("home")) {
 //			this.cmd_home      = new Command_Home     (plugin); // /home
 //			this.cmd_home_list = new Command_Home_List(plugin); // /list-homes
@@ -200,6 +202,7 @@ public class Commands implements Closeable {
 //		if (this.cmd_powertool       != null) this.cmd_powertool      .close();
 //		if (this.cmd_backup          != null) this.cmd_backup         .close();
 		if (this.cmd_gc              != null) this.cmd_gc             .close();
+		if (this.cmd_uptime          != null) this.cmd_uptime         .close();
 	}
 
 
@@ -231,6 +234,7 @@ public class Commands implements Closeable {
 //		config.addDefault("Commands.powertool",  Boolean.FALSE);
 //		config.addDefault("Commands.backup",     Boolean.FALSE);
 		config.addDefault("Commands.gc",         Boolean.FALSE);
+		config.addDefault("Commands.uptime",     Boolean.FALSE);
 	}
 
 

@@ -47,6 +47,7 @@ permissions:
             pxn.cmd.powertool:     true
             pxn.cmd.backup:        true
             pxn.cmd.gc:            true
+            pxn.cmd.uptime:        true
     pxn.cmd.tp.*:
         default: op
         description: "Allow all commands: /tp <...>"
@@ -218,3 +219,6 @@ permissions:
     pxn.cmd.gc:
         default: op
         description: "Allow command: /gc"
+    pxn.cmd.uptime:
+        default: op
+        description: "Allow command: /uptime"

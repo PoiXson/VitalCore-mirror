@@ -1,5 +1,7 @@
 package com.poixson.pluginlib;
 
+import static com.poixson.utils.Utils.GetMS;
+
 import java.io.IOException;
 import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.atomic.AtomicReference;
@@ -16,6 +18,7 @@ import com.poixson.pluginlib.commands.Commands;
 import com.poixson.tools.FreedMapStore;
 import com.poixson.tools.Keeper;
 import com.poixson.tools.xJavaPlugin;
+import com.poixson.tools.xTime;
 import com.poixson.tools.events.PlayerMoveManager;
 import com.poixson.tools.events.PluginSaveManager;
 import com.poixson.tools.updatechecker.UpdateCheckManager;
@@ -27,6 +30,7 @@ public class pxnPluginLib extends xJavaPlugin {
 	public static final String CHAT_PREFIX = ChatColor.AQUA+"[pxnPluginLib] "+ChatColor.WHITE;
 
 	protected final Keeper keeper;
+	protected final long time_start;
 
 	protected final CopyOnWriteArraySet<xJavaPlugin> plugins = new CopyOnWriteArraySet<xJavaPlugin>();
 
@@ -43,6 +47,7 @@ public class pxnPluginLib extends xJavaPlugin {
 	public pxnPluginLib() {
 		super(pxnPluginLib.class);
 		this.keeper = Keeper.get();
+		this.time_start = GetMS();
 	}
 
 
@@ -108,6 +113,8 @@ public class pxnPluginLib extends xJavaPlugin {
 	@Override
 	public void onDisable() {
 		super.onDisable();
+		// uptime
+		this.log().info("Uptime: "+this.getUptimeFormatted());
 		// commands
 		{
 			final Commands commands = this.commands.getAndSet(null);
@@ -236,6 +243,16 @@ public class pxnPluginLib extends xJavaPlugin {
 
 	public int getPluginsCount() {
 		return this.plugins.size();
+	}
+
+
+
+	public long getUptime() {
+		return GetMS() - this.time_start;
+	}
+	public String getUptimeFormatted() {
+		final long uptime = (long) (Math.round(((double)this.getUptime())/1000.0) * 1000.0);
+		return xTime.ToString(uptime, true, 3);
 	}
 
 
