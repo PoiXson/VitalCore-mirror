@@ -8,11 +8,11 @@ import org.bukkit.event.world.WorldSaveEvent;
 import org.bukkit.plugin.PluginManager;
 
 
-public class PluginSaveManager implements xListener {
+public class SaveManager implements xListener {
 
 
 
-	public PluginSaveManager() {
+	public SaveManager() {
 	}
 
 
@@ -22,7 +22,7 @@ public class PluginSaveManager implements xListener {
 		final World world = event.getWorld();
 		if ("world".equals(world.getName())) {
 			final PluginManager pm = Bukkit.getPluginManager();
-			pm.callEvent(new PluginSaveEvent());
+			pm.callEvent(new SaveEvent());
 		}
 	}
 

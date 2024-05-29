@@ -19,7 +19,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import com.poixson.tools.xTime;
 import com.poixson.tools.dao.Iab;
-import com.poixson.tools.events.PluginSaveEvent;
+import com.poixson.tools.events.SaveEvent;
 import com.poixson.tools.events.xListener;
 
 
@@ -103,7 +103,7 @@ public class LocationStoreManager extends BukkitRunnable implements xListener {
 
 
 	@EventHandler(priority=EventPriority.NORMAL, ignoreCancelled=true)
-	public void onPluginSave(final PluginSaveEvent event) {
+	public void onPluginSave(final SaveEvent event) {
 		LocationStoreManager.this.save();
 	}
 

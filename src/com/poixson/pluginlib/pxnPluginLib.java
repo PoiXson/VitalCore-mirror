@@ -20,7 +20,7 @@ import com.poixson.tools.Keeper;
 import com.poixson.tools.xJavaPlugin;
 import com.poixson.tools.xTime;
 import com.poixson.tools.events.PlayerMoveManager;
-import com.poixson.tools.events.PluginSaveManager;
+import com.poixson.tools.events.SaveManager;
 import com.poixson.tools.updatechecker.UpdateCheckManager;
 
 
@@ -38,7 +38,7 @@ public class pxnPluginLib extends xJavaPlugin {
 	protected final AtomicReference<UpdateCheckManager> updateChecker = new AtomicReference<UpdateCheckManager>(null);
 	protected final AtomicReference<PlayerMoveManager>  moveManager   = new AtomicReference<PlayerMoveManager>(null);
 	protected final AtomicReference<FreedMapStore>      freedMaps     = new AtomicReference<FreedMapStore>(null);
-	protected final AtomicReference<PluginSaveManager>  saveListener  = new AtomicReference<PluginSaveManager>(null);
+	protected final AtomicReference<SaveManager>        saveListener  = new AtomicReference<SaveManager>(null);
 
 	protected final AtomicReference<Commands> commands = new AtomicReference<Commands>(null);
 
@@ -87,8 +87,8 @@ public class pxnPluginLib extends xJavaPlugin {
 		}
 		// save listener
 		{
-			final PluginSaveManager listener = new PluginSaveManager();
-			final PluginSaveManager previous = this.saveListener.getAndSet(listener);
+			final SaveManager listener = new SaveManager();
+			final SaveManager previous = this.saveListener.getAndSet(listener);
 			if (previous != null)
 				previous.unregister();
 			listener.register(this);
@@ -124,7 +124,7 @@ public class pxnPluginLib extends xJavaPlugin {
 //		final ServicesManager services = Bukkit.getServicesManager();
 		// save listener
 		{
-			final PluginSaveManager listener = this.saveListener.getAndSet(null);
+			final SaveManager listener = this.saveListener.getAndSet(null);
 			if (listener != null)
 				listener.unregister();
 		}

@@ -23,7 +23,7 @@ import org.bukkit.map.MapView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.poixson.pluginlib.pxnPluginLib;
-import com.poixson.tools.events.PluginSaveEvent;
+import com.poixson.tools.events.SaveEvent;
 import com.poixson.tools.events.xListener;
 
 
@@ -102,7 +102,7 @@ public class FreedMapStore implements xListener {
 	}
 
 	@EventHandler(priority=EventPriority.NORMAL, ignoreCancelled=true)
-	public void onPluginSave(final PluginSaveEvent event) {
+	public void onPluginSave(final SaveEvent event) {
 		try {
 			this.save();
 		} catch (IOException e) {

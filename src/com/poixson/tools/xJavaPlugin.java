@@ -15,7 +15,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.poixson.tools.events.PluginSaveEvent;
+import com.poixson.tools.events.SaveEvent;
 import com.poixson.tools.events.xListener;
 import com.poixson.tools.updatechecker.UpdateCheckManager;
 
@@ -153,7 +153,7 @@ public abstract class xJavaPlugin extends JavaPlugin {
 	class LocalPluginSaveListener implements xListener {
 
 		@EventHandler(priority=EventPriority.NORMAL, ignoreCancelled=true)
-		public void onPluginSave(final PluginSaveEvent event) {
+		public void onPluginSave(final SaveEvent event) {
 			if (xJavaPlugin.this.config_changed.getAndSet(false))
 				xJavaPlugin.this.saveConfigs();
 		}
