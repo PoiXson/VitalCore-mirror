@@ -8,10 +8,19 @@ public class SaveEvent extends Event {
 
 	private static final HandlerList handlers = new HandlerList();
 
+	public final long time_since_last;
 
 
-	public SaveEvent() {
+
+	public SaveEvent(final long time_since_last) {
 		super();
+		this.time_since_last = time_since_last;
+	}
+
+
+
+	public long getTimeSinceLast() {
+		return this.time_since_last;
 	}
 
 
