@@ -278,11 +278,11 @@ public final class BukkitUtils {
 			final Constructor<PluginCommand> construct =
 				PluginCommand.class.getDeclaredConstructor(String.class, Plugin.class);
 			construct.setAccessible(true);
-			final PluginManager manager = Bukkit.getPluginManager();
-			if (manager instanceof SimplePluginManager) {
+			final PluginManager pm = Bukkit.getPluginManager();
+			if (pm instanceof SimplePluginManager) {
 				final Field field = SimplePluginManager.class.getDeclaredField("commandMap");
 				field.setAccessible(true);
-				final CommandMap map = (CommandMap) field.get(Bukkit.getPluginManager());
+				final CommandMap map = (CommandMap) field.get(pm);
 				final ArrayList<String> list = new ArrayList<String>();
 				int index = 0;
 				final String first = labels[0];
@@ -335,8 +335,8 @@ public final class BukkitUtils {
 		final double max_health = player.getMaxHealth();
 		final double amount = max_health - player.getHealth();
 		final EntityRegainHealthEvent event = new EntityRegainHealthEvent(player, amount, RegainReason.CUSTOM);
-		final PluginManager pm = Bukkit.getPluginManager();
-		pm.callEvent(event);
+		Bukkit.getPluginManager()
+			.callEvent(event);
 		if (!event.isCancelled()) {
 			double amount_new = player.getHealth() + event.getAmount();
 			if (amount_new > max_health)
@@ -355,8 +355,8 @@ public final class BukkitUtils {
 	public static void FeedPlayer(final Player player) {
 		final int amount = 30;
 		final FoodLevelChangeEvent event = new FoodLevelChangeEvent(player, amount);
-		final PluginManager pm = Bukkit.getPluginManager();
-		pm.callEvent(event);
+		Bukkit.getPluginManager()
+			.callEvent(event);
 		if (!event.isCancelled()) {
 			player.setFoodLevel(Math.min(event.getFoodLevel(), 20));
 			player.setSaturation(10f);
