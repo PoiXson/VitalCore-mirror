@@ -14,6 +14,7 @@ import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.ServicesManager;
 
 import com.poixson.pluginlib.charts.pxnPluginsChart;
+import com.poixson.pluginlib.chat.ChatManager;
 import com.poixson.pluginlib.commands.Commands;
 import com.poixson.tools.FreedMapStore;
 import com.poixson.tools.Keeper;
@@ -29,6 +30,8 @@ public class pxnPluginLib extends xJavaPlugin {
 	@Override public int getBStatsID() {       return 20434;  }
 	public static final String CHAT_PREFIX = ChatColor.AQUA+"[pxnPluginLib] "+ChatColor.WHITE;
 
+	public static final double DEFAULT_CHAT_LOCAL_DISTANCE = 120.0;
+
 	protected final Keeper keeper;
 	protected final long time_start;
 
@@ -39,6 +42,7 @@ public class pxnPluginLib extends xJavaPlugin {
 	protected final AtomicReference<PlayerMoveManager>  moveManager   = new AtomicReference<PlayerMoveManager>(null);
 	protected final AtomicReference<FreedMapStore>      freedMaps     = new AtomicReference<FreedMapStore>(null);
 	protected final AtomicReference<SaveManager>        saveListener  = new AtomicReference<SaveManager>(null);
+	protected final AtomicReference<ChatManager>        chatManager   = new AtomicReference<ChatManager>(null);
 
 	protected final AtomicReference<Commands> commands = new AtomicReference<Commands>(null);
 
@@ -100,6 +104,16 @@ public class pxnPluginLib extends xJavaPlugin {
 			if (previous != null)
 				previous.close();
 		}
+		// chat
+		if (enableLocalChat()) {
+			final String chat_format    = this.getChatFormat();
+			final double local_distance = this.getChatLocalDistance();
+			final ChatManager manager = new ChatManager(this, chat_format, local_distance);
+			final ChatManager previous = this.chatManager.getAndSet(manager);
+			if (previous != null)
+				previous.unregister();
+			manager.register();
+		}
 		// custom stats
 		{
 			final Metrics metrics = this.metrics.get();
@@ -120,6 +134,12 @@ public class pxnPluginLib extends xJavaPlugin {
 			final Commands commands = this.commands.getAndSet(null);
 			if (commands != null)
 				commands.close();
+		}
+		// chat
+		{
+			final ChatManager manager = this.chatManager.getAndSet(null);
+			if (manager != null)
+				manager.unregister();
 		}
 //		final ServicesManager services = Bukkit.getServicesManager();
 		// save listener
@@ -181,6 +201,21 @@ public class pxnPluginLib extends xJavaPlugin {
 		super.configDefaults(config);
 		Commands.ConfigDefaults(config);
 		config.addDefault("Check for Updates", Boolean.TRUE);
+		config.addDefault("Chat.Enable Local Chat", Boolean.FALSE);
+		config.addDefault("Chat.Format", "<LOCAL><DARK_AQUA>[L]</LOCAL><RADIO><GOLD>[R]</RADIO><DARK_GREEN><<PLAYER>><WHITE> ");
+		config.addDefault("Chat.Local Distance", Double.valueOf(DEFAULT_CHAT_LOCAL_DISTANCE));
+	}
+
+
+
+	public boolean enableLocalChat() {
+		return this.getConfig().getBoolean("Chat.Enable Local Chat");
+	}
+	public String getChatFormat() {
+		return this.getConfig().getString("Chat.Format");
+	}
+	public double getChatLocalDistance() {
+		return this.getConfig().getDouble("Chat.Local Distance");
 	}
 
 
