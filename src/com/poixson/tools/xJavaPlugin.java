@@ -50,7 +50,6 @@ public abstract class xJavaPlugin extends JavaPlugin {
 		super.onEnable();
 		// load configs
 		this.loadConfigs();
-		this.saveConfigs();
 		// bStats
 		{
 			final int id = this.getBStatsID();
@@ -109,6 +108,7 @@ public abstract class xJavaPlugin extends JavaPlugin {
 		this.mkPluginDir();
 	}
 	protected void saveConfigs() {
+		super.saveConfig();
 		this.config_changed.set(false);
 	}
 	protected void configDefaults(final FileConfiguration cfg) {
