@@ -14,9 +14,9 @@ import org.bukkit.scheduler.BukkitRunnable;
 import com.poixson.utils.BukkitUtils;
 
 
-public class ChatMessage extends BukkitRunnable {
+public class LocalChatMessage extends BukkitRunnable {
 
-	protected final ChatManager manager;
+	protected final LocalChatManager manager;
 
 	protected final Player player_from;
 	protected final Location loc_from;
@@ -29,7 +29,7 @@ public class ChatMessage extends BukkitRunnable {
 
 
 
-	public ChatMessage(final ChatManager manager, final AsyncPlayerChatEvent event) {
+	public LocalChatMessage(final LocalChatManager manager, final AsyncPlayerChatEvent event) {
 		this.manager = manager;
 		this.player_from = event.getPlayer();
 		this.loc_from    = this.player_from.getLocation();

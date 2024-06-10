@@ -9,12 +9,12 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import com.poixson.pluginlib.pxnPluginLib;
-import com.poixson.pluginlib.chat.ChatMessage.ChatDelivery;
+import com.poixson.pluginlib.chat.LocalChatMessage.ChatDelivery;
 import com.poixson.tools.events.xListener;
 import com.poixson.utils.BukkitUtils;
 
 
-public class ChatManager implements xListener {
+public class LocalChatManager implements xListener {
 
 	protected final pxnPluginLib plugin;
 
@@ -23,7 +23,7 @@ public class ChatManager implements xListener {
 
 
 
-	public ChatManager(final pxnPluginLib plugin,
+	public LocalChatManager(final pxnPluginLib plugin,
 			final String chat_format, final double local_distance) {
 		this.plugin         = plugin;
 		this.chat_format    = BukkitUtils.FormatColors(chat_format);
@@ -41,21 +41,21 @@ public class ChatManager implements xListener {
 	@EventHandler(priority=EventPriority.NORMAL, ignoreCancelled=true)
 	public void onPlayerChat(final AsyncPlayerChatEvent event) {
 		event.setCancelled(true);
-		this.runChatMessage(new ChatMessage(this, event));
+		this.runChatMessage(new LocalChatMessage(this, event));
 	}
 
 
 
-	public void runChatMessage(final ChatMessage msg) {
+	public void runChatMessage(final LocalChatMessage msg) {
 		new BukkitRunnable() {
-			final AtomicReference<ChatMessage> msg = new AtomicReference<ChatMessage>(null);
-			public BukkitRunnable init(final ChatMessage msg) {
+			final AtomicReference<LocalChatMessage> msg = new AtomicReference<LocalChatMessage>(null);
+			public BukkitRunnable init(final LocalChatMessage msg) {
 				this.msg.set(msg);
 				return this;
 			}
 			@Override
 			public void run() {
-				final ChatMessage msg = this.msg.get();
+				final LocalChatMessage msg = this.msg.get();
 				if (msg != null)
 					msg.run();
 			}

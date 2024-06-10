@@ -14,7 +14,7 @@ import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.ServicesManager;
 
 import com.poixson.pluginlib.charts.pxnPluginsChart;
-import com.poixson.pluginlib.chat.ChatManager;
+import com.poixson.pluginlib.chat.LocalChatManager;
 import com.poixson.pluginlib.commands.Commands;
 import com.poixson.tools.FreedMapStore;
 import com.poixson.tools.Keeper;
@@ -42,7 +42,7 @@ public class pxnPluginLib extends xJavaPlugin {
 	protected final AtomicReference<PlayerMoveManager>  moveManager   = new AtomicReference<PlayerMoveManager>(null);
 	protected final AtomicReference<FreedMapStore>      freedMaps     = new AtomicReference<FreedMapStore>(null);
 	protected final AtomicReference<SaveManager>        saveListener  = new AtomicReference<SaveManager>(null);
-	protected final AtomicReference<ChatManager>        chatManager   = new AtomicReference<ChatManager>(null);
+	protected final AtomicReference<LocalChatManager>   chatManager   = new AtomicReference<LocalChatManager>(null);
 
 	protected final AtomicReference<Commands> commands = new AtomicReference<Commands>(null);
 
@@ -108,8 +108,8 @@ public class pxnPluginLib extends xJavaPlugin {
 		if (enableLocalChat()) {
 			final String chat_format    = this.getChatFormat();
 			final double local_distance = this.getChatLocalDistance();
-			final ChatManager manager = new ChatManager(this, chat_format, local_distance);
-			final ChatManager previous = this.chatManager.getAndSet(manager);
+			final LocalChatManager manager = new LocalChatManager(this, chat_format, local_distance);
+			final LocalChatManager previous = this.chatManager.getAndSet(manager);
 			if (previous != null)
 				previous.unregister();
 			manager.register();
@@ -137,7 +137,7 @@ public class pxnPluginLib extends xJavaPlugin {
 		}
 		// chat
 		{
-			final ChatManager manager = this.chatManager.getAndSet(null);
+			final LocalChatManager manager = this.chatManager.getAndSet(null);
 			if (manager != null)
 				manager.unregister();
 		}
