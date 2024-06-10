@@ -58,7 +58,6 @@ public class pxnPluginLib extends xJavaPlugin {
 
 	@Override
 	public void onEnable() {
-		final FileConfiguration config = this.getConfig();
 		final ServicesManager services = Bukkit.getServicesManager();
 		services.register(pxnPluginLib.class, this, this, ServicePriority.Normal);
 		// plugins listener
@@ -70,7 +69,7 @@ public class pxnPluginLib extends xJavaPlugin {
 			listener.register(this);
 		}
 		// update check manager
-		if (config.getBoolean("Check for Updates")) {
+		if (this.enableCheckForUpdates()) {
 			final UpdateCheckManager manager = new UpdateCheckManager(this);
 			final UpdateCheckManager previous = this.updateChecker.getAndSet(manager);
 			if (previous != null)
@@ -198,6 +197,12 @@ public class pxnPluginLib extends xJavaPlugin {
 		config.addDefault("Chat.Enable Local Chat", Boolean.FALSE);
 		config.addDefault("Chat.Format", "<LOCAL><DARK_AQUA>[L]</LOCAL><RADIO><GOLD>[R]</RADIO><DARK_GREEN><<PLAYER>><WHITE> ");
 		config.addDefault("Chat.Local Distance", Double.valueOf(DEFAULT_CHAT_LOCAL_DISTANCE));
+	}
+
+
+
+	public boolean enableCheckForUpdates() {
+		return this.getConfig().getBoolean("Check for Updates");
 	}
 
 
