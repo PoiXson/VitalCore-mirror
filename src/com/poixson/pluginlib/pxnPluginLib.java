@@ -139,7 +139,6 @@ public class pxnPluginLib extends xJavaPlugin {
 			if (manager != null)
 				manager.unregister();
 		}
-//		final ServicesManager services = Bukkit.getServicesManager();
 		// save listener
 		{
 			final SaveManager listener = this.saveListener.getAndSet(null);
@@ -193,7 +192,7 @@ public class pxnPluginLib extends xJavaPlugin {
 	protected void configDefaults(final FileConfiguration config) {
 		super.configDefaults(config);
 		Commands.ConfigDefaults(config);
-		config.addDefault("Check for Updates", Boolean.TRUE);
+		config.addDefault("Check for Updates",      Boolean.TRUE );
 		config.addDefault("Chat.Enable Local Chat", Boolean.FALSE);
 		config.addDefault("Chat.Format", "<LOCAL><DARK_AQUA>[L]</LOCAL><RADIO><GOLD>[R]</RADIO><DARK_GREEN><<PLAYER>><WHITE> ");
 		config.addDefault("Chat.Local Distance", Double.valueOf(DEFAULT_CHAT_LOCAL_DISTANCE));

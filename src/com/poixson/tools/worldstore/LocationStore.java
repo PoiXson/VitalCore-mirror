@@ -75,9 +75,9 @@ public class LocationStore {
 		for (final Iab loc : set)
 			result.add(loc.toString());
 		if (result.size() > 0) {
-			final String data = (new Gson()).toJson(result);
+			final String json = (new Gson()).toJson(result);
 			final BufferedWriter writer = new BufferedWriter(new FileWriter(this.file));
-			writer.write(data);
+			writer.write(json);
 			SafeClose(writer);
 			return true;
 		}
