@@ -38,6 +38,7 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.SimplePluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import com.poixson.tools.Keeper;
 
@@ -109,6 +110,17 @@ public final class BukkitUtils {
 	public static void BroadcastWorld(final World world, final String msg) {
 		for (final Player player : world.getPlayers())
 			player.sendMessage(msg);
+	}
+
+
+
+	public static boolean SafeCancel(final BukkitRunnable run) {
+		try {
+			run.cancel();
+			return true;
+		} catch (IllegalStateException ignore) {
+			return false;
+		}
 	}
 
 
