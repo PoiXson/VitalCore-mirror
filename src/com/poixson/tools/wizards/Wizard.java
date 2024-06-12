@@ -1,11 +1,12 @@
 package com.poixson.tools.wizards;
 
+import static com.poixson.utils.BukkitUtils.SafeCancel;
+
 import java.util.LinkedList;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitTask;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import com.poixson.tools.xJavaPlugin;
 import com.poixson.tools.wizards.steps.WizardStep;
@@ -23,7 +24,7 @@ public class Wizard<T extends xJavaPlugin> {
 	protected final LinkedList<WizardStep<T>> steps = new LinkedList<WizardStep<T>>();
 
 	// timeout
-	protected final BukkitTask timeoutTask;
+	protected final BukkitRunnable task_timeout;
 	protected final AtomicInteger timeoutCount = new AtomicInteger(0);
 	protected final int timeoutSeconds;
 
@@ -38,15 +39,13 @@ public class Wizard<T extends xJavaPlugin> {
 		// timeout
 		{
 			this.timeoutSeconds = 30;
-			final Runnable run = new Runnable() {
+			this.task_timeout = new BukkitRunnable() {
 				@Override
 				public void run() {
 					Wizard.this.timeout();
 				}
 			};
-			this.timeoutTask =
-				Bukkit.getScheduler()
-					.runTaskTimer(plugin, run, 20, 20);
+			this.task_timeout.runTaskTimer(plugin, 20L, 20L);
 		}
 	}
 
@@ -56,14 +55,12 @@ public class Wizard<T extends xJavaPlugin> {
 		this.next();
 	}
 	public void next() {
-		final Runnable run = new Runnable() {
+		new BukkitRunnable() {
 			@Override
 			public void run() {
 				Wizard.this.doNext();
 			}
-		};
-		Bukkit.getScheduler()
-			.runTask(this.plugin, run);
+		}.runTask(this.plugin);
 	}
 	protected void doNext() {
 		for (final WizardStep<T> step : this.steps) {
@@ -80,17 +77,12 @@ public class Wizard<T extends xJavaPlugin> {
 		this.finished();
 	}
 	public void finished() {
-		try {
-			this.timeoutTask.cancel();
-		} catch (IllegalStateException ignore) {}
+		SafeCancel(this.task_timeout);
 	}
 	public void cancel() {
-		try {
-			this.timeoutTask.cancel();
-		} catch (IllegalStateException ignore) {}
-		for (final WizardStep<T> step : this.steps) {
+		SafeCancel(this.task_timeout);
+		for (final WizardStep<T> step : this.steps)
 			step.close();
-		}
 	}
 
 

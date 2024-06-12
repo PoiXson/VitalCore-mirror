@@ -1,5 +1,6 @@
 package com.poixson.tools.updatechecker;
 
+import static com.poixson.utils.BukkitUtils.SafeCancel;
 import static com.poixson.utils.Utils.GetMS;
 import static com.poixson.utils.Utils.IsEmpty;
 
@@ -60,9 +61,7 @@ public class UpdateCheckManager extends BukkitRunnable implements xStartStop, xL
 	}
 	@Override
 	public void stop() {
-		try {
-			this.cancel();
-		} catch (IllegalStateException ignore) {}
+		SafeCancel(this);
 		this.unregister();
 	}
 

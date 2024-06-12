@@ -1,6 +1,7 @@
 package com.poixson.tools;
 
 import static com.poixson.tools.xJavaPlugin.Log;
+import static com.poixson.utils.BukkitUtils.SafeCancel;
 
 import java.util.HashSet;
 import java.util.concurrent.CopyOnWriteArraySet;
@@ -71,9 +72,7 @@ public abstract class DelayedChestFiller extends BukkitRunnable {
 			final HashSet<DelayedChestFiller> remove = new HashSet<DelayedChestFiller>();
 			for (final DelayedChestFiller filler : fillers) {
 				remove.add(filler);
-				try {
-					filler.cancel();
-				} catch (IllegalStateException ignore) {}
+				SafeCancel(filler);
 				if (!filler.done.get()) {
 					filler.run();
 					count++;
