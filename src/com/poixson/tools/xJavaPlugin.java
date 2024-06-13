@@ -21,7 +21,7 @@ import com.poixson.tools.updatechecker.UpdateCheckManager;
 
 
 public abstract class xJavaPlugin extends JavaPlugin {
-	public static final String CHAT_PREFIX = ChatColor.AQUA+"[pxn] "+ChatColor.WHITE;
+	public static final String CHAT_PREFIX = ChatColor.DARK_AQUA+"[pxn] "+ChatColor.WHITE;
 
 	protected final AtomicReference<Metrics> metrics = new AtomicReference<Metrics>(null);
 	protected final AppProps props;

@@ -28,7 +28,7 @@ import com.poixson.tools.updatechecker.UpdateCheckManager;
 public class pxnPluginLib extends xJavaPlugin {
 	@Override public int getSpigotPluginID() { return 107049; }
 	@Override public int getBStatsID() {       return 20434;  }
-	public static final String CHAT_PREFIX = ChatColor.AQUA+"[pxnPluginLib] "+ChatColor.WHITE;
+	public static final String CHAT_PREFIX = ChatColor.DARK_AQUA+"[pxnPluginLib] "+ChatColor.WHITE;
 
 	public static final double DEFAULT_CHAT_LOCAL_DISTANCE = 120.0;
 
