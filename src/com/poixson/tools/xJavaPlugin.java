@@ -114,6 +114,10 @@ public abstract class xJavaPlugin extends JavaPlugin {
 	protected void configDefaults(final FileConfiguration cfg) {
 	}
 
+	public void setConfigChanged() {
+		this.config_changed.set(true);
+	}
+
 
 
 	protected void mkPluginDir() {
