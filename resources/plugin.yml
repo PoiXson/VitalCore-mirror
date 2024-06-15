@@ -6,6 +6,7 @@ load: STARTUP
 softdepend:
   - Multiverse-Core
   - WorldEdit
+  - Vault
 authors: [ lorenzop ]
 website: ${project.url}
 description: ${project.description}
