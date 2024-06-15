@@ -13,11 +13,14 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.HandlerList;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.poixson.tools.events.SaveEvent;
 import com.poixson.tools.events.xListener;
 import com.poixson.tools.updatechecker.UpdateCheckManager;
+
+import net.milkbowl.vault.economy.Economy;
 
 
 public abstract class xJavaPlugin extends JavaPlugin {
@@ -28,6 +31,9 @@ public abstract class xJavaPlugin extends JavaPlugin {
 
 	protected final AtomicReference<FileConfiguration> config = new AtomicReference<FileConfiguration>(null);
 	protected final AtomicBoolean config_changed = new AtomicBoolean(false);
+
+	// vault
+	protected final AtomicReference<Economy> economy = new AtomicReference<Economy>(null);
 
 	// listeners
 	protected final AtomicReference<LocalPluginSaveListener> saveListener = new AtomicReference<LocalPluginSaveListener>(null);
@@ -95,6 +101,8 @@ public abstract class xJavaPlugin extends JavaPlugin {
 		// services
 		Bukkit.getServicesManager()
 			.unregisterAll(this);
+		// vault
+		this.economy.set(null);
 	}
 
 
@@ -127,6 +135,40 @@ public abstract class xJavaPlugin extends JavaPlugin {
 				throw new RuntimeException("Failed to create directory: "+path.toString());
 			this.log().info("Created directory: "+path.toString());
 		}
+	}
+
+
+
+	// -------------------------------------------------------------------------------
+	// vault economy
+
+
+
+	public static Economy SetupVaultEconomy() {
+		if (Bukkit.getPluginManager().getPlugin("Vault") == null)
+			return null;
+		final RegisteredServiceProvider<Economy> rsp = Bukkit.getServicesManager().getRegistration(Economy.class);
+		if (rsp == null)
+			return null;
+		return rsp.getProvider();
+	}
+
+
+
+	public Economy getEconomy() {
+		// existing instance
+		{
+			final Economy economy = this.economy.get();
+			if (economy != null)
+				return economy;
+		}
+		// new instance
+		{
+			final Economy economy= SetupVaultEconomy();
+			if (this.economy.compareAndSet(null, economy))
+				return economy;
+		}
+		return this.economy.get();
 	}
 
 
