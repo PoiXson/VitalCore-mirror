@@ -1,5 +1,7 @@
 package com.poixson.pluginlib.chat;
 
+import static com.poixson.utils.LocationUtils.DistanceFast3D;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -10,8 +12,6 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.scheduler.BukkitRunnable;
-
-import com.poixson.utils.BukkitUtils;
 
 
 public class LocalChatMessage extends BukkitRunnable {
@@ -49,11 +49,10 @@ public class LocalChatMessage extends BukkitRunnable {
 		for (final Player player : online) {
 			if (this.player_from.equals(player)) continue;
 			final Location loc = player.getLocation();
-			if (BukkitUtils.EqualsWorld(this.loc_from, loc)) {
-				final double distance = this.loc_from.distance(loc);
-				if (distance < local_distance)
-					deliver.put(player, ChatDelivery.DELIVER_LOCAL);
-			}
+			final double distance = DistanceFast3D(this.loc_from, loc);
+			if (distance >= 0.0
+			&&  distance < local_distance)
+				deliver.put(player, ChatDelivery.DELIVER_LOCAL);
 		}
 		// radio
 		if (this.manager.hasRadio(this.player_from)) {

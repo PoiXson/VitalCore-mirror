@@ -1,14 +1,17 @@
 package com.poixson.utils;
 
-import static com.poixson.utils.BukkitUtils.EqualsWorld;
 import static com.poixson.utils.Utils.IsEmpty;
 
+import java.util.Collection;
 import java.util.LinkedList;
 
 import org.bukkit.Axis;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Rotation;
+import org.bukkit.World;
 import org.bukkit.block.BlockFace;
+import org.bukkit.entity.Player;
 
 import com.poixson.tools.Keeper;
 import com.poixson.tools.dao.Iab;
@@ -22,13 +25,52 @@ public final class LocationUtils {
 
 
 
-	public static int SquareDistance(final Location locA, final Location locB) {
-		int distance = Integer.MAX_VALUE;
-		if (EqualsWorld(locA, locB)) {
-			int dist;
-			dist = Math.abs(locA.getBlockX() - locB.getBlockX()); if (distance > dist) distance = dist;
-			dist = Math.abs(locA.getBlockY() - locB.getBlockY()); if (distance > dist) distance = dist;
-			dist = Math.abs(locA.getBlockZ() - locB.getBlockZ()); if (distance > dist) distance = dist;
+	// -------------------------------------------------------------------------------
+	// distance
+
+
+
+	public static double Distance2D(final Location locA, final Location locB) {
+		if (locA == null) throw new NullPointerException();
+		if (locB == null) throw new NullPointerException();
+		if (!locA.getWorld().equals(locB.getWorld()))
+			return Double.MIN_VALUE;
+		return MathUtils.Distance2D(
+			locA.getX(), locA.getZ(),
+			locB.getX(), locB.getZ()
+		);
+	}
+	public static double Distance3D(final Location locA, final Location locB) {
+		if (locA == null) throw new NullPointerException();
+		if (locB == null) throw new NullPointerException();
+		if (!locA.getWorld().equals(locB.getWorld()))
+			return Double.MIN_VALUE;
+		return MathUtils.Distance3D(
+			locA.getX(), locA.getY(), locA.getZ(),
+			locB.getX(), locB.getY(), locB.getZ()
+		);
+	}
+
+	public static double DistanceFast2D(final Location locA, final Location locB) {
+		if (locA == null) throw new NullPointerException();
+		if (locB == null) throw new NullPointerException();
+		if (!locA.getWorld().equals(locB.getWorld()))
+			return Double.MIN_VALUE;
+		return MathUtils.DistanceFast2D(
+			locA.getX(), locA.getZ(),
+			locB.getX(), locB.getZ()
+		);
+	}
+	public static double DistanceFast3D(final Location locA, final Location locB) {
+		if (locA == null) throw new NullPointerException();
+		if (locB == null) throw new NullPointerException();
+		if (!locA.getWorld().equals(locB.getWorld()))
+			return Double.MIN_VALUE;
+		return MathUtils.DistanceFast3D(
+			locA.getX(), locA.getY(), locA.getZ(),
+			locB.getX(), locB.getY(), locB.getZ()
+		);
+	}
 		}
 		return distance;
 	}

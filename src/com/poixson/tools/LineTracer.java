@@ -1,5 +1,7 @@
 package com.poixson.tools;
 
+import static com.poixson.utils.MathUtils.DistanceFast2D;
+
 import java.util.HashSet;
 import java.util.LinkedList;
 
@@ -163,7 +165,7 @@ public abstract class LineTracer implements Runnable {
 	public int getDistance(
 			final int x1, final int y1,
 			final int x2, final int y2) {
-		return Math.abs(x1 - x2) + Math.abs(y1 - y2);
+		return (int) DistanceFast2D(x1, y1, x2, y2);
 	}
 
 
