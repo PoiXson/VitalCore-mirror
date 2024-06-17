@@ -11,7 +11,6 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.LinkedList;
 import java.util.UUID;
 
@@ -82,34 +81,6 @@ public final class BukkitUtils {
 		if (worldA == null || worldB == null)
 			return (worldA == null && worldB == null);
 		return worldA.equals(worldB);
-	}
-
-
-
-	public static void BroadcastNear(final Location loc, final int distance, final String msg) {
-		if (loc == null) throw new NullPointerException();
-		final World world = loc.getWorld();
-		final Collection<? extends Player> players = Bukkit.getOnlinePlayers();
-		for (final Player player : players) {
-			if (player == null)
-				continue;
-			final Location playerLoc = player.getLocation();
-			if (playerLoc == null)
-				continue;
-			if (!EqualsWorld(world, playerLoc.getWorld()))
-				continue;
-			final double playerDist = playerLoc.distance(loc);
-			if (playerDist <= distance)
-				player.sendMessage(msg);
-		}
-	}
-
-	public static void BroadcastWorld(final String worldName, final String msg) {
-		BroadcastWorld(Bukkit.getWorld(worldName), msg);
-	}
-	public static void BroadcastWorld(final World world, final String msg) {
-		for (final Player player : world.getPlayers())
-			player.sendMessage(msg);
 	}
 
 

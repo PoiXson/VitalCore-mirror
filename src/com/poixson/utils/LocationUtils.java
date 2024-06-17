@@ -71,8 +71,30 @@ public final class LocationUtils {
 			locB.getX(), locB.getY(), locB.getZ()
 		);
 	}
+
+
+
+	public static void BroadcastNear(final Location loc, final int distance, final String msg) {
+		if (loc == null) throw new NullPointerException();
+		final Collection<? extends Player> players = Bukkit.getOnlinePlayers();
+		for (final Player player : players) {
+			if (player == null) continue;
+			final Location playerLoc = player.getLocation();
+			if (playerLoc != null) {
+				final double dist = DistanceFast2D(loc, playerLoc);
+				if (dist >= 0.0
+				&&  dist < (double)distance)
+					player.sendMessage(msg);
+			}
 		}
-		return distance;
+	}
+
+	public static void BroadcastWorld(final String world_name, final String msg) {
+		BroadcastWorld(Bukkit.getWorld(world_name), msg);
+	}
+	public static void BroadcastWorld(final World world, final String msg) {
+		for (final Player player : world.getPlayers())
+			player.sendMessage(msg);
 	}
 
 
