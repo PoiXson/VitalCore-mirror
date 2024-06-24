@@ -14,7 +14,6 @@ import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.ServicesManager;
 
 import com.poixson.pluginlib.charts.pxnPluginsChart;
-import com.poixson.pluginlib.chat.LocalChatManager;
 import com.poixson.pluginlib.commands.Commands;
 import com.poixson.tools.FreedMapStore;
 import com.poixson.tools.Keeper;
@@ -22,6 +21,7 @@ import com.poixson.tools.PlayerMoveMonitor;
 import com.poixson.tools.SaveMonitor;
 import com.poixson.tools.xJavaPlugin;
 import com.poixson.tools.xTime;
+import com.poixson.tools.localchat.LocalChatManager;
 import com.poixson.tools.updatechecker.UpdateCheckManager;
 
 

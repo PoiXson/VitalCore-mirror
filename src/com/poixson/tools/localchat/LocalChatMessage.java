@@ -1,4 +1,4 @@
-package com.poixson.pluginlib.chat;
+package com.poixson.tools.localchat;
 
 import static com.poixson.utils.LocationUtils.DistanceFast3D;
 

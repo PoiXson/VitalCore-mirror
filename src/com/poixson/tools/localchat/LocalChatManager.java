@@ -1,4 +1,4 @@
-package com.poixson.pluginlib.chat;
+package com.poixson.tools.localchat;
 
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -10,7 +10,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import com.poixson.pluginlib.pxnPluginLib;
 import com.poixson.tools.xListener;
-import com.poixson.pluginlib.chat.LocalChatMessage.ChatDelivery;
+import com.poixson.tools.localchat.LocalChatMessage.ChatDelivery;
 import com.poixson.utils.BukkitUtils;
 
 
