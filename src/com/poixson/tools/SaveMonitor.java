@@ -1,4 +1,4 @@
-package com.poixson.tools.events;
+package com.poixson.tools;
 
 import static com.poixson.utils.Utils.GetMS;
 
@@ -9,14 +9,18 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.world.WorldSaveEvent;
 
+import com.poixson.tools.events.SaveActiveEvent;
+import com.poixson.tools.events.SaveEvent;
+import com.poixson.tools.events.xListener;
 
-public class SaveManager implements xListener {
+
+public class SaveMonitor implements xListener {
 
 	protected final AtomicLong last = new AtomicLong(-1L);
 
 
 
-	public SaveManager() {
+	public SaveMonitor() {
 		this.last.set(GetMS());
 	}
 
