@@ -9,8 +9,8 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import com.poixson.pluginlib.pxnPluginLib;
+import com.poixson.tools.xListener;
 import com.poixson.pluginlib.chat.LocalChatMessage.ChatDelivery;
-import com.poixson.tools.events.xListener;
 import com.poixson.utils.BukkitUtils;
 
 

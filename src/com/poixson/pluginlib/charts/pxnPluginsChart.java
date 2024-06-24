@@ -11,7 +11,7 @@ import org.bukkit.plugin.Plugin;
 
 import com.poixson.pluginlib.pxnPluginLib;
 import com.poixson.tools.xJavaPlugin;
-import com.poixson.tools.events.xListener;
+import com.poixson.tools.xListener;
 
 
 public class pxnPluginsChart implements Callable<String>, xListener {

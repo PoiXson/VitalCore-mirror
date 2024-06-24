@@ -11,7 +11,6 @@ import org.bukkit.plugin.PluginManager;
 import com.poixson.tools.events.OutsideOfWorldEvent;
 import com.poixson.tools.events.OutsideOfWorldEvent.OutsideOfWorld;
 import com.poixson.tools.events.PlayerMoveNormalEvent;
-import com.poixson.tools.events.xListener;
 
 
 public class PlayerMoveMonitor implements xListener {

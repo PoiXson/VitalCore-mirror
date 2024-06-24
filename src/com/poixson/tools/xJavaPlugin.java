@@ -17,7 +17,6 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.poixson.tools.events.SaveEvent;
-import com.poixson.tools.events.xListener;
 import com.poixson.tools.updatechecker.UpdateCheckManager;
 
 import net.milkbowl.vault.economy.Economy;
