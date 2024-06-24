@@ -18,10 +18,10 @@ import com.poixson.pluginlib.chat.LocalChatManager;
 import com.poixson.pluginlib.commands.Commands;
 import com.poixson.tools.FreedMapStore;
 import com.poixson.tools.Keeper;
+import com.poixson.tools.PlayerMoveMonitor;
+import com.poixson.tools.SaveMonitor;
 import com.poixson.tools.xJavaPlugin;
 import com.poixson.tools.xTime;
-import com.poixson.tools.events.PlayerMoveManager;
-import com.poixson.tools.events.SaveManager;
 import com.poixson.tools.updatechecker.UpdateCheckManager;
 
 
@@ -39,10 +39,10 @@ public class pxnPluginLib extends xJavaPlugin {
 
 	protected final AtomicReference<pxnPluginsChart>  pluginsListener = new AtomicReference<pxnPluginsChart>(null);
 	protected final AtomicReference<UpdateCheckManager> updateChecker = new AtomicReference<UpdateCheckManager>(null);
-	protected final AtomicReference<PlayerMoveManager>  moveManager   = new AtomicReference<PlayerMoveManager>(null);
 	protected final AtomicReference<FreedMapStore>      freedMaps     = new AtomicReference<FreedMapStore>(null);
-	protected final AtomicReference<SaveManager>        saveListener  = new AtomicReference<SaveManager>(null);
 	protected final AtomicReference<LocalChatManager>   chatManager   = new AtomicReference<LocalChatManager>(null);
+	protected final AtomicReference<PlayerMoveMonitor>  moveMonitor   = new AtomicReference<PlayerMoveMonitor> (null);
+	protected final AtomicReference<SaveMonitor>        saveMonitor   = new AtomicReference<SaveMonitor>       (null);
 
 	protected final AtomicReference<Commands> commands = new AtomicReference<Commands>(null);
 
@@ -80,21 +80,21 @@ public class pxnPluginLib extends xJavaPlugin {
 			manager.startLater();
 		}
 		super.onEnable();
-		// player move listeners
+		// player move monitor
 		{
-			final PlayerMoveManager manager = new PlayerMoveManager();
-			final PlayerMoveManager previous = this.moveManager.getAndSet(manager);
+			final PlayerMoveMonitor monitor = new PlayerMoveMonitor();
+			final PlayerMoveMonitor previous = this.moveMonitor.getAndSet(monitor);
 			if (previous != null)
 				previous.unregister();
-			manager.register(this);
+			monitor.register(this);
 		}
-		// save listener
+		// save monitor
 		{
-			final SaveManager listener = new SaveManager();
-			final SaveManager previous = this.saveListener.getAndSet(listener);
+			final SaveMonitor monitor = new SaveMonitor();
+			final SaveMonitor previous = this.saveMonitor.getAndSet(monitor);
 			if (previous != null)
 				previous.unregister();
-			listener.register(this);
+			monitor.register(this);
 		}
 		// commands
 		{
@@ -139,11 +139,17 @@ public class pxnPluginLib extends xJavaPlugin {
 			if (manager != null)
 				manager.unregister();
 		}
-		// save listener
+		// save monitor
 		{
-			final SaveManager listener = this.saveListener.getAndSet(null);
-			if (listener != null)
-				listener.unregister();
+			final SaveMonitor monitor = this.saveMonitor.getAndSet(null);
+			if (monitor != null)
+				monitor.unregister();
+		}
+		// player move monitor
+		{
+			final PlayerMoveMonitor monitor = this.moveMonitor.getAndSet(null);
+			if (monitor != null)
+				monitor.unregister();
 		}
 		// update check manager
 		{
@@ -252,6 +258,9 @@ public class pxnPluginLib extends xJavaPlugin {
 			}
 		}
 		return GetFreedMapStore();
+	}
+	public static PlayerMoveMonitor GetPlayerMoveMonitor() {
+		return GetCommonPlugin().moveMonitor.get();
 	}
 
 
