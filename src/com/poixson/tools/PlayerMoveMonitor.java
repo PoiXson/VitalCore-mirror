@@ -1,6 +1,8 @@
 package com.poixson.tools;
 
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map.Entry;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -39,6 +41,15 @@ public class PlayerMoveMonitor implements xListener {
 	}
 	public LocationSafe getLocation(final UUID uuid) {
 		return this.locations.get(uuid);
+	}
+
+
+
+	public HashMap<UUID, LocationSafe> snapshot() {
+		final HashMap<UUID, LocationSafe> map = new HashMap<UUID, LocationSafe>();
+		for (final Entry<UUID, LocationSafe> entry : this.locations.entrySet())
+			map.put(entry.getKey(), entry.getValue());
+		return map;
 	}
 
 
