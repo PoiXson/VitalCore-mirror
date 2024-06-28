@@ -15,7 +15,6 @@ import java.util.LinkedList;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.Statistic;
@@ -288,20 +287,6 @@ public final class BukkitUtils {
 		} catch (IllegalArgumentException  e) { throw new RuntimeException(e);
 		} catch (InvocationTargetException e) { throw new RuntimeException(e); }
 		return null;
-	}
-
-
-
-	// -------------------------------------------------------------------------------
-	// chat colors
-
-
-
-	public static String FormatColors(final String msg) {
-		String result = msg;
-		for (final ChatColor color : ChatColor.values())
-			result = result.replace("<"+color.name()+">", color.toString());
-		return result;
 	}
 
 
