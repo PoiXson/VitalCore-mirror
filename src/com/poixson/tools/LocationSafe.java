@@ -181,6 +181,11 @@ public class LocationSafe extends Location {
 		this.value.set(new Dabc(loc.a, loc.b, loc.c));
 	}
 
+	public void setXYZ(final Location loc) {
+		this.setWorld(loc.getWorld());
+		this.setXYZ(loc.getX(), loc.getY(), loc.getZ());
+	}
+
 	@Override
 	public float getPitch() {
 		return (float) this.pitch.get();
