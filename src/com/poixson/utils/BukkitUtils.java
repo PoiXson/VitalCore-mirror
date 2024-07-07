@@ -1,6 +1,5 @@
 package com.poixson.utils;
 
-import static com.poixson.tools.xJavaPlugin.Log;
 import static com.poixson.utils.Utils.IsEmpty;
 
 import java.awt.Color;
@@ -13,6 +12,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.UUID;
+import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
@@ -359,6 +359,12 @@ public final class BukkitUtils {
 		player.setAllowFlight(can_fly);
 		if (can_fly) player.setFallDistance(0f);
 		else         player.setFlying(false);
+	}
+
+
+
+	public static Logger Log() {
+		return Logger.getLogger("Minecraft");
 	}
 
 

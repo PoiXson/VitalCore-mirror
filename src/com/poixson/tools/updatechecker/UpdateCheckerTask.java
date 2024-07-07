@@ -10,16 +10,16 @@ import java.util.logging.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.java.JavaPlugin;
 
 import com.google.common.util.concurrent.AtomicDouble;
 import com.poixson.exceptions.RequiredArgumentException;
+import com.poixson.tools.xJavaPlugin;
 import com.poixson.utils.StringUtils;
 
 
 public class UpdateCheckerTask implements Runnable {
 
-	protected final JavaPlugin plugin;
+	protected final xJavaPlugin plugin;
 	protected final int plugin_id;
 	protected final String plugin_version;
 
@@ -30,7 +30,7 @@ public class UpdateCheckerTask implements Runnable {
 
 
 
-	public UpdateCheckerTask(final JavaPlugin plugin,
+	public UpdateCheckerTask(final xJavaPlugin plugin,
 			final int plugin_id, final String plugin_version) {
 		if (plugin == null) throw new NullPointerException();
 		if (plugin_id <= 0) throw new RuntimeException("Plugin ID not set in: "+plugin.getName());
@@ -115,7 +115,7 @@ public class UpdateCheckerTask implements Runnable {
 
 
 	public Logger log() {
-		return this.plugin.getLogger();
+		return this.plugin.log();
 	}
 
 

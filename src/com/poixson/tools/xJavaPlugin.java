@@ -208,10 +208,7 @@ public abstract class xJavaPlugin extends JavaPlugin {
 
 
 	public Logger log() {
-		return this.getLogger();
-	}
-	public static Logger Log() {
-		return Logger.getLogger("Minecraft");
+		return super.getLogger();
 	}
 
 

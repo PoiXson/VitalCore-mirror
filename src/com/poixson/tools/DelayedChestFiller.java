@@ -1,6 +1,6 @@
 package com.poixson.tools;
 
-import static com.poixson.tools.xJavaPlugin.Log;
+import static com.poixson.utils.BukkitUtils.Log;
 import static com.poixson.utils.BukkitUtils.SafeCancel;
 
 import java.util.HashSet;
@@ -15,7 +15,6 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Container;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
 
@@ -26,7 +25,7 @@ public abstract class DelayedChestFiller extends BukkitRunnable {
 	protected static CopyOnWriteArraySet<DelayedChestFiller> fillers = new CopyOnWriteArraySet<DelayedChestFiller>();
 	protected static final AtomicBoolean stopping = new AtomicBoolean(false);
 
-	protected final JavaPlugin plugin;
+	protected final xJavaPlugin plugin;
 
 	protected final Location loc;
 	protected final String worldName;
@@ -35,7 +34,7 @@ public abstract class DelayedChestFiller extends BukkitRunnable {
 
 
 
-	public DelayedChestFiller(final JavaPlugin plugin,
+	public DelayedChestFiller(final xJavaPlugin plugin,
 			final String worldName, final int x, final int y, final int z) {
 		this.plugin = plugin;
 		this.loc = null;
@@ -44,7 +43,7 @@ public abstract class DelayedChestFiller extends BukkitRunnable {
 		this.y = y;
 		this.z = z;
 	}
-	public DelayedChestFiller(final JavaPlugin plugin, final Location loc) {
+	public DelayedChestFiller(final xJavaPlugin plugin, final Location loc) {
 		this.plugin = plugin;
 		this.loc = loc;
 		this.worldName = null;
@@ -125,7 +124,7 @@ public abstract class DelayedChestFiller extends BukkitRunnable {
 
 
 	public Logger log() {
-		return this.plugin.getLogger();
+		return this.plugin.log();
 	}
 
 

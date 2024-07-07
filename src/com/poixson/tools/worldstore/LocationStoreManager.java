@@ -14,9 +14,9 @@ import java.util.logging.Logger;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import com.poixson.tools.xJavaPlugin;
 import com.poixson.tools.xListener;
 import com.poixson.tools.xTime;
 import com.poixson.tools.dao.Iab;
@@ -29,7 +29,7 @@ public class LocationStoreManager extends BukkitRunnable implements xListener {
 	public static final long DEFAULT_DELAY_UNLOAD = xTime.ParseToLong("3m");
 	public static final long DEFAULT_DELAY_SAVE   = xTime.ParseToLong("30s");
 
-	protected final JavaPlugin plugin;
+	protected final xJavaPlugin plugin;
 
 	protected final String type;
 
@@ -40,7 +40,7 @@ public class LocationStoreManager extends BukkitRunnable implements xListener {
 
 
 
-	public LocationStoreManager(final JavaPlugin plugin, final String worldStr, final String type) {
+	public LocationStoreManager(final xJavaPlugin plugin, final String worldStr, final String type) {
 		this.plugin = plugin;
 		this.type = type;
 		this.path = new File(GetServerPath(), worldStr+"/locs");
@@ -213,7 +213,7 @@ public class LocationStoreManager extends BukkitRunnable implements xListener {
 
 
 	public Logger log() {
-		return Logger.getLogger("Minecraft");
+		return this.plugin.log();
 	}
 
 

@@ -2,6 +2,7 @@ package com.poixson.tools.worldstore;
 
 import static com.poixson.tools.worldstore.LocationStoreManager.DEFAULT_DELAY_SAVE;
 import static com.poixson.tools.worldstore.LocationStoreManager.DEFAULT_DELAY_UNLOAD;
+import static com.poixson.utils.BukkitUtils.Log;
 import static com.poixson.utils.Utils.GetMS;
 import static com.poixson.utils.Utils.SafeClose;
 
@@ -16,7 +17,6 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.atomic.AtomicLong;
-import java.util.logging.Logger;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -57,7 +57,7 @@ public class LocationStore {
 						z = Integer.parseInt(split[1].trim());
 						this.locations.add(new Iab(x, z));
 					} catch (NumberFormatException e) {
-						this.log().warning(String.format(
+						Log().warning(String.format(
 							"Invalid entry '%s' in file: %s",
 							entry, this.file.toString()
 						));
@@ -161,12 +161,6 @@ public class LocationStore {
 		final boolean result = this.locations.contains(new Iab(x, z));
 		this.markAccessed();
 		return result;
-	}
-
-
-
-	public Logger log() {
-		return Logger.getLogger("Minecraft");
 	}
 
 

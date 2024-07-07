@@ -15,7 +15,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import com.poixson.pluginlib.pxnPluginLib;
@@ -122,13 +121,13 @@ public class UpdateCheckManager extends BukkitRunnable implements xStartStop, xL
 		final String version = plugin.getPluginVersion();
 		return RegisterPlugin(plugin, spigot_id, version);
 	}
-	public static UpdateCheckerTask RegisterPlugin(final JavaPlugin plugin, final int spigot_id, final String version) {
+	public static UpdateCheckerTask RegisterPlugin(final xJavaPlugin plugin, final int spigot_id, final String version) {
 		if (spigot_id <= 0) return null;
 		final UpdateCheckManager manager = Bukkit.getServicesManager().load(UpdateCheckManager.class);
 		if (manager == null) return null;
 		return manager.addPlugin(plugin, spigot_id, version);
 	}
-	public UpdateCheckerTask addPlugin(final JavaPlugin plugin, final int spigot_id, final String plugin_version) {
+	public UpdateCheckerTask addPlugin(final xJavaPlugin plugin, final int spigot_id, final String plugin_version) {
 		if (spigot_id <= 0) {
 			this.log().warning("Plugin ID not set in: "+plugin.getName());
 			return null;
@@ -189,7 +188,7 @@ public class UpdateCheckManager extends BukkitRunnable implements xStartStop, xL
 
 
 	public Logger log() {
-		return this.plugin.getLogger();
+		return this.plugin.log();
 	}
 
 

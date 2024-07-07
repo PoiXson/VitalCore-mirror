@@ -1,7 +1,7 @@
 package com.poixson.tools.screen;
 
-import static com.poixson.tools.xJavaPlugin.Log;
 import static com.poixson.utils.BukkitUtils.EqualsLocation;
+import static com.poixson.utils.BukkitUtils.Log;
 import static com.poixson.utils.CraftScriptUtils.FixCursorPosition;
 import static com.poixson.utils.CraftScriptUtils.PlayerToHashMap;
 import static com.poixson.utils.LocationUtils.DistanceFast3D;
