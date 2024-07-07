@@ -111,7 +111,11 @@ public class FreedMapStore implements xListener {
 
 
 
+	@Deprecated
 	public int get() {
+		return this.grab();
+	}
+	public int grab() {
 		final Integer next = this.freed.pollFirst();
 		if (next != null) {
 			this.changed.set(true);

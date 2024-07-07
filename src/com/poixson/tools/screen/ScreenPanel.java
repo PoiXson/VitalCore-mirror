@@ -63,7 +63,7 @@ public class ScreenPanel extends MapRenderer implements Closeable {
 		this.perplayer = perplayer;
 		// map
 		final FreedMapStore store = GetFreedMapStore();
-		this.map_id = store.get();
+		this.map_id = store.grab();
 		this.map = new ItemStack(Material.FILLED_MAP, 1);
 		SetMapID(this.map, this.map_id);
 		// item frame
