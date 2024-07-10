@@ -122,17 +122,17 @@ public class LocationSafe extends Location {
 	@Override
 	public int getBlockX() {
 		final Dabc loc = this.value.get();
-		return (int) Math.round(loc.a);
+		return (int) Math.floor(loc.a);
 	}
 	@Override
 	public int getBlockY() {
 		final Dabc loc = this.value.get();
-		return (int) Math.round(loc.b);
+		return (int) Math.floor(loc.b);
 	}
 	@Override
 	public int getBlockZ() {
 		final Dabc loc = this.value.get();
-		return (int) Math.round(loc.c);
+		return (int) Math.floor(loc.c);
 	}
 
 	@Override
