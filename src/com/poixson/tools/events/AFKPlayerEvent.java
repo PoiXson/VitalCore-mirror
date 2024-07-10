@@ -47,6 +47,9 @@ public class AFKPlayerEvent extends Event implements Cancellable {
 	public void setCancelled(final boolean cancel) {
 		this.cancel.set(cancel);
 	}
+	public void setCancelled() {
+		this.setCancelled(true);
+	}
 
 
 

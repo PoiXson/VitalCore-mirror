@@ -1,5 +1,7 @@
 package com.poixson.tools.events;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
@@ -10,7 +12,7 @@ public class OutsideOfWorldEvent extends PlayerMoveEvent {
 
 	private static final HandlerList handlers = new HandlerList();
 
-	private boolean cancel = false;
+	protected final AtomicBoolean cancel = new AtomicBoolean(false);
 
 	protected final OutsideOfWorld outside;
 	protected final int distance;
@@ -46,11 +48,14 @@ public class OutsideOfWorldEvent extends PlayerMoveEvent {
 
 	@Override
 	public boolean isCancelled() {
-		return this.cancel;
+		return this.cancel.get();
 	}
 	@Override
 	public void setCancelled(final boolean cancel) {
-		this.cancel = cancel;
+		this.cancel.set(cancel);
+	}
+	public void setCancelled() {
+		this.setCancelled(true);
 	}
 
 
