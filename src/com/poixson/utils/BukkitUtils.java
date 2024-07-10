@@ -65,11 +65,11 @@ public final class BukkitUtils {
 	public static boolean EqualsLocation(final Location locA, final Location locB) {
 		if (locA == null || locB == null)
 			return (locA == null && locB == null);
-		if (!EqualsWorld(locA.getWorld(), locB.getWorld()))
+		if (!EqualsWorld(locA, locB))
 			return false;
-		if (locA.getBlockX() != locB.getBlockX()) return false;
-		if (locA.getBlockY() != locB.getBlockY()) return false;
-		if (locA.getBlockZ() != locB.getBlockZ()) return false;
+		if (locA.getX() != locB.getX()) return false;
+		if (locA.getY() != locB.getY()) return false;
+		if (locA.getZ() != locB.getZ()) return false;
 		return true;
 	}
 
@@ -79,7 +79,7 @@ public final class BukkitUtils {
 	public static boolean EqualsWorld(final World worldA, final World worldB) {
 		if (worldA == null || worldB == null)
 			return (worldA == null && worldB == null);
-		return worldA.equals(worldB);
+		return EqualsUUID(worldA.getUID(), worldB.getUID());
 	}
 
 
