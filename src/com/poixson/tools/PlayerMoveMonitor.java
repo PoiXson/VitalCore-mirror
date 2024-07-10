@@ -185,6 +185,15 @@ public class PlayerMoveMonitor implements xListener {
 		this.locations.put(uuid, loc);
 	}
 
+	@EventHandler(priority=EventPriority.MONITOR, ignoreCancelled=true)
+	public void onPlayerTeleport(final PlayerTeleportEvent event) {
+		final Player player = event.getPlayer();
+		final UUID uuid = player.getUniqueId();
+		this.voidAFK(uuid);
+		final LocationSafe loc = new LocationSafe(player.getLocation());
+		this.locations.put(uuid, loc);
+	}
+
 
 
 	@EventHandler(priority=EventPriority.MONITOR, ignoreCancelled=true)
