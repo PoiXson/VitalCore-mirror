@@ -120,6 +120,9 @@ public class pxnPluginLib extends xJavaPlugin {
 				metrics.addCustomChart(pxnPluginsChart.GetChart(this));
 			}
 		}
+		// save
+		this.setConfigChanged();
+		this.saveConfigs();
 	}
 
 	@Override
@@ -192,7 +195,6 @@ public class pxnPluginLib extends xJavaPlugin {
 		this.config.set(cfg);
 		this.configDefaults(cfg);
 		cfg.options().copyDefaults(true);
-		this.saveConfigs();
 	}
 	@Override
 	protected void configDefaults(final FileConfiguration config) {
