@@ -35,7 +35,6 @@ public class FreedMapStore implements xListener {
 	protected final ConcurrentSkipListSet<Integer> freed = new ConcurrentSkipListSet<Integer>();
 
 	protected final File file;
-
 	protected final AtomicBoolean changed = new AtomicBoolean(false);
 
 
@@ -64,15 +63,13 @@ public class FreedMapStore implements xListener {
 				final Set<Integer> set = (new Gson()).fromJson(reader, token);
 				for (final Integer id : set)
 					this.freed.add(id);
+				this.log().info(String.format("Loaded %d freed maps", Integer.valueOf(this.freed.size())));
 				this.changed.set(false);
 			} catch (IOException e) {
 				throw e;
 			} finally {
 				SafeClose(reader);
 			}
-		} else {
-			this.log().info("File not found: freed-maps.json");
-			this.changed.set(true);
 		}
 	}
 	public synchronized boolean save() throws IOException {
@@ -91,8 +88,6 @@ public class FreedMapStore implements xListener {
 				writer = new BufferedWriter(new FileWriter(this.file));
 				writer.write(data);
 				return true;
-			} catch (IOException e) {
-				throw e;
 			} finally {
 				SafeClose(writer);
 			}
