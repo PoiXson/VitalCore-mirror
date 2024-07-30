@@ -27,7 +27,7 @@ import com.poixson.tools.SaveMonitor;
 import com.poixson.tools.xJavaPlugin;
 import com.poixson.tools.xTime;
 import com.poixson.tools.chat.ChatFormatter;
-import com.poixson.tools.localchat.LocalChatManager;
+import com.poixson.tools.chat.ChatManager;
 import com.poixson.tools.updatechecker.UpdateCheckManager;
 
 
@@ -36,8 +36,11 @@ public class pxnPluginLib extends xJavaPlugin {
 	@Override public int getBStatsID() {       return 20434;  }
 	public static final String CHAT_PREFIX = ChatColor.DARK_AQUA+"[pxnPluginLib] "+ChatColor.WHITE;
 
-	public static final double DEFAULT_CHAT_LOCAL_DISTANCE = 120.0;
+	public static final boolean DEFAULT_CHECK_FOR_UPDATES  = true;
 	public static final boolean DEFAULT_ENABLE_CHAT_FORMAT = false;
+	public static final boolean DEFAULT_ENABLE_LOCAL_CHAT  = false;
+	public static final int     DEFAULT_LOCAL_CHAT_RANGE   = 120;
+	public static final int     DEFAULT_LOCAL_CHAT_GRACE   =  10;
 	public static final Map<String, String> DEFAULT_CHAT_FORMATS = Map.ofEntries(
 			Map.entry("default", "<DARK_GREEN><<PLAYER>><WHITE> <MSG>"),
 			Map.entry("local",   "<DARK_GREEN><<PLAYER>><WHITE> <MSG>"),
@@ -52,9 +55,9 @@ public class pxnPluginLib extends xJavaPlugin {
 	protected final AtomicReference<pxnPluginsChart>  pluginsListener = new AtomicReference<pxnPluginsChart>(null);
 	protected final AtomicReference<UpdateCheckManager> updateChecker = new AtomicReference<UpdateCheckManager>(null);
 	protected final AtomicReference<FreedMapStore>      freedMaps     = new AtomicReference<FreedMapStore>(null);
-	protected final AtomicReference<LocalChatManager>   chatManager   = new AtomicReference<LocalChatManager>(null);
 	protected final AtomicReference<PlayerMoveMonitor>  moveMonitor   = new AtomicReference<PlayerMoveMonitor> (null);
 	protected final AtomicReference<SaveMonitor>        saveMonitor   = new AtomicReference<SaveMonitor>       (null);
+	protected final AtomicReference<ChatManager>        chatManager   = new AtomicReference<ChatManager>       (null);
 	protected final AtomicReference<ChatFormatter>      chatFormatter = new AtomicReference<ChatFormatter>     (null);
 
 	protected final AtomicReference<Commands> commands = new AtomicReference<Commands>(null);
@@ -125,9 +128,15 @@ public class pxnPluginLib extends xJavaPlugin {
 		// local chat
 		if (this.enableLocalChat()
 		||  this.enableChatFormat()) {
-			final double local_distance = this.getChatLocalDistance();
-			final LocalChatManager manager = new LocalChatManager(this, chat_format, local_distance);
-			final LocalChatManager previous = this.chatManager.getAndSet(manager);
+			final ChatManager manager;
+			if (this.enableLocalChat()) {
+				final int range = this.getLocalChatRange();
+				final int grace = this.getLocalChatGrace();
+				manager = new ChatManager(this, range, grace);
+			} else {
+				manager = new ChatManager(this);
+			}
+			final ChatManager previous = this.chatManager.getAndSet(manager);
 			if (previous != null)
 				previous.unregister();
 			manager.register();
@@ -157,7 +166,7 @@ public class pxnPluginLib extends xJavaPlugin {
 		}
 		// chat
 		{
-			final LocalChatManager manager = this.chatManager.getAndSet(null);
+			final ChatManager manager = this.chatManager.getAndSet(null);
 			if (manager != null)
 				manager.unregister();
 		}
@@ -220,9 +229,10 @@ public class pxnPluginLib extends xJavaPlugin {
 		super.configDefaults(config);
 		Commands.ConfigDefaults(config);
 		config.addDefault("Check for Updates",      Boolean.TRUE );
-		config.addDefault("Chat.Enable Local Chat", Boolean.FALSE);
-		config.addDefault("Chat.Local Distance", Double.valueOf(DEFAULT_CHAT_LOCAL_DISTANCE));
 		config.addDefault("Chat.Enable Formatting", Boolean.valueOf(DEFAULT_ENABLE_CHAT_FORMAT));
+		config.addDefault("Chat.Enable Local Chat", Boolean.valueOf(DEFAULT_ENABLE_LOCAL_CHAT ));
+		config.addDefault("Chat.Local Range",       Integer.valueOf(DEFAULT_LOCAL_CHAT_RANGE  ));
+		config.addDefault("Chat.Local Grace",       Integer.valueOf(DEFAULT_LOCAL_CHAT_GRACE  ));
 		config.addDefault("Chat.Formats",           DEFAULT_CHAT_FORMATS                       );
 	}
 
@@ -240,9 +250,12 @@ public class pxnPluginLib extends xJavaPlugin {
 	public boolean enableLocalChat() {
 		return this.getConfig().getBoolean("Chat.Enable Local Chat");
 	}
+	public int getLocalChatRange() {
+		return this.getConfig().getInt("Chat.Local Range");
 	}
-	public double getChatLocalDistance() {
-		return this.getConfig().getDouble("Chat.Local Distance");
+	public int getLocalChatGrace() {
+		return this.getConfig().getInt("Chat.Local Grace");
+	}
 
 	public Map<String, String> getChatFormats() {
 		final ConfigurationSection cfg = this.getConfig().getConfigurationSection("Chat.Formats");
