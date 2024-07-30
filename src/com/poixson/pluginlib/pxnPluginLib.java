@@ -52,9 +52,9 @@ public class pxnPluginLib extends xJavaPlugin {
 
 	protected final CopyOnWriteArraySet<xJavaPlugin> plugins = new CopyOnWriteArraySet<xJavaPlugin>();
 
-	protected final AtomicReference<pxnPluginsChart>  pluginsListener = new AtomicReference<pxnPluginsChart>(null);
+	protected final AtomicReference<pxnPluginsChart>  pluginsListener = new AtomicReference<pxnPluginsChart>   (null);
 	protected final AtomicReference<UpdateCheckManager> updateChecker = new AtomicReference<UpdateCheckManager>(null);
-	protected final AtomicReference<FreedMapStore>      freedMaps     = new AtomicReference<FreedMapStore>(null);
+	protected final AtomicReference<FreedMapStore>      freedMaps     = new AtomicReference<FreedMapStore>     (null);
 	protected final AtomicReference<PlayerMoveMonitor>  moveMonitor   = new AtomicReference<PlayerMoveMonitor> (null);
 	protected final AtomicReference<SaveMonitor>        saveMonitor   = new AtomicReference<SaveMonitor>       (null);
 	protected final AtomicReference<ChatManager>        chatManager   = new AtomicReference<ChatManager>       (null);
@@ -228,7 +228,7 @@ public class pxnPluginLib extends xJavaPlugin {
 	protected void configDefaults(final FileConfiguration config) {
 		super.configDefaults(config);
 		Commands.ConfigDefaults(config);
-		config.addDefault("Check for Updates",      Boolean.TRUE );
+		config.addDefault("Check for Updates",      Boolean.valueOf(DEFAULT_CHECK_FOR_UPDATES ));
 		config.addDefault("Chat.Enable Formatting", Boolean.valueOf(DEFAULT_ENABLE_CHAT_FORMAT));
 		config.addDefault("Chat.Enable Local Chat", Boolean.valueOf(DEFAULT_ENABLE_LOCAL_CHAT ));
 		config.addDefault("Chat.Local Range",       Integer.valueOf(DEFAULT_LOCAL_CHAT_RANGE  ));
@@ -287,19 +287,25 @@ public class pxnPluginLib extends xJavaPlugin {
 		if (plugin == null) throw new RuntimeException("pxnPluginLib not loaded");
 		return plugin;
 	}
+
+
+
 	public static FreedMapStore GetFreedMapStore() {
-		final pxnPluginLib plugin = GetCommonPlugin();
+		return GetCommonPlugin()
+				.getFreedMapStore();
+	}
+	public FreedMapStore getFreedMapStore() {
 		// already loaded
 		{
-			final FreedMapStore store = plugin.freedMaps.get();
+			final FreedMapStore store = this.freedMaps.get();
 			if (store != null)
 				return store;
 		}
 		// load map store
 		{
-			final String path = plugin.getDataFolder().getAbsolutePath();
-			final FreedMapStore store = new FreedMapStore(plugin, path);
-			if (plugin.freedMaps.compareAndSet(null, store)) {
+			final String path = this.getDataFolder().getAbsolutePath();
+			final FreedMapStore store = new FreedMapStore(this, path);
+			if (this.freedMaps.compareAndSet(null, store)) {
 				try {
 					store.load();
 				} catch (IOException e) {
@@ -307,15 +313,27 @@ public class pxnPluginLib extends xJavaPlugin {
 				}
 				store.register();
 				final ServicesManager services = Bukkit.getServicesManager();
-				services.register(FreedMapStore.class, store, plugin, ServicePriority.Normal);
+				services.register(FreedMapStore.class, store, this, ServicePriority.Normal);
 				return store;
 			}
 		}
-		return GetFreedMapStore();
+		return this.freedMaps.get();
 	}
+
+
+
 	public static PlayerMoveMonitor GetPlayerMoveMonitor() {
-		return GetCommonPlugin().moveMonitor.get();
+		return GetCommonPlugin()
+				.getPlayerMoveMonitor();
 	}
+	public PlayerMoveMonitor getPlayerMoveMonitor() {
+		return this.moveMonitor.get();
+	}
+
+
+
+	// -------------------------------------------------------------------------------
+	// pxn plugins
 
 
 
@@ -340,6 +358,10 @@ public class pxnPluginLib extends xJavaPlugin {
 	public int getPluginsCount() {
 		return this.plugins.size();
 	}
+
+
+
+	// -------------------------------------------------------------------------------
 
 
 
