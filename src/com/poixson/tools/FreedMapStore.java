@@ -75,7 +75,7 @@ public class FreedMapStore implements xListener {
 			this.changed.set(true);
 		}
 	}
-	public boolean save() throws IOException {
+	public synchronized boolean save() throws IOException {
 		if (this.changed.getAndSet(false)) {
 			final Integer[] list = this.freed.toArray(new Integer[0]);
 			final int[] result = new int[list.length];
