@@ -3,12 +3,17 @@ package com.poixson.pluginlib;
 import static com.poixson.utils.Utils.GetMS;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.ServicesManager;
@@ -21,6 +26,7 @@ import com.poixson.tools.PlayerMoveMonitor;
 import com.poixson.tools.SaveMonitor;
 import com.poixson.tools.xJavaPlugin;
 import com.poixson.tools.xTime;
+import com.poixson.tools.chat.ChatFormatter;
 import com.poixson.tools.localchat.LocalChatManager;
 import com.poixson.tools.updatechecker.UpdateCheckManager;
 
@@ -31,6 +37,12 @@ public class pxnPluginLib extends xJavaPlugin {
 	public static final String CHAT_PREFIX = ChatColor.DARK_AQUA+"[pxnPluginLib] "+ChatColor.WHITE;
 
 	public static final double DEFAULT_CHAT_LOCAL_DISTANCE = 120.0;
+	public static final boolean DEFAULT_ENABLE_CHAT_FORMAT = false;
+	public static final Map<String, String> DEFAULT_CHAT_FORMATS = Map.ofEntries(
+			Map.entry("default", "<DARK_GREEN><<PLAYER>><WHITE> <MSG>"),
+			Map.entry("local",   "<DARK_GREEN><<PLAYER>><WHITE> <MSG>"),
+			Map.entry("radio",   "<GOLD>[<CHANNEL>]</RADIO><DARK_GREEN><<PLAYER>><WHITE> <MSG>")
+	);
 
 	protected final Keeper keeper;
 	protected final long time_start;
@@ -43,6 +55,7 @@ public class pxnPluginLib extends xJavaPlugin {
 	protected final AtomicReference<LocalChatManager>   chatManager   = new AtomicReference<LocalChatManager>(null);
 	protected final AtomicReference<PlayerMoveMonitor>  moveMonitor   = new AtomicReference<PlayerMoveMonitor> (null);
 	protected final AtomicReference<SaveMonitor>        saveMonitor   = new AtomicReference<SaveMonitor>       (null);
+	protected final AtomicReference<ChatFormatter>      chatFormatter = new AtomicReference<ChatFormatter>     (null);
 
 	protected final AtomicReference<Commands> commands = new AtomicReference<Commands>(null);
 
@@ -103,9 +116,15 @@ public class pxnPluginLib extends xJavaPlugin {
 			if (previous != null)
 				previous.close();
 		}
-		// chat
-		if (enableLocalChat()) {
-			final String chat_format    = this.getChatFormat();
+		// chat format
+		if (this.enableChatFormat()) {
+			final ChatFormatter formatter = new ChatFormatter();
+			formatter.addFormats(this.getChatFormats());
+			this.chatFormatter.set(formatter);
+		}
+		// local chat
+		if (this.enableLocalChat()
+		||  this.enableChatFormat()) {
 			final double local_distance = this.getChatLocalDistance();
 			final LocalChatManager manager = new LocalChatManager(this, chat_format, local_distance);
 			final LocalChatManager previous = this.chatManager.getAndSet(manager);
@@ -202,8 +221,9 @@ public class pxnPluginLib extends xJavaPlugin {
 		Commands.ConfigDefaults(config);
 		config.addDefault("Check for Updates",      Boolean.TRUE );
 		config.addDefault("Chat.Enable Local Chat", Boolean.FALSE);
-		config.addDefault("Chat.Format", "<LOCAL><DARK_AQUA>[L]</LOCAL><RADIO><GOLD>[R]</RADIO><DARK_GREEN><<PLAYER>><WHITE> ");
 		config.addDefault("Chat.Local Distance", Double.valueOf(DEFAULT_CHAT_LOCAL_DISTANCE));
+		config.addDefault("Chat.Enable Formatting", Boolean.valueOf(DEFAULT_ENABLE_CHAT_FORMAT));
+		config.addDefault("Chat.Formats",           DEFAULT_CHAT_FORMATS                       );
 	}
 
 
@@ -214,19 +234,38 @@ public class pxnPluginLib extends xJavaPlugin {
 
 
 
+	public boolean enableChatFormat() {
+		return this.getConfig().getBoolean("Chat.Enable Formatting");
+	}
 	public boolean enableLocalChat() {
 		return this.getConfig().getBoolean("Chat.Enable Local Chat");
 	}
-	public String getChatFormat() {
-		return this.getConfig().getString("Chat.Format");
 	}
 	public double getChatLocalDistance() {
 		return this.getConfig().getDouble("Chat.Local Distance");
+
+	public Map<String, String> getChatFormats() {
+		final ConfigurationSection cfg = this.getConfig().getConfigurationSection("Chat.Formats");
+		if (cfg == null)
+			return DEFAULT_CHAT_FORMATS;
+		final Iterator<Entry<String, Object>> it = cfg.getValues(false).entrySet().iterator();
+		final Map<String, String> result = new HashMap<String, String>();
+		while (it.hasNext()) {
+			final Entry<String, Object> entry = it.next();
+			result.put(entry.getKey(), (String)entry.getValue());
+		}
+		return result;
 	}
 
 
 
 	// -------------------------------------------------------------------------------
+
+
+
+	public ChatFormatter getChatFormatter() {
+		return this.chatFormatter.get();
+	}
 
 
 
