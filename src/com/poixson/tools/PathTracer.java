@@ -1,11 +1,12 @@
 package com.poixson.tools;
 
+import static com.poixson.utils.MathUtils.MinMax;
+
 import java.lang.ref.SoftReference;
 import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.poixson.utils.FastNoiseLiteD;
-import com.poixson.utils.NumberUtils;
 
 
 public class PathTracer {
@@ -90,7 +91,7 @@ public class PathTracer {
 				valueW = this.noise.getNoise(x-1.0, i);
 				x += (valueW - valueE) * 5.0;
 			}
-			step = NumberUtils.MinMax( (int)Math.floor(Math.pow(i, 0.5)), 3, DEFAULT_MAX_CACHE_STEP );
+			step = MinMax( (int)Math.floor(Math.pow(i, 0.5)), 3, DEFAULT_MAX_CACHE_STEP );
 			local.put(Integer.valueOf(i), Double.valueOf(x));
 			if (i % step == 0)
 				this.cache.put(Integer.valueOf(i), Double.valueOf(x));

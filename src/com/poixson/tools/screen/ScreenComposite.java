@@ -2,7 +2,7 @@ package com.poixson.tools.screen;
 
 import static com.poixson.utils.BukkitUtils.EqualsLocation;
 import static com.poixson.utils.LocationUtils.FaceToIxyz;
-import static com.poixson.utils.NumberUtils.MinMax;
+import static com.poixson.utils.MathUtils.MinMax;
 
 import java.awt.image.BufferedImage;
 import java.util.LinkedList;
