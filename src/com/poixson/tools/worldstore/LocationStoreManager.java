@@ -31,9 +31,9 @@ public class LocationStoreManager extends BukkitRunnable implements xListener {
 
 	protected final xJavaPlugin plugin;
 
+	protected final File path;
 	protected final String type;
 
-	protected final File path;
 	protected final AtomicBoolean inited = new AtomicBoolean(false);
 
 	protected final ConcurrentHashMap<Iab, LocationStore> regions = new ConcurrentHashMap<Iab, LocationStore>();
@@ -42,7 +42,7 @@ public class LocationStoreManager extends BukkitRunnable implements xListener {
 
 	public LocationStoreManager(final xJavaPlugin plugin, final String worldStr, final String type) {
 		this.plugin = plugin;
-		this.type = type;
+		this.type   = type;
 		this.path = new File(GetServerPath(), worldStr+"/locs");
 	}
 

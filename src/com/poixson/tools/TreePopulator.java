@@ -5,8 +5,6 @@ import org.bukkit.block.data.BlockData;
 import org.bukkit.block.data.type.Leaves;
 import org.bukkit.generator.LimitedRegion;
 
-import com.poixson.utils.FastNoiseLiteD;
-
 
 public class TreePopulator {
 
