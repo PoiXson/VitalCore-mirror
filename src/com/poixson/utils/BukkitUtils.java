@@ -48,7 +48,7 @@ public final class BukkitUtils {
 
 
 
-	public static String Format(final String msg) {
+	public static String FormatColors(final String msg) {
 		// adventure format
 		try {
 			// MiniMessage.miniMessage().deserialize(msg);
