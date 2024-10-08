@@ -11,102 +11,114 @@ import java.lang.reflect.Type;
 import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitRunnable;
-
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-import com.poixson.tools.xTime;
-import com.poixson.utils.BukkitUtils;
+import com.poixson.tools.xJavaPlugin;
 
 
-public class VarStore extends BukkitRunnable {
-	public static final long DEFAULT_SAVE_DELAY = (new xTime("30s")).ticks(50L);
+public class WorldKeyStore extends WorldStoreManager<WorldStoreData> {
 
-	protected final File path;
+	protected final ConcurrentHashMap<String, Object> data = new ConcurrentHashMap<String, Object>();
+
 	protected final File file;
-
-	protected final ConcurrentHashMap<String, Object> vars = new ConcurrentHashMap<String, Object>();
 
 	protected final AtomicBoolean changed = new AtomicBoolean(false);
 
 
 
-	public VarStore(final String worldStr) {
-		this(worldStr, "vars.json");
+	public WorldKeyStore(final xJavaPlugin plugin,
+			final String world) {
+		this(plugin, world, "data");
 	}
-	public VarStore(final String worldStr, final String filename) {
-		this.path = new File(BukkitUtils.GetServerPath(), worldStr);
-		this.file = new File(this.path, filename);
+	public WorldKeyStore(final xJavaPlugin plugin,
+			final String world, final String type) {
+		super(plugin, 0, world, type);
+		this.file = this.build_file_path(this.path, type, 0, 0);
 	}
 
 
 
-	public VarStore start(final JavaPlugin plugin) {
-		try {
-			this.load();
-		} catch (IOException e) {
-			throw new RuntimeException(e);
+	@Override
+	public void load() throws IOException {
+		if (this.file.isFile()) {
+			BufferedReader reader = null;
+			final HashMap<String, Object> map;
+			try {
+				reader = Files.newBufferedReader(this.file.toPath());
+				final Type token = new TypeToken<HashMap<String, Object>>() {}.getType();
+				map = (new Gson()).fromJson(reader, token);
+			} finally {
+				SafeClose(reader);
+			}
+			synchronized (this.data) {
+				this.data.clear();
+				if (!map.isEmpty()) {
+					final Iterator<Entry<String, Object>> it = map.entrySet().iterator();
+					while (it.hasNext()) {
+						final Entry<String, Object> entry = it.next();
+						this.data.put(entry.getKey(), entry.getValue());
+					}
+				}
+				this.changed.set(true);
+			}
 		}
-		this.runTaskTimerAsynchronously(plugin, 40L, DEFAULT_SAVE_DELAY);
-		return this;
+	}
+	@Override
+	public void save() throws IOException {
+		if (this.changed.compareAndSet(true, false)) {
+			this.init();
+			final Gson gson = (new GsonBuilder()).setPrettyPrinting().create();
+			final String json = gson.toJson(this.data);
+			BufferedWriter writer = null;
+			try {
+				writer = new BufferedWriter(new FileWriter(this.file));
+				writer.write(json);
+			} finally {
+				SafeClose(writer);
+			}
+		}
 	}
 
 
 
 	@Override
 	public void run() {
-		try {
-			this.save();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 	}
 
 
 
-	protected synchronized void load() throws IOException {
-		if (this.file.isFile()) {
-			synchronized (this.vars) {
-				final BufferedReader reader = Files.newBufferedReader(this.file.toPath());
-				final Type token = new TypeToken<HashMap<String, Object>>() {}.getType();
-				final Map<String, Object> map = (new Gson()).fromJson(reader, token);
-				final Iterator<Entry<String, Object>> it = map.entrySet().iterator();
-				while (it.hasNext()) {
-					final Entry<String, Object> entry = it.next();
-					this.vars.put(entry.getKey(), entry.getValue());
-				}
-				SafeClose(reader);
-			}
-		}
+	@Override
+	public File build_file_path(final File path, final String type,
+			final int region_x, final int region_z) {
+		final String filename = type + ".json";
+		return new File(path, filename);
 	}
-	public boolean save() throws IOException {
-		if (this.changed.getAndSet(false)) {
-			synchronized (this.vars) {
-				final String data = (new Gson()).toJson(this.vars);
-				final BufferedWriter writer = new BufferedWriter(new FileWriter(this.file));
-				writer.write(data);
-				SafeClose(writer);
-				return true;
-			}
-		}
-		return false;
+
+
+
+	@Override
+	public WorldStoreData build_store(final int region_x, final int region_z) {
+		throw new UnsupportedOperationException();
+	};
+
+	@Override
+	public WorldStoreData getRegion(final int region_x, final int region_z) {
+		throw new UnsupportedOperationException();
 	}
 
 
 
 	public Object get(final String key) {
-		return this.vars.get(key);
+		return this.data.get(key);
 	}
 	public String getString(final String key) {
 		final Object value = this.get(key);
-		if (value == null) return null;
-		return (String) value;
+		return (value==null ? null : (String)value);
 	}
 	public int getInt(final String key) {
 		final Object value = this.get(key);
@@ -136,17 +148,20 @@ public class VarStore extends BukkitRunnable {
 
 
 	public void set(final String key, final Object value) {
-		this.vars.put(key, value);
+		this.data.put(key, value);
 		this.changed.set(true);
 	}
 	public void set(final String key, final int value) {
 		this.set(key, Integer.valueOf(value));
+		this.changed.set(true);
 	}
 	public void set(final String key, final long value) {
 		this.set(key, Long.valueOf(value));
+		this.changed.set(true);
 	}
 	public void set(final String key, final double value) {
 		this.set(key, Double.valueOf(value));
+		this.changed.set(true);
 	}
 
 

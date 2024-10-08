@@ -1,8 +1,7 @@
 package com.poixson.tools.worldstore;
 
-import static com.poixson.tools.worldstore.LocationStoreManager.DEFAULT_DELAY_SAVE;
-import static com.poixson.tools.worldstore.LocationStoreManager.DEFAULT_DELAY_UNLOAD;
-import static com.poixson.utils.BukkitUtils.Log;
+import static com.poixson.tools.worldstore.WorldStoreManager.DELAY_SAVE;
+import static com.poixson.tools.worldstore.WorldStoreManager.DELAY_UNLOAD;
 import static com.poixson.utils.Utils.GetMS;
 import static com.poixson.utils.Utils.SafeClose;
 
@@ -14,6 +13,7 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.nio.file.Files;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.atomic.AtomicLong;
@@ -23,14 +23,14 @@ import com.google.gson.reflect.TypeToken;
 import com.poixson.tools.dao.Iab;
 
 
-public class LocationStore {
+public class LocationStore implements WorldStoreData {
+
+	protected final CopyOnWriteArraySet<Iab> locations = new CopyOnWriteArraySet<Iab>();
 
 	protected final File file;
 
-	public final CopyOnWriteArraySet<Iab> locations = new CopyOnWriteArraySet<Iab>();
-
-	protected final AtomicLong last_used    = new AtomicLong(0L);
-	protected final AtomicLong last_changed = new AtomicLong(0L);
+	protected final AtomicLong last_accessed = new AtomicLong(0L);
+	protected final AtomicLong last_changed  = new AtomicLong(0L);
 
 
 
@@ -40,64 +40,74 @@ public class LocationStore {
 
 
 
-	public void load(final int regionX, final int regionZ) throws IOException {
-		this.locations.clear();
+	@Override
+	public boolean load() throws IOException {
 		if (this.file.isFile()) {
-			synchronized (this.locations) {
-				final BufferedReader reader = Files.newBufferedReader(this.file.toPath());
+			BufferedReader reader = null;
+			final Set<String> set;
+			try {
+				reader = Files.newBufferedReader(this.file.toPath());
 				final Type token = new TypeToken<HashSet<String>>() {}.getType();
-				final Set<String> set = (new Gson()).fromJson(reader, token);
-				String[] split;
-				int x, z;
-				for (final String entry : set) {
-					try {
-						split = entry.split(",");
-						if (split.length != 2) throw new NumberFormatException();
-						x = Integer.parseInt(split[0].trim());
-						z = Integer.parseInt(split[1].trim());
-						this.locations.add(new Iab(x, z));
-					} catch (NumberFormatException e) {
-						Log().warning(String.format(
-							"Invalid entry '%s' in file: %s",
-							entry, this.file.toString()
-						));
-						continue;
-					}
-				}
+				set = (new Gson()).fromJson(reader, token);
+			} finally {
 				SafeClose(reader);
 			}
-		}
-	}
-	public boolean save() throws IOException {
-		this.last_changed.set(0L);
-		final Set<String> result = new HashSet<String>();
-		final Iab[] set = this.locations.toArray(new Iab[0]);
-		for (final Iab loc : set)
-			result.add(loc.toString());
-		if (result.size() > 0) {
-			final String json = (new Gson()).toJson(result);
-			final BufferedWriter writer = new BufferedWriter(new FileWriter(this.file));
-			writer.write(json);
-			SafeClose(writer);
-			return true;
+			final LinkedList<Iab> locs = new LinkedList<Iab>();
+			for (final String entry : set)
+				locs.addLast(Iab.FromString(entry));
+			synchronized (this.locations) {
+				this.last_accessed.set(0L);
+				this.last_changed.set(0L);
+				this.locations.clear();
+				if (!locs.isEmpty()) {
+					for (final Iab loc : locs)
+						this.locations.add(loc);
+				}
+			}
+			return !locs.isEmpty();
 		}
 		return false;
 	}
 
-
-
-	public boolean isStale() {
-		return this.isStale(GetMS());
+	@Override
+	public boolean save() throws IOException {
+		this.last_changed.set(0L);
+		final LinkedList<String> data = new LinkedList<String>();
+		for (final Iab loc : this.locations)
+			data.add(loc.toString());
+		final String json = (new Gson()).toJson(data);
+		BufferedWriter writer = null;
+		try {
+			writer = new BufferedWriter(new FileWriter(this.file));
+			writer.write(json);
+		} finally {
+			SafeClose(writer);
+		}
+		return !data.isEmpty();
 	}
+
+
+
+	@Override
 	public boolean isStale(final long time) {
-		boolean saved = false;
-		// last changed
+		boolean stale = false;
+		// last accessed
 		{
+			final long last = this.last_accessed.get();
+			if (last <= 0L) {
+				this.last_accessed.compareAndSet(last, time);
+			} else {
+				final long since = time - last;
+				if (since > DELAY_UNLOAD)
+					stale = true;
+			}
+		}
+		// last changed
+		if (!stale) {
 			final long last = this.last_changed.get();
 			if (last > 0L) {
 				final long since = time - last;
-				if (since > DEFAULT_DELAY_SAVE) {
-					saved = true;
+				if (since > DELAY_SAVE) {
 					try {
 						this.save();
 					} catch (IOException e) {
@@ -106,60 +116,38 @@ public class LocationStore {
 				}
 			}
 		}
-		// last accessed
-		{
-			final long last = this.last_used.get();
-			if (last <= 0L) {
-				this.last_used.compareAndSet(last, time);
-			} else {
-				final long since = time - last;
-				if (since > DEFAULT_DELAY_UNLOAD) {
-					if (!saved) {
-						try {
-							this.save();
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
-					}
-					return true;
-				}
-			}
-		}
-		return false;
+		return stale;
+	}
+
+	public void mark_accessed() {
+		this.last_accessed.set(GetMS());
+	}
+	public void mark_changed() {
+		this.mark_accessed();
+		this.last_changed.compareAndSet(0L, GetMS());
 	}
 
 
 
-	public void markAccessed() {
-		this.markAccessed(GetMS());
+	public Iab[] getLocations() {
+		return this.locations.toArray(new Iab[0]);
 	}
-	public void markAccessed(final long time) {
-		this.last_used.set(time);
+	public boolean contains(final int x, final int z) {
+		final boolean result = this.locations.contains(new Iab(x, z));
+		this.mark_accessed();
+		return result;
 	}
-
-	public void markChanged() {
-		this.markChanged(GetMS());
-	}
-	public void markChanged(final long time) {
-		this.markAccessed(time);
-		this.last_changed.set(time);
-	}
-
-
 
 	public boolean add(final int x, final int z) {
 		final boolean result = this.locations.add(new Iab(x, z));
-		this.markChanged();
+		if (result)
+			this.mark_changed();
 		return result;
 	}
 	public boolean remove(final int x, final int z) {
 		final boolean result = this.locations.remove(new Iab(x, z));
-		this.markChanged();
-		return result;
-	}
-	public boolean contains(final int x, final int z) {
-		final boolean result = this.locations.contains(new Iab(x, z));
-		this.markAccessed();
+		if (result)
+			this.mark_changed();
 		return result;
 	}
 
