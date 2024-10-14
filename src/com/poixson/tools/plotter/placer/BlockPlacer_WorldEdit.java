@@ -1,4 +1,4 @@
-package com.poixson.tools.plotter;
+package com.poixson.tools.plotter.placer;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;

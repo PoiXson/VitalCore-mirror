@@ -18,6 +18,7 @@ import org.bukkit.generator.LimitedRegion;
 
 import com.poixson.tools.dao.Iabc;
 import com.poixson.tools.dao.Iabcd;
+import com.poixson.tools.plotter.placer.BlockPlacer;
 
 
 public class BlockPlotter {
