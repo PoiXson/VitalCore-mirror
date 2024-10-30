@@ -15,12 +15,11 @@ import com.poixson.tools.events.SaveEvent;
 
 public class SaveMonitor implements xListener {
 
-	protected final AtomicLong last = new AtomicLong(-1L);
+	protected final AtomicLong last = new AtomicLong(0L);
 
 
 
 	public SaveMonitor() {
-		this.last.set(GetMS());
 	}
 
 
