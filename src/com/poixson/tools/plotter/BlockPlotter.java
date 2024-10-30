@@ -1,8 +1,14 @@
 package com.poixson.tools.plotter;
 
+import static com.poixson.utils.GsonUtils.GSON;
 import static com.poixson.utils.LocationUtils.AxToIxyz;
 import static com.poixson.utils.LocationUtils.Rotate;
+import static com.poixson.utils.Utils.SafeClose;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
@@ -16,16 +22,19 @@ import org.bukkit.block.data.BlockData;
 import org.bukkit.generator.ChunkGenerator.ChunkData;
 import org.bukkit.generator.LimitedRegion;
 
+import com.poixson.tools.abstractions.Tuple;
 import com.poixson.tools.dao.Iabc;
 import com.poixson.tools.dao.Iabcd;
 import com.poixson.tools.plotter.placer.BlockPlacer;
+import com.poixson.utils.FileUtils;
 
 
-public class BlockPlotter {
+public class BlockPlotter implements Serializable {
+	private static final long serialVersionUID = 1L;
 
-	public int x = 0;
-	public int y = 0;
-	public int z = 0;
+	public transient int x = 0;
+	public transient int y = 0;
+	public transient int z = 0;
 	public int w, h, d;
 
 	public String axis;
@@ -36,6 +45,49 @@ public class BlockPlotter {
 
 
 	public BlockPlotter() {
+	}
+
+
+
+	// -------------------------------------------------------------------------------
+
+
+
+	public static BlockPlotter FromJSON(final String json) {
+		return GSON().fromJson(json, BlockPlotter.class);
+	}
+	public String toJson() {
+		return GSON().toJson(this);
+	}
+
+
+
+	public static Tuple<BlockPlotter, StringBuilder[][]> Load(final File file)
+			throws IOException {
+		FileInputStream in = null;
+		try {
+			in = new FileInputStream(file);
+			final String json = FileUtils.ReadInputStream(in);
+			return Load(json);
+		} finally {
+			SafeClose(in);
+		}
+	}
+	public static Tuple<BlockPlotter, StringBuilder[][]> Load(final String json) {
+		final String[] parts = json.split("###", 2);
+		final BlockPlotter plot = FromJSON(parts[0]);
+		final String[][] arrays = GSON().fromJson(parts[1], String[][].class);
+		final int d1 = arrays.length;
+		final int d2 = arrays[0].length;
+		final StringBuilder[][] matrix = new StringBuilder[d1][];
+		for (int i=0; i<d1; i++) {
+			matrix[i] = new StringBuilder[d2];
+			for (int ii=0; ii<d2; ii++) {
+				matrix[i][ii] = new StringBuilder();
+				matrix[i][ii].append(arrays[i][ii]);
+			}
+		}
+		return new Tuple<BlockPlotter, StringBuilder[][]>(plot, matrix);
 	}
 
 
