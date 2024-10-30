@@ -12,7 +12,7 @@ import com.poixson.tools.dao.Iab;
 import com.poixson.tools.dao.Iabcd;
 
 
-public class CraftScriptUtils {
+public final class CraftScriptUtils {
 	private CraftScriptUtils() {}
 
 	public static final int MAP_SIZE = 128;

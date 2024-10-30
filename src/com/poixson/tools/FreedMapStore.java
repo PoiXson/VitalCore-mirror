@@ -65,8 +65,6 @@ public class FreedMapStore implements xListener {
 					this.freed.add(id);
 				this.log().info(String.format("Loaded %d freed maps", Integer.valueOf(this.freed.size())));
 				this.changed.set(false);
-			} catch (IOException e) {
-				throw e;
 			} finally {
 				SafeClose(reader);
 			}

@@ -1,6 +1,6 @@
 package com.poixson.tools.worldstore;
 
-import static com.poixson.utils.GsonUtils.GSON;
+import static com.poixson.utils.gson.GsonUtils.GSON;
 
 import java.io.File;
 import java.lang.reflect.Type;

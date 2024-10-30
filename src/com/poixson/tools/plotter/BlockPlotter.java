@@ -1,9 +1,9 @@
 package com.poixson.tools.plotter;
 
-import static com.poixson.utils.GsonUtils.GSON;
 import static com.poixson.utils.LocationUtils.AxToIxyz;
 import static com.poixson.utils.LocationUtils.Rotate;
 import static com.poixson.utils.Utils.SafeClose;
+import static com.poixson.utils.gson.GsonUtils.GSON;
 
 import java.io.File;
 import java.io.FileInputStream;
