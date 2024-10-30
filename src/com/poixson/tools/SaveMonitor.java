@@ -14,6 +14,7 @@ import com.poixson.tools.events.SaveEvent;
 
 
 public class SaveMonitor implements xListener {
+	public static final long DEFAULT_GRACE = xTime.ParseToLong("5s");
 
 	protected final AtomicLong last = new AtomicLong(0L);
 
@@ -27,10 +28,11 @@ public class SaveMonitor implements xListener {
 	@EventHandler(priority=EventPriority.NORMAL, ignoreCancelled=true)
 	public void onWorldSave(final WorldSaveEvent event) {
 		final long time = GetMS();
-		final long last = this.last.get();
-		if (time - last >= 60000L) {
+		final long last = this.last.getAndSet(time);
+		final long since = time - last;
+		if (since > DEFAULT_GRACE) {
 			this.last.set(time);
-			final SaveEvent event_save = new SaveEvent(time - last);
+			final SaveEvent event_save = new SaveEvent(since);
 			Bukkit.getPluginManager()
 				.callEvent(event_save);
 		}
