@@ -85,6 +85,7 @@ public class RandomMaze extends WorldStore_Map<Iab, AtomicDoubleArray> {
 		final int size_total = this.size_x * this.size_z;
 		final AtomicDoubleArray result = new AtomicDoubleArray(size_total);
 		final String[] lines = GSON().fromJson(json, String[].class);
+		if (lines == null) throw new NullPointerException("Failed to parse json");
 		int iz = 0;
 		for (final String line : lines) {
 			final String[] parts = line.split(" ");

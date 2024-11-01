@@ -37,6 +37,7 @@ public class WorldStore_Locations extends WorldStore_Map<Iab, CopyOnWriteArraySe
 	protected CopyOnWriteArraySet<Iab> load_decode(final String json) {
 		final CopyOnWriteArraySet<Iab> result = new CopyOnWriteArraySet<Iab>();
 		final String[] array = GSON().fromJson(json, String[].class);
+		if (array == null) throw new NullPointerException("Failed to parse json");
 		for (final String entry : array) {
 			final Iab loc = Iab.FromString(entry);
 			result.add(loc);

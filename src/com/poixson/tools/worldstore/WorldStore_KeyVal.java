@@ -74,6 +74,7 @@ public class WorldStore_KeyVal extends WorldStore_Map<String, Object> {
 	protected Object load_decode(final String json) {
 		final Type token = new TypeToken<HashMap<String, Object>>() {}.getType();
 		final Map<String, Object> map = GSON().fromJson(json, token);
+		if (map == null) throw new NullPointerException("Failed to parse json");
 		final Iterator<Entry<String, Object>> it = map.entrySet().iterator();
 		while (it.hasNext()) {
 			final Entry<String, Object> entry = it.next();

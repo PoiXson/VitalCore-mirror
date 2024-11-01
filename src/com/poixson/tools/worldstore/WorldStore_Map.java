@@ -82,6 +82,7 @@ public abstract class WorldStore_Map<K, V> extends CacheMap<K, V> implements xSt
 			try {
 				in = Files.newInputStream(file.toPath());
 				final String json = FileUtils.ReadInputStream(in);
+				if (json == null) throw new IOException("Failed to load json file: "+file.toString());
 				final V value = this.load_decode(json);
 				if (value != null)
 					this.map.put(key, value);
