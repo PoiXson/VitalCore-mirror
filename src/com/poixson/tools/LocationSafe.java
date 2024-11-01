@@ -1,7 +1,7 @@
 package com.poixson.tools;
 
+import static com.poixson.utils.MathUtils.CastDouble;
 import static com.poixson.utils.MathUtils.Distance3D;
-import static com.poixson.utils.NumberUtils.CastDouble;
 import static com.poixson.utils.Utils.IsEmpty;
 
 import java.util.HashMap;
