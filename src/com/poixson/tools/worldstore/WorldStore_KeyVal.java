@@ -89,7 +89,9 @@ public class WorldStore_KeyVal extends WorldStore_Map<String, Object> {
 
 	@Override
 	public File getFile(final String key) {
-		return new File(this.path, this.type+".json");
+		String filename = DEFAULT_NAMED_FILE;
+		filename = filename.replace("<name>", this.type);
+		return new File(this.path, filename);
 	}
 
 

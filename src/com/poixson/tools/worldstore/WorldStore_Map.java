@@ -25,6 +25,9 @@ public abstract class WorldStore_Map<K, V> extends CacheMap<K, V> implements xSt
 	public static final long DEFAULT_CYCLES_SAVE     = xTime.Parse("30s").get(SECONDS_PER_CYCLE);
 	public static final long DEFAULT_CYCLES_SAVE_MAX = xTime.Parse( "1m").get(SECONDS_PER_CYCLE);
 
+	public static final String DEFAULT_NAMED_FILE    = "<name>.json";
+	public static final String DEFAULT_LOCATION_FILE = "<name>.<x>.<z>.json";
+
 	protected final JavaPlugin plugin;
 
 	protected final String world;
@@ -112,8 +115,6 @@ public abstract class WorldStore_Map<K, V> extends CacheMap<K, V> implements xSt
 		}
 	}
 	protected abstract String save_encode(final K key, final V value);
-
-
 
 	public abstract File getFile(final K key);
 

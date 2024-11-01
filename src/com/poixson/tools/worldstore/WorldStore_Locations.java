@@ -52,11 +52,10 @@ public class WorldStore_Locations extends WorldStore_Map<Iab, CopyOnWriteArraySe
 		return GSON().toJson(result);
 	}
 
-
-
 	@Override
 	public File getFile(final Iab key) {
-		String filename = this.type+".<x>.<z>.json";
+		String filename = DEFAULT_LOCATION_FILE;
+		filename = filename.replace("<name>", this.type);
 		filename = filename.replace("<x>", Integer.toString(key.a));
 		filename = filename.replace("<z>", Integer.toString(key.b));
 		return new File(this.path, filename);
