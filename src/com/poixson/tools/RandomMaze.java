@@ -47,37 +47,38 @@ public class RandomMaze extends WorldStore_Map<Iab, AtomicDoubleArray> {
 				return array;
 		}
 		// generate maze
-		{
-			final int size_total = this.size_x * this.size_z;
-			final AtomicDoubleArray array = new AtomicDoubleArray(size_total);
-			final LinkedList<String> lines = new LinkedList<String>();
-			for (int iz=0; iz<this.size_z; iz++) {
-				final StringBuilder line = new StringBuilder();
-				for (int ix=0; ix<this.size_x; ix++) {
-					final int index = (iz * this.size_z) + ix;
-					final double rnd = this.random.nextDbl(0.0, this.path_chance);
-					final double val = MathUtils.Floor(rnd, 0.01);
-					array.set(index, val);
-					if (ix > 0)
-						line.append(' ');
-					line.append(MathUtils.FormatDecimal("00.00", val));
-				}
-				lines.addLast(line.toString());
+		return this.generate(key);
+	}
+	public AtomicDoubleArray generate(final Iab key) {
+		final int size_total = this.size_x * this.size_z;
+		final AtomicDoubleArray array = new AtomicDoubleArray(size_total);
+		final LinkedList<String> lines = new LinkedList<String>();
+		for (int iz=0; iz<this.size_z; iz++) {
+			final StringBuilder line = new StringBuilder();
+			for (int ix=0; ix<this.size_x; ix++) {
+				final int index = (iz * this.size_z) + ix;
+				final double rnd = this.random.nextDbl(0.0, this.path_chance);
+				final double val = MathUtils.Floor(rnd, 0.01);
+				array.set(index, val);
+				if (ix > 0)
+					line.append(' ');
+				line.append(MathUtils.FormatDecimal("00.00", val));
 			}
-			// save
-			final File file = this.getFile(key);
-			final String json = GSON().toJson(lines);
-			BufferedWriter writer = null;
-			try {
-				writer = new BufferedWriter(new FileWriter(file));
-				writer.write(json);
-			} catch (IOException e) {
-				e.printStackTrace();
-			} finally {
-				SafeClose(writer);
-			}
-			return array;
+			lines.addLast(line.toString());
 		}
+		// save
+		final File file = this.getFile(key);
+		final String json = GSON().toJson(lines);
+		BufferedWriter writer = null;
+		try {
+			writer = new BufferedWriter(new FileWriter(file));
+			writer.write(json);
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			SafeClose(writer);
+		}
+		return array;
 	}
 
 	@Override
@@ -91,7 +92,7 @@ public class RandomMaze extends WorldStore_Map<Iab, AtomicDoubleArray> {
 			final String[] parts = line.split(" ");
 			int ix = 0;
 			for (final String part : parts) {
-				final int index = (iz * this.size_z) + ix;
+				final int index = (iz * this.size_x) + ix;
 				final double value = ToDouble(part);
 				result.set(index, value);
 				ix++;
