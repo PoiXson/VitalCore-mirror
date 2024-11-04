@@ -31,7 +31,7 @@ public class RandomMaze extends WorldStore_Map<Iab, AtomicDoubleArray> {
 			final String world, final String type, final double chance,
 			final int size_x, final int size_z) {
 		super(plugin, world, type);
-		this.path_chance = MathUtils.MinMax(chance, 0.0, 99.0) + 3;
+		this.path_chance = MathUtils.MinMax(chance, 0.0, 99.0);
 		this.size_x = size_x;
 		this.size_z = size_z;
 	}
@@ -57,7 +57,7 @@ public class RandomMaze extends WorldStore_Map<Iab, AtomicDoubleArray> {
 			final StringBuilder line = new StringBuilder();
 			for (int ix=0; ix<this.size_x; ix++) {
 				final int index = (iz * this.size_z) + ix;
-				final double rnd = this.random.nextDbl(0.0, this.path_chance);
+				final double rnd = this.random.nextDbl(1.0, this.path_chance);
 				final double val = MathUtils.Floor(rnd, 0.01);
 				array.set(index, val);
 				if (ix > 0)
