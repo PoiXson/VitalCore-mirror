@@ -1,4 +1,4 @@
-package com.poixson.tools;
+package com.poixson.tools.worldstore;
 
 import static com.poixson.utils.MathUtils.ToDouble;
 import static com.poixson.utils.Utils.SafeClose;
@@ -13,8 +13,8 @@ import java.util.LinkedList;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.google.common.util.concurrent.AtomicDoubleArray;
+import com.poixson.tools.xRand;
 import com.poixson.tools.dao.Iab;
-import com.poixson.tools.worldstore.WorldStore_Map;
 import com.poixson.utils.MathUtils;
 
 
