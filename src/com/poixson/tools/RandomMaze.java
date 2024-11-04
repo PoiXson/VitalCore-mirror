@@ -121,4 +121,16 @@ public class RandomMaze extends WorldStore_Map<Iab, AtomicDoubleArray> {
 
 
 
+	public double getMazeEntry(final int maze_x, final int maze_z) {
+		final int region_x = Math.floorDiv(maze_x, this.size_x);
+		final int region_z = Math.floorDiv(maze_z, this.size_z);
+		final AtomicDoubleArray array = this.get(new Iab(region_x, region_z));
+		final int x = (maze_x % this.size_x) + (maze_x<0 ? this.size_x-1 : 0);
+		final int z = (maze_z % this.size_z) + (maze_z<0 ? this.size_z-1 : 0);
+		final int index = (z * this.size_x) + x;
+		return array.get(index);
+	}
+
+
+
 }
