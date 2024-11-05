@@ -121,6 +121,18 @@ public abstract class WorldStore_Map<K, V> extends CacheMap<K, V> implements xSt
 
 
 
+	public int loc_to_group(final int loc) {
+		return Math.floorDiv(loc, this.group_size);
+	}
+	public int loc_to_local(final int loc) {
+		return (loc % this.group_size) + (loc<0 ? this.group_size-1 : 0);
+	}
+	public int loc_to_index(final int x, final int z) {
+		return (this.loc_to_local(z) * this.group_size) + this.loc_to_local(x);
+	}
+
+
+
 	@Override
 	public V get(final Object key) {
 		return this.get(this.castKey(key), false);
