@@ -22,7 +22,7 @@ import com.poixson.utils.FileUtils;
 
 public abstract class WorldStore_Map<K, V> extends CacheMap<K, V> implements xStartStop {
 
-	public static final long DEFAULT_CYCLES_TIMEOUT  = xTime.Parse( "3m").get(SECONDS_PER_CYCLE);
+	public static final long DEFAULT_CYCLES_TIMEOUT  = xTime.Parse( "5m").get(SECONDS_PER_CYCLE);
 	public static final long DEFAULT_CYCLES_SAVE     = xTime.Parse("30s").get(SECONDS_PER_CYCLE);
 	public static final long DEFAULT_CYCLES_SAVE_MAX = xTime.Parse( "1m").get(SECONDS_PER_CYCLE);
 
