@@ -19,9 +19,10 @@ public class WorldStore_KeyVal extends WorldStore_Map<String, Object> {
 
 
 
-	public WorldStore_KeyVal(final JavaPlugin plugin, final String world) {
+	public WorldStore_KeyVal(final JavaPlugin plugin,
+			final String world) {
 		super(
-			plugin, world, "state",
+			plugin, world, "state", Integer.MAX_VALUE,
 			Long.MAX_VALUE, // never expire
 			DEFAULT_CYCLES_SAVE,
 			DEFAULT_CYCLES_SAVE_MAX
@@ -98,25 +99,25 @@ public class WorldStore_KeyVal extends WorldStore_Map<String, Object> {
 
 
 	public String getString(final String key) {
-		final Object value = this.get(key, false);
+		final Object value = this.get(key);
 		return (value==null ? null : value.toString());
 	}
 	public int getInt(final String key) {
-		final Object value = this.get(key, false);
+		final Object value = this.get(key);
 		if (value == null) return Integer.MIN_VALUE;
 		if (value instanceof Integer) return ((Integer)value).intValue();
 		if (value instanceof Double ) return ((Double )value).intValue();
 		return Integer.MIN_VALUE;
 	}
 	public long getLong(final String key) {
-		final Object value = this.get(key, false);
+		final Object value = this.get(key);
 		if (value == null) return Long.MIN_VALUE;
 		if (value instanceof Long  ) return ((Long  )value).intValue();
 		if (value instanceof Double) return ((Double)value).intValue();
 		return Long.MIN_VALUE;
 	}
 	public double getDouble(final String key) {
-		final Object value = this.get(key, false);
+		final Object value = this.get(key);
 		if (value == null) return Double.MIN_VALUE;
 		if (value instanceof Double)
 			return ((Double)value).intValue();

@@ -23,50 +23,42 @@ public class RandomMaze extends WorldStore_Map<Iab, AtomicDoubleArray> {
 	protected final xRand random = (new xRand()).seed_time();
 
 	protected final double path_chance;
-	protected final int size_x, size_z;
 
 
 
 	public RandomMaze(final JavaPlugin plugin,
-			final String world, final String type, final double chance,
-			final int size_x, final int size_z) {
-		super(plugin, world, type);
+			final String world, final String type,
+			final double chance) {
+		this(plugin, world, type, chance, 32);
+	}
+	public RandomMaze(final JavaPlugin plugin,
+			final String world, final String type,
+			final double chance, final int group_size) {
+		super(plugin, world, type, group_size);
 		this.path_chance = MathUtils.MinMax(chance, 0.0, 99.0);
-		this.size_x      = size_x;
-		this.size_z      = size_z;
 	}
 
 
 
 	@Override
-	public AtomicDoubleArray load(final Iab key) {
-		// load existing
-		{
-			final AtomicDoubleArray array = super.load(key);
-			if (array != null)
-				return array;
-		}
-		// generate maze
-		return this.generate(key);
-	}
-	public AtomicDoubleArray generate(final Iab key) {
-		final int size_total = this.size_x * this.size_z;
-		final AtomicDoubleArray array = new AtomicDoubleArray(size_total);
+	public AtomicDoubleArray create(final Iab key) {
+		final int array_size = this.group_size * this.group_size;
+		final AtomicDoubleArray result = new AtomicDoubleArray(array_size);
 		final LinkedList<String> lines = new LinkedList<String>();
-		for (int iz=0; iz<this.size_z; iz++) {
+		for (int iz=0; iz<this.group_size; iz++) {
 			final StringBuilder line = new StringBuilder();
-			for (int ix=0; ix<this.size_x; ix++) {
-				final int index = (iz * this.size_x) + ix;
-				final double rnd = this.random.nextDbl(1.0, this.path_chance);
-				final double val = MathUtils.Floor(rnd, 0.01);
-				array.set(index, val);
+			for (int ix=0; ix<this.group_size; ix++) {
+				final int index = (iz * this.group_size) + ix;
+				final double rnd = this.random.nextDbl(0.0, this.path_chance);
+				final double val = MathUtils.FloorNormal(rnd, 0.01);
+				result.set(index, val);
 				if (ix > 0)
 					line.append(' ');
 				line.append(MathUtils.FormatDecimal("00.00", val));
 			}
 			lines.addLast(line.toString());
 		}
-		// save
+		// save immediately
 		final File file = this.getFile(key);
 		final String json = GSON().toJson(lines);
 		BufferedWriter writer = null;
@@ -78,13 +70,13 @@ public class RandomMaze extends WorldStore_Map<Iab, AtomicDoubleArray> {
 		} finally {
 			SafeClose(writer);
 		}
-		return array;
+		return result;
 	}
 
 	@Override
 	protected AtomicDoubleArray load_decode(final String json) {
-		final int size_total = this.size_x * this.size_z;
-		final AtomicDoubleArray result = new AtomicDoubleArray(size_total);
+		final int array_size = this.group_size * this.group_size;
+		final AtomicDoubleArray result = new AtomicDoubleArray(array_size);
 		final String[] lines = GSON().fromJson(json, String[].class);
 		if (lines == null) throw new NullPointerException("Failed to parse json");
 		int iz = 0;
@@ -92,7 +84,7 @@ public class RandomMaze extends WorldStore_Map<Iab, AtomicDoubleArray> {
 			final String[] parts = line.split(" ");
 			int ix = 0;
 			for (final String part : parts) {
-				final int index = (iz * this.size_x) + ix;
+				final int index = (iz * this.group_size) + ix;
 				final double value = ToDouble(part);
 				result.set(index, value);
 				ix++;
@@ -122,13 +114,16 @@ public class RandomMaze extends WorldStore_Map<Iab, AtomicDoubleArray> {
 
 
 	public double getMazeEntry(final int maze_x, final int maze_z) {
-		final int region_x = Math.floorDiv(maze_x, this.size_x);
-		final int region_z = Math.floorDiv(maze_z, this.size_z);
-		final AtomicDoubleArray array = this.get(new Iab(region_x, region_z));
-		final int x = (maze_x % this.size_x) + (maze_x<0 ? this.size_x-1 : 0);
-		final int z = (maze_z % this.size_z) + (maze_z<0 ? this.size_z-1 : 0);
-		final int index = (z * this.size_x) + x;
-		return array.get(index);
+		return this.getMazeEntry(maze_x, maze_z, false, true);
+	}
+	public double getMazeEntry(final int maze_x, final int maze_z,
+			final boolean lazy, final boolean create) {
+		final int group_x = this.loc_to_group(maze_x);
+		final int group_z = this.loc_to_group(maze_z);
+		final AtomicDoubleArray array = this.get(new Iab(group_x, group_z), lazy, create);
+		if (array == null)
+			return Double.MIN_VALUE;
+		return array.get(this.loc_to_index(maze_x, maze_z));
 	}
 
 
