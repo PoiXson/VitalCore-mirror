@@ -62,18 +62,30 @@ public class BlockPlotter implements Serializable {
 
 
 
-	public static Tuple<BlockPlotter, StringBuilder[][]> Load(final File file)
+	public static Tuple<BlockPlotter, StringBuilder[][]> Load(
+			final Class<?> clss, final String file_local, final String file_res)
+			throws IOException {
+		return (in==null ? null : Load(in));
+	}
+	public static Tuple<BlockPlotter, StringBuilder[][]> Load(
+			final File file)
 			throws IOException {
 		FileInputStream in = null;
 		try {
 			in = new FileInputStream(file);
-			final String json = FileUtils.ReadInputStream(in);
-			return Load(json);
+			return Load(in);
 		} finally {
 			SafeClose(in);
 		}
 	}
-	public static Tuple<BlockPlotter, StringBuilder[][]> Load(final String json) {
+	public static Tuple<BlockPlotter, StringBuilder[][]> Load(
+			final InputStream in)
+			throws IOException {
+		final String json = FileUtils.ReadInputStream(in);
+		return Load(json);
+	}
+	public static Tuple<BlockPlotter, StringBuilder[][]> Load(
+			final String json) {
 		final String[] parts = json.split("###", 2);
 		final BlockPlotter plot = FromJSON(parts[0]);
 		final String[][] arrays = GSON().fromJson(parts[1], String[][].class);
