@@ -393,6 +393,33 @@ public final class LocationUtils {
 
 
 
+	public static Iab AxisToIxz(final String axis) {
+		int x = 0;
+		int z = 0;
+		final int len = axis.length();
+		for (int i=0; i<len; i++) {
+			final Iab dir = AxToIxz(axis.charAt(i));
+			x += dir.a;
+			z += dir.b;
+		}
+		return new Iab(x, z);
+	}
+	public static Iabc AxisToIxyz(final String axis) {
+		int x = 0;
+		int y = 0;
+		int z = 0;
+		final int len = axis.length();
+		for (int i=0; i<len; i++) {
+			final Iabc dir = AxToIxyz(axis.charAt(i));
+			x += dir.a;
+			y += dir.b;
+			z += dir.c;
+		}
+		return new Iabc(x, y, z);
+	}
+
+
+
 	// x,z to BlockFace
 	public static BlockFace ValueToFaceQuarter(final int x, final int z) {
 		if (x < 0) return (z < 0 ? BlockFace.NORTH_WEST : BlockFace.SOUTH_WEST);
