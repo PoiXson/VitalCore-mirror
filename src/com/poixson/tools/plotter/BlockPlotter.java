@@ -369,6 +369,8 @@ public class BlockPlotter implements Serializable {
 	public StringBuilder[][] getMatrix3D() {
 		final int size0 = this.getAxSize(this.axis.charAt(0));
 		final int size1 = this.getAxSize(this.axis.charAt(1));
+		if (size0 <= 0) throw new IllegalArgumentException("Invalid size0 value: "+Integer.toString(size0));
+		if (size1 <= 0) throw new IllegalArgumentException("Invalid size1 value: "+Integer.toString(size1));
 		final LinkedList<StringBuilder[]> list0 = new LinkedList<StringBuilder[]>();
 		for (int i=0; i<size0; i++) {
 			final LinkedList<StringBuilder> list1 = new LinkedList<StringBuilder>();
@@ -380,6 +382,7 @@ public class BlockPlotter implements Serializable {
 	}
 	public StringBuilder[] getMatrix2D() {
 		final int size = this.getAxSize(this.axis.charAt(0));
+		if (size <= 0) throw new IllegalArgumentException("Invalid size value: "+Integer.toString(size));
 		final LinkedList<StringBuilder> list = new LinkedList<StringBuilder>();
 		for (int i=0; i<size; i++)
 			list.addLast(new StringBuilder());
