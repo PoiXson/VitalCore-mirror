@@ -23,12 +23,11 @@ import org.bukkit.block.data.BlockData;
 import org.bukkit.generator.ChunkGenerator.ChunkData;
 import org.bukkit.generator.LimitedRegion;
 
-import com.poixson.tools.abstractions.Tuple;
+import com.poixson.tools.abstractions.Triple;
 import com.poixson.tools.dao.Iabc;
 import com.poixson.tools.dao.Iabcd;
 import com.poixson.tools.plotter.placer.BlockPlacer;
 import com.poixson.utils.FileUtils;
-import com.poixson.utils.StringUtils;
 
 
 public class BlockPlotter implements Serializable {
@@ -66,12 +65,12 @@ public class BlockPlotter implements Serializable {
 
 
 
-	public static Tuple<BlockPlotter, StringBuilder[][]> Load(
+	public static Triple<BlockPlotter, StringBuilder[][], String> Load(
 			final Class<?> clss, final String file_local, final String file_res)
 			throws IOException {
 		return (in==null ? null : Load(in));
 	}
-	public static Tuple<BlockPlotter, StringBuilder[][]> Load(
+	public static Triple<BlockPlotter, StringBuilder[][], String> Load(
 			final File file)
 			throws IOException {
 		FileInputStream in = null;
@@ -82,29 +81,31 @@ public class BlockPlotter implements Serializable {
 			SafeClose(in);
 		}
 	}
-	public static Tuple<BlockPlotter, StringBuilder[][]> Load(
+	public static Triple<BlockPlotter, StringBuilder[][], String> Load(
 			final InputStream in)
 			throws IOException {
 		final String json = FileUtils.ReadInputStream(in);
 		return Load(json);
 	}
-	public static Tuple<BlockPlotter, StringBuilder[][]> Load(
+	public static Triple<BlockPlotter, StringBuilder[][], String> Load(
 			final String json) {
-		final String[] parts = json.split("###", 2);
-		final String partB = StringUtils.cfTrim(parts[1], '#');
-		final BlockPlotter plot = FromJSON(parts[0]);
-		final String[][] arrays = GSON().fromJson(partB, String[][].class);
+		final String[] partsAB = json.split("### MATRIX ###", 2);
+		if (partsAB.length != 2) throw new RuntimeException("Invalid structure json, missing matrix");
+		final BlockPlotter plot = FromJSON(partsAB[0]);
+		final String[] partsCD = partsAB[1].split("### SCRIPT ###", 2);
+		final String partD = (partsCD.length==2 ? partsCD[1] : null);
+		final String[][] arrays = GSON().fromJson(partsCD[0], String[][].class);
 		final int d1 = arrays.length;
-		final int d2 = arrays[0].length;
 		final StringBuilder[][] matrix = new StringBuilder[d1][];
 		for (int i=0; i<d1; i++) {
+			final int d2 = arrays[i].length;
 			matrix[i] = new StringBuilder[d2];
 			for (int ii=0; ii<d2; ii++) {
 				matrix[i][ii] = new StringBuilder();
 				matrix[i][ii].append(arrays[i][ii]);
 			}
 		}
-		return new Tuple<BlockPlotter, StringBuilder[][]>(plot, matrix);
+		return new Triple<BlockPlotter, StringBuilder[][], String>(plot, matrix, partD);
 	}
 
 
