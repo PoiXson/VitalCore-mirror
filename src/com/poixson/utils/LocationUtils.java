@@ -111,8 +111,7 @@ public final class LocationUtils {
 		case NORTH: return new Iabcd(loc.c-loc.a, loc.d-loc.b,   loc.c, 0-loc.d);
 		case EAST:  return new Iabcd(      loc.b,       loc.a,   loc.d,   loc.c);
 		case WEST:  return new Iabcd(loc.d-loc.b, loc.c-loc.a, 0-loc.d,   loc.c);
-		default:
-			return null;
+		default:    return null;
 		}
 	}
 
@@ -172,7 +171,7 @@ public final class LocationUtils {
 		final StringBuilder result = new StringBuilder();
 		final int len = axis.length();
 		for (int i=0; i<len; i++)
-			result.append(Rotate(axis.charAt(i), FaceToRot(rotate)));
+			result.append(Rotate(axis.charAt(i), FaceToNormAngle(rotate)));
 		return result.toString();
 	}
 
@@ -270,6 +269,7 @@ public final class LocationUtils {
 		default: return 0;
 		}
 	}
+
 	// BlockFace to axis string
 	public static String FaceToAxString(final BlockFace face) {
 		switch (face) {
@@ -286,18 +286,15 @@ public final class LocationUtils {
 		default: return null;
 		}
 	}
-	public static String FaceToPillarAxisString(final BlockFace face) {
+
+	public static char FaceToPillarAx(final BlockFace face) {
 		switch (face) {
-		case UP:
-		case DOWN:  return "y";
-		case NORTH:
-		case SOUTH: return "z";
-		case EAST:
-		case WEST:  return "x";
-		default: return null;
+		case UP:    case DOWN:  return 'y';
+		case NORTH: case SOUTH: return 'z';
+		case EAST:  case WEST:  return 'x';
+		default: return 0;
 		}
 	}
-
 	// axis char to BlockFace
 	public static BlockFace AxToFace(final char ax) {
 		switch (ax) {
@@ -310,29 +307,21 @@ public final class LocationUtils {
 		default: return null;
 		}
 	}
-	// axis string to BlockFace
-	public static BlockFace AxToFace(final String ax) {
-		switch (ax) {
-		case "u": case "Y": return BlockFace.UP;
-		case "d": case "y": return BlockFace.DOWN;
-		case "n": case "z": return BlockFace.NORTH;
-		case "s": case "Z": return BlockFace.SOUTH;
-		case "e": case "X": return BlockFace.EAST;
-		case "w": case "x": return BlockFace.WEST;
-		case "ne": return BlockFace.NORTH_EAST;
-		case "nw": return BlockFace.NORTH_WEST;
-		case "se": return BlockFace.SOUTH_EAST;
-		case "sw": return BlockFace.SOUTH_WEST;
-		default: return null;
-		}
+	public static BlockFace[] AxisToFaces(final String axis) {
+		final LinkedList<BlockFace> result = new LinkedList<BlockFace>();
+		final int len = axis.length();
+		for (int i=0; i<len; i++)
+			result.addLast(AxToFace(axis.charAt(i)));
+		return result.toArray(new BlockFace[0]);
 	}
 
 	// rotate a block in a 2x2 area
-	public static BlockFace[] RotsToFaces2x2(final String rots) {
+	public static BlockFace[] AxisToFaces2x2(final String rots) {
 		if (IsEmpty(rots)
 		|| "-"   .equals(rots)
 		|| "none".equals(rots)
-		|| "null".equals(rots)) return null;
+		|| "null".equals(rots))
+			return null;
 		if (rots.length() != 4) throw new RuntimeException("Invalid block rotations: "+rots);
 		final String lower = rots.toLowerCase();
 		final LinkedList<BlockFace> list = new LinkedList<BlockFace>();
@@ -377,6 +366,8 @@ public final class LocationUtils {
 		}
 	}
 
+
+
 	// axis char to x,y,z
 	public static Iabc AxToIxyz(final char ax) {
 		switch (ax) {
@@ -389,7 +380,6 @@ public final class LocationUtils {
 		default: return null;
 		}
 	}
-
 	// axis char to x,z
 	public static Iab AxToIxz(final char ax) {
 		switch (ax) {
