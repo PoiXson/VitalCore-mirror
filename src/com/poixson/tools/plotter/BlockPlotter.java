@@ -27,6 +27,7 @@ import com.poixson.tools.dao.Iabc;
 import com.poixson.tools.dao.Iabcd;
 import com.poixson.tools.plotter.placer.BlockPlacer;
 import com.poixson.utils.FileUtils;
+import com.poixson.utils.StringUtils;
 
 
 public class BlockPlotter implements Serializable {
@@ -87,8 +88,9 @@ public class BlockPlotter implements Serializable {
 	public static Tuple<BlockPlotter, StringBuilder[][]> Load(
 			final String json) {
 		final String[] parts = json.split("###", 2);
+		final String partB = StringUtils.cfTrim(parts[1], '#');
 		final BlockPlotter plot = FromJSON(parts[0]);
-		final String[][] arrays = GSON().fromJson(parts[1], String[][].class);
+		final String[][] arrays = GSON().fromJson(partB, String[][].class);
 		final int d1 = arrays.length;
 		final int d2 = arrays[0].length;
 		final StringBuilder[][] matrix = new StringBuilder[d1][];
