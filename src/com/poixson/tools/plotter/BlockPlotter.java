@@ -1,6 +1,7 @@
 package com.poixson.tools.plotter;
 
 import static com.poixson.utils.LocationUtils.AxToIxyz;
+import static com.poixson.utils.LocationUtils.AxisToIxyz;
 import static com.poixson.utils.LocationUtils.Rotate;
 import static com.poixson.utils.Utils.SafeClose;
 import static com.poixson.utils.gson.GsonUtils.GSON;
@@ -176,6 +177,41 @@ public class BlockPlotter implements Serializable {
 		case 'n': case 's': case 'z': case 'Z': return this.d;
 		default: throw new RuntimeException("Unknown ax size for: "+Character.toString(ax));
 		}
+	}
+
+
+
+	public boolean isWithinLocation(final int x, final int y, final int z) {
+		final Iabcd loc = Rotate(new Iabcd(this.x, this.z, this.w, this.d), this.rotation);
+		final Iabc dir = AxisToIxyz(Rotate(this.axis, this.rotation));
+		final int w = loc.c * dir.a;
+		final int d = loc.d * dir.c;
+		final int h = this.h * dir.b;
+		final int min_x = Math.min(loc.a, loc.a+w);
+		final int max_x = Math.max(loc.a, loc.a+w);
+		final int min_z = Math.min(loc.b, loc.b+d);
+		final int max_z = Math.max(loc.b, loc.b+d);
+		final int min_y = Math.min(this.y, this.y+h);
+		final int max_y = Math.max(this.y, this.y+h);
+		return (
+			x >= min_x && x < max_x &&
+			y >= min_y && y < max_y &&
+			z >= min_z && z < max_z
+		);
+	}
+	public boolean isWithinLocation(final int x, final int z) {
+		final Iabcd loc = Rotate(new Iabcd(this.x, this.z, this.w, this.d), this.rotation);
+		final Iabc dir = AxisToIxyz(Rotate(this.axis, this.rotation));
+		final int w = loc.c * dir.a;
+		final int d = loc.d * dir.c;
+		final int min_x = Math.min(loc.a, loc.a+w);
+		final int max_x = Math.max(loc.a, loc.a+w);
+		final int min_z = Math.min(loc.b, loc.b+d);
+		final int max_z = Math.max(loc.b, loc.b+d);
+		return (
+			x >= min_x && x < max_x &&
+			z >= min_z && z < max_z
+		);
 	}
 
 
