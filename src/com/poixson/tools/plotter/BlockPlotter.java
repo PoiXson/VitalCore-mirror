@@ -214,6 +214,20 @@ public class BlockPlotter implements Serializable {
 			z >= min_z && z < max_z
 		);
 	}
+	public boolean isWithinChunk() {
+		final Iabcd loc = Rotate(new Iabcd(this.x, this.z, this.w, this.d), this.rotation);
+		final Iabc dir = AxisToIxyz(Rotate(this.axis, this.rotation));
+		final int w = loc.c * dir.a;
+		final int d = loc.d * dir.c;
+		final int min_x = Math.min(loc.a, loc.a+w);
+		final int max_x = Math.max(loc.a, loc.a+w);
+		final int min_z = Math.min(loc.b, loc.b+d);
+		final int max_z = Math.max(loc.b, loc.b+d);
+		return (
+			max_x >= 0 && min_x < 16 &&
+			max_z >= 0 && min_z < 16
+		);
+	}
 
 
 
