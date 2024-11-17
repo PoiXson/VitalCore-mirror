@@ -288,19 +288,7 @@ public final class LocationUtils {
 	}
 
 	public static String FaceToAxisString(final BlockFace face) {
-		switch (face) {
-		case UP:    return "up";
-		case DOWN:  return "down";
-		case NORTH: return "north";
-		case SOUTH: return "south";
-		case EAST:  return "east";
-		case WEST:  return "west";
-		case NORTH_EAST: return "north-east";
-		case NORTH_WEST: return "north-west";
-		case SOUTH_EAST: return "south-east";
-		case SOUTH_WEST: return "south-west";
-		default: return null;
-		}
+		return face.toString().toLowerCase();
 	}
 
 	public static char FaceToPillarAx(final BlockFace face) {
