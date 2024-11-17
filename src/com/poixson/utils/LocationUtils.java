@@ -119,13 +119,12 @@ public final class LocationUtils {
 
 
 	// rotate BlockFace by double
-	public static BlockFace Rotate(final BlockFace face, final double rotation) {
-		if (rotation < 0.0) throw new RuntimeException("Invalid rotation: "+Double.toString(rotation));
-		double rot = rotation % 1.0;
-		if (rot == 0.0)
+	public static BlockFace Rotate(final BlockFace face, final double angle) {
+		double ang = (angle % 1.0) + (angle<0.0 ? 1.0: 0.0);
+		if (ang == 0.0)
 			return face;
 		BlockFace dir = face;
-		while (rot > 0.0) {
+		while (ang > 0.0) {
 			switch (dir) {
 			case NORTH:      dir = BlockFace.NORTH_EAST; break;
 			case NORTH_EAST: dir = BlockFace.EAST;       break;
@@ -137,18 +136,17 @@ public final class LocationUtils {
 			case NORTH_WEST: dir = BlockFace.NORTH;      break;
 			default: throw new RuntimeException("Invalid direction: "+face.toString());
 			}
-			rot -= 0.125;
+			ang -= 0.125;
 		}
 		return dir;
 	}
 	// rotate ax by double
-	public static char Rotate(final char ax, final double rotation) {
-		if (rotation < 0.0) throw new RuntimeException("Invalid rotation: "+Double.toString(rotation));
-		double rot = rotation % 1.0;
-		if (rot == 0.0)
+	public static char Rotate(final char ax, final double angle) {
+		double ang = (angle % 1.0) + (angle<0.0 ? 1.0: 0.0);
+		if (ang == 0.0)
 			return ax;
 		char dir = ax;
-		while (rot > 0.0) {
+		while (ang > 0.0) {
 			switch (dir) {
 			case 'u': case 'd':  break;
 			case 'n': dir = 'e'; break;
@@ -157,12 +155,12 @@ public final class LocationUtils {
 			case 'w': dir = 'n'; break;
 			default: throw new RuntimeException("Invalid direction: "+dir);
 			}
-			rot -= 0.25;
+			ang -= 0.25;
 		}
 		return dir;
 	}
 	public static char Rotate(final char ax, final BlockFace rotate) {
-		return Rotate(ax, FaceToRot(rotate));
+		return Rotate(ax, FaceToNormAngle(rotate));
 	}
 
 
@@ -185,7 +183,7 @@ public final class LocationUtils {
 
 
 
-	public static double FaceToRot(final BlockFace facing) {
+	public static double FaceToNormAngle(final BlockFace facing) {
 		switch (facing) {
 		case WEST:  return 0.25;
 		case NORTH: return 0.5;
@@ -195,9 +193,7 @@ public final class LocationUtils {
 	}
 	public static BlockFace YawToFace(final float yaw) {
 		float way = yaw + 22.5f;
-		while (way < 0)
-			way += 360.0f;
-		way = way % 360.0f;
+		way = (way % 360.0f) + (way<0.0f ? 360.0f : 0.0f);
 		if (way <  90.0f) return BlockFace.SOUTH;
 		if (way < 180.0f) return BlockFace.WEST;
 		if (way < 270.0f) return BlockFace.NORTH;
@@ -205,9 +201,7 @@ public final class LocationUtils {
 	}
 	public static Rotation YawToRotation(final float yaw) {
 		float way = yaw + 22.5f;
-		while (way < 0)
-			way += 360.0f;
-		way = way % 360.0f;
+		way = (way % 360.0f) + (way<0.0f ? 360.0f : 0.0f);
 		if (way <  45.0f) return Rotation.NONE;
 		if (way <  90.0f) return Rotation.CLOCKWISE_45;
 		if (way < 135.0f) return Rotation.CLOCKWISE;
@@ -219,9 +213,7 @@ public final class LocationUtils {
 	}
 	public static Rotation YawToRotation90(final float yaw) {
 		float way = yaw + 67.5f;
-		while (way < 0)
-			way += 360.0f;
-		way = way % 360.0f;
+		way = (way % 360.0f) + (way<0.0f ? 360.0f : 0.0f);
 		if (way <  90.0f) return Rotation.NONE;
 		if (way < 180.0f) return Rotation.CLOCKWISE;
 		if (way < 270.0f) return Rotation.FLIPPED;
