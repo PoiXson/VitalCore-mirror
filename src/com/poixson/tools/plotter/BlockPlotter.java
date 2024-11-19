@@ -9,6 +9,7 @@ import static com.poixson.utils.gson.GsonUtils.GSON;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -68,11 +69,11 @@ public class BlockPlotter implements Serializable {
 	public static Triple<BlockPlotter, StringBuilder[][], String> Load(
 			final Class<?> clss, final String file_local, final String file_res)
 			throws IOException {
+		final InputStream in = FileUtils.OpenLocalOrResource(clss, file_local, file_res);
 		return (in==null ? null : Load(in));
 	}
 	public static Triple<BlockPlotter, StringBuilder[][], String> Load(
-			final File file)
-			throws IOException {
+			final File file) throws IOException {
 		FileInputStream in = null;
 		try {
 			in = new FileInputStream(file);
@@ -82,8 +83,7 @@ public class BlockPlotter implements Serializable {
 		}
 	}
 	public static Triple<BlockPlotter, StringBuilder[][], String> Load(
-			final InputStream in)
-			throws IOException {
+			final InputStream in) throws IOException {
 		final String json = FileUtils.ReadInputStream(in);
 		return Load(json);
 	}
