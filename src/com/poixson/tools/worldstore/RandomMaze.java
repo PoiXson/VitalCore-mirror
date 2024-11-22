@@ -49,7 +49,7 @@ public class RandomMaze extends WorldStore_Map<Iab, AtomicDoubleArray> {
 			final StringBuilder line = new StringBuilder();
 			for (int ix=0; ix<this.group_size; ix++) {
 				final int index = (iz * this.group_size) + ix;
-				final double rnd = this.random.nextDbl(0.0, this.path_chance);
+				final double rnd = this.random.nextDouble(0.0, this.path_chance);
 				final double val = MathUtils.FloorNormal(rnd, 0.01);
 				result.set(index, val);
 				if (ix > 0)
