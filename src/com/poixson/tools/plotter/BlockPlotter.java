@@ -3,6 +3,7 @@ package com.poixson.tools.plotter;
 import static com.poixson.utils.LocationUtils.AxToIxyz;
 import static com.poixson.utils.LocationUtils.AxisToIxyz;
 import static com.poixson.utils.LocationUtils.Rotate;
+import static com.poixson.utils.Utils.IsEmpty;
 import static com.poixson.utils.Utils.SafeClose;
 import static com.poixson.utils.gson.GsonUtils.GSON;
 
@@ -41,7 +42,7 @@ public class BlockPlotter implements Serializable {
 	public int h = 0;
 	public int d = 0;
 
-	public String axis;
+	public String axis = null;
 	public BlockFace rotation = BlockFace.SOUTH;
 
 	protected final Map<Character, BlockData> types = new HashMap<Character, BlockData>();
@@ -183,6 +184,8 @@ public class BlockPlotter implements Serializable {
 
 
 	public boolean isWithinLocation(final int x, final int y, final int z) {
+		if (IsEmpty(this.axis))      throw new RuntimeException("Axis not set");
+		if (this.axis.length() != 3) throw new RuntimeException("Invalid axis length");
 		final Iabcd loc = Rotate(new Iabcd(this.x, this.z, this.w, this.d), this.rotation);
 		final Iabc dir = AxisToIxyz(Rotate(this.axis, this.rotation));
 		final int w = loc.c * dir.a;
@@ -201,6 +204,8 @@ public class BlockPlotter implements Serializable {
 		);
 	}
 	public boolean isWithinLocation(final int x, final int z) {
+		if (IsEmpty(this.axis))      throw new RuntimeException("Axis not set");
+		if (this.axis.length() != 2) throw new RuntimeException("Invalid axis length");
 		final Iabcd loc = Rotate(new Iabcd(this.x, this.z, this.w, this.d), this.rotation);
 		final Iabc dir = AxisToIxyz(Rotate(this.axis, this.rotation));
 		final int w = loc.c * dir.a;
@@ -215,6 +220,7 @@ public class BlockPlotter implements Serializable {
 		);
 	}
 	public boolean isWithinChunk() {
+		if (IsEmpty(this.axis)) throw new RuntimeException("Axis not set");
 		final Iabcd loc = Rotate(new Iabcd(this.x, this.z, this.w, this.d), this.rotation);
 		final Iabc dir = AxisToIxyz(Rotate(this.axis, this.rotation));
 		final int w = loc.c * dir.a;
@@ -286,6 +292,8 @@ public class BlockPlotter implements Serializable {
 
 	public void run(final BlockPlacer placer, final StringBuilder[][] matrix,
 			final int x, final int y, final int z) {
+		if (IsEmpty(this.axis))      throw new RuntimeException("Axis not set");
+		if (this.axis.length() != 3) throw new RuntimeException("Invalid axis length");
 		final Iabc add0 = AxToIxyz(this.axis.charAt(0));
 		final Iabc add1 = AxToIxyz(this.axis.charAt(1));
 		final Iabc add2 = AxToIxyz(this.axis.charAt(2));
@@ -315,6 +323,8 @@ public class BlockPlotter implements Serializable {
 	}
 	public void run(final BlockPlacer placer, final StringBuilder[] matrix,
 			final int x, final int y, final int z) {
+		if (IsEmpty(this.axis))      throw new RuntimeException("Axis not set");
+		if (this.axis.length() != 2) throw new RuntimeException("Invalid axis length");
 		final Iabc add0 = AxToIxyz(this.axis.charAt(0));
 		final Iabc add1 = AxToIxyz(this.axis.charAt(1));
 		final int len0 = matrix.length;
@@ -336,6 +346,8 @@ public class BlockPlotter implements Serializable {
 	}
 	public void run(final BlockPlacer placer, final StringBuilder matrix,
 			final int x, final int y, final int z) {
+		if (IsEmpty(this.axis))      throw new RuntimeException("Axis not set");
+		if (this.axis.length() != 1) throw new RuntimeException("Invalid axis length");
 		final Iabc add = AxToIxyz(this.axis.charAt(0));
 		int xx, yy, zz;
 		final int len = matrix.length();
@@ -420,6 +432,8 @@ public class BlockPlotter implements Serializable {
 
 
 	public StringBuilder[][] getMatrix3D() {
+		if (IsEmpty(this.axis))      throw new RuntimeException("Axis not set");
+		if (this.axis.length() != 3) throw new RuntimeException("Invalid axis length");
 		final int size0 = this.getAxSize(this.axis.charAt(0));
 		final int size1 = this.getAxSize(this.axis.charAt(1));
 		if (size0 <= 0) throw new IllegalArgumentException("Invalid size0 value: "+Integer.toString(size0));
@@ -434,6 +448,8 @@ public class BlockPlotter implements Serializable {
 		return list0.toArray(new StringBuilder[0][0]);
 	}
 	public StringBuilder[] getMatrix2D() {
+		if (IsEmpty(this.axis))      throw new RuntimeException("Axis not set");
+		if (this.axis.length() != 2) throw new RuntimeException("Invalid axis length");
 		final int size = this.getAxSize(this.axis.charAt(0));
 		if (size <= 0) throw new IllegalArgumentException("Invalid size value: "+Integer.toString(size));
 		final LinkedList<StringBuilder> list = new LinkedList<StringBuilder>();
@@ -442,6 +458,8 @@ public class BlockPlotter implements Serializable {
 		return list.toArray(new StringBuilder[0]);
 	}
 	public StringBuilder getMatrix1D() {
+		if (IsEmpty(this.axis))      throw new RuntimeException("Axis not set");
+		if (this.axis.length() != 1) throw new RuntimeException("Invalid axis length");
 		return new StringBuilder();
 	}
 
