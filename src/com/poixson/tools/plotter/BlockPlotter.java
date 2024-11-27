@@ -563,7 +563,7 @@ public class BlockPlotter implements Serializable {
 		final Material actual_mat = actual_block.getMaterial();
 		if (!match_block.getMaterial().equals(actual_mat))
 			return false;
-//TODO: more checks
+//TODO: more checks (more in BlockUtils::EqualsBlock())
 		return true;
 	}
 	// match material

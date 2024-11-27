@@ -17,6 +17,21 @@ public final class BlockUtils {
 
 
 
+	public static boolean EqualsBlock(final BlockData expect, final BlockData actual) {
+		if (expect == null || actual == null)
+			return false;
+		final Material expect_mat = expect.getMaterial();
+		final Material actual_mat = actual.getMaterial();
+		if (expect_mat == null || actual_mat == null)
+			return false;
+		if (!expect_mat.equals(actual_mat))
+			return false;
+//TODO: more checks (more in BlockPlotter->isType())
+		return true;
+	}
+
+
+
 	public static BlockData StringToBlockDataDef(final String mat, final String def, final String...tags) {
 		return (IsEmpty(mat) ? StringToBlockData(def, tags) : StringToBlockData(mat, tags));
 	}
