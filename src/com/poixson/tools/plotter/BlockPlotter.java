@@ -237,6 +237,28 @@ public class BlockPlotter implements Serializable {
 
 
 
+	public int findSurfaceY(final BlockPlacer placer,
+			final int y_min, final int y_max, final int search) {
+		return this.findSurfaceY(placer, y_min, y_max, 0-search, search, 0-search, search);
+	}
+	public int findSurfaceY(final BlockPlacer placer, final int y_min, final int y_max,
+			final int start_x, final int end_x, final int start_z, final int end_z) {
+		final int h = y_max - y_min;
+		for (int iy=0; iy<h; iy++) {
+			for (int iz=start_z; iz<end_z+1; iz++) {
+				for (int ix=start_x; ix<end_x+1; ix++) {
+					final BlockData block = this.getBlock(placer, ix, iy, iz);
+					final Material type = block.getMaterial();
+					if (Material.AIR.equals(type))
+						return iy;
+				}
+			}
+		}
+		return Integer.MIN_VALUE;
+	}
+
+
+
 	// -------------------------------------------------------------------------------
 	// place blocks
 
