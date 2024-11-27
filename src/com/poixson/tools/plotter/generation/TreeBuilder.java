@@ -506,34 +506,34 @@ public class TreeBuilder {
 
 
 	public void validate() {
-		if (!IsMinMax(this.height_min,                 1.0, 500.0)) throw new IllegalArgumentException("Invalid height_min");
-		if (!IsMinMax(this.height_max,                 1.0, 500.0)) throw new IllegalArgumentException("Invalid height_max");
-		if (!IsMinMax(this.trunk_size_min,             1.0, 100.0)) throw new IllegalArgumentException("Invalid trunk_size_min");
-		if (!IsMinMax(this.trunk_size_max,             1.0, 100.0)) throw new IllegalArgumentException("Invalid trunk_size_max");
-		if (!IsMinMax(this.trunk_size_factor,          0.0,   1.0)) throw new IllegalArgumentException("Invalid trunk_size_factor");
-		if (!IsMinMax(this.trunk_size_modify_min,      0.0,   5.0)) throw new IllegalArgumentException("Invalid trunk_size_modify_min");
-		if (!IsMinMax(this.trunk_size_modify_max,      0.0,   5.0)) throw new IllegalArgumentException("Invalid trunk_size_modify_max");
-		if (!IsMinMax(this.branches_from_top,          0.0, 100.0)) throw new IllegalArgumentException("Invalid branches_from_top");
-		if (!IsMinMax(this.branch_zone_percent,        0.0,   1.0)) throw new IllegalArgumentException("Invalid branch_zone_percent");
-		if (!IsMinMax(this.branch_length_min,          0.0, 100.0)) throw new IllegalArgumentException("Invalid branch_length_min");
-		if (!IsMinMax(this.branch_length_max,          0.0, 100.0)) throw new IllegalArgumentException("Invalid branch_length_max");
-		if (!IsMinMax(this.branch_length_weight,    -100.0, 100.0)) throw new IllegalArgumentException("Invalid branch_length_weight");
-		if (!IsMinMax(this.branch_attenuation_min,  -100.0, 100.0)) throw new IllegalArgumentException("Invalid branch_attenuation_min");
-		if (!IsMinMax(this.branch_attenuation_max,  -100.0, 100.0)) throw new IllegalArgumentException("Invalid branch_attenuation_max");
-		if (!IsMinMax(this.branch_tier_len_add_min, -100.0, 100.0)) throw new IllegalArgumentException("Invalid branch_tier_len_add_min");
-		if (!IsMinMax(this.branch_tier_len_add_max, -100.0, 100.0)) throw new IllegalArgumentException("Invalid branch_tier_len_add_max");
-		if (!IsMinMax(this.branch_tier_space_min,   -100.0, 100.0)) throw new IllegalArgumentException("Invalid branch_tier_space_min");
-		if (!IsMinMax(this.branch_tier_space_max,   -100.0, 100.0)) throw new IllegalArgumentException("Invalid branch_tier_space_max");
-		if (!IsMinMax(this.branch_yaw_add_min,      -100.0, 100.0)) throw new IllegalArgumentException("Invalid branch_yaw_add_min");
-		if (!IsMinMax(this.branch_yaw_add_max,      -100.0, 100.0)) throw new IllegalArgumentException("Invalid branch_yaw_add_max");
-		if (!IsMinMax(this.branch_pitch_min,        -100.0, 100.0)) throw new IllegalArgumentException("Invalid branch_pitch_min");
-		if (!IsMinMax(this.branch_pitch_max,        -100.0, 100.0)) throw new IllegalArgumentException("Invalid branch_pitch_max");
-		if (!IsMinMax(this.branch_pitch_modify_min, -100.0, 100.0)) throw new IllegalArgumentException("Invalid branch_pitch_modify_min");
-		if (!IsMinMax(this.branch_pitch_modify_max, -100.0, 100.0)) throw new IllegalArgumentException("Invalid branch_pitch_modify_max");
-		if (!IsMinMax(this.branch_split_min_length,    0.0, 100.0)) throw new IllegalArgumentException("Invalid branch_split_min_length");
-		if (!IsMinMax(this.branch_num_splits_min,      0.0,  10.0)) throw new IllegalArgumentException("Invalid branch_num_splits_min");
-		if (!IsMinMax(this.branch_num_splits_max,      0.0,  10.0)) throw new IllegalArgumentException("Invalid branch_num_splits_max");
-		if (!IsMinMax(this.leaves_thickness,           1.0,   5.0)) throw new IllegalArgumentException("Invalid leaves_thickness");
+		if (!IsMinMax(this.height_min,                 1.0, 500.0)) throw new IllegalArgumentException("Invalid height_min: "             +Double.toString(this.height_min             ));
+		if (!IsMinMax(this.height_max,                 1.0, 500.0)) throw new IllegalArgumentException("Invalid height_max: "             +Double.toString(this.height_max             ));
+		if (!IsMinMax(this.trunk_size_min,             1.0, 100.0)) throw new IllegalArgumentException("Invalid trunk_size_min: "         +Double.toString(this.trunk_size_min         ));
+		if (!IsMinMax(this.trunk_size_max,             1.0, 100.0)) throw new IllegalArgumentException("Invalid trunk_size_max: "         +Double.toString(this.trunk_size_max         ));
+		if (!IsMinMax(this.trunk_size_factor,          0.0,   1.0)) throw new IllegalArgumentException("Invalid trunk_size_factor: "      +Double.toString(this.trunk_size_factor      ));
+		if (!IsMinMax(this.trunk_size_modify_min,      0.0,   5.0)) throw new IllegalArgumentException("Invalid trunk_size_modify_min: "  +Double.toString(this.trunk_size_modify_min  ));
+		if (!IsMinMax(this.trunk_size_modify_max,      0.0,   5.0)) throw new IllegalArgumentException("Invalid trunk_size_modify_max: "  +Double.toString(this.trunk_size_modify_max  ));
+		if (!IsMinMax(this.branches_from_top,          0.0, 100.0)) throw new IllegalArgumentException("Invalid branches_from_top: "      +Double.toString(this.branches_from_top      ));
+		if (!IsMinMax(this.branch_zone_percent,        0.0,   1.0)) throw new IllegalArgumentException("Invalid branch_zone_percent: "    +Double.toString(this.branch_zone_percent    ));
+		if (!IsMinMax(this.branch_length_min,          0.0, 100.0)) throw new IllegalArgumentException("Invalid branch_length_min: "      +Double.toString(this.branch_length_min      ));
+		if (!IsMinMax(this.branch_length_max,          0.0, 100.0)) throw new IllegalArgumentException("Invalid branch_length_max: "      +Double.toString(this.branch_length_max      ));
+		if (!IsMinMax(this.branch_length_weight,    -100.0, 100.0)) throw new IllegalArgumentException("Invalid branch_length_weight: "   +Double.toString(this.branch_length_weight   ));
+		if (!IsMinMax(this.branch_attenuation_min,  -100.0, 100.0)) throw new IllegalArgumentException("Invalid branch_attenuation_min: " +Double.toString(this.branch_attenuation_min ));
+		if (!IsMinMax(this.branch_attenuation_max,  -100.0, 100.0)) throw new IllegalArgumentException("Invalid branch_attenuation_max: " +Double.toString(this.branch_attenuation_max ));
+		if (!IsMinMax(this.branch_tier_len_add_min, -100.0, 100.0)) throw new IllegalArgumentException("Invalid branch_tier_len_add_min: "+Double.toString(this.branch_tier_len_add_min));
+		if (!IsMinMax(this.branch_tier_len_add_max, -100.0, 100.0)) throw new IllegalArgumentException("Invalid branch_tier_len_add_max: "+Double.toString(this.branch_tier_len_add_max));
+		if (!IsMinMax(this.branch_tier_space_min,   -100.0, 100.0)) throw new IllegalArgumentException("Invalid branch_tier_space_min: "  +Double.toString(this.branch_tier_space_min  ));
+		if (!IsMinMax(this.branch_tier_space_max,   -100.0, 100.0)) throw new IllegalArgumentException("Invalid branch_tier_space_max: "  +Double.toString(this.branch_tier_space_max  ));
+		if (!IsMinMax(this.branch_yaw_add_min,      -100.0, 100.0)) throw new IllegalArgumentException("Invalid branch_yaw_add_min: "     +Double.toString(this.branch_yaw_add_min     ));
+		if (!IsMinMax(this.branch_yaw_add_max,      -100.0, 100.0)) throw new IllegalArgumentException("Invalid branch_yaw_add_max: "     +Double.toString(this.branch_yaw_add_max     ));
+		if (!IsMinMax(this.branch_pitch_min,        -100.0, 100.0)) throw new IllegalArgumentException("Invalid branch_pitch_min: "       +Double.toString(this.branch_pitch_min       ));
+		if (!IsMinMax(this.branch_pitch_max,        -100.0, 100.0)) throw new IllegalArgumentException("Invalid branch_pitch_max: "       +Double.toString(this.branch_pitch_max       ));
+		if (!IsMinMax(this.branch_pitch_modify_min, -100.0, 100.0)) throw new IllegalArgumentException("Invalid branch_pitch_modify_min: "+Double.toString(this.branch_pitch_modify_min));
+		if (!IsMinMax(this.branch_pitch_modify_max, -100.0, 100.0)) throw new IllegalArgumentException("Invalid branch_pitch_modify_max: "+Double.toString(this.branch_pitch_modify_max));
+		if (!IsMinMax(this.branch_split_min_length,    0.0, 100.0)) throw new IllegalArgumentException("Invalid branch_split_min_length: "+Double.toString(this.branch_split_min_length));
+		if (!IsMinMax(this.branch_num_splits_min,      0.0,  10.0)) throw new IllegalArgumentException("Invalid branch_num_splits_min: "  +Double.toString(this.branch_num_splits_min  ));
+		if (!IsMinMax(this.branch_num_splits_max,      0.0,  10.0)) throw new IllegalArgumentException("Invalid branch_num_splits_max: "  +Double.toString(this.branch_num_splits_max  ));
+		if (!IsMinMax(this.leaves_thickness,           1.0,   5.0)) throw new IllegalArgumentException("Invalid leaves_thickness: "       +Double.toString(this.leaves_thickness       ));
 	}
 
 
