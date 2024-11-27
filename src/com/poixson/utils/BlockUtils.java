@@ -29,6 +29,15 @@ public final class BlockUtils {
 //TODO: more checks (more in BlockPlotter->isType())
 		return true;
 	}
+	public static boolean EqualsBlockMaterial(final BlockData expect, final Material actual) {
+		if (expect == null || actual == null)
+			return false;
+		final Material expect_mat = expect.getMaterial();
+		if (expect_mat == null)
+			return false;
+//TODO: more checks (more in BlockPlotter->isType())
+		return expect_mat.equals(actual);
+	}
 
 
 
