@@ -13,6 +13,7 @@ import org.bukkit.generator.ChunkGenerator.ChunkData;
 import org.bukkit.generator.LimitedRegion;
 
 import com.poixson.tools.xRand;
+import com.poixson.tools.abstractions.Tuple;
 import com.poixson.tools.dao.Dabc;
 import com.poixson.tools.plotter.BlockPlotter;
 import com.poixson.tools.plotter.placer.BlockPlacer;
@@ -137,27 +138,38 @@ public class TreeBuilder {
 		return this.run(plot, new BlockPlacer(region), height, trunk_size);
 	}
 
-	public boolean run(final BlockPlotter plot, final BlockPlacer placer) {
-		this.validate();
+	protected Tuple<Double, Double> newRandomTree() {
 		final double height = this.rnd_height.nextDouble(this.height_min, this.height_max);
 		final double trunk_size_tmp = height * this.trunk_size_factor;
 		final double trunk_size_rnd = this.rnd_trunk_size.nextDouble(this.trunk_size_modify_min, this.trunk_size_modify_max);
 		final double trunk_size = MinMax(trunk_size_tmp+trunk_size_rnd, this.trunk_size_min, this.trunk_size_max);
+		return new Tuple<Double, Double>(Double.valueOf(height), Double.valueOf(trunk_size));
+	}
+
+	public boolean run(final BlockPlotter plot, final BlockPlacer placer) {
+		this.validate();
+		final int chunk_edge =
+			Math.min(
+				8 - Math.abs(Math.abs(plot.x % 16)-8),
+				8 - Math.abs(Math.abs(plot.z % 16)-8)
+			);
+		double height     = 0.0;
+		double trunk_size = 0.0;
+		LOOP_TRIES:
+		for (int i=0; i<5; i++) {
+			final Tuple<Double, Double> tup = this.newRandomTree();
+			height     = tup.key.doubleValue();
+			trunk_size = tup.val.doubleValue();
+			if (trunk_size > 2
+			&&  trunk_size * 2.0 > (double)chunk_edge)
+				continue LOOP_TRIES;
+			break;
+		}
 		return this.run(plot, placer, height, trunk_size);
 	}
 	public boolean run(final BlockPlotter plot, final BlockPlacer placer,
 			final double height, final double trunk_size) {
 		this.validate();
-		// near chunk edge
-		if (trunk_size > 2) {
-			final int chunk_edge =
-				Math.min(
-					8 - Math.abs(Math.abs(plot.x % 16)-8),
-					8 - Math.abs(Math.abs(plot.z % 16)-8)
-				);
-			if (chunk_edge < trunk_size * 2)
-				return false;
-		}
 		// find ground surface
 		plot.y(this.y_min);
 		{
