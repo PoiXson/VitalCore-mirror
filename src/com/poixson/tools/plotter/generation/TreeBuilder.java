@@ -1,4 +1,4 @@
-package com.poixson.tools;
+package com.poixson.tools.plotter.generation;
 
 import org.bukkit.Material;
 import org.bukkit.block.data.BlockData;
@@ -6,7 +6,7 @@ import org.bukkit.block.data.type.Leaves;
 import org.bukkit.generator.LimitedRegion;
 
 
-public class TreePopulator {
+public class TreeBuilder {
 
 	protected final FastNoiseLiteD noise;
 
