@@ -428,6 +428,106 @@ public class BlockPlotter implements Serializable {
 
 
 	// -------------------------------------------------------------------------------
+	// replace block
+
+
+
+	// char => char
+	public boolean replaceBlock(final BlockPlacer placer,
+			final int x, final int y, final int z,
+			final char expect, final char replace) {
+		if (this.isType(placer, x, y, z, expect)) {
+			this.setBlock(placer, x, y, z, replace);
+			return true;
+		}
+		return false;
+	}
+	// char => material
+	public boolean replaceBlock(final BlockPlacer placer,
+			final int x, final int y, final int z,
+			final char expect, final Material replace) {
+		if (this.isType(placer, x, y, z, expect)) {
+			this.setBlock(placer, x, y, z, replace);
+			return true;
+		}
+		return false;
+	}
+	// char => blockdata
+	public boolean replaceBlock(final BlockPlacer placer,
+			final int x, final int y, final int z,
+			final char expect, final BlockData replace) {
+		if (this.isType(placer, x, y, z, expect)) {
+			this.setBlock(placer, x, y, z, replace);
+			return true;
+		}
+		return false;
+	}
+
+	// material => material
+	public boolean replaceBlock(final BlockPlacer placer,
+			final int x, final int y, final int z,
+			final Material expect, final Material replace) {
+		if (this.isType(placer, x, y, z, expect)) {
+			this.setBlock(placer, x, y, z, replace);
+			return true;
+		}
+		return false;
+	}
+	// material => char
+	public boolean replaceBlock(final BlockPlacer placer,
+			final int x, final int y, final int z,
+			final Material expect, final char replace) {
+		if (this.isType(placer, x, y, z, expect)) {
+			this.setBlock(placer, x, y, z, replace);
+			return true;
+		}
+		return false;
+	}
+	// material => blockdata
+	public boolean replaceBlock(final BlockPlacer placer,
+			final int x, final int y, final int z,
+			final Material expect, final BlockData replace) {
+		if (this.isType(placer, x, y, z, expect)) {
+			this.setBlock(placer, x, y, z, replace);
+			return true;
+		}
+		return false;
+	}
+
+	// blockdata => blockdata
+	public boolean replaceBlock(final BlockPlacer placer,
+			final int x, final int y, final int z,
+			final BlockData expect, final BlockData replace) {
+		if (this.isType(placer, x, y, z, expect)) {
+			this.setBlock(placer, x, y, z, replace);
+			return true;
+		}
+		return false;
+	}
+	// blockdata => char
+	public boolean replaceBlock(final BlockPlacer placer,
+			final int x, final int y, final int z,
+			final BlockData expect, final char replace) {
+		if (this.isType(placer, x, y, z, expect)) {
+			this.setBlock(placer, x, y, z, replace);
+			return true;
+		}
+		return false;
+	}
+	// blockdata => material
+	public boolean replaceBlock(final BlockPlacer placer,
+			final int x, final int y, final int z,
+			final BlockData expect, final Material replace) {
+		if (this.isType(placer, x, y, z, expect)) {
+			this.setBlock(placer, x, y, z, replace);
+			return true;
+		}
+		return false;
+	}
+
+
+
+	// -------------------------------------------------------------------------------
 	// block types
 
 
@@ -444,6 +544,60 @@ public class BlockPlotter implements Serializable {
 	public BlockPlotter type(final char chr, final BlockData block) {
 		this.types.put(Character.valueOf(chr), block);
 		return this;
+	}
+
+
+
+	// match char
+	public boolean isType(final BlockPlacer placer,
+			final int x, final int y, final int z,
+			final char match) {
+		if (match == 0)
+			return false;
+		final BlockData match_block = this.types.get(match);
+		if (match_block == null)
+			return false;
+		final BlockData actual_block = this.getBlock(placer, x, y, z);
+		if (actual_block == null)
+			return false;
+		final Material actual_mat = actual_block.getMaterial();
+		if (!match_block.getMaterial().equals(actual_mat))
+			return false;
+//TODO: more checks
+		return true;
+	}
+	// match material
+	public boolean isType(final BlockPlacer placer,
+			final int x, final int y, final int z,
+			final Material match) {
+		if (match == null)
+			return false;
+		final BlockData actual_block = this.getBlock(placer, x, y, z);
+		if (actual_block == null)
+			return false;
+		final Material actual_mat = actual_block.getMaterial();
+		if (!match.equals(actual_mat))
+			return false;
+//TODO: more checks
+		return true;
+	}
+	// match blockdata
+	public boolean isType(final BlockPlacer placer,
+			final int x, final int y, final int z,
+			final BlockData match) {
+		if (match == null)
+			return false;
+		final Material match_mat = match.getMaterial();
+		if (match_mat == null)
+			return false;
+		final BlockData actual_block = this.getBlock(placer, x, y, z);
+		if (actual_block == null)
+			return false;
+		final Material actual_mat = actual_block.getMaterial();
+		if (!match_mat.equals(actual_mat))
+			return false;
+//TODO: more checks
+		return true;
 	}
 
 
