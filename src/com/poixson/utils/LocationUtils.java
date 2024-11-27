@@ -291,7 +291,7 @@ public final class LocationUtils {
 		return face.toString().toLowerCase();
 	}
 
-	public static char FaceToPillarAx(final BlockFace face) {
+	public static char FaceToPillarAxChar(final BlockFace face) {
 		switch (face) {
 		case UP:    case DOWN:  return 'y';
 		case NORTH: case SOUTH: return 'z';

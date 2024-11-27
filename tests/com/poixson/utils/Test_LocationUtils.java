@@ -7,12 +7,12 @@ import static com.poixson.utils.LocationUtils.AxisToFaces2x2;
 import static com.poixson.utils.LocationUtils.AxisToIxyz;
 import static com.poixson.utils.LocationUtils.AxisToIxz;
 import static com.poixson.utils.LocationUtils.FaceToAxChar;
-import static com.poixson.utils.LocationUtils.FaceToAxis;
 import static com.poixson.utils.LocationUtils.FaceToAxString;
+import static com.poixson.utils.LocationUtils.FaceToAxis;
 import static com.poixson.utils.LocationUtils.FaceToIxyz;
 import static com.poixson.utils.LocationUtils.FaceToIxz;
 import static com.poixson.utils.LocationUtils.FaceToNormAngle;
-import static com.poixson.utils.LocationUtils.FaceToPillarAx;
+import static com.poixson.utils.LocationUtils.FaceToPillarAxChar;
 import static com.poixson.utils.LocationUtils.FaceToRotation;
 import static com.poixson.utils.LocationUtils.Rotate;
 import static com.poixson.utils.LocationUtils.RotationToFace;
@@ -192,13 +192,13 @@ public class Test_LocationUtils {
 		Assert.assertEquals("se", FaceToAxString(BlockFace.SOUTH_EAST));
 		Assert.assertEquals("sw", FaceToAxString(BlockFace.SOUTH_WEST));
 		// BlockFace to Pillar Axis
-		Assert.assertEquals('z', FaceToPillarAx(BlockFace.NORTH));
-		Assert.assertEquals('z', FaceToPillarAx(BlockFace.SOUTH));
-		Assert.assertEquals('x', FaceToPillarAx(BlockFace.EAST ));
-		Assert.assertEquals('x', FaceToPillarAx(BlockFace.WEST ));
-		Assert.assertEquals('y', FaceToPillarAx(BlockFace.UP   ));
-		Assert.assertEquals('y', FaceToPillarAx(BlockFace.DOWN ));
-		Assert.assertEquals(0,   FaceToPillarAx(BlockFace.NORTH_EAST));
+		Assert.assertEquals('z', FaceToPillarAxChar(BlockFace.NORTH));
+		Assert.assertEquals('z', FaceToPillarAxChar(BlockFace.SOUTH));
+		Assert.assertEquals('x', FaceToPillarAxChar(BlockFace.EAST ));
+		Assert.assertEquals('x', FaceToPillarAxChar(BlockFace.WEST ));
+		Assert.assertEquals('y', FaceToPillarAxChar(BlockFace.UP   ));
+		Assert.assertEquals('y', FaceToPillarAxChar(BlockFace.DOWN ));
+		Assert.assertEquals(0,   FaceToPillarAxChar(BlockFace.NORTH_EAST));
 		// axis char to BlockFace
 		Assert.assertEquals(BlockFace.NORTH, AxToFace('n'));
 		Assert.assertEquals(BlockFace.NORTH, AxToFace('z'));
