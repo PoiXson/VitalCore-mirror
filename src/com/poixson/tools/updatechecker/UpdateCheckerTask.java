@@ -24,7 +24,7 @@ public class UpdateCheckerTask implements Runnable {
 	protected final String plugin_version;
 
 	protected final AtomicLong check_count = new AtomicLong(0L);
-	protected final AtomicDouble version_diff = new AtomicDouble(Double.MIN_NORMAL);
+	protected final AtomicDouble version_diff = new AtomicDouble(Double.MIN_VALUE);
 	protected final AtomicReference<String> updateMsg = new AtomicReference<String>(null);
 	protected final AtomicBoolean msgToPlayers = new AtomicBoolean(false);
 
