@@ -511,8 +511,8 @@ public class TreeBuilder {
 		if (!IsMinMax(this.trunk_size_min,             1.0, 100.0)) throw new IllegalArgumentException("Invalid trunk_size_min: "         +Double.toString(this.trunk_size_min         ));
 		if (!IsMinMax(this.trunk_size_max,             1.0, 100.0)) throw new IllegalArgumentException("Invalid trunk_size_max: "         +Double.toString(this.trunk_size_max         ));
 		if (!IsMinMax(this.trunk_size_factor,          0.0,   1.0)) throw new IllegalArgumentException("Invalid trunk_size_factor: "      +Double.toString(this.trunk_size_factor      ));
-		if (!IsMinMax(this.trunk_size_modify_min,      0.0,   5.0)) throw new IllegalArgumentException("Invalid trunk_size_modify_min: "  +Double.toString(this.trunk_size_modify_min  ));
-		if (!IsMinMax(this.trunk_size_modify_max,      0.0,   5.0)) throw new IllegalArgumentException("Invalid trunk_size_modify_max: "  +Double.toString(this.trunk_size_modify_max  ));
+		if (!IsMinMax(this.trunk_size_modify_min,   -100.0, 100.0)) throw new IllegalArgumentException("Invalid trunk_size_modify_min: "  +Double.toString(this.trunk_size_modify_min  ));
+		if (!IsMinMax(this.trunk_size_modify_max,   -100.0, 100.0)) throw new IllegalArgumentException("Invalid trunk_size_modify_max: "  +Double.toString(this.trunk_size_modify_max  ));
 		if (!IsMinMax(this.branches_from_top,          0.0, 100.0)) throw new IllegalArgumentException("Invalid branches_from_top: "      +Double.toString(this.branches_from_top      ));
 		if (!IsMinMax(this.branch_zone_percent,        0.0,   1.0)) throw new IllegalArgumentException("Invalid branch_zone_percent: "    +Double.toString(this.branch_zone_percent    ));
 		if (!IsMinMax(this.branch_length_min,          0.0, 100.0)) throw new IllegalArgumentException("Invalid branch_length_min: "      +Double.toString(this.branch_length_min      ));
