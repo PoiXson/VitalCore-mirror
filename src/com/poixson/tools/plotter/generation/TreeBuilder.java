@@ -28,6 +28,7 @@ public class TreeBuilder {
 	public static final double DEFAULT_TRUNK_SIZE_FACTOR        =  0.075;
 	public static final double DEFAULT_TRUNK_SIZE_MODIFY_MIN    = -0.8;
 	public static final double DEFAULT_TRUNK_SIZE_MODIFY_MAX    =  0.8;
+	public static final double DEFAULT_TRUNK_SIZE_MODIFY_WEIGHT =  0.6;
 	public static final double DEFAULT_BRANCHES_FROM_TOP        =  3.5;
 	public static final double DEFAULT_BRANCH_ZONE_PERCENT      =  0.6;
 	public static final double DEFAULT_BRANCH_LENGTH_MIN        =  3.8;
@@ -95,7 +96,7 @@ public class TreeBuilder {
 	protected final xRand rnd_branch_tier_len = (new xRand()).seed_time();
 	protected final xRand rnd_branch_tier     = (new xRand()).seed_time();
 	protected final xRand rnd_branch_splits   = (new xRand()).seed_time().weight(DEFAULT_BRANCH_NUM_SPLITS_WEIGHT);
-	protected final xRand rnd_trunk_size      = (new xRand()).seed_time();
+	protected final xRand rnd_trunk_size      = (new xRand()).seed_time().weight(DEFAULT_TRUNK_SIZE_MODIFY_WEIGHT);
 
 
 
@@ -335,11 +336,13 @@ public class TreeBuilder {
 		this.trunk_size_max = size;
 		return this;
 	}
+
 	// tree size by height
 	public TreeBuilder setTrunkSizeFactor(final double factor) {
 		this.trunk_size_factor = factor;
 		return this;
 	}
+
 	// modified tree size
 	public TreeBuilder setTrunkSizeModifyMin(final double value) {
 		this.trunk_size_modify_min = value;
@@ -347,6 +350,10 @@ public class TreeBuilder {
 	}
 	public TreeBuilder setTrunkSizeModifyMax(final double value) {
 		this.trunk_size_modify_max = value;
+		return this;
+	}
+	public TreeBuilder setTrunkSizeModifyWeight(final double weight) {
+		this.rnd_trunk_size.weight(weight);
 		return this;
 	}
 
