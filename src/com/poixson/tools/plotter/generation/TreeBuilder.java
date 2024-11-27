@@ -53,39 +53,39 @@ public class TreeBuilder {
 	public static final double DEFAULT_LEAVES_THICKNESS         =  2.0;
 	public static final boolean DEFAULT_IS_DEAD                 = false;
 
-	protected final TreeStyle style;
-	protected final int y_min;
-	protected final int y_max;
+	public final TreeStyle style;
+	public final int y_min;
+	public final int y_max;
 
-	protected double height_min               = DEFAULT_HEIGHT_MIN;
-	protected double height_max               = DEFAULT_HEIGHT_MAX;
-	protected double trunk_size_min           = DEFAULT_TRUNK_SIZE_MIN;
-	protected double trunk_size_max           = DEFAULT_TRUNK_SIZE_MAX;
-	protected double trunk_size_factor        = DEFAULT_TRUNK_SIZE_FACTOR;
-	protected double trunk_size_modify_min    = DEFAULT_TRUNK_SIZE_MODIFY_MIN;
-	protected double trunk_size_modify_max    = DEFAULT_TRUNK_SIZE_MODIFY_MAX;
-	protected double branches_from_top        = DEFAULT_BRANCHES_FROM_TOP;
-	protected double branch_zone_percent      = DEFAULT_BRANCH_ZONE_PERCENT;
-	protected double branch_length_min        = DEFAULT_BRANCH_LENGTH_MIN;
-	protected double branch_length_max        = DEFAULT_BRANCH_LENGTH_MAX;
-	protected double branch_length_weight     = DEFAULT_BRANCH_LENGTH_WEIGHT;
-	protected double branch_attenuation_min   = DEFAULT_BRANCH_ATTEN_MIN;
-	protected double branch_attenuation_max   = DEFAULT_BRANCH_ATTEN_MAX;
-	protected double branch_tier_len_add_min  = DEFAULT_BRANCH_TIER_LEN_ADD_MIN;
-	protected double branch_tier_len_add_max  = DEFAULT_BRANCH_TIER_LEN_ADD_MAX;
-	protected double branch_tier_space_min    = DEFAULT_BRANCH_TIER_SPACE_MIN;
-	protected double branch_tier_space_max    = DEFAULT_BRANCH_TIER_SPACE_MAX;
-	protected double branch_yaw_add_min       = DEFAULT_BRANCH_YAW_ADD_MIN;
-	protected double branch_yaw_add_max       = DEFAULT_BRANCH_YAW_ADD_MAX;
-	protected double branch_pitch_min         = DEFAULT_BRANCH_PITCH_MIN;
-	protected double branch_pitch_max         = DEFAULT_BRANCH_PITCH_MAX;
-	protected double branch_pitch_modify_min  = DEFAULT_BRANCH_PITCH_MODIFY_MIN;
-	protected double branch_pitch_modify_max  = DEFAULT_BRANCH_PITCH_MODIFY_MAX;
-	protected double branch_split_min_length  = DEFAULT_BRANCH_SPLIT_MIN_LENGTH;
-	protected double branch_num_splits_min    = DEFAULT_BRANCH_NUM_SPLITS_MIN;
-	protected double branch_num_splits_max    = DEFAULT_BRANCH_NUM_SPLITS_MAX;
-	protected double leaves_thickness         = DEFAULT_LEAVES_THICKNESS;
-	protected boolean is_dead                 = DEFAULT_IS_DEAD;
+	protected double height_min              = DEFAULT_HEIGHT_MIN;
+	protected double height_max              = DEFAULT_HEIGHT_MAX;
+	protected double trunk_size_min          = DEFAULT_TRUNK_SIZE_MIN;
+	protected double trunk_size_max          = DEFAULT_TRUNK_SIZE_MAX;
+	protected double trunk_size_factor       = DEFAULT_TRUNK_SIZE_FACTOR;
+	protected double trunk_size_modify_min   = DEFAULT_TRUNK_SIZE_MODIFY_MIN;
+	protected double trunk_size_modify_max   = DEFAULT_TRUNK_SIZE_MODIFY_MAX;
+	protected double branches_from_top       = DEFAULT_BRANCHES_FROM_TOP;
+	protected double branch_zone_percent     = DEFAULT_BRANCH_ZONE_PERCENT;
+	protected double branch_length_min       = DEFAULT_BRANCH_LENGTH_MIN;
+	protected double branch_length_max       = DEFAULT_BRANCH_LENGTH_MAX;
+	protected double branch_length_weight    = DEFAULT_BRANCH_LENGTH_WEIGHT;
+	protected double branch_attenuation_min  = DEFAULT_BRANCH_ATTEN_MIN;
+	protected double branch_attenuation_max  = DEFAULT_BRANCH_ATTEN_MAX;
+	protected double branch_tier_len_add_min = DEFAULT_BRANCH_TIER_LEN_ADD_MIN;
+	protected double branch_tier_len_add_max = DEFAULT_BRANCH_TIER_LEN_ADD_MAX;
+	protected double branch_tier_space_min   = DEFAULT_BRANCH_TIER_SPACE_MIN;
+	protected double branch_tier_space_max   = DEFAULT_BRANCH_TIER_SPACE_MAX;
+	protected double branch_yaw_add_min      = DEFAULT_BRANCH_YAW_ADD_MIN;
+	protected double branch_yaw_add_max      = DEFAULT_BRANCH_YAW_ADD_MAX;
+	protected double branch_pitch_min        = DEFAULT_BRANCH_PITCH_MIN;
+	protected double branch_pitch_max        = DEFAULT_BRANCH_PITCH_MAX;
+	protected double branch_pitch_modify_min = DEFAULT_BRANCH_PITCH_MODIFY_MIN;
+	protected double branch_pitch_modify_max = DEFAULT_BRANCH_PITCH_MODIFY_MAX;
+	protected double branch_split_min_length = DEFAULT_BRANCH_SPLIT_MIN_LENGTH;
+	protected double branch_num_splits_min   = DEFAULT_BRANCH_NUM_SPLITS_MIN;
+	protected double branch_num_splits_max   = DEFAULT_BRANCH_NUM_SPLITS_MAX;
+	protected double leaves_thickness        = DEFAULT_LEAVES_THICKNESS;
+	protected boolean is_dead                = DEFAULT_IS_DEAD;
 
 	protected final xRand rnd_height          = (new xRand()).seed_time().weight(DEFAULT_HEIGHT_WEIGHT);
 	protected final xRand rnd_yaw             = (new xRand()).seed_time();
@@ -154,7 +154,7 @@ public class TreeBuilder {
 					8 - Math.abs(Math.abs(plot.x % 16)-8),
 					8 - Math.abs(Math.abs(plot.z % 16)-8)
 				);
-			if (chunk_edge < 4)
+			if (chunk_edge < trunk_size * 2)
 				return false;
 		}
 		// find ground surface
