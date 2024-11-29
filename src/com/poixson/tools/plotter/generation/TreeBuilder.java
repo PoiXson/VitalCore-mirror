@@ -33,7 +33,7 @@ public class TreeBuilder {
 	public static final double DEFAULT_BRANCHES_FROM_TOP        =  3.5;
 	public static final double DEFAULT_BRANCH_ZONE_PERCENT      =  0.6;
 	public static final double DEFAULT_BRANCH_LENGTH_MIN        =  3.8;
-	public static final double DEFAULT_BRANCH_LENGTH_MAX        =  7.2;
+	public static final double DEFAULT_BRANCH_LENGTH_MAX        =  7.7;
 	public static final double DEFAULT_BRANCH_LENGTH_WEIGHT     =  0.7;
 	public static final double DEFAULT_BRANCH_ATTEN_MIN         =  0.6;
 	public static final double DEFAULT_BRANCH_ATTEN_MAX         =  0.75;
@@ -51,7 +51,7 @@ public class TreeBuilder {
 	public static final double DEFAULT_BRANCH_SPLIT_MIN_LENGTH  =  6.0;
 	public static final double DEFAULT_BRANCH_NUM_SPLITS_MIN    =  1;
 	public static final double DEFAULT_BRANCH_NUM_SPLITS_MAX    =  3;
-	public static final double DEFAULT_BRANCH_NUM_SPLITS_WEIGHT =  1.2;
+	public static final double DEFAULT_BRANCH_NUM_SPLITS_WEIGHT =  1.3;
 	public static final double DEFAULT_LEAVES_THICKNESS         =  2.0;
 	public static final boolean DEFAULT_IS_DEAD                 = false;
 
