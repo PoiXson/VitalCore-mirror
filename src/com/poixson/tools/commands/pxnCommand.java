@@ -97,6 +97,18 @@ public class pxnCommand {
 
 
 
+	protected List<String> onTabComplete_Array(final String arg, final String...entries) {
+		final LinkedList<String> results = new LinkedList<String>();
+		for (final String entry : entries) {
+			if (entry.startsWith(arg))
+				results.addLast(entry);
+		}
+		return results;
+	}
+	protected List<String> onTabComplete_Array(final String[] args, final String...entries) {
+		final String last = (args.length == 0 ? "" : args[args.length-1]);
+		return this.onTabComplete_Array(last, entries);
+	}
 	protected List<String> onTabComplete_Players(final String arg) {
 		final String lower = arg.toLowerCase();
 		final LinkedList<String> list = new LinkedList<String>();
