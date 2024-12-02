@@ -63,11 +63,20 @@ permissions:
         default: op
         description: "Allow all commands: /gm <...>"
         children:
-            pxn.cmd.gm:      true
-            pxn.cmd.gm.c:    true
-            pxn.cmd.gm.s:    true
-            pxn.cmd.gm.a:    true
-            pxn.cmd.gm.spec: true
+            pxn.cmd.gm:    true
+            pxn.cmd.gm.c:  true
+            pxn.cmd.gm.s:  true
+            pxn.cmd.gm.a:  true
+            pxn.cmd.gm.sp: true
+    pxn.cmd.gm.other.*:
+        default: op
+        description: "Allow all commands: /gm <...> <player>"
+        children:
+            pxn.cmd.gm.other:    true
+            pxn.cmd.gm.c.other:  true
+            pxn.cmd.gm.s.other:  true
+            pxn.cmd.gm.a.other:  true
+            pxn.cmd.gm.sp.other: true
     pxn.cmd.speed.*:
         default: op
         description: "Allow commands: /walkspeed and /flyspeed"
@@ -171,9 +180,9 @@ permissions:
     pxn.cmd.gm.a:
         default: op
         description: "Allow command: /gma"
-    pxn.cmd.gm.spec:
+    pxn.cmd.gm.sp:
         default: op
-        description: "Allow command: /gmspec"
+        description: "Allow command: /gmsp"
 
     pxn.cmd.feed:
         default: op
