@@ -83,6 +83,14 @@ public abstract class WorldStore_HashMap<K, V> extends CacheMap<K, V> implements
 
 
 
+	public void startLater(final JavaPlugin plugin) {
+		new BukkitRunnable() {
+			@Override
+			public void run() {
+				WorldStore_HashMap.this.start();
+			}
+		}.runTask(plugin);
+	}
 	@Override
 	public void start() {
 		WorldStoreTicker.Get(this.plugin)
