@@ -41,12 +41,12 @@ public class Command_Spawn extends pxnCommandRoot {
 			if (!sender.hasPermission("pxn.cmd.spawn.other"))
 				return false;
 			int count = 0;
-			LOOP_ARG:
+			LOOP_ARGS:
 			for (final String arg : args) {
 				final Player p = Bukkit.getPlayer(arg);
 				if (p == null) {
-					sender.sendMessage(String.format("%sPlayer not found: %s", ChatColor.GOLD, arg));
-					continue LOOP_ARG;
+					sender.sendMessage(String.format("%sPlayer not found: %s", ChatColor.RED, arg));
+					continue LOOP_ARGS;
 				}
 				final World world = p.getWorld();
 				final Location loc = world.getSpawnLocation();

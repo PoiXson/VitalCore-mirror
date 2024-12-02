@@ -42,12 +42,12 @@ public class Command_Heal extends pxnCommandRoot {
 			if (!sender.hasPermission("pxn.cmd.heal.other"))
 				return false;
 			int count = 0;
-			LOOP_ARG:
+			LOOP_ARGS:
 			for (final String arg : args) {
 				final Player p = Bukkit.getPlayer(arg);
 				if (p == null) {
-					sender.sendMessage(String.format("%sPlayer not found: %s", ChatColor.GOLD, arg));
-					continue LOOP_ARG;
+					sender.sendMessage(String.format("%sPlayer not found: %s", ChatColor.RED, arg));
+					continue LOOP_ARGS;
 				}
 				HealPlayer(p);
 				p.sendMessage(ChatColor.GOLD+"You are healed");

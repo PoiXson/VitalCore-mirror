@@ -109,19 +109,20 @@ public class pxnCommand {
 		final String last = (args.length == 0 ? "" : args[args.length-1]);
 		return this.onTabComplete_Array(last, entries);
 	}
+
 	protected List<String> onTabComplete_Players(final String arg) {
 		final String lower = arg.toLowerCase();
-		final LinkedList<String> list = new LinkedList<String>();
+		final LinkedList<String> results = new LinkedList<String>();
 		for (final Player player : Bukkit.getOnlinePlayers()) {
 			final String name = player.getName();
 			if (name.toLowerCase().startsWith(lower))
-				list.addLast(name);
+				results.addLast(name);
 		}
-		return list;
+		return results;
 	}
 	protected List<String> onTabComplete_Players(final String[] args) {
 		final String last = (args.length == 0 ? "" : args[args.length-1]);
-		return onTabComplete_Players(last);
+		return this.onTabComplete_Players(last);
 	}
 
 

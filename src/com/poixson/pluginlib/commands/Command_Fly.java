@@ -43,12 +43,12 @@ public class Command_Fly extends pxnCommandRoot {
 				return false;
 			int count = 0;
 			boolean can_fly = true;
-			LOOP_ARG:
+			LOOP_ARGS:
 			for (final String arg : args) {
 				final Player p = Bukkit.getPlayer(arg);
 				if (p == null) {
-					sender.sendMessage(String.format("%sPlayer not found: %s", ChatColor.GOLD, arg));
-					continue LOOP_ARG;
+					sender.sendMessage(String.format("%sPlayer not found: %s", ChatColor.RED, arg));
+					continue LOOP_ARGS;
 				}
 				if (count == 0)
 					can_fly = ! p.getAllowFlight();
