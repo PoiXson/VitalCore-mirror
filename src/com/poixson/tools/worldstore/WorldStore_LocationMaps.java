@@ -20,7 +20,7 @@ import com.poixson.tools.dao.Iab;
 import com.poixson.utils.MathUtils;
 
 
-public class WorldStore_LocationMaps extends WorldStore_Map<Iab, Map<Iab, Map<String, Object>>> {
+public class WorldStore_LocationMaps extends WorldStore_HashMap<Iab, Map<Iab, Map<String, Object>>> {
 
 
 

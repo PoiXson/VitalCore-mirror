@@ -18,7 +18,7 @@ import com.poixson.tools.dao.Iab;
 import com.poixson.utils.MathUtils;
 
 
-public class RandomMaze extends WorldStore_Map<Iab, AtomicDoubleArray> {
+public class RandomMaze extends WorldStore_HashMap<Iab, AtomicDoubleArray> {
 
 	protected final xRand random = (new xRand()).seed_time();
 

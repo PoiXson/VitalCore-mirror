@@ -15,7 +15,7 @@ import com.google.gson.reflect.TypeToken;
 import com.poixson.tools.abstractions.Triple;
 
 
-public class WorldStore_KeyVal extends WorldStore_Map<String, Object> {
+public class WorldStore_KeyVal extends WorldStore_HashMap<String, Object> {
 
 
 

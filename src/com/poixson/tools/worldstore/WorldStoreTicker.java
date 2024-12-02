@@ -27,7 +27,7 @@ public class WorldStoreTicker extends BukkitRunnable implements xStartStop {
 
 	protected final JavaPlugin plugin;
 
-	protected final CopyOnWriteArraySet<WorldStore_Map<?, ?>> stores = new CopyOnWriteArraySet<WorldStore_Map<?, ?>>();
+	protected final CopyOnWriteArraySet<WorldStore_HashMap<?, ?>> stores = new CopyOnWriteArraySet<WorldStore_HashMap<?, ?>>();
 
 
 
@@ -81,10 +81,10 @@ public class WorldStoreTicker extends BukkitRunnable implements xStartStop {
 
 
 
-	public void register(final WorldStore_Map<?, ?> store) {
+	public void register(final WorldStore_HashMap<?, ?> store) {
 		this.stores.add(store);
 	}
-	public void unregister(final WorldStore_Map<?, ?> store) {
+	public void unregister(final WorldStore_HashMap<?, ?> store) {
 		this.stores.remove(store);
 		if (this.stores.isEmpty())
 			this.stop();
@@ -94,16 +94,16 @@ public class WorldStoreTicker extends BukkitRunnable implements xStartStop {
 
 	@Override
 	public void run() {
-		final Iterator<WorldStore_Map<?, ?>> it = this.stores.iterator();
+		final Iterator<WorldStore_HashMap<?, ?>> it = this.stores.iterator();
 		while (it.hasNext()) {
-			final WorldStore_Map<?, ?> store = it.next();
+			final WorldStore_HashMap<?, ?> store = it.next();
 			store.tick();
 		}
 	}
 	public void saveAll() {
-		final Iterator<WorldStore_Map<?, ?>> it = this.stores.iterator();
+		final Iterator<WorldStore_HashMap<?, ?>> it = this.stores.iterator();
 		while (it.hasNext()) {
-			final WorldStore_Map<?, ?> store = it.next();
+			final WorldStore_HashMap<?, ?> store = it.next();
 			store.saveAll();
 		}
 	}

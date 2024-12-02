@@ -12,7 +12,7 @@ import com.poixson.tools.dao.Iab;
 import com.poixson.utils.MathUtils;
 
 
-public class WorldStore_Locations extends WorldStore_Map<Iab, CopyOnWriteArraySet<Iab>> {
+public class WorldStore_Locations extends WorldStore_HashMap<Iab, CopyOnWriteArraySet<Iab>> {
 
 
 
