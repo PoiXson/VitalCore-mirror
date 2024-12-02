@@ -69,13 +69,22 @@ public abstract class WorldStore_HashMap<K, V> extends CacheMap<K, V> implements
 
 
 
+	public boolean init() {
+		if (super.init()) {
+			if (!this.path.isDirectory()) {
+				this.log().info("Creating directory: "+this.path.getPath());
+				if (!this.path.mkdir())
+					throw new RuntimeException("Failed to create directory: "+this.path.getPath());
+			}
+			return true;
+		}
+		return false;
+	}
+
+
+
 	@Override
 	public void start() {
-		if (!this.path.isDirectory()) {
-			this.log().info("Creating directory: "+this.path.getPath());
-			if (!this.path.mkdir())
-				throw new RuntimeException("Failed to create directory: "+this.path.getPath());
-		}
 		WorldStoreTicker.Get(this.plugin)
 			.register(this);
 	}
@@ -113,6 +122,7 @@ public abstract class WorldStore_HashMap<K, V> extends CacheMap<K, V> implements
 	}
 	@Override
 	public V load(final K key) {
+		this.init();
 		final File file = this.getFile(key);
 		if (file.isFile()) {
 			InputStream in = null;

@@ -42,6 +42,7 @@ public class RandomMaze extends WorldStore_HashMap<Iab, AtomicDoubleArray> {
 
 	@Override
 	public AtomicDoubleArray create(final Iab key) {
+		this.init();
 		final int array_size = this.group_size * this.group_size;
 		final AtomicDoubleArray result = new AtomicDoubleArray(array_size);
 		final LinkedList<String> lines = new LinkedList<String>();
