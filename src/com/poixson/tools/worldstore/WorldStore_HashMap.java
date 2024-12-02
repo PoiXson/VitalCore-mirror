@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.logging.Logger;
 
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -64,6 +65,11 @@ public abstract class WorldStore_HashMap<K, V> extends CacheMap<K, V> implements
 		this.type   = type;
 		this.group_size = group_size;
 		this.path = new File(GetServerPath(), this.world+"/pxn");
+		if (!this.path.isDirectory()) {
+			this.log().info("Creating directory: "+this.path.getPath());
+			if (!this.path.mkdir())
+				throw new RuntimeException("Failed to create directory: "+this.path.getPath());
+		}
 	}
 
 
@@ -160,6 +166,17 @@ public abstract class WorldStore_HashMap<K, V> extends CacheMap<K, V> implements
 	}
 	public int loc_to_index(final int x, final int z) {
 		return (this.loc_to_local(z) * this.group_size) + this.loc_to_local(x);
+	}
+
+
+
+	// -------------------------------------------------------------------------------
+	// logger
+
+
+
+	public Logger log() {
+		return this.plugin.getLogger();
 	}
 
 
