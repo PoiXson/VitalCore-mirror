@@ -13,6 +13,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.ConcurrentSkipListSet;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
@@ -36,6 +37,7 @@ public class FreedMapStore implements xListener {
 
 	protected final File file;
 	protected final AtomicBoolean changed = new AtomicBoolean(false);
+	protected final ReentrantLock lock = new ReentrantLock(true);
 
 
 
@@ -52,43 +54,53 @@ public class FreedMapStore implements xListener {
 
 
 
-	public synchronized void load() throws IOException {
-		this.freed.clear();
-		if (this.file.isFile()) {
-			this.log().info("Loading: freed-maps.json");
-			BufferedReader reader = null;
-			try {
-				reader = Files.newBufferedReader(this.file.toPath());
-				final Type token = new TypeToken<HashSet<Integer>>() {}.getType();
-				final Set<Integer> set = (new Gson()).fromJson(reader, token);
-				for (final Integer id : set)
-					this.freed.add(id);
-				this.log().info(String.format("Loaded %d freed maps", Integer.valueOf(this.freed.size())));
-				this.changed.set(false);
-			} finally {
-				SafeClose(reader);
+	public void load() throws IOException {
+		this.lock.lock();
+		try {
+			this.freed.clear();
+			if (this.file.isFile()) {
+				this.log().info("Loading: freed-maps.json");
+				BufferedReader reader = null;
+				try {
+					reader = Files.newBufferedReader(this.file.toPath());
+					final Type token = new TypeToken<HashSet<Integer>>() {}.getType();
+					final Set<Integer> set = (new Gson()).fromJson(reader, token);
+					for (final Integer id : set)
+						this.freed.add(id);
+					this.log().info(String.format("Loaded %d freed maps", Integer.valueOf(this.freed.size())));
+					this.changed.set(false);
+				} finally {
+					SafeClose(reader);
+				}
 			}
+		} finally {
+			this.lock.unlock();
 		}
 	}
-	public synchronized boolean save() throws IOException {
-		if (this.changed.getAndSet(false)) {
-			final Integer[] list = this.freed.toArray(new Integer[0]);
-			final int[] result = new int[list.length];
-			if (list.length > 0) {
-				int i = 0;
-				for (final Integer id : list)
-					result[i++] = id.intValue();
+	public boolean save() throws IOException {
+		this.lock.lock();
+		try {
+			if (this.changed.getAndSet(false)) {
+				final Integer[] list = this.freed.toArray(new Integer[0]);
+				final int[] result = new int[list.length];
+				if (list.length > 0) {
+					int i = 0;
+					for (final Integer id : list)
+						result[i++] = id.intValue();
+				}
+				this.log().info(String.format("Saving %d freed maps", Integer.valueOf(result.length)));
+				BufferedWriter writer = null;
+				try {
+					final String data = (new Gson()).toJson(result);
+					writer = new BufferedWriter(new FileWriter(this.file));
+					writer.write(data);
+					return true;
+				} finally {
+					SafeClose(writer);
+				}
 			}
-			this.log().info(String.format("Saving %d freed maps", Integer.valueOf(result.length)));
-			BufferedWriter writer = null;
-			try {
-				final String data = (new Gson()).toJson(result);
-				writer = new BufferedWriter(new FileWriter(this.file));
-				writer.write(data);
-				return true;
-			} finally {
-				SafeClose(writer);
-			}
+		} finally {
+			this.lock.unlock();
 		}
 		return false;
 	}
