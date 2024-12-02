@@ -127,10 +127,10 @@ public class Command_GM extends pxnCommandRoot {
 	public static GameMode ShortToGameMode(final String arg) {
 		if (IsEmpty(arg)) return null;
 		final String lower = arg.toLowerCase();
+		if (lower.startsWith("sp")) return GameMode.SPECTATOR;
 		if (lower.startsWith("c" )) return GameMode.CREATIVE;
 		if (lower.startsWith("s" )) return GameMode.SURVIVAL;
 		if (lower.startsWith("a" )) return GameMode.ADVENTURE;
-		if (lower.startsWith("sp")) return GameMode.SPECTATOR;
 		return null;
 	}
 
