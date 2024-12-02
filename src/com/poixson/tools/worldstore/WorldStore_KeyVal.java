@@ -32,9 +32,12 @@ public class WorldStore_KeyVal extends WorldStore_HashMap<String, Object> {
 
 
 	@Override
-	public void start() {
-		super.start();
-		this.load(null);
+	public boolean init() {
+		if (super.init()) {
+			this.load(null);
+			return true;
+		}
+		return false;
 	}
 
 
