@@ -65,17 +65,17 @@ public abstract class WorldStore_HashMap<K, V> extends CacheMap<K, V> implements
 		this.type   = type;
 		this.group_size = group_size;
 		this.path = new File(GetServerPath(), this.world+"/pxn");
-		if (!this.path.isDirectory()) {
-			this.log().info("Creating directory: "+this.path.getPath());
-			if (!this.path.mkdir())
-				throw new RuntimeException("Failed to create directory: "+this.path.getPath());
-		}
 	}
 
 
 
 	@Override
 	public void start() {
+		if (!this.path.isDirectory()) {
+			this.log().info("Creating directory: "+this.path.getPath());
+			if (!this.path.mkdir())
+				throw new RuntimeException("Failed to create directory: "+this.path.getPath());
+		}
 		WorldStoreTicker.Get(this.plugin)
 			.register(this);
 	}
