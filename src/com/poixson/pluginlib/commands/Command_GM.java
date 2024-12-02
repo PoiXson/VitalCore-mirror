@@ -48,7 +48,7 @@ public class Command_GM extends pxnCommandRoot {
 			LOOP_ARGS:
 			for (final String arg : args) {
 				if (mode == null) {
-					mode = GameMode.valueOf(arg);
+					mode = ShortToGameMode(arg);
 					if (mode == null) {
 						sender.sendMessage(String.format("%sInvalid game mode: %s", ChatColor.RED, arg));
 						return true;
@@ -84,7 +84,7 @@ public class Command_GM extends pxnCommandRoot {
 				return false;
 			if (!sender.hasPermission("pxn.cmd.gm"))
 				return false;
-			final GameMode mode = GameMode.valueOf(args[0]);
+			final GameMode mode = ShortToGameMode(args[0]);
 			if (mode == null) {
 				sender.sendMessage(String.format("%sInvalid game mode: %s", ChatColor.RED, args[0]));
 				return true;
