@@ -36,9 +36,9 @@ import com.poixson.utils.FileUtils;
 public class BlockPlotter implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	public transient int x = 0;
-	public transient int y = 0;
-	public transient int z = 0;
+	public int x = 0;
+	public int y = 0;
+	public int z = 0;
 	public int w = 0;
 	public int h = 0;
 	public int d = 0;
