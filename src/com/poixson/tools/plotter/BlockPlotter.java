@@ -3,6 +3,7 @@ package com.poixson.tools.plotter;
 import static com.poixson.utils.LocationUtils.AxToIxyz;
 import static com.poixson.utils.LocationUtils.AxisToIxyz;
 import static com.poixson.utils.LocationUtils.Rotate;
+import static com.poixson.utils.StringUtils.SplitKeyVal;
 import static com.poixson.utils.Utils.IsEmpty;
 import static com.poixson.utils.Utils.SafeClose;
 import static com.poixson.utils.gson.GsonUtils.GSON;
@@ -90,12 +91,19 @@ public class BlockPlotter implements Serializable {
 	}
 	public static Triple<BlockPlotter, StringBuilder[][], String> Load(
 			final String json) {
-		final String[] partsAB = json.split("### MATRIX ###", 2);
-		if (partsAB.length != 2) throw new RuntimeException("Invalid structure json, missing matrix");
-		final BlockPlotter plot = FromJSON(partsAB[0]);
-		final String[] partsCD = partsAB[1].split("### SCRIPT ###", 2);
-		final String partD = (partsCD.length==2 ? partsCD[1] : null);
-		final String[][] arrays = GSON().fromJson(partsCD[0], String[][].class);
+		if (IsEmpty(json)) return null;
+		final Map<String, String> parts =
+			SplitKeyVal(
+				json,
+				"### PARAMS ###",
+				"### MATRIX ###",
+				"### SCRIPT ###"
+			);
+		final String json_params = parts.get("### PARAMS ###");
+		final String json_matrix = parts.get("### MATRIX ###");
+		final String json_script = parts.get("### SCRIPT ###");
+		final BlockPlotter plot = FromJSON(json_params);
+		final String[][] arrays = GSON().fromJson(json_matrix, String[][].class);
 		final int d1 = arrays.length;
 		final StringBuilder[][] matrix = new StringBuilder[d1][];
 		for (int i=0; i<d1; i++) {
@@ -106,7 +114,7 @@ public class BlockPlotter implements Serializable {
 				matrix[i][ii].append(arrays[i][ii]);
 			}
 		}
-		return new Triple<BlockPlotter, StringBuilder[][], String>(plot, matrix, partD);
+		return new Triple<BlockPlotter, StringBuilder[][], String>(plot, matrix, json_script);
 	}
 
 
