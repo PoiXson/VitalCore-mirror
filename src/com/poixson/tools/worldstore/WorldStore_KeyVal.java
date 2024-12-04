@@ -9,9 +9,8 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 
-import org.bukkit.plugin.java.JavaPlugin;
-
 import com.google.gson.reflect.TypeToken;
+import com.poixson.tools.xJavaPlugin;
 import com.poixson.tools.abstractions.Triple;
 
 
@@ -19,7 +18,7 @@ public class WorldStore_KeyVal extends WorldStore_HashMap<String, Object> {
 
 
 
-	public WorldStore_KeyVal(final JavaPlugin plugin,
+	public WorldStore_KeyVal(final xJavaPlugin plugin,
 			final String world) {
 		super(
 			plugin, world, "state", Integer.MAX_VALUE,

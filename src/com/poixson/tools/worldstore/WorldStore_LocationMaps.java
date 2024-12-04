@@ -11,9 +11,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.bukkit.plugin.java.JavaPlugin;
-
 import com.google.gson.reflect.TypeToken;
+import com.poixson.tools.xJavaPlugin;
 import com.poixson.tools.abstractions.Triple;
 import com.poixson.tools.abstractions.Tuple;
 import com.poixson.tools.dao.Iab;
@@ -24,11 +23,11 @@ public class WorldStore_LocationMaps extends WorldStore_HashMap<Iab, Map<Iab, Ma
 
 
 
-	public WorldStore_LocationMaps(final JavaPlugin plugin,
+	public WorldStore_LocationMaps(final xJavaPlugin plugin,
 			final String world, final String type) {
 		super(plugin, world, type);
 	}
-	public WorldStore_LocationMaps(final JavaPlugin plugin,
+	public WorldStore_LocationMaps(final xJavaPlugin plugin,
 			final String world, final String type, final int group_size) {
 		super(plugin, world, type, group_size);
 	}

@@ -6,8 +6,7 @@ import java.io.File;
 import java.util.LinkedList;
 import java.util.concurrent.CopyOnWriteArraySet;
 
-import org.bukkit.plugin.java.JavaPlugin;
-
+import com.poixson.tools.xJavaPlugin;
 import com.poixson.tools.dao.Iab;
 import com.poixson.utils.MathUtils;
 
@@ -16,11 +15,11 @@ public class WorldStore_Locations extends WorldStore_HashMap<Iab, CopyOnWriteArr
 
 
 
-	public WorldStore_Locations(final JavaPlugin plugin,
+	public WorldStore_Locations(final xJavaPlugin plugin,
 			final String world, final String type) {
 		super(plugin, world, type);
 	}
-	public WorldStore_Locations(final JavaPlugin plugin,
+	public WorldStore_Locations(final xJavaPlugin plugin,
 			final String world, final String type, final int group_size) {
 		super(plugin, world, type, group_size);
 	}

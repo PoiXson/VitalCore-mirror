@@ -10,9 +10,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.LinkedList;
 
-import org.bukkit.plugin.java.JavaPlugin;
-
 import com.google.common.util.concurrent.AtomicDoubleArray;
+import com.poixson.tools.xJavaPlugin;
 import com.poixson.tools.xRand;
 import com.poixson.tools.dao.Iab;
 import com.poixson.utils.MathUtils;
@@ -26,12 +25,12 @@ public class RandomMaze extends WorldStore_HashMap<Iab, AtomicDoubleArray> {
 
 
 
-	public RandomMaze(final JavaPlugin plugin,
+	public RandomMaze(final xJavaPlugin plugin,
 			final String world, final String type,
 			final double chance) {
 		this(plugin, world, type, chance, 32);
 	}
-	public RandomMaze(final JavaPlugin plugin,
+	public RandomMaze(final xJavaPlugin plugin,
 			final String world, final String type,
 			final double chance, final int group_size) {
 		super(plugin, world, type, group_size);
