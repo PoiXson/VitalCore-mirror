@@ -1,5 +1,7 @@
 package com.poixson.tools.plotter;
 
+import static com.poixson.utils.BlockUtils.EqualsBlockMaterial;
+import static com.poixson.utils.BlockUtils.EqualsBlockType;
 import static com.poixson.utils.LocationUtils.AxToIxyz;
 import static com.poixson.utils.LocationUtils.AxisToIxyz;
 import static com.poixson.utils.LocationUtils.Rotate;
@@ -104,12 +106,12 @@ public class BlockPlotter implements Serializable {
 		final String json_script = parts.get("### SCRIPT ###");
 		final BlockPlotter plot = FromJSON(json_params);
 		final String[][] arrays = GSON().fromJson(json_matrix, String[][].class);
-		final int d1 = arrays.length;
-		final StringBuilder[][] matrix = new StringBuilder[d1][];
-		for (int i=0; i<d1; i++) {
-			final int d2 = arrays[i].length;
-			matrix[i] = new StringBuilder[d2];
-			for (int ii=0; ii<d2; ii++) {
+		final int n = arrays.length;
+		final StringBuilder[][] matrix = new StringBuilder[n][];
+		for (int i=0; i<n; i++) {
+			final int nn = arrays[i].length;
+			matrix[i] = new StringBuilder[nn];
+			for (int ii=0; ii<nn; ii++) {
 				matrix[i][ii] = new StringBuilder();
 				matrix[i][ii].append(arrays[i][ii]);
 			}
@@ -253,8 +255,8 @@ public class BlockPlotter implements Serializable {
 			final int start_x, final int end_x, final int start_z, final int end_z) {
 		final int h = y_max - y_min;
 		for (int iy=0; iy<h; iy++) {
-			for (int iz=start_z; iz<end_z+1; iz++) {
-				for (int ix=start_x; ix<end_x+1; ix++) {
+			for (int iz=start_z; iz<=end_z; iz++) {
+				for (int ix=start_x; ix<=end_x; ix++) {
 					final BlockData block = this.getBlock(placer, ix, iy, iz);
 					final Material type = block.getMaterial();
 					if (Material.AIR.equals(type))
@@ -327,26 +329,22 @@ public class BlockPlotter implements Serializable {
 		final Iabc add0 = AxToIxyz(this.axis.charAt(0));
 		final Iabc add1 = AxToIxyz(this.axis.charAt(1));
 		final Iabc add2 = AxToIxyz(this.axis.charAt(2));
-		final int len0 = matrix.length;
-		int len1, len2;
-		int xx,   yy,   zz;
-		int xxx,  yyy,  zzz;
-		int xxxx, yyyy, zzzz;
-		for (int i=0; i<len0; i++) {
-			xx = (add0.a * i) + x;
-			yy = (add0.b * i) + y;
-			zz = (add0.c * i) + z;
-			len1 = matrix[i].length;
-			for (int ii=0; ii<len1; ii++) {
-				len2 = matrix[i][ii].length();
-				xxx = (add1.a * ii) + xx;
-				yyy = (add1.b * ii) + yy;
-				zzz = (add1.c * ii) + zz;
-				for (int iii=0; iii<len2; iii++) {
-					xxxx = (add2.a * iii) + xxx;
-					yyyy = (add2.b * iii) + yyy;
-					zzzz = (add2.c * iii) + zzz;
-					this.setBlock(placer, xxxx, yyyy, zzzz, matrix[i][ii].charAt(iii));
+		final int n = matrix.length;
+		for (int i=0; i<n; i++) {
+			final int xx = (add0.a * i) + x;
+			final int yy = (add0.b * i) + y;
+			final int zz = (add0.c * i) + z;
+			final int nn = matrix[i].length;
+			for (int ii=0; ii<nn; ii++) {
+				final int nnn = matrix[i][ii].length();
+				final int xxx = (add1.a * ii) + xx;
+				final int yyy = (add1.b * ii) + yy;
+				final int zzz = (add1.c * ii) + zz;
+				for (int iii=0; iii<nnn; iii++) {
+					this.setBlock(placer,
+						(add2.a*iii)+xxx, (add2.b*iii)+yyy, (add2.c*iii)+zzz,
+						matrix[i][ii].charAt(iii)
+					);
 				}
 			}
 		}
@@ -357,20 +355,17 @@ public class BlockPlotter implements Serializable {
 		if (this.axis.length() != 2) throw new RuntimeException("Invalid axis length");
 		final Iabc add0 = AxToIxyz(this.axis.charAt(0));
 		final Iabc add1 = AxToIxyz(this.axis.charAt(1));
-		final int len0 = matrix.length;
-		int len1;
-		int xx,  yy,  zz;
-		int xxx, yyy, zzz;
-		for (int i=0; i<len0; i++) {
-			xx = (add0.a * i) + x;
-			yy = (add0.b * i) + y;
-			zz = (add0.c * i) + z;
-			len1 = matrix[i].length();
-			for (int ii=0; ii<len1; ii++) {
-				xxx = (add1.a * ii) + xx;
-				yyy = (add1.b * ii) + yy;
-				zzz = (add1.c * ii) + zz;
-				this.setBlock(placer, xxx, yyy, zzz, matrix[i].charAt(ii));
+		final int n = matrix.length;
+		for (int i=0; i<n; i++) {
+			final int xx = (add0.a * i) + x;
+			final int yy = (add0.b * i) + y;
+			final int zz = (add0.c * i) + z;
+			final int nn = matrix[i].length();
+			for (int ii=0; ii<nn; ii++) {
+				this.setBlock(placer,
+					(add1.a*ii)+xx, (add1.b*ii)+yy, (add1.c*ii)+zz,
+					matrix[i].charAt(ii)
+				);
 			}
 		}
 	}
@@ -379,13 +374,12 @@ public class BlockPlotter implements Serializable {
 		if (IsEmpty(this.axis))      throw new RuntimeException("Axis not set");
 		if (this.axis.length() != 1) throw new RuntimeException("Invalid axis length");
 		final Iabc add = AxToIxyz(this.axis.charAt(0));
-		int xx, yy, zz;
-		final int len = matrix.length();
-		for (int i=0; i<len; i++) {
-			xx = (add.a * i) + x;
-			yy = (add.b * i) + y;
-			zz = (add.c * i) + z;
-			this.setBlock(placer, xx, yy, zz, matrix.charAt(i));
+		final int n = matrix.length();
+		for (int i=0; i<n; i++) {
+			this.setBlock(placer,
+				(add.a*i)+x, (add.b*i)+y, (add.c*i)+z,
+				matrix.charAt(i)
+			);
 		}
 	}
 
@@ -410,27 +404,18 @@ public class BlockPlotter implements Serializable {
 	public void setBlock(final BlockPlacer placer,
 			final int x, final int y, final int z, final BlockData type) {
 		final Iabcd loc = Rotate(new Iabcd(x, z, this.w, this.d), this.rotation);
-		final int xx = this.x + loc.a;
-		final int zz = this.z + loc.b;
-		final int yy = this.y + y;
-		placer.setBlock(xx, yy, zz, type);
+		placer.setBlock(this.x+loc.a, this.y+y, this.z+loc.b, type);
 	}
 	public void setBlock(final BlockPlacer placer,
 			final int x, final int y, final int z, final Material type) {
 		final Iabcd loc = Rotate(new Iabcd(x, z, this.w, this.d), this.rotation);
-		final int xx = this.x + loc.a;
-		final int zz = this.z + loc.b;
-		final int yy = this.y + y;
-		placer.setBlock(xx, yy, zz, type);
+		placer.setBlock(this.x+loc.a, this.y+y, this.z+loc.b, type);
 	}
 
 	public BlockData getBlock(final BlockPlacer placer,
 			final int x, final int y, final int z) {
 		final Iabcd loc = Rotate(new Iabcd(x, z, this.w, this.d), this.rotation);
-		final int xx = this.x + loc.a;
-		final int zz = this.z + loc.b;
-		final int yy = this.y + y;
-		return placer.getBlock(xx, yy, zz);
+		return placer.getBlock(this.x+loc.a, this.y+y, this.z+loc.b);
 	}
 
 
@@ -560,52 +545,29 @@ public class BlockPlotter implements Serializable {
 	public boolean isType(final BlockPlacer placer,
 			final int x, final int y, final int z,
 			final char match) {
-		if (match == 0)
-			return false;
-		final BlockData match_block = this.types.get(match);
-		if (match_block == null)
-			return false;
-		final BlockData actual_block = this.getBlock(placer, x, y, z);
-		if (actual_block == null)
-			return false;
-		final Material actual_mat = actual_block.getMaterial();
-		if (!match_block.getMaterial().equals(actual_mat))
-			return false;
-//TODO: more checks (more in BlockUtils::EqualsBlock())
-		return true;
+		if (match == 0) return false;
+		return EqualsBlockType(
+			this.types.get(match),         // expect
+			this.getBlock(placer, x, y, z) // actual
+		);
 	}
 	// match material
 	public boolean isType(final BlockPlacer placer,
 			final int x, final int y, final int z,
 			final Material match) {
-		if (match == null)
-			return false;
-		final BlockData actual_block = this.getBlock(placer, x, y, z);
-		if (actual_block == null)
-			return false;
-		final Material actual_mat = actual_block.getMaterial();
-		if (!match.equals(actual_mat))
-			return false;
-//TODO: more checks
-		return true;
+		return EqualsBlockMaterial(
+			match,                         // expect
+			this.getBlock(placer, x, y, z) // actual
+		);
 	}
 	// match blockdata
 	public boolean isType(final BlockPlacer placer,
 			final int x, final int y, final int z,
 			final BlockData match) {
-		if (match == null)
-			return false;
-		final Material match_mat = match.getMaterial();
-		if (match_mat == null)
-			return false;
-		final BlockData actual_block = this.getBlock(placer, x, y, z);
-		if (actual_block == null)
-			return false;
-		final Material actual_mat = actual_block.getMaterial();
-		if (!match_mat.equals(actual_mat))
-			return false;
-//TODO: more checks
-		return true;
+		return EqualsBlockType(
+			match,                         // expect
+			this.getBlock(placer, x, y, z) // actual
+		);
 	}
 
 
