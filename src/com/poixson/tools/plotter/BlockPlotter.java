@@ -1,7 +1,7 @@
 package com.poixson.tools.plotter;
 
-import static com.poixson.utils.BlockUtils.EqualsBlockMaterial;
-import static com.poixson.utils.BlockUtils.EqualsBlockType;
+import static com.poixson.utils.BlockUtils.EqualsBlock;
+import static com.poixson.utils.BlockUtils.EqualsMaterialBlock;
 import static com.poixson.utils.LocationUtils.AxToIxyz;
 import static com.poixson.utils.LocationUtils.AxisToIxyz;
 import static com.poixson.utils.LocationUtils.Rotate;
@@ -546,7 +546,7 @@ public class BlockPlotter implements Serializable {
 			final int x, final int y, final int z,
 			final char match) {
 		if (match == 0) return false;
-		return EqualsBlockType(
+		return EqualsBlock(
 			this.types.get(match),         // expect
 			this.getBlock(placer, x, y, z) // actual
 		);
@@ -555,7 +555,7 @@ public class BlockPlotter implements Serializable {
 	public boolean isType(final BlockPlacer placer,
 			final int x, final int y, final int z,
 			final Material match) {
-		return EqualsBlockMaterial(
+		return EqualsMaterialBlock(
 			match,                         // expect
 			this.getBlock(placer, x, y, z) // actual
 		);
@@ -564,7 +564,7 @@ public class BlockPlotter implements Serializable {
 	public boolean isType(final BlockPlacer placer,
 			final int x, final int y, final int z,
 			final BlockData match) {
-		return EqualsBlockType(
+		return EqualsBlock(
 			match,                         // expect
 			this.getBlock(placer, x, y, z) // actual
 		);
