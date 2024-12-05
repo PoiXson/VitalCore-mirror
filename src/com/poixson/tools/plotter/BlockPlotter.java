@@ -622,29 +622,41 @@ public class BlockPlotter implements Serializable {
 		final int size1 = this.getAxSize(this.axis.charAt(1));
 		if (size0 <= 0) throw new IllegalArgumentException("Invalid size0 value: "+Integer.toString(size0));
 		if (size1 <= 0) throw new IllegalArgumentException("Invalid size1 value: "+Integer.toString(size1));
-		final LinkedList<StringBuilder[]> list0 = new LinkedList<StringBuilder[]>();
-		for (int i=0; i<size0; i++) {
-			final LinkedList<StringBuilder> list1 = new LinkedList<StringBuilder>();
-			for (int ii=0; ii<size1; ii++)
-				list1.addLast(new StringBuilder());
-			list0.addLast(list1.toArray(new StringBuilder[0]));
-		}
-		return list0.toArray(new StringBuilder[0][0]);
+		return this.getMatrix3D(size0, size1, 0);
 	}
 	public StringBuilder[] getMatrix2D() {
 		if (IsEmpty(this.axis))      throw new RuntimeException("Axis not set");
 		if (this.axis.length() != 2) throw new RuntimeException("Invalid axis length");
-		final int size = this.getAxSize(this.axis.charAt(0));
-		if (size <= 0) throw new IllegalArgumentException("Invalid size value: "+Integer.toString(size));
-		final LinkedList<StringBuilder> list = new LinkedList<StringBuilder>();
-		for (int i=0; i<size; i++)
-			list.addLast(new StringBuilder());
-		return list.toArray(new StringBuilder[0]);
+		final int size0 = this.getAxSize(this.axis.charAt(0));
+		if (size0 <= 0) throw new IllegalArgumentException("Invalid size value: "+Integer.toString(size0));
+		return this.getMatrix2D(size0, 0);
 	}
 	public StringBuilder getMatrix1D() {
-		if (IsEmpty(this.axis))      throw new RuntimeException("Axis not set");
-		if (this.axis.length() != 1) throw new RuntimeException("Invalid axis length");
-		return new StringBuilder();
+		return this.getMatrix1D(0);
+	}
+
+
+
+	public StringBuilder[][] getMatrix3D(final int size0, final int size1, final int size2) {
+		final String fill = " ".repeat(size2);
+		final LinkedList<StringBuilder[]> list0 = new LinkedList<StringBuilder[]>();
+		for (int i=0; i<size0; i++) {
+			final LinkedList<StringBuilder> list1 = new LinkedList<StringBuilder>();
+			for (int ii=0; ii<size1; ii++)
+				list1.addLast( (new StringBuilder()).append(fill) );
+			list0.addLast(list1.toArray(new StringBuilder[0]));
+		}
+		return list0.toArray(new StringBuilder[0][0]);
+	}
+	public StringBuilder[] getMatrix2D(final int size0, final int size1) {
+		final String fill = " ".repeat(size1);
+		final LinkedList<StringBuilder> list = new LinkedList<StringBuilder>();
+		for (int i=0; i<size0; i++)
+			list.addLast( (new StringBuilder()).append(fill) );
+		return list.toArray(new StringBuilder[0]);
+	}
+	public StringBuilder getMatrix1D(final int size) {
+		return (new StringBuilder()).repeat(' ', size);
 	}
 
 
