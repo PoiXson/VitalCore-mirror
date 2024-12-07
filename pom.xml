@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated: Sat Dec  7 10:52:18 AM EST 2024 -->
+<!-- Generated: Sat Dec  7 10:55:59 AM EST 2024 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0"
 		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
@@ -266,6 +266,7 @@
 			<artifactId>VaultAPI</artifactId>
 			<groupId>com.github.MilkBowl</groupId>
 			<version>${VaultAPI-version}</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<artifactId>worldedit-core</artifactId>
