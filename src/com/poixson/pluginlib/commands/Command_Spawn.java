@@ -82,4 +82,13 @@ public class Command_Spawn extends pxnCommandRoot {
 
 
 
+	@Override
+	public List<String> onTabComplete(final CommandSender sender, final String[] args) {
+		if (!sender.hasPermission("pxn.cmd.spawn.other"))
+			return null;
+		return this.onTabComplete_Players(args);
+	}
+
+
+
 }

@@ -86,6 +86,8 @@ public class Command_Heal extends pxnCommandRoot {
 
 	@Override
 	public List<String> onTabComplete(final CommandSender sender, final String[] args) {
+		if (!sender.hasPermission("pxn.cmd.heal.other"))
+			return null;
 		return this.onTabComplete_Players(args);
 	}
 

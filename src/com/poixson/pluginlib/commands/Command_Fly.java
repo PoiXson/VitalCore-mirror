@@ -95,6 +95,8 @@ public class Command_Fly extends pxnCommandRoot {
 
 	@Override
 	public List<String> onTabComplete(final CommandSender sender, final String[] args) {
+		if (!sender.hasPermission("pxn.cmd.fly.other"))
+			return null;
 		return this.onTabComplete_Players(args);
 	}
 

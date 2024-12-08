@@ -79,6 +79,8 @@ public class Command_Workbench extends pxnCommandRoot {
 
 	@Override
 	public List<String> onTabComplete(final CommandSender sender, final String[] args) {
+		if (!sender.hasPermission("pxn.cmd.workbench.other"))
+			return null;
 		return this.onTabComplete_Players(args);
 	}
 

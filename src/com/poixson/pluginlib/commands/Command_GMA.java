@@ -86,6 +86,8 @@ public class Command_GMA extends pxnCommandRoot {
 
 	@Override
 	public List<String> onTabComplete(final CommandSender sender, final String[] args) {
+		if (!sender.hasPermission("pxn.cmd.gm.a.other"))
+			return null;
 		return this.onTabComplete_Players(args);
 	}
 
