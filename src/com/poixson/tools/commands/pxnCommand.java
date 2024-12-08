@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.bukkit.Bukkit;
+import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -123,6 +124,23 @@ public class pxnCommand {
 	protected List<String> onTabComplete_Players(final String[] args) {
 		final String last = (args.length == 0 ? "" : args[args.length-1]);
 		return this.onTabComplete_Players(last);
+	}
+
+
+
+	protected List<String> onTabComplete_Worlds(final String arg) {
+		final String lower = arg.toLowerCase();
+		final LinkedList<String> results = new LinkedList<String>();
+		for (final World world : Bukkit.getWorlds()) {
+			final String name = world.getName();
+			if (name.toLowerCase().startsWith(lower))
+				results.addLast(name);
+		}
+		return results;
+	}
+	protected List<String> onTabComplete_Worlds(final String[] args) {
+		final String last = (args.length == 0 ? "" : args[args.length-1]);
+		return this.onTabComplete_Worlds(last);
 	}
 
 
