@@ -3,10 +3,11 @@ package com.poixson.tools.chat;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 import com.poixson.pluginlib.pxnPluginLib;
 import com.poixson.tools.xListener;
+
+import io.papermc.paper.event.player.AsyncChatEvent;
 
 
 public class ChatManager implements xListener {
@@ -49,7 +50,7 @@ public class ChatManager implements xListener {
 
 
 	@EventHandler(priority=EventPriority.NORMAL, ignoreCancelled=true)
-	public void onPlayerChat(final AsyncPlayerChatEvent event) {
+	public void onPlayerChat(final AsyncChatEvent event) {
 		event.setCancelled(true);
 		final ChatMessage msg = new ChatMessage(this, event);
 		msg.runTask(this.plugin);

@@ -8,11 +8,11 @@ import java.util.UUID;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import com.poixson.pluginlib.pxnPluginLib;
 
+import io.papermc.paper.event.player.AsyncChatEvent;
 
 public class ChatMessage extends BukkitRunnable {
 
@@ -25,7 +25,7 @@ public class ChatMessage extends BukkitRunnable {
 
 
 
-	public ChatMessage(final ChatManager manager, final AsyncPlayerChatEvent event) {
+	public ChatMessage(final ChatManager manager, final AsyncChatEvent event) {
 		this.plugin  = manager.plugin;
 		this.manager = manager;
 		this.player_from = event.getPlayer();

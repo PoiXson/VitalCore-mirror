@@ -6,12 +6,12 @@ import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 import com.poixson.tools.xJavaPlugin;
 import com.poixson.tools.wizards.Wizard;
 import com.poixson.utils.BukkitUtils;
 
+import io.papermc.paper.event.player.AsyncChatEvent;
 
 public abstract class WizardStep_Ask<T extends xJavaPlugin>
 extends WizardStep<T> implements Listener {
@@ -47,7 +47,7 @@ extends WizardStep<T> implements Listener {
 
 
 	@EventHandler
-	public void onPlayerChat(final AsyncPlayerChatEvent event) {
+	public void onPlayerChat(final AsyncChatEvent event) {
 		if (this.isCompleted()) {
 			this.close();
 			return;
