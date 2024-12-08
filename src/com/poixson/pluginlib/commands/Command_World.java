@@ -1,10 +1,11 @@
 package com.poixson.pluginlib.commands;
 
+import static com.poixson.pluginlib.pxnPluginLib.CHAT_PREFIX;
+
 import java.util.LinkedList;
 import java.util.List;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
@@ -12,6 +13,9 @@ import org.bukkit.entity.Player;
 
 import com.poixson.pluginlib.pxnPluginLib;
 import com.poixson.tools.commands.pxnCommandRoot;
+
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 
 
 // /world
@@ -43,7 +47,8 @@ public class Command_World extends pxnCommandRoot {
 		final String world_name = args[0];
 		final World world = Bukkit.getWorld(world_name);
 		if (world == null) {
-			sender.sendMessage(String.format("%sUnknown world: %s", ChatColor.RED, world_name));
+			sender.sendMessage(CHAT_PREFIX.append(Component.text(
+				"Unknown world: "+world_name).color(NamedTextColor.RED)));
 			return true;
 		}
 		final Location loc = world.getSpawnLocation();
@@ -56,11 +61,8 @@ public class Command_World extends pxnCommandRoot {
 				return true;
 			}
 			player.teleport(loc);
-			sender.sendMessage(String.format(
-				"%sTeleported to world: %s",
-				ChatColor.GOLD,
-				world_name
-			));
+			sender.sendMessage(CHAT_PREFIX.append(Component.text(
+				"Teleported to world: "+world_name).color(NamedTextColor.GOLD)));
 			return true;
 		// other players
 		} else {
@@ -70,21 +72,17 @@ public class Command_World extends pxnCommandRoot {
 			for (int i=1; i<num_args; i++) {
 				final Player p = Bukkit.getPlayer(args[i]);
 				p.teleport(loc);
-				p.sendMessage(String.format(
-					"%sTeleported to world: %s",
-					ChatColor.GOLD,
-					world_name
-				));
+				p.sendMessage(CHAT_PREFIX.append(Component.text(
+					"Teleported to world: "+world_name).color(NamedTextColor.GOLD)));
 				count++;
 			}
 			if (count > 0) {
-				sender.sendMessage(String.format(
-					"%sTeleported %d player%s to world: %s",
-					ChatColor.AQUA,
+				sender.sendMessage(CHAT_PREFIX.append(Component.text(String.format(
+					"Teleported %d player%s to world: %s",
 					Integer.valueOf(count),
 					(count == 1 ? "" : "s"),
 					world_name
-				));
+				)).color(NamedTextColor.AQUA)));
 				return true;
 			}
 		}

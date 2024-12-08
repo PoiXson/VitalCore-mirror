@@ -1,6 +1,7 @@
 package com.poixson.pluginlib.commands;
 
-import org.bukkit.ChatColor;
+import static com.poixson.pluginlib.pxnPluginLib.CHAT_PREFIX;
+
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
@@ -8,6 +9,9 @@ import org.bukkit.entity.Player;
 
 import com.poixson.pluginlib.pxnPluginLib;
 import com.poixson.tools.commands.pxnCommandRoot;
+
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 
 
 // /setspawn
@@ -39,7 +43,8 @@ public class Command_SetSpawn extends pxnCommandRoot {
 			final Location loc = player.getLocation();
 			final World world = loc.getWorld();
 			world.setSpawnLocation(loc);
-			player.sendMessage(ChatColor.GOLD+"Set world spawn to your current location");
+			sender.sendMessage(CHAT_PREFIX.append(Component.text(
+				"Set world spawn to your current location").color(NamedTextColor.GOLD)));
 			return true;
 		}
 		return false;

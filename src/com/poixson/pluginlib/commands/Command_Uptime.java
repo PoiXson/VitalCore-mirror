@@ -1,11 +1,15 @@
 package com.poixson.pluginlib.commands;
 
-import org.bukkit.ChatColor;
+import static com.poixson.pluginlib.pxnPluginLib.CHAT_PREFIX;
+
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.poixson.pluginlib.pxnPluginLib;
 import com.poixson.tools.commands.pxnCommandRoot;
+
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 
 
 // /uptime
@@ -37,7 +41,8 @@ public class Command_Uptime extends pxnCommandRoot {
 			if (!sender.hasPermission("pxn.cmd.uptime"))
 				return false;
 		}
-		sender.sendMessage(String.format("%sUptime: %s", ChatColor.GOLD, this.plugin.getUptimeFormatted()));
+		sender.sendMessage(CHAT_PREFIX.append(Component.text(
+			"Uptime: "+this.plugin.getUptimeFormatted()).color(NamedTextColor.GOLD)));
 		return true;
 	}
 

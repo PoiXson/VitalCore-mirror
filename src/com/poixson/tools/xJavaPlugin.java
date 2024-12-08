@@ -8,7 +8,6 @@ import java.util.logging.Logger;
 
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -19,11 +18,13 @@ import org.bukkit.plugin.java.JavaPlugin;
 import com.poixson.tools.events.SaveEvent;
 import com.poixson.tools.updatechecker.UpdateCheckManager;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import net.milkbowl.vault.economy.Economy;
 
 
 public abstract class xJavaPlugin extends JavaPlugin {
-	public static final String CHAT_PREFIX = ChatColor.DARK_AQUA+"[pxn] "+ChatColor.WHITE;
+	public static final Component CHAT_PREFIX = Component.text("[pxn] ").color(NamedTextColor.DARK_AQUA);
 
 	protected final AtomicReference<Metrics> metrics = new AtomicReference<Metrics>(null);
 	protected final AppProps props;

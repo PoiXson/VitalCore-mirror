@@ -1,7 +1,8 @@
 package com.poixson.pluginlib.commands;
 
+import static com.poixson.pluginlib.pxnPluginLib.CHAT_PREFIX;
+
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
@@ -9,6 +10,9 @@ import org.bukkit.entity.Player;
 
 import com.poixson.pluginlib.pxnPluginLib;
 import com.poixson.tools.commands.pxnCommandRoot;
+
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 
 
 // /spawn
@@ -45,7 +49,8 @@ public class Command_Spawn extends pxnCommandRoot {
 			for (final String arg : args) {
 				final Player p = Bukkit.getPlayer(arg);
 				if (p == null) {
-					sender.sendMessage(String.format("%sPlayer not found: %s", ChatColor.RED, arg));
+					sender.sendMessage(CHAT_PREFIX.append(Component.text(
+						"Player not found: "+arg).color(NamedTextColor.RED)));
 					continue LOOP_ARGS;
 				}
 				final World world = p.getWorld();
@@ -54,12 +59,11 @@ public class Command_Spawn extends pxnCommandRoot {
 				count++;
 			}
 			if (count > 0) {
-				sender.sendMessage(String.format(
-					"%sTeleported %d player%s to spawn",
-					ChatColor.AQUA,
+				sender.sendMessage(CHAT_PREFIX.append(Component.text(String.format(
+					"Teleported %d player%s to spawn",
 					Integer.valueOf(count),
 					(count == 1 ? "" : "s")
-				));
+				)).color(NamedTextColor.AQUA)));
 				return true;
 			}
 		// single player

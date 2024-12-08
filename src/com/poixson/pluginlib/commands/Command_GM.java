@@ -1,11 +1,11 @@
 package com.poixson.pluginlib.commands;
 
+import static com.poixson.pluginlib.pxnPluginLib.CHAT_PREFIX;
 import static com.poixson.utils.Utils.IsEmpty;
 
 import java.util.List;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -13,6 +13,9 @@ import org.bukkit.entity.Player;
 import com.poixson.pluginlib.pxnPluginLib;
 import com.poixson.tools.commands.pxnCommandRoot;
 import com.poixson.utils.ArrayUtils;
+
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 
 
 // /gm
@@ -50,7 +53,8 @@ public class Command_GM extends pxnCommandRoot {
 				if (mode == null) {
 					mode = ShortToGameMode(arg);
 					if (mode == null) {
-						sender.sendMessage(String.format("%sInvalid game mode: %s", ChatColor.RED, arg));
+						sender.sendMessage(CHAT_PREFIX.append(Component.text(
+							"Invalid game mode: "+arg).color(NamedTextColor.RED)));
 						return true;
 					}
 					final String md = GameModeToShort(mode);
@@ -60,21 +64,22 @@ public class Command_GM extends pxnCommandRoot {
 				}
 				final Player p = Bukkit.getPlayer(arg);
 				if (p == null) {
-					sender.sendMessage(String.format("%sPlayer not found: %s", ChatColor.RED, arg));
+					sender.sendMessage(CHAT_PREFIX.append(Component.text(
+						"Player not found: "+arg).color(NamedTextColor.RED)));
 					continue LOOP_ARGS;
 				}
 				p.setGameMode(mode);
-				p.sendMessage(ChatColor.GOLD+"Game mode: "+mode.toString());
+				sender.sendMessage(CHAT_PREFIX.append(Component.text(
+					"Game mode: "+mode.toString()).color(NamedTextColor.GOLD)));
 				count++;
 			}
 			if (count > 0) {
-				sender.sendMessage(String.format(
-					"%sSet game mode to %s for %d player%s",
-					ChatColor.AQUA,
+				sender.sendMessage(CHAT_PREFIX.append(Component.text(String.format(
+					"Set game mode to %s for %d player%s",
 					mode.toString(),
 					Integer.valueOf(count),
 					(count == 1 ? "" : "s")
-				));
+				)).color(NamedTextColor.AQUA)));
 				return true;
 			}
 		} else
@@ -86,7 +91,8 @@ public class Command_GM extends pxnCommandRoot {
 				return false;
 			final GameMode mode = ShortToGameMode(args[0]);
 			if (mode == null) {
-				sender.sendMessage(String.format("%sInvalid game mode: %s", ChatColor.RED, args[0]));
+				sender.sendMessage(CHAT_PREFIX.append(Component.text(
+					"Invalid game mode: "+args[0]).color(NamedTextColor.RED)));
 				return true;
 			}
 			final String md = GameModeToShort(mode);

@@ -1,16 +1,19 @@
 package com.poixson.pluginlib.commands;
 
+import static com.poixson.pluginlib.pxnPluginLib.CHAT_PREFIX;
 import static com.poixson.utils.BukkitUtils.GarbageCollect;
 
 import java.util.Collections;
 import java.util.List;
 
-import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.poixson.pluginlib.pxnPluginLib;
 import com.poixson.tools.commands.pxnCommandRoot;
+
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 
 
 // /gc
@@ -40,16 +43,13 @@ public class Command_GC extends pxnCommandRoot {
 		&& !player.hasPermission("pxn.cmd.gc"))
 			return false;
 		final int freed_mb = GarbageCollect();
-		final StringBuilder msg = new StringBuilder();
-		msg.append(ChatColor.AQUA)
-			.append("Garbage collected");
+		Component msg = CHAT_PREFIX.append(Component.text("Garbage collected").color(NamedTextColor.AQUA));
 		if (freed_mb > 0) {
-			msg.append("; freed: ")
-				.append(ChatColor.GREEN)
-				.append(freed_mb)
-				.append("MB");
+			msg = msg
+				.append(Component.text("; freed: "))
+				.append(Component.text(Integer.toString(freed_mb)+"MB").color(NamedTextColor.GREEN));
 		}
-		sender.sendMessage(msg.toString());
+		sender.sendMessage(msg);
 		return true;
 	}
 

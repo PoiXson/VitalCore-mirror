@@ -1,16 +1,19 @@
 package com.poixson.pluginlib.commands;
 
+import static com.poixson.pluginlib.pxnPluginLib.CHAT_PREFIX;
 import static com.poixson.utils.BukkitUtils.HealPlayer;
 
 import java.util.List;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.poixson.pluginlib.pxnPluginLib;
 import com.poixson.tools.commands.pxnCommandRoot;
+
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 
 
 // /heal
@@ -46,20 +49,21 @@ public class Command_Heal extends pxnCommandRoot {
 			for (final String arg : args) {
 				final Player p = Bukkit.getPlayer(arg);
 				if (p == null) {
-					sender.sendMessage(String.format("%sPlayer not found: %s", ChatColor.RED, arg));
+					sender.sendMessage(CHAT_PREFIX.append(Component.text(
+						"Player not found: "+arg).color(NamedTextColor.RED)));
 					continue LOOP_ARGS;
 				}
 				HealPlayer(p);
-				p.sendMessage(ChatColor.GOLD+"You are healed");
+				sender.sendMessage(CHAT_PREFIX.append(Component.text(
+					"You are healed").color(NamedTextColor.GOLD)));
 				count++;
 			}
 			if (count > 0) {
-				sender.sendMessage(String.format(
-					"%sHealed %d player%s",
-					ChatColor.AQUA,
+				sender.sendMessage(CHAT_PREFIX.append(Component.text(String.format(
+					"Healed %d player%s",
 					Integer.valueOf(count),
 					(count == 1 ? "" : "s")
-				));
+				)).color(NamedTextColor.AQUA)));
 				return true;
 			}
 		// single player
@@ -71,7 +75,8 @@ public class Command_Heal extends pxnCommandRoot {
 				return true;
 			}
 			HealPlayer(player);
-			sender.sendMessage(ChatColor.GOLD+"You are healed");
+			sender.sendMessage(CHAT_PREFIX.append(Component.text(
+				"You are healed").color(NamedTextColor.GOLD)));
 			return true;
 		}
 		return false;

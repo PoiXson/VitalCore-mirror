@@ -12,7 +12,6 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.ServicePriority;
@@ -30,11 +29,14 @@ import com.poixson.tools.chat.ChatFormatter;
 import com.poixson.tools.chat.ChatManager;
 import com.poixson.tools.updatechecker.UpdateCheckManager;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+
 
 public class pxnPluginLib extends xJavaPlugin {
 	@Override public int getSpigotPluginID() { return 107049; }
 	@Override public int getBStatsID() {       return 20434;  }
-	public static final String CHAT_PREFIX = ChatColor.DARK_AQUA+"[pxnPluginLib] "+ChatColor.WHITE;
+	public static final Component CHAT_PREFIX = Component.text("[pxn] ").color(NamedTextColor.AQUA);
 
 	public static final boolean DEFAULT_CHECK_FOR_UPDATES  = true;
 	public static final boolean DEFAULT_ENABLE_CHAT_FORMAT = false;
