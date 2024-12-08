@@ -1,7 +1,5 @@
 package com.poixson.utils.gson;
 
-import org.bukkit.block.data.BlockData;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.poixson.tools.Keeper;
@@ -14,11 +12,13 @@ public final class GsonUtils {
 
 
 	public static Gson GSON() {
-		return (new GsonBuilder()
-			.registerTypeAdapter(BlockData.class, new GsonAdapter_BlockData())
+		final GsonBuilder builder =
+			new GsonBuilder()
 			.disableHtmlEscaping()
-			.setPrettyPrinting()
-			.create());
+			.setPrettyPrinting();
+		GsonAdapter_BlockData.Register(builder);
+		GsonAdapter_BlockData.Register(builder);
+		return builder.create();
 	}
 
 
