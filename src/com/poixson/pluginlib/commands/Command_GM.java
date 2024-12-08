@@ -99,6 +99,8 @@ public class Command_GM extends pxnCommandRoot {
 			if (!sender.hasPermission("pxn.cmd.gm."+md))
 				return false;
 			player.setGameMode(mode);
+			player.sendMessage(CHAT_PREFIX.append(Component.text(
+				"Game mode: "+mode.toString()).color(NamedTextColor.GOLD)));
 			return true;
 		}
 		return false;

@@ -73,6 +73,8 @@ public class Command_Spawn extends pxnCommandRoot {
 			final World world = player.getWorld();
 			final Location loc = world.getSpawnLocation();
 			player.teleport(loc);
+			sender.sendMessage(CHAT_PREFIX.append(Component.text(
+				"Teleported to spawn").color(NamedTextColor.AQUA)));
 			return true;
 		}
 		return false;

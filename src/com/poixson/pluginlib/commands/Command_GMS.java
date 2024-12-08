@@ -75,6 +75,8 @@ public class Command_GMS extends pxnCommandRoot {
 			if (!sender.hasPermission("pxn.cmd.gm.s"))
 				return false;
 			player.setGameMode(GameMode.SURVIVAL);
+			player.sendMessage(CHAT_PREFIX.append(Component.text(
+				"Game mode: "+GameMode.SURVIVAL.toString()).color(NamedTextColor.GOLD)));
 			return true;
 		}
 		return false;

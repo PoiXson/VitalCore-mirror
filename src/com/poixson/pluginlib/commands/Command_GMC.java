@@ -75,6 +75,8 @@ public class Command_GMC extends pxnCommandRoot {
 			if (!sender.hasPermission("pxn.cmd.gm.c"))
 				return false;
 			player.setGameMode(GameMode.CREATIVE);
+			player.sendMessage(CHAT_PREFIX.append(Component.text(
+				"Game mode: "+GameMode.CREATIVE.toString()).color(NamedTextColor.GOLD)));
 			return true;
 		}
 		return false;
