@@ -36,15 +36,15 @@ public class Command_SetSpawn extends pxnCommandRoot {
 
 	@Override
 	public boolean onCommand(final CommandSender sender, final String[] args) {
-		if (sender instanceof Player) {
-			final Player player = (Player) sender;
+		final Player player = (sender instanceof Player ? (Player)sender : null);
+		if (player != null) {
 			if (!player.hasPermission("pxn.cmd.setspawn"))
 				return false;
 			final Location loc = player.getLocation();
 			final World world = loc.getWorld();
 			world.setSpawnLocation(loc);
 			sender.sendMessage(CHAT_PREFIX.append(Component.text(
-				"Set world spawn to your current location").color(NamedTextColor.GOLD)));
+				"World spawn location set").color(NamedTextColor.GOLD)));
 			return true;
 		}
 		return false;

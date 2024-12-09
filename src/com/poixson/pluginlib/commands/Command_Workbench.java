@@ -41,8 +41,18 @@ public class Command_Workbench extends pxnCommandRoot {
 	public boolean onCommand(final CommandSender sender, final String[] args) {
 		final Player player = (sender instanceof Player ? (Player)sender : null);
 		final int num_args = args.length;
+		// self
+		if (num_args == 0) {
+			if (player == null) {
+				sender.sendMessage("Console cannot open the workbench");
+				return true;
+			}
+			if (!sender.hasPermission("pxn.cmd.workbench"))
+				return false;
+			OpenWorkbench(player);
+			return true;
 		// other players
-		if (num_args > 0) {
+		} else {
 			if (!sender.hasPermission("pxn.cmd.workbench.other"))
 				return false;
 			int count = 0;
@@ -65,12 +75,6 @@ public class Command_Workbench extends pxnCommandRoot {
 				)).color(NamedTextColor.AQUA)));
 				return true;
 			}
-		// single player
-		} else {
-			if (!sender.hasPermission("pxn.cmd.workbench"))
-				return false;
-			OpenWorkbench(player);
-			return true;
 		}
 		return false;
 	}

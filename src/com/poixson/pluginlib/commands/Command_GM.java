@@ -1,8 +1,11 @@
 package com.poixson.pluginlib.commands;
 
 import static com.poixson.pluginlib.pxnPluginLib.CHAT_PREFIX;
-import static com.poixson.utils.Utils.IsEmpty;
+import static com.poixson.utils.ArrayUtils.MergeLists;
+import static com.poixson.utils.BukkitUtils.CharToGameMode;
+import static com.poixson.utils.BukkitUtils.GameModeToChar;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import org.bukkit.Bukkit;
@@ -12,7 +15,6 @@ import org.bukkit.entity.Player;
 
 import com.poixson.pluginlib.pxnPluginLib;
 import com.poixson.tools.commands.pxnCommandRoot;
-import com.poixson.utils.ArrayUtils;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -42,6 +44,30 @@ public class Command_GM extends pxnCommandRoot {
 	public boolean onCommand(final CommandSender sender, final String[] args) {
 		final Player player = (sender instanceof Player ? (Player)sender : null);
 		final int num_args = args.length;
+		// self
+		if (num_args == 1) {
+			if (player == null) {
+				sender.sendMessage("Cannot change game mode for console");
+				return true;
+			}
+			if (!sender.hasPermission("pxn.cmd.gm"))
+				return false;
+			final GameMode mode = CharToGameMode(args[0]);
+			if (mode == null) {
+				sender.sendMessage(Component.text("Invalid game mode: "+
+					args[0]).color(NamedTextColor.RED));
+				return true;
+			}
+			final char m = GameModeToChar(mode);
+			if (!sender.hasPermission("pxn.cmd.gm."+m))
+				return false;
+			player.setGameMode(mode);
+			player.sendMessage(Component.textOfChildren(
+				Component.text("Game mode: "  ).color(NamedTextColor.AQUA),
+				Component.text(mode.toString()).color(NamedTextColor.GOLD)
+			));
+			return true;
+		} else
 		// other players
 		if (num_args > 1) {
 			if (!sender.hasPermission("pxn.cmd.gm.other"))
@@ -51,14 +77,14 @@ public class Command_GM extends pxnCommandRoot {
 			LOOP_ARGS:
 			for (final String arg : args) {
 				if (mode == null) {
-					mode = ShortToGameMode(arg);
+					mode = CharToGameMode(arg);
 					if (mode == null) {
 						sender.sendMessage(CHAT_PREFIX.append(Component.text(
 							"Invalid game mode: "+arg).color(NamedTextColor.RED)));
 						return true;
 					}
-					final String md = GameModeToShort(mode);
-					if (!sender.hasPermission("pxn.cmd.gm."+md+".other"))
+					final char m = GameModeToChar(mode);
+					if (!sender.hasPermission("pxn.cmd.gm."+m+".other"))
 						return false;
 					continue LOOP_ARGS;
 				}
@@ -69,8 +95,10 @@ public class Command_GM extends pxnCommandRoot {
 					continue LOOP_ARGS;
 				}
 				p.setGameMode(mode);
-				sender.sendMessage(CHAT_PREFIX.append(Component.text(
-					"Game mode: "+mode.toString()).color(NamedTextColor.GOLD)));
+				player.sendMessage(Component.textOfChildren(
+					Component.text("Game mode: "  ).color(NamedTextColor.AQUA),
+					Component.text(mode.toString()).color(NamedTextColor.GOLD)
+				));
 				count++;
 			}
 			if (count > 0) {
@@ -82,26 +110,6 @@ public class Command_GM extends pxnCommandRoot {
 				)).color(NamedTextColor.AQUA)));
 				return true;
 			}
-		} else
-		// single player
-		if (num_args == 1) {
-			if (player == null)
-				return false;
-			if (!sender.hasPermission("pxn.cmd.gm"))
-				return false;
-			final GameMode mode = ShortToGameMode(args[0]);
-			if (mode == null) {
-				sender.sendMessage(CHAT_PREFIX.append(Component.text(
-					"Invalid game mode: "+args[0]).color(NamedTextColor.RED)));
-				return true;
-			}
-			final String md = GameModeToShort(mode);
-			if (!sender.hasPermission("pxn.cmd.gm."+md))
-				return false;
-			player.setGameMode(mode);
-			player.sendMessage(CHAT_PREFIX.append(Component.text(
-				"Game mode: "+mode.toString()).color(NamedTextColor.GOLD)));
-			return true;
 		}
 		return false;
 	}
@@ -110,36 +118,13 @@ public class Command_GM extends pxnCommandRoot {
 
 	@Override
 	public List<String> onTabComplete(final CommandSender sender, final String[] args) {
-		return ArrayUtils.MergeLists(
-			this.onTabComplete_Players(args),
-			this.onTabComplete_Array(args,
-				"c", "creative",
-				"s", "survival",
-				"a", "adventure", "adv",  "advent",
-				"sp","spectator", "spec", "spectate"
-			)
-		);
-	}
-
-
-
-	public static String GameModeToShort(final GameMode mode) {
-		switch (mode) {
-		case CREATIVE:  return "c";
-		case SURVIVAL:  return "s";
-		case ADVENTURE: return "a";
-		case SPECTATOR: return "sp";
-		default: throw new RuntimeException("Invalid game mode: "+mode.toString());
-		}
-	}
-	public static GameMode ShortToGameMode(final String arg) {
-		if (IsEmpty(arg)) return null;
-		final String lower = arg.toLowerCase();
-		if (lower.startsWith("sp")) return GameMode.SPECTATOR;
-		if (lower.startsWith("c" )) return GameMode.CREATIVE;
-		if (lower.startsWith("s" )) return GameMode.SURVIVAL;
-		if (lower.startsWith("a" )) return GameMode.ADVENTURE;
-		return null;
+		List<String> result = new LinkedList<String>();
+		if (sender.hasPermission("pxn.cmd.gm.c")) result = MergeLists(result, this.onTabComplete_Array(args, "c", "creative"                           ));
+		if (sender.hasPermission("pxn.cmd.gm.s")) result = MergeLists(result, this.onTabComplete_Array(args, "s", "survival"                           ));
+		if (sender.hasPermission("pxn.cmd.gm.a")) result = MergeLists(result, this.onTabComplete_Array(args, "a", "adv", "adventure"                   ));
+		if (sender.hasPermission("pxn.cmd.gm.p")) result = MergeLists(result, this.onTabComplete_Array(args, "p", "sp", "spec", "spectate", "spectator"));
+		if (sender.hasPermission("pxn.cmd.gm.other")) result = MergeLists(result, this.onTabComplete_Players(args));
+		return result;
 	}
 
 

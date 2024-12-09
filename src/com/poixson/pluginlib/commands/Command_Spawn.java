@@ -2,6 +2,8 @@ package com.poixson.pluginlib.commands;
 
 import static com.poixson.pluginlib.pxnPluginLib.CHAT_PREFIX;
 
+import java.util.List;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -40,8 +42,21 @@ public class Command_Spawn extends pxnCommandRoot {
 	public boolean onCommand(final CommandSender sender, final String[] args) {
 		final Player player = (sender instanceof Player ? (Player)sender : null);
 		final int num_args = args.length;
+		// self
+		if (num_args == 0) {
+			if (player == null) {
+				sender.sendMessage("Cannot teleport console");
+				return true;
+			}
+			if (!sender.hasPermission("pxn.cmd.spawn"))
+				return false;
+			final World world = player.getWorld();
+			final Location loc = world.getSpawnLocation();
+			player.teleport(loc);
+			sender.sendMessage(Component.text("Teleported to spawn").color(NamedTextColor.AQUA));
+			return true;
 		// other players
-		if (num_args > 0) {
+		} else {
 			if (!sender.hasPermission("pxn.cmd.spawn.other"))
 				return false;
 			int count = 0;
@@ -56,6 +71,7 @@ public class Command_Spawn extends pxnCommandRoot {
 				final World world = p.getWorld();
 				final Location loc = world.getSpawnLocation();
 				p.teleport(loc);
+				p.sendMessage(Component.text("Teleported to spawn").color(NamedTextColor.AQUA));
 				count++;
 			}
 			if (count > 0) {
@@ -66,16 +82,6 @@ public class Command_Spawn extends pxnCommandRoot {
 				)).color(NamedTextColor.AQUA)));
 				return true;
 			}
-		// single player
-		} else {
-			if (!sender.hasPermission("pxn.cmd.spawn"))
-				return false;
-			final World world = player.getWorld();
-			final Location loc = world.getSpawnLocation();
-			player.teleport(loc);
-			sender.sendMessage(CHAT_PREFIX.append(Component.text(
-				"Teleported to spawn").color(NamedTextColor.AQUA)));
-			return true;
 		}
 		return false;
 	}

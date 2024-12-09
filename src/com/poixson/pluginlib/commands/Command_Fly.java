@@ -40,11 +40,26 @@ public class Command_Fly extends pxnCommandRoot {
 	public boolean onCommand(final CommandSender sender, final String[] args) {
 		final Player player = (sender instanceof Player ? (Player)sender : null);
 		final int num_args = args.length;
+		// self
+		if (num_args == 0) {
+			if (player == null) {
+				sender.sendMessage("Console cannot fly");
+				return true;
+			}
+			if (!sender.hasPermission("pxn.cmd.fly"))
+				return false;
+			final boolean can_fly = ! player.getAllowFlight();
+			AllowFlyPlayer(player, can_fly);
+			sender.sendMessage(Component.text(
+				can_fly ? "You can fly" : "Flying disabled"
+			).color(NamedTextColor.GOLD));
+			return true;
 		// other players
-		if (num_args > 0) {
+		} else {
 			if (!sender.hasPermission("pxn.cmd.fly.other"))
 				return false;
 			int count = 0;
+			// find fly state
 			boolean can_fly = true;
 			LOOP_ARGS:
 			for (final String arg : args) {
@@ -57,15 +72,16 @@ public class Command_Fly extends pxnCommandRoot {
 				if (!p.getAllowFlight())
 					can_fly = true;
 			}
+			// set fly state
 			LOOP_ARGS:
 			for (final String arg : args) {
 				final Player p = Bukkit.getPlayer(arg);
 				if (p == null)
 					continue LOOP_ARGS;
 				AllowFlyPlayer(p, can_fly);
-				sender.sendMessage(CHAT_PREFIX.append(Component.text(
+				p.sendMessage(Component.text(
 					can_fly ? "You can fly" : "Flying disabled"
-				).color(NamedTextColor.GOLD)));
+				).color(NamedTextColor.GOLD));
 				count++;
 			}
 			if (count > 0) {
@@ -77,16 +93,6 @@ public class Command_Fly extends pxnCommandRoot {
 				)).color(NamedTextColor.AQUA)));
 				return true;
 			}
-		// single player
-		} else {
-			if (!sender.hasPermission("pxn.cmd.fly"))
-				return false;
-			final boolean can_fly = ! player.getAllowFlight();
-			AllowFlyPlayer(player, can_fly);
-			sender.sendMessage(CHAT_PREFIX.append(Component.text(
-				can_fly ? "You can fly" : "Flying disabled"
-			).color(NamedTextColor.GOLD)));
-			return true;
 		}
 		return false;
 	}

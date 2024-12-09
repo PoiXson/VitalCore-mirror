@@ -40,8 +40,19 @@ public class Command_Feed extends pxnCommandRoot {
 	public boolean onCommand(final CommandSender sender, final String[] args) {
 		final Player player = (sender instanceof Player ? (Player)sender : null);
 		final int num_args = args.length;
+		// self
+		if (num_args == 0) {
+			if (player == null) {
+				sender.sendMessage("Cannot feed console");
+				return true;
+			}
+			if (!sender.hasPermission("pxn.cmd.feed"))
+				return false;
+			FeedPlayer(player);
+			sender.sendMessage(Component.text("You are fed").color(NamedTextColor.GREEN));
+			return true;
 		// other players
-		if (num_args > 0) {
+		} else {
 			if (!sender.hasPermission("pxn.cmd.feed.other"))
 				return false;
 			int count = 0;
@@ -54,7 +65,7 @@ public class Command_Feed extends pxnCommandRoot {
 					continue LOOP_ARGS;
 				}
 				FeedPlayer(p);
-				p.sendMessage(CHAT_PREFIX.append(Component.text("You are fed").color(NamedTextColor.GOLD)));
+				p.sendMessage(Component.text("You are fed").color(NamedTextColor.GREEN));
 				count++;
 			}
 			if (count > 0) {
@@ -65,17 +76,6 @@ public class Command_Feed extends pxnCommandRoot {
 				)).color(NamedTextColor.AQUA)));
 				return true;
 			}
-		// single player
-		} else {
-			if (!sender.hasPermission("pxn.cmd.feed"))
-				return false;
-			if (player == null) {
-				sender.sendMessage("Cannot feed console");
-				return true;
-			}
-			FeedPlayer(player);
-			sender.sendMessage(CHAT_PREFIX.append(Component.text("You are fed").color(NamedTextColor.GOLD)));
-			return true;
 		}
 		return false;
 	}

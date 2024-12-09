@@ -37,12 +37,15 @@ public class Command_Uptime extends pxnCommandRoot {
 
 	@Override
 	public boolean onCommand(final CommandSender sender, final String[] args) {
-		if (sender instanceof Player) {
-			if (!sender.hasPermission("pxn.cmd.uptime"))
+		final Player player = (sender instanceof Player ? (Player)sender : null);
+		if (player != null) {
+			if (!player.hasPermission("pxn.cmd.uptime"))
 				return false;
 		}
-		sender.sendMessage(CHAT_PREFIX.append(Component.text(
-			"Uptime: "+this.plugin.getUptimeFormatted()).color(NamedTextColor.GOLD)));
+		sender.sendMessage(CHAT_PREFIX
+			.append(Component.text("Uptime: "                      ).color(NamedTextColor.AQUA))
+			.append(Component.text(this.plugin.getUptimeFormatted()).color(NamedTextColor.GOLD))
+		);
 		return true;
 	}
 

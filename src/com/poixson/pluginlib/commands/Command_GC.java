@@ -45,9 +45,10 @@ public class Command_GC extends pxnCommandRoot {
 		final int freed_mb = GarbageCollect();
 		Component msg = CHAT_PREFIX.append(Component.text("Garbage collected").color(NamedTextColor.AQUA));
 		if (freed_mb > 0) {
-			msg = msg
-				.append(Component.text("; freed: "))
-				.append(Component.text(Integer.toString(freed_mb)+"MB").color(NamedTextColor.GREEN));
+			msg = Component.textOfChildren(
+				Component.text("; freed: "),
+				Component.text(Integer.toString(freed_mb)+"MB").color(NamedTextColor.GREEN)
+			);
 		}
 		sender.sendMessage(msg);
 		return true;

@@ -29,8 +29,8 @@ public class Command_GMA extends pxnCommandRoot {
 			null, // usage
 			"pxn.cmd.gm.a", // perm
 			new String[] { // labels
-				"gma", "gm-a",
-				"gmadventure", "gm-adventure"
+				"gma",  "gmadv",  "gmadventure",
+				"gm-a", "gm-adv", "gm-adventure"
 			}
 		);
 	}
@@ -41,8 +41,22 @@ public class Command_GMA extends pxnCommandRoot {
 	public boolean onCommand(final CommandSender sender, final String[] args) {
 		final Player player = (sender instanceof Player ? (Player)sender : null);
 		final int num_args = args.length;
+		// self
+		if (num_args == 0) {
+			if (player == null) {
+				sender.sendMessage("Cannot change game mode for console");
+				return true;
+			}
+			if (!sender.hasPermission("pxn.cmd.gm.a"))
+				return false;
+			player.setGameMode(GameMode.ADVENTURE);
+			player.sendMessage(Component.textOfChildren(
+				Component.text("Game mode: "                ).color(NamedTextColor.AQUA),
+				Component.text(GameMode.ADVENTURE.toString()).color(NamedTextColor.GOLD)
+			));
+			return true;
 		// other players
-		if (num_args > 0) {
+		} else {
 			if (!sender.hasPermission("pxn.cmd.gm.a.other"))
 				return false;
 			int count = 0;
@@ -55,8 +69,10 @@ public class Command_GMA extends pxnCommandRoot {
 					continue LOOP_ARGS;
 				}
 				p.setGameMode(GameMode.ADVENTURE);
-				p.sendMessage(CHAT_PREFIX.append(Component.text(
-					"Game mode: "+GameMode.ADVENTURE.toString()).color(NamedTextColor.GOLD)));
+				player.sendMessage(Component.textOfChildren(
+					Component.text("Game mode: "                ).color(NamedTextColor.AQUA),
+					Component.text(GameMode.ADVENTURE.toString()).color(NamedTextColor.GOLD)
+				));
 				count++;
 			}
 			if (count > 0) {
@@ -68,16 +84,6 @@ public class Command_GMA extends pxnCommandRoot {
 				)).color(NamedTextColor.AQUA)));
 				return true;
 			}
-		// single player
-		} else {
-			if (player == null)
-				return false;
-			if (!sender.hasPermission("pxn.cmd.gm.a"))
-				return false;
-			player.setGameMode(GameMode.ADVENTURE);
-			player.sendMessage(CHAT_PREFIX.append(Component.text(
-				"Game mode: "+GameMode.ADVENTURE.toString()).color(NamedTextColor.GOLD)));
-			return true;
 		}
 		return false;
 	}
