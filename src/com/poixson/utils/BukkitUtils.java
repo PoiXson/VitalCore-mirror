@@ -17,6 +17,7 @@ import java.util.logging.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Chunk;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Statistic;
 import org.bukkit.World;
@@ -383,6 +384,44 @@ public final class BukkitUtils {
 		player.setAllowFlight(can_fly);
 		if (can_fly) player.setFallDistance(0f);
 		else         player.setFlying(false);
+	}
+
+
+
+	// -------------------------------------------------------------------------------
+	// game mode
+
+
+
+	public static char GameModeToChar(final GameMode mode) {
+		switch (mode) {
+		case CREATIVE:  return 'c';
+		case SURVIVAL:  return 's';
+		case ADVENTURE: return 'a';
+		case SPECTATOR: return 'p';
+		default: break;
+		}
+		return 0;
+	}
+	public static GameMode CharToGameMode(final String arg) {
+		if (IsEmpty(arg)) return null;
+		final String lower = arg.toLowerCase();
+		if (lower.startsWith("sp")
+		||  lower.startsWith("p")) return GameMode.SPECTATOR;
+		if (lower.startsWith("c")) return GameMode.CREATIVE;
+		if (lower.startsWith("s")) return GameMode.SURVIVAL;
+		if (lower.startsWith("a")) return GameMode.ADVENTURE;
+		return null;
+	}
+	public static GameMode CharToGameMode(final char arg) {
+		switch (arg) {
+		case 'p': return GameMode.SPECTATOR;
+		case 'c': return GameMode.CREATIVE;
+		case 's': return GameMode.SURVIVAL;
+		case 'a': return GameMode.ADVENTURE;
+		default: break;
+		}
+		return null;
 	}
 
 
