@@ -11,6 +11,8 @@ import org.bukkit.permissions.Permission;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 
+import io.papermc.paper.plugin.configuration.PluginMeta;
+
 
 public final class PermissionsReload {
 	private PermissionsReload() {}
@@ -30,7 +32,8 @@ public final class PermissionsReload {
 		meth.setAccessible(true);
 		meth.invoke(server);
 		for (final Plugin plugin : pm.getPlugins()) {
-			for (final Permission perm : plugin.getDescription().getPermissions()) {
+			final PluginMeta meta = plugin.getPluginMeta();
+			for (final Permission perm : meta.getPermissions()) {
 				try {
 					pm.addPermission(perm);
 				} catch (IllegalArgumentException e) {
