@@ -3,11 +3,11 @@ main: com.poixson.pluginlib.pxnPluginLib
 version: '${project.version}'
 api-version: '${bukkit-short-version}'
 load: STARTUP
-softdepend:
+soft-depends:
   - Multiverse-Core
   - WorldEdit
   - Vault
-authors: [ lorenzop ]
+authors: lorenzop
 website: ${project.url}
 description: ${project.description}
 permissions:
