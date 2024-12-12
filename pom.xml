@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated: Tue Dec 10 06:03:30 PM EST 2024 -->
+<!-- Generated: Thu Dec 12 12:05:57 PM EST 2024 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0"
 		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
@@ -34,6 +34,9 @@
 		<maven-shade-plugin-version>3.5.1</maven-shade-plugin-version>
 		<junit-version>4.13.2</junit-version>
 		<surefire-version>3.2.2</surefire-version>
+		<jacoco-version>0.8.12</jacoco-version>
+		<jxr-version>3.6.0</jxr-version>
+		<project-info-reports-version>3.5.0</project-info-reports-version>
 
 		<!-- Dependencies -->
 		<bukkit-short-version>1.21.3</bukkit-short-version>
@@ -210,6 +213,41 @@
 				</configuration>
 			</plugin>
 
+			<!-- JaCoCo - Code Coverage -->
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>${jacoco-version}</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>report</id>
+						<phase>test</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!-- JXR - Cross Reference -->
+			<plugin>
+				<groupId>org.apache.maven.jxr</groupId>
+				<artifactId>jxr</artifactId>
+				<version>${jxr-version}</version>
+			</plugin>
+
+			<!-- Reports -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-project-info-reports-plugin</artifactId>
+				<version>${project-info-reports-version}</version>
+			</plugin>
+
 		</plugins>
 	</build>
 	<repositories>
@@ -287,4 +325,40 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
+	<reporting>
+		<plugins>
+
+			<!-- JaCoCo - Code Coverage -->
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>${jacoco-version}</version>
+				<reportSets>
+					<reportSet>
+						<reports>
+							<report>report</report>
+						</reports>
+					</reportSet>
+				</reportSets>
+			</plugin>
+
+			<!-- Reports Plugin -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-project-info-reports-plugin</artifactId>
+				<version>${project-info-reports-version}</version>
+				<configuration>
+					<dependencyLocationsEnabled>false</dependencyLocationsEnabled>
+				</configuration>
+			</plugin>
+
+			<!-- Cross-Reference Plugin -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jxr-plugin</artifactId>
+				<version>${jxr-version}</version>
+			</plugin>
+
+		</plugins>
+	</reporting>
 </project>
