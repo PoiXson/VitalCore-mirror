@@ -122,7 +122,7 @@ public class Command_GM extends pxnCommandRoot {
 		if (sender.hasPermission("pxn.cmd.gm.c")) result = MergeLists(result, this.onTabComplete_Array(args, "c", "creative"                           ));
 		if (sender.hasPermission("pxn.cmd.gm.s")) result = MergeLists(result, this.onTabComplete_Array(args, "s", "survival"                           ));
 		if (sender.hasPermission("pxn.cmd.gm.a")) result = MergeLists(result, this.onTabComplete_Array(args, "a", "adv", "adventure"                   ));
-		if (sender.hasPermission("pxn.cmd.gm.p")) result = MergeLists(result, this.onTabComplete_Array(args, "p", "sp", "spec", "spectate", "spectator"));
+		if (sender.hasPermission("pxn.cmd.gm.sp"   )) result = MergeLists(result, this.onTabComplete_Array(args, "p", "sp", "spec", "spectate", "spectator"));
 		if (sender.hasPermission("pxn.cmd.gm.other")) result = MergeLists(result, this.onTabComplete_Players(args));
 		return result;
 	}

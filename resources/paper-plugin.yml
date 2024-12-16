@@ -189,7 +189,7 @@ permissions:
         description: "Allow command: /gma"
     pxn.cmd.gm.sp:
         default: op
-        description: "Allow command: /gmsp"
+        description: "Allow command: /gmspec"
 
     pxn.cmd.feed:
         default: op

@@ -27,7 +27,7 @@ public class Command_GMSpec extends pxnCommandRoot {
 			"pxn", // namespace
 			"Change game mode to Spectator.", // desc
 			null, // usage
-			"pxn.cmd.gm.spec", // perm
+			"pxn.cmd.gm.sp", // perm
 			new String[] { // labels
 				"gmsp",   "gm-sp",   "gm-p",
 				"gmspec", "gm-spec", "gmp"
@@ -47,7 +47,7 @@ public class Command_GMSpec extends pxnCommandRoot {
 				sender.sendMessage("Cannot change game mode for console");
 				return true;
 			}
-			if (!sender.hasPermission("pxn.cmd.gm.p"))
+			if (!sender.hasPermission("pxn.cmd.gm.sp"))
 				return false;
 			player.setGameMode(GameMode.SPECTATOR);
 			player.sendMessage(Component.textOfChildren(
@@ -57,7 +57,7 @@ public class Command_GMSpec extends pxnCommandRoot {
 			return true;
 		// other players
 		} else {
-			if (!sender.hasPermission("pxn.cmd.gm.p.other"))
+			if (!sender.hasPermission("pxn.cmd.gm.sp.other"))
 				return false;
 			int count = 0;
 			LOOP_ARGS:
@@ -92,7 +92,7 @@ public class Command_GMSpec extends pxnCommandRoot {
 
 	@Override
 	public List<String> onTabComplete(final CommandSender sender, final String[] args) {
-		if (!sender.hasPermission("pxn.cmd.gm.p.other"))
+		if (!sender.hasPermission("pxn.cmd.gm.sp.other"))
 			return null;
 		return this.onTabComplete_Players(args);
 	}
