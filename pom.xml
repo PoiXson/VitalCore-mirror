@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated: Thu Dec 12 12:05:57 PM EST 2024 -->
+<!-- Generated: Sun Dec 15 10:37:45 PM EST 2024 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0"
 		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
@@ -48,7 +48,6 @@
 		<VaultAPI-version>[1,)</VaultAPI-version>
 		<worldedit-core-version>[7,)</worldedit-core-version>
 		<worldedit-bukkit-version>[7,)</worldedit-bukkit-version>
-
 	</properties>
 	<scm>
 		<url>https://git.poixson.com/summary/mc!pxnPluginLib.git</url>
@@ -81,7 +80,6 @@
 			</resource>
 		</resources>
 		<plugins>
-
 			<!-- Resource Plugin -->
 			<plugin>
 				<artifactId>maven-resources-plugin</artifactId>
@@ -107,14 +105,12 @@
 					<encoding>${project.build.sourceEncoding}</encoding>
 				</configuration>
 			</plugin>
-
 			<!-- Jar Plugin -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
 				<version>${maven-jar-plugin-version}</version>
 			</plugin>
-
 			<!-- Source Plugin -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -133,7 +129,6 @@
 					</execution>
 				</executions>
 			</plugin>
-
 			<!-- Eclipse Plugin -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -153,7 +148,6 @@
 					</additionalConfig>
 				</configuration>
 			</plugin>
-
 			<!-- Commit-ID Plugin -->
 			<plugin>
 				<groupId>pl.project13.maven</groupId>
@@ -172,7 +166,6 @@
 					<dotGitDirectory>.git/</dotGitDirectory>
 				</configuration>
 			</plugin>
-
 			<!-- Shade Plugin -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -199,7 +192,6 @@
 					</filters>
 				</configuration>
 			</plugin>
-
 			<!-- Surefire Plugin -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -212,7 +204,6 @@
 					<trimStackTrace>false</trimStackTrace>
 				</configuration>
 			</plugin>
-
 			<!-- JaCoCo - Code Coverage -->
 			<plugin>
 				<groupId>org.jacoco</groupId>
@@ -233,34 +224,37 @@
 					</execution>
 				</executions>
 			</plugin>
-
 			<!-- JXR - Cross Reference -->
 			<plugin>
 				<groupId>org.apache.maven.jxr</groupId>
 				<artifactId>jxr</artifactId>
 				<version>${jxr-version}</version>
 			</plugin>
-
 			<!-- Reports -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-project-info-reports-plugin</artifactId>
 				<version>${project-info-reports-version}</version>
 			</plugin>
-
 		</plugins>
 	</build>
 	<repositories>
 		<repository>
 			<id>papermc-repo</id>
 			<url>https://repo.papermc.io/repository/maven-public</url>
-			<snapshots>
+			<releases>
 				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
 			</snapshots>
 		</repository>
 		<repository>
 			<id>enginehub-repo</id>
 			<url>https://maven.enginehub.org/repo/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
 			<snapshots>
 				<enabled>true</enabled>
 			</snapshots>
@@ -268,8 +262,11 @@
 		<repository>
 			<id>jitpack-repo</id>
 			<url>https://jitpack.io</url>
-			<snapshots>
+			<releases>
 				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
 			</snapshots>
 		</repository>
 	</repositories>
@@ -327,7 +324,6 @@
 	</dependencies>
 	<reporting>
 		<plugins>
-
 			<!-- JaCoCo - Code Coverage -->
 			<plugin>
 				<groupId>org.jacoco</groupId>
@@ -341,7 +337,6 @@
 					</reportSet>
 				</reportSets>
 			</plugin>
-
 			<!-- Reports Plugin -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -351,14 +346,12 @@
 					<dependencyLocationsEnabled>false</dependencyLocationsEnabled>
 				</configuration>
 			</plugin>
-
 			<!-- Cross-Reference Plugin -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jxr-plugin</artifactId>
 				<version>${jxr-version}</version>
 			</plugin>
-
 		</plugins>
 	</reporting>
 </project>
