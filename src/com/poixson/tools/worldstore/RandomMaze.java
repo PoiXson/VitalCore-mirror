@@ -1,8 +1,8 @@
 package com.poixson.tools.worldstore;
 
+import static com.poixson.tools.gson.GsonProvider.GSON;
 import static com.poixson.utils.MathUtils.ToDouble;
 import static com.poixson.utils.Utils.SafeClose;
-import static com.poixson.utils.gson.GsonUtils.GSON;
 
 import java.io.BufferedWriter;
 import java.io.File;

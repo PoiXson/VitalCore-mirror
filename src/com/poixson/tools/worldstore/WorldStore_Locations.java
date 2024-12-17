@@ -1,6 +1,6 @@
 package com.poixson.tools.worldstore;
 
-import static com.poixson.utils.gson.GsonUtils.GSON;
+import static com.poixson.tools.gson.GsonProvider.GSON;
 
 import java.io.File;
 import java.util.LinkedList;
