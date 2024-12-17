@@ -1,4 +1,4 @@
-package com.poixson.utils.gson;
+package com.poixson.tools.gson;
 
 
 import static com.poixson.utils.MathUtils.ToInteger;

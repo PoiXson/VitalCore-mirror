@@ -1,13 +1,13 @@
-package com.poixson.utils.gson;
+package com.poixson.tools.gson;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.poixson.tools.Keeper;
 
 
-public final class GsonUtils {
-	private GsonUtils() {}
-	static { Keeper.add(new GsonUtils()); }
+public final class GsonProvider {
+	private GsonProvider() {}
+	static { Keeper.add(new GsonProvider()); }
 
 
 

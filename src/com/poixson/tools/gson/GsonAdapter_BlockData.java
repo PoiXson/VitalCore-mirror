@@ -1,4 +1,4 @@
-package com.poixson.utils.gson;
+package com.poixson.tools.gson;
 
 import java.io.IOException;
 
