@@ -30,7 +30,6 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.MapMeta;
-import org.bukkit.map.MapPalette;
 import org.bukkit.map.MapView;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
@@ -130,16 +129,6 @@ public final class BukkitUtils {
 		final MapMeta meta = (MapMeta) map.getItemMeta();
 		meta.setMapId(id);
 		map.setItemMeta(meta);
-	}
-
-
-
-	@SuppressWarnings("deprecation")
-	public static Color NearestMapColor(final Color color) {
-		return MapPalette.getColor(MapPalette.matchColor(color));
-	}
-	public static int NearestMapColor(final int color) {
-		return NearestMapColor(new Color(color)).getRGB();
 	}
 
 
