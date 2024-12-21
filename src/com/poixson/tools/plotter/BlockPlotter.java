@@ -5,10 +5,8 @@ import static com.poixson.utils.BlockUtils.EqualsMaterialBlock;
 import static com.poixson.utils.LocationUtils.AxToIxyz;
 import static com.poixson.utils.LocationUtils.AxisToIxyz;
 import static com.poixson.utils.LocationUtils.Rotate;
-import static com.poixson.utils.StringUtils.SplitKeyVal;
 import static com.poixson.utils.Utils.IsEmpty;
 import static com.poixson.utils.Utils.SafeClose;
-import static com.poixson.utils.gson.GsonUtils.GSON;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -29,7 +27,6 @@ import org.bukkit.block.data.BlockData;
 import org.bukkit.generator.ChunkGenerator.ChunkData;
 import org.bukkit.generator.LimitedRegion;
 
-import com.poixson.tools.abstractions.Triple;
 import com.poixson.tools.dao.Iabc;
 import com.poixson.tools.dao.Iabcd;
 import com.poixson.tools.plotter.placer.BlockPlacer;
@@ -111,32 +108,8 @@ public class BlockPlotter implements Serializable {
 		final String json = FileUtils.ReadInputStream(in);
 		return Load(json);
 	}
-	public static Triple<BlockPlotter, StringBuilder[][], String> Load(
-			final String json) {
-		if (IsEmpty(json)) return null;
-		final Map<String, String> parts =
-			SplitKeyVal(
-				json,
-				"### PARAMS ###",
-				"### MATRIX ###",
-				"### SCRIPT ###"
-			);
-		final String json_params = parts.get("### PARAMS ###");
-		final String json_matrix = parts.get("### MATRIX ###");
-		final String json_script = parts.get("### SCRIPT ###");
-		final BlockPlotter plot = FromJSON(json_params);
-		final String[][] arrays = GSON().fromJson(json_matrix, String[][].class);
-		final int n = arrays.length;
-		final StringBuilder[][] matrix = new StringBuilder[n][];
-		for (int i=0; i<n; i++) {
-			final int nn = arrays[i].length;
-			matrix[i] = new StringBuilder[nn];
-			for (int ii=0; ii<nn; ii++) {
-				matrix[i][ii] = new StringBuilder();
-				matrix[i][ii].append(arrays[i][ii]);
-			}
-		}
-		return new Triple<BlockPlotter, StringBuilder[][], String>(plot, matrix, json_script);
+	public static BlockPlotterHolder Load(final String json) {
+		return BlockPlotterHolder.FromJson(json);
 	}
 
 
