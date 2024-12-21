@@ -7,9 +7,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
+import java.lang.reflect.Method;
 import java.util.LinkedList;
 import java.util.UUID;
 import java.util.logging.Logger;
@@ -32,12 +31,11 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.MapMeta;
 import org.bukkit.map.MapView;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.PluginManager;
-import org.bukkit.plugin.SimplePluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import com.poixson.exceptions.RequiredArgumentException;
 import com.poixson.tools.Keeper;
 
 
@@ -248,31 +246,24 @@ public final class BukkitUtils {
 
 	public static PluginCommand NewCommand(final Plugin plugin,
 			final String namespace, final String[] labels) {
-		if (IsEmpty(namespace))
-			return NewCommand(plugin, labels[0], labels);
+		if (IsEmpty(labels   )) throw new RequiredArgumentException("labels");
+		if (IsEmpty(labels[0])) throw new RequiredArgumentException("labels");
+		if (IsEmpty(namespace)) return NewCommand(plugin, labels[0], labels);
 		try {
 			final Constructor<PluginCommand> construct =
 				PluginCommand.class.getDeclaredConstructor(String.class, Plugin.class);
 			construct.setAccessible(true);
-			final PluginManager pm = Bukkit.getPluginManager();
-			if (pm instanceof SimplePluginManager) {
-				final Field field = SimplePluginManager.class.getDeclaredField("commandMap");
-				field.setAccessible(true);
-				final CommandMap map = (CommandMap) field.get(pm);
-				final ArrayList<String> list = new ArrayList<String>();
-				int index = 0;
-				final String first = labels[0];
-				for (final String label : labels) {
-					if (index++ == 0) continue;
-					list.add(label);
-				}
-				final PluginCommand plugin_command = construct.newInstance(first, plugin);
-				if (!IsEmpty(list))
-					plugin_command.setAliases(list);
-				map.register(namespace, plugin_command);
-				return plugin_command;
+			final PluginCommand command = construct.newInstance(labels[0], plugin);
+			// aliases
+			final LinkedList<String> aliases = new LinkedList<String>();
+			for (int i=1; i<labels.length; i++)
+				aliases.addLast(labels[i]);
+			command.setAliases(aliases);
+			final CommandMap map = GetCommandMap();
+			if (map != null) {
+				map.register(namespace, command);
+				return command;
 			}
-		} catch (NoSuchFieldException      e) { throw new RuntimeException(e);
 		} catch (NoSuchMethodException     e) { throw new RuntimeException(e);
 		} catch (SecurityException         e) { throw new RuntimeException(e);
 		} catch (InstantiationException    e) { throw new RuntimeException(e);
@@ -280,6 +271,19 @@ public final class BukkitUtils {
 		} catch (IllegalArgumentException  e) { throw new RuntimeException(e);
 		} catch (InvocationTargetException e) { throw new RuntimeException(e); }
 		return null;
+	}
+
+
+
+	public static CommandMap GetCommandMap() {
+		try {
+			final Class<?> clss = Bukkit.getServer().getClass();
+			final Method meth = clss.getDeclaredMethod("getCommandMap");
+			return (CommandMap) meth.invoke(Bukkit.getServer());
+		} catch (NoSuchMethodException     e) { throw new RuntimeException(e);
+		} catch (SecurityException         e) { throw new RuntimeException(e);
+		} catch (IllegalAccessException    e) { throw new RuntimeException(e);
+		} catch (InvocationTargetException e) { throw new RuntimeException(e); }
 	}
 
 
