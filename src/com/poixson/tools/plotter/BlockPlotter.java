@@ -18,6 +18,7 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -53,6 +54,25 @@ public class BlockPlotter implements Serializable {
 
 
 	public BlockPlotter() {
+	}
+
+
+
+	@Override
+	public BlockPlotter clone() {
+		final BlockPlotter plot = new BlockPlotter();
+		plot
+			.axis(this.axis)
+			.rotation(this.rotation)
+			.x(this.x)
+			.y(this.y)
+			.z(this.z)
+			.w(this.w)
+			.h(this.h)
+			.d(this.d);
+		for (final Entry<Character, BlockData> entry : this.types.entrySet())
+			plot.type(entry.getKey().charValue(), entry.getValue());
+		return plot;
 	}
 
 
