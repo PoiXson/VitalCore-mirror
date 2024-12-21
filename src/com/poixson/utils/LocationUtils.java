@@ -28,45 +28,51 @@ public final class LocationUtils {
 	// -------------------------------------------------------------------------------
 	// distance
 
+	//        |   2D   |   3D
+	//-----------------------------
+	// circle | Radial | Vectorial
+	// square | Linear | Axial
+	// hybrid | Hybrid | Hybrid
 
 
-	public static double Distance2D(final Location locA, final Location locB) {
+
+	public static double DistanceRadial(final Location locA, final Location locB) {
 		if (locA == null) throw new NullPointerException();
 		if (locB == null) throw new NullPointerException();
 		if (!locA.getWorld().equals(locB.getWorld()))
 			return Double.MIN_VALUE;
-		return MathUtils.Distance2D(
+		return MathUtils.DistanceRadial(
 			locA.getX(), locA.getZ(),
 			locB.getX(), locB.getZ()
 		);
 	}
-	public static double Distance3D(final Location locA, final Location locB) {
+	public static double DistanceVectorial(final Location locA, final Location locB) {
 		if (locA == null) throw new NullPointerException();
 		if (locB == null) throw new NullPointerException();
 		if (!locA.getWorld().equals(locB.getWorld()))
 			return Double.MIN_VALUE;
-		return MathUtils.Distance3D(
+		return MathUtils.DistanceVectorial(
 			locA.getX(), locA.getY(), locA.getZ(),
 			locB.getX(), locB.getY(), locB.getZ()
 		);
 	}
 
-	public static double DistanceFast2D(final Location locA, final Location locB) {
+	public static double DistanceLinear(final Location locA, final Location locB) {
 		if (locA == null) throw new NullPointerException();
 		if (locB == null) throw new NullPointerException();
 		if (!locA.getWorld().equals(locB.getWorld()))
 			return Double.MIN_VALUE;
-		return MathUtils.DistanceFast2D(
+		return MathUtils.DistanceLinear(
 			locA.getX(), locA.getZ(),
 			locB.getX(), locB.getZ()
 		);
 	}
-	public static double DistanceFast3D(final Location locA, final Location locB) {
+	public static double DistanceAxial(final Location locA, final Location locB) {
 		if (locA == null) throw new NullPointerException();
 		if (locB == null) throw new NullPointerException();
 		if (!locA.getWorld().equals(locB.getWorld()))
 			return Double.MIN_VALUE;
-		return MathUtils.DistanceFast3D(
+		return MathUtils.DistanceAxial(
 			locA.getX(), locA.getY(), locA.getZ(),
 			locB.getX(), locB.getY(), locB.getZ()
 		);
@@ -81,7 +87,7 @@ public final class LocationUtils {
 			if (player == null) continue;
 			final Location playerLoc = player.getLocation();
 			if (playerLoc != null) {
-				final double dist = DistanceFast2D(loc, playerLoc);
+				final double dist = DistanceAxial(loc, playerLoc);
 				if (dist >= 0.0
 				&&  dist < (double)distance)
 					player.sendMessage(msg);

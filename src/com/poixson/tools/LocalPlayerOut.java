@@ -1,6 +1,6 @@
 package com.poixson.tools;
 
-import static com.poixson.utils.LocationUtils.DistanceFast3D;
+import static com.poixson.utils.LocationUtils.DistanceAxial;
 import static com.poixson.utils.Utils.IsEmpty;
 
 import org.bukkit.Bukkit;
@@ -46,7 +46,7 @@ public class LocalPlayerOut extends OutputStreamLineRemapper {
 		return isNear(player.getLocation());
 	}
 	public boolean isNear(final Location loc) {
-		final double distance = DistanceFast3D(this.loc, loc);
+		final double distance = DistanceAxial(this.loc, loc);
 		return (distance >= 0.0 && distance <= this.radius);
 	}
 

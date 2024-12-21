@@ -1,7 +1,7 @@
 package com.poixson.tools.chat;
 
 import static com.poixson.utils.BukkitUtils.EqualsUUID;
-import static com.poixson.utils.LocationUtils.Distance3D;
+import static com.poixson.utils.LocationUtils.DistanceVectorial;
 
 import java.util.LinkedList;
 import java.util.Map;
@@ -115,7 +115,7 @@ public class PlayerLocalGroups implements xListener, xStartStop {
 				final UUID        uuid2 = entry_online2.getKey();
 				final LocationSafe loc2 = entry_online2.getValue();
 				if (!EqualsUUID(uuid, uuid2)) {
-					final double distance = Distance3D(loc, loc2);
+					final double distance = DistanceVectorial(loc, loc2);
 					// add to group
 					if (distance < this.range_low) {
 						if (group == null) {

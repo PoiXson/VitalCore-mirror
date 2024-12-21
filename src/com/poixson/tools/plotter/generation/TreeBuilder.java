@@ -2,6 +2,7 @@ package com.poixson.tools.plotter.generation;
 
 import static com.poixson.utils.MathUtils.Distance3D;
 import static com.poixson.utils.MathUtils.DistanceFast3D;
+import static com.poixson.utils.MathUtils.DistanceRadial;
 import static com.poixson.utils.MathUtils.IsMinMax;
 import static com.poixson.utils.MathUtils.MinMax;
 import static com.poixson.utils.MathUtils.Rotate3D;
@@ -229,7 +230,7 @@ public class TreeBuilder {
 		final int top_leaves_h = 2;
 		for (int iz=0-half_ceil; iz<=half_floor; iz++) {
 			for (int ix=0-half_ceil; ix<=half_floor; ix++) {
-				if (MathUtils.Distance2D(0, 0, ix, iz) <= trunk_size_half) {
+				if (DistanceRadial(0, 0, ix, iz) <= trunk_size_half) {
 					for (int iy=0; iy<h; iy++) {
 						plot.setBlock(placer, ix, iy, iz, '|');
 						if (top_leaves_h+iy >= h)

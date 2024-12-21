@@ -1,6 +1,6 @@
 package com.poixson.tools.chat;
 
-import static com.poixson.utils.LocationUtils.Distance3D;
+import static com.poixson.utils.LocationUtils.DistanceVectorial;
 
 import java.util.Map;
 import java.util.UUID;
@@ -60,7 +60,7 @@ public class PlayerGroupDAO {
 			for (final UUID uuid : this.players) {
 				final LocationSafe loc = online.get(uuid);
 				if (loc != null) {
-					final double dist = Distance3D(center, loc);
+					final double dist = DistanceVectorial(center, loc);
 					if (distance > dist) {
 						distance = dist;
 						nearest = uuid;

@@ -4,7 +4,7 @@ import static com.poixson.utils.BukkitUtils.EqualsLocation;
 import static com.poixson.utils.BukkitUtils.Log;
 import static com.poixson.utils.CraftScriptUtils.FixCursorPosition;
 import static com.poixson.utils.CraftScriptUtils.PlayerToHashMap;
-import static com.poixson.utils.LocationUtils.DistanceFast3D;
+import static com.poixson.utils.LocationUtils.DistanceAxial;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
@@ -70,7 +70,7 @@ public class PixelSource_Script extends PixelSource {
 			final Map<String, Object> players = new ConcurrentHashMap<String, Object>();
 			//LOOP_PLAYERS:
 			for (final Player player : Bukkit.getOnlinePlayers()) {
-				final int distance = (int) DistanceFast3D(this.location, player.getLocation());
+				final int distance = (int) DistanceAxial(this.location, player.getLocation());
 				if (distance < DEFAULT_RADIUS) {
 					final RayTraceResult ray = player.rayTraceBlocks(DEFAULT_RADIUS);
 					if (ray != null) {

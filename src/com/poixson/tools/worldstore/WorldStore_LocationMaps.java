@@ -1,6 +1,7 @@
 package com.poixson.tools.worldstore;
 
 import static com.poixson.tools.gson.GsonProvider.GSON;
+import static com.poixson.utils.MathUtils.DistanceLinear;
 import static com.poixson.utils.Utils.IsEmpty;
 
 import java.io.File;
@@ -16,7 +17,6 @@ import com.poixson.tools.xJavaPlugin;
 import com.poixson.tools.abstractions.Triple;
 import com.poixson.tools.abstractions.Tuple;
 import com.poixson.tools.dao.Iab;
-import com.poixson.utils.MathUtils;
 
 
 public class WorldStore_LocationMaps extends WorldStore_HashMap<Iab, Map<Iab, Map<String, Object>>> {
@@ -146,7 +146,7 @@ public class WorldStore_LocationMaps extends WorldStore_HashMap<Iab, Map<Iab, Ma
 					for (final Entry<Iab, Map<String, Object>> entry : map.entrySet()) {
 						final Iab loc = entry.getKey();
 						final Map<String, Object> m = entry.getValue();
-						final double d = MathUtils.Distance2D(x, z, loc.a, loc.b);
+						final double d = DistanceLinear(x, z, loc.a, loc.b);
 						if (dist >= d)
 							result.addLast(new Tuple<Iab, Map<String, Object>>(loc, m));
 					}
@@ -168,7 +168,7 @@ public class WorldStore_LocationMaps extends WorldStore_HashMap<Iab, Map<Iab, Ma
 		double nearest_dist = Double.MAX_VALUE;
 		Map<String, Object> nearest_map = null;
 		for (final Tuple<Iab, Map<String, Object>> entry : near) {
-			final double d = MathUtils.Distance2D(x, z, entry.key.a, entry.key.b);
+			final double d = DistanceLinear(x, z, entry.key.a, entry.key.b);
 			if (nearest_dist > d) {
 				nearest_dist = d;
 				nearest_loc = entry.key;

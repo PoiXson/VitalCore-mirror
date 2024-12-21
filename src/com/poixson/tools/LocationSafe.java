@@ -1,7 +1,7 @@
 package com.poixson.tools;
 
 import static com.poixson.utils.MathUtils.CastDouble;
-import static com.poixson.utils.MathUtils.Distance3D;
+import static com.poixson.utils.MathUtils.DistanceVectorial;
 import static com.poixson.utils.Utils.IsEmpty;
 
 import java.util.HashMap;
@@ -311,7 +311,10 @@ public class LocationSafe extends Location {
 
 	@Override
 	public double length() {
-		return Distance3D(0.0, 0.0, 0.0, this.getX(), this.getY(), this.getZ());
+		return DistanceVectorial(
+			0.0, 0.0, 0.0,
+			this.getX(), this.getY(), this.getZ()
+		);
 	}
 	@Override
 	public double lengthSquared() {
@@ -321,7 +324,7 @@ public class LocationSafe extends Location {
 
 	@Override
 	public double distance(final Location loc) {
-		return Distance3D(
+		return DistanceVectorial(
 			this.getX(), this.getY(), this.getZ(),
 			loc .getX(), loc .getY(), loc .getZ()
 		);

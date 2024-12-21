@@ -1,6 +1,7 @@
 package com.poixson.tools.worldstore;
 
 import static com.poixson.tools.gson.GsonProvider.GSON;
+import static com.poixson.utils.MathUtils.DistanceLinear;
 
 import java.io.File;
 import java.util.LinkedList;
@@ -8,7 +9,6 @@ import java.util.concurrent.CopyOnWriteArraySet;
 
 import com.poixson.tools.xJavaPlugin;
 import com.poixson.tools.dao.Iab;
-import com.poixson.utils.MathUtils;
 
 
 public class WorldStore_Locations extends WorldStore_HashMap<Iab, CopyOnWriteArraySet<Iab>> {
@@ -135,7 +135,7 @@ public class WorldStore_Locations extends WorldStore_HashMap<Iab, CopyOnWriteArr
 		Iab nearest_loc = null;
 		double nearest_dist = Double.MAX_VALUE;
 		for (final Iab entry : near) {
-			final double d = MathUtils.Distance2D(x, z, entry.a, entry.b);
+			final double d = DistanceLinear(x, z, entry.a, entry.b);
 			if (nearest_dist > d) {
 				nearest_dist = d;
 				nearest_loc = entry;
