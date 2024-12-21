@@ -18,6 +18,7 @@ public final class GsonProvider {
 			.setPrettyPrinting();
 		GsonAdapter_BlockData.Register(builder);
 		GsonAdapter_BlockData.Register(builder);
+		GsonAdapter_BlockPlotterHolder.Register(builder);
 		return builder.create();
 	}
 
