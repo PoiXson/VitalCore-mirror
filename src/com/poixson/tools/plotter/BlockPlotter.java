@@ -210,6 +210,43 @@ public class BlockPlotter implements Serializable {
 		default: throw new RuntimeException("Unknown ax size for: "+Character.toString(ax));
 		}
 	}
+	public BlockPlotter setAxSize(final char ax, final int size) {
+		switch (ax) {
+		case 'e': case 'w': case 'x': case 'X': this.w = size; return this;
+		case 'u': case 'd': case 'y': case 'Y': this.h = size; return this;
+		case 'n': case 's': case 'z': case 'Z': this.d = size; return this;
+		default: throw new RuntimeException("Unknown ax size for: "+Character.toString(ax));
+		}
+	}
+
+
+
+	// set w/h/d by array sizes
+	public BlockPlotter setAxisSizes(final StringBuilder[][] matrix) {
+		return this.setAxisSizes(matrix, this.axis);
+	}
+	public BlockPlotter setAxisSizes(final StringBuilder[] matrix) {
+		return this.setAxisSizes(matrix, this.axis);
+	}
+	public BlockPlotter setAxisSizes(final StringBuilder matrix) {
+		return this.setAxisSizes(matrix, this.axis);
+	}
+
+	public BlockPlotter setAxisSizes(final StringBuilder[][] matrix, final String axis) {
+		this.setAxSize(axis.charAt(0), matrix.length);
+		if (axis.length() > 1)
+			this.setAxisSizes(matrix[0], axis.substring(1));
+		return this;
+	}
+	public BlockPlotter setAxisSizes(final StringBuilder[] matrix, final String axis) {
+		this.setAxSize(axis.charAt(0), matrix.length);
+		if (axis.length() > 1)
+			this.setAxisSizes(matrix[0], axis.substring(1));
+		return this;
+	}
+	public BlockPlotter setAxisSizes(final StringBuilder matrix, final String axis) {
+		return this.setAxSize(axis.charAt(0), matrix.length());
+	}
 
 
 
