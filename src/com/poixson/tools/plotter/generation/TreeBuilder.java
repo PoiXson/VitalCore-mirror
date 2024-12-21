@@ -1,7 +1,6 @@
 package com.poixson.tools.plotter.generation;
 
-import static com.poixson.utils.MathUtils.Distance3D;
-import static com.poixson.utils.MathUtils.DistanceFast3D;
+import static com.poixson.utils.MathUtils.DistanceHybrid3D;
 import static com.poixson.utils.MathUtils.DistanceRadial;
 import static com.poixson.utils.MathUtils.IsMinMax;
 import static com.poixson.utils.MathUtils.MinMax;
@@ -304,10 +303,7 @@ public class TreeBuilder {
 				for (int ix=0-thick; ix<=thick; ix++) {
 					for (int iy=0-thick; iy<=thick; iy++) {
 						if (ix != 0 || iy != 0 || iz != 0) {
-							final double dist = (
-									Distance3D(    0, 0, 0, ix, iy, iz) +
-									DistanceFast3D(0, 0, 0, ix, iy, iz)
-								) / 2.0;
+							final double dist = DistanceHybrid3D(0.5, 0, 0, 0, ix, iy, iz);
 							if (dist <= this.leaves_thickness)
 								plot.replaceBlock(placer, x+ix, y+iy, z+iz, Material.AIR, '#');
 						}
