@@ -119,7 +119,6 @@ public final class BukkitUtils {
 
 
 
-	@SuppressWarnings("deprecation")
 	public static MapView GetMapView(final int mapid) {
 		return Bukkit.getMap(mapid);
 	}
