@@ -1,5 +1,6 @@
 package com.poixson.tools.plotter.generation;
 
+import static com.poixson.utils.MathUtils.DistanceAxial;
 import static com.poixson.utils.MathUtils.DistanceHybrid3D;
 import static com.poixson.utils.MathUtils.DistanceRadial;
 import static com.poixson.utils.MathUtils.IsMinMax;
@@ -9,6 +10,7 @@ import static com.poixson.utils.MathUtils.Rotate3D;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.data.BlockData;
+import org.bukkit.block.data.type.Leaves;
 import org.bukkit.generator.ChunkGenerator.ChunkData;
 import org.bukkit.generator.LimitedRegion;
 
@@ -304,13 +306,24 @@ public class TreeBuilder {
 					for (int iy=0-thick; iy<=thick; iy++) {
 						if (ix != 0 || iy != 0 || iz != 0) {
 							final double dist = DistanceHybrid3D(0.5, 0, 0, 0, ix, iy, iz);
-							if (dist <= this.leaves_thickness)
-								plot.replaceBlock(placer, x+ix, y+iy, z+iz, Material.AIR, '#');
-						}
-					}
-				}
-			}
-		}
+							if (dist <= this.leaves_thickness) {
+								final int xx = x + ix;
+								final int yy = y + iy;
+								final int zz = z + iz;
+								if (plot.replaceBlock(placer, xx, yy, zz, Material.AIR, '#')) {
+									final BlockData block = plot.getBlock(placer, xx, yy, zz);
+									if (block != null) {
+										final double axial = DistanceAxial(0, 0, 0, ix, iy, iz);
+										((Leaves) block).setDistance( (int)Math.ceil(axial) );
+										plot.setBlock(placer, xx, yy, zz, block);
+									}
+								}
+							} // end dist/thickness
+						} // end !0
+					} // end iy
+				} // end ix
+			} // end iz
+		} // end !dead
 	}
 
 
