@@ -31,6 +31,8 @@ permissions:
             pxn.cmd.spawn:         true
             pxn.cmd.spawn.other:   true
             pxn.cmd.setspawn:      true
+            pxn.cmd.warp:          true
+            pxn.cmd.setwarp:       true
             pxn.cmd.tp.*:          true
             pxn.cmd.back:          true
             pxn.cmd.top:           true
@@ -119,6 +121,12 @@ permissions:
     pxn.cmd.setspawn:
         default: op
         description: "Allow command: /setspawn"
+    pxn.cmd.warp:
+        default: op
+        description: "Allow command: /warp"
+    pxn.cmd.setwarp:
+        default: op
+        descroption: "Allow command: /setwarp"
 
     pxn.cmd.tp:
         default: op

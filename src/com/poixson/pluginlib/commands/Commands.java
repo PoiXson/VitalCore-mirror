@@ -19,6 +19,8 @@ public class Commands implements Closeable {
 	protected final Command_World           cmd_world;           // /world
 	protected final Command_Spawn           cmd_spawn;           // /spawn
 	protected final Command_SetSpawn        cmd_setspawn;        // /setspawn
+//	protected final Command_Warp            cmd_warp;            // /warp
+//	protected final Command_SetWarp         cmd_setwarp;         // /setwarp
 //	protected final Command_TP              cmd_tp;              // /tp
 //	protected final Command_TP_Here         cmd_tp_here;         // /tp-here
 //	protected final Command_TP_Ask          cmd_tp_ask;          // /tp-ask
@@ -152,6 +154,8 @@ public class Commands implements Closeable {
 //			this.cmd_speed_walk = null; // /walkspeed
 //			this.cmd_speed_fly  = null; // /flyspeed
 //		}
+//		this.cmd_warp            = (cfg.getBoolean("warp"      ) ? new Command_Warp           (plugin) : null); // /warp
+//		this.cmd_setwarp         = (cfg.getBoolean("warp"      ) ? new Command_SetWarp        (plugin) : null); // /setwarp
 	}
 
 
@@ -170,6 +174,8 @@ public class Commands implements Closeable {
 		if (this.cmd_world           != null) this.cmd_world          .close();
 		if (this.cmd_spawn           != null) this.cmd_spawn          .close();
 		if (this.cmd_setspawn        != null) this.cmd_setspawn       .close();
+//		if (this.cmd_warp            != null) this.cmd_warp           .close();
+//		if (this.cmd_setwarp         != null) this.cmd_setwarp        .close();
 //		if (this.cmd_tp              != null) this.cmd_tp             .close();
 //		if (this.cmd_tp_here         != null) this.cmd_tp_here        .close();
 //		if (this.cmd_tp_ask          != null) this.cmd_tp_ask         .close();
@@ -216,6 +222,7 @@ public class Commands implements Closeable {
 //		config.addDefault("Commands.home",       Boolean.FALSE);
 		config.addDefault("Commands.world",      Boolean.FALSE);
 		config.addDefault("Commands.spawn",      Boolean.FALSE);
+//		config.addDefault("Commands.warp",       Boolean.FALSE);
 		config.addDefault("Commands.setspawn",   Boolean.FALSE);
 //		config.addDefault("Commands.tp",         Boolean.FALSE);
 //		config.addDefault("Commands.jump",       Boolean.FALSE);
