@@ -1,6 +1,6 @@
 package com.poixson.tools.commands;
 
-import static com.poixson.utils.BukkitUtils.GetCommand;
+import static com.poixson.utils.CommandUtils.GetCommand;
 
 import java.io.Closeable;
 import java.util.List;
