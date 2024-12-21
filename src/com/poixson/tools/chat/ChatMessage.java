@@ -1,5 +1,7 @@
 package com.poixson.tools.chat;
 
+import static com.poixson.utils.BukkitUtils.ComponentToString;
+
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map.Entry;
@@ -30,7 +32,7 @@ public class ChatMessage extends BukkitRunnable {
 		this.manager = manager;
 		this.player_from = event.getPlayer();
 		this.loc_from    = this.player_from.getLocation();
-		this.msg         = event.getMessage();
+		this.msg = ComponentToString(event.message());
 	}
 
 

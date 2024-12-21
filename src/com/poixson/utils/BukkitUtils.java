@@ -38,10 +38,21 @@ import org.bukkit.scheduler.BukkitRunnable;
 import com.poixson.exceptions.RequiredArgumentException;
 import com.poixson.tools.Keeper;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
+
 
 public final class BukkitUtils {
 	private BukkitUtils() {}
 	static { Keeper.add(new BukkitUtils()); }
+
+
+
+	public static String ComponentToString(final Component msg) {
+		if (msg == null) return null;
+		final PlainTextComponentSerializer serial = PlainTextComponentSerializer.plainText();
+		return (serial==null ? null : serial.serialize(msg));
+	}
 
 
 

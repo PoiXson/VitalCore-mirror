@@ -1,5 +1,7 @@
 package com.poixson.tools.wizards.steps;
 
+import static com.poixson.utils.BukkitUtils.ComponentToString;
+
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.bukkit.Bukkit;
@@ -55,7 +57,7 @@ extends WizardStep<T> implements Listener {
 		if (!BukkitUtils.EqualsPlayer(this.getPlayer(), event.getPlayer()))
 			return;
 		event.setCancelled(true);
-		this.answer.set(event.getMessage());
+		this.answer.set( ComponentToString(event.message()) );
 		if (!this.validateAnswer()) {
 			this.answer.set(null);
 			this.sendMessage("Invalid answer. Please try again");
