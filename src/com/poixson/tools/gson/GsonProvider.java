@@ -16,8 +16,8 @@ public final class GsonProvider {
 			new GsonBuilder()
 			.disableHtmlEscaping()
 			.setPrettyPrinting();
-		GsonAdapter_BlockData.Register(builder);
-		GsonAdapter_BlockData.Register(builder);
+		GsonAdapter_BlockData         .Register(builder);
+		GsonAdapter_Location          .Register(builder);
 		GsonAdapter_BlockPlotterHolder.Register(builder);
 		return builder.create();
 	}

@@ -3,7 +3,6 @@ package com.poixson.tools.gson;
 import java.io.IOException;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.block.data.BlockData;
 
 import com.google.gson.GsonBuilder;
@@ -18,7 +17,6 @@ public class GsonAdapter_BlockData extends TypeAdapter<BlockData> {
 
 
 	public static void Register(final GsonBuilder builder) {
-		builder.registerTypeAdapter(Location.class, new GsonAdapter_Location());
 		builder.registerTypeAdapter(BlockData.class, new GsonAdapter_BlockData());
 	}
 
