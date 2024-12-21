@@ -15,7 +15,6 @@ import java.util.UUID;
 import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Chunk;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -46,25 +45,6 @@ import com.poixson.tools.Keeper;
 public final class BukkitUtils {
 	private BukkitUtils() {}
 	static { Keeper.add(new BukkitUtils()); }
-
-
-
-	public static String FormatColors(final String msg) {
-		// adventure format
-		try {
-			// MiniMessage.miniMessage().deserialize(msg);
-			final Class<?> clss = ReflectUtils.GetClass("net.kyori.adventure.text.minimessage.MiniMessage");
-			if (clss != null)
-				return (String) ReflectUtils.InvokeMethod(clss, "deserialize", msg);
-		} catch (Exception ignore) {}
-		// old bukkit format
-		{
-			String result = msg;
-			for (final ChatColor color : ChatColor.values())
-				result = result.replace("<"+color.name()+">", color.toString());
-			return result;
-		}
-	}
 
 
 
