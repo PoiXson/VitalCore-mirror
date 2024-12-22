@@ -78,13 +78,26 @@ public final class BlockUtils {
 
 
 
+	// -------------------------------------------------------------------------------
+	// block types
+
+
+
 	public static boolean IsSign(final Material type) {
-		if (IsWallSign(type))        return true;
-		if (IsStandingSign(type))    return true;
-		if (IsHangingSign(type))     return true;
+		if (IsWallSign(       type)) return true;
+		if (IsStandingSign(   type)) return true;
+		if (IsHangingSign(    type)) return true;
 		if (IsHangingWallSign(type)) return true;
 		return false;
 	}
+	public static boolean IsSign(final BlockData block) {
+		if (IsWallSign(       block)) return true;
+		if (IsStandingSign(   block)) return true;
+		if (IsHangingSign(    block)) return true;
+		if (IsHangingWallSign(block)) return true;
+		return false;
+	}
+
 	public static boolean IsWallSign(final Material type) {
 		switch (type) {
 		case ACACIA_WALL_SIGN:
@@ -102,6 +115,10 @@ public final class BlockUtils {
 		}
 		return false;
 	}
+	public static boolean IsWallSign(final BlockData block) {
+		return (block instanceof org.bukkit.block.data.type.WallSign);
+	}
+
 	public static boolean IsStandingSign(final Material type) {
 		switch (type) {
 		case ACACIA_SIGN:
@@ -119,6 +136,10 @@ public final class BlockUtils {
 		}
 		return false;
 	}
+	public static boolean IsStandingSign(final BlockData block) {
+		return (block instanceof org.bukkit.block.data.type.Sign);
+	}
+
 	public static boolean IsHangingSign(final Material type) {
 		switch (type) {
 		case ACACIA_HANGING_SIGN:
@@ -136,6 +157,10 @@ public final class BlockUtils {
 		}
 		return false;
 	}
+	public static boolean IsHangingSign(final BlockData block) {
+		return (block instanceof org.bukkit.block.data.type.HangingSign);
+	}
+
 	public static boolean IsHangingWallSign(final Material type) {
 		switch (type) {
 		case ACACIA_WALL_HANGING_SIGN:
@@ -153,6 +178,12 @@ public final class BlockUtils {
 		}
 		return false;
 	}
+	public static boolean IsHangingWallSign(final BlockData block) {
+		return (block instanceof org.bukkit.block.data.type.WallHangingSign);
+	}
+
+
+
 	public static boolean IsButton(final Material type) {
 		switch (type) {
 		case STONE_BUTTON:
@@ -172,6 +203,72 @@ public final class BlockUtils {
 		default: break;
 		}
 		return false;
+	}
+	public static boolean IsButton(final BlockData block) {
+		return (block==null ? false : IsButton(block.getMaterial()));
+	}
+
+
+
+	public static boolean IsPuressurePlate(final Material type) {
+		switch (type) {
+		case HEAVY_WEIGHTED_PRESSURE_PLATE:
+		case LIGHT_WEIGHTED_PRESSURE_PLATE:
+		case STONE_PRESSURE_PLATE:
+		case OAK_PRESSURE_PLATE:
+		case SPRUCE_PRESSURE_PLATE:
+		case BIRCH_PRESSURE_PLATE:
+		case JUNGLE_PRESSURE_PLATE:
+		case ACACIA_PRESSURE_PLATE:
+		case DARK_OAK_PRESSURE_PLATE:
+		case MANGROVE_PRESSURE_PLATE:
+		case CHERRY_PRESSURE_PLATE:
+		case BAMBOO_PRESSURE_PLATE:
+		case CRIMSON_PRESSURE_PLATE:
+		case WARPED_PRESSURE_PLATE:
+		case POLISHED_BLACKSTONE_PRESSURE_PLATE:
+			return true;
+		default: break;
+		}
+		return false;
+	}
+	public static boolean IsPuressurePlate(final BlockData block) {
+		return (block==null ? false : IsPuressurePlate(block.getMaterial()));
+	}
+
+
+
+	public static boolean IsCopper(final Material type) {
+		switch (type) {
+		case COPPER_BLOCK:      case COPPER_INGOT:              case RAW_COPPER:                 case WAXED_COPPER_BLOCK:      case RAW_COPPER_BLOCK:                case COPPER_ORE:                       case DEEPSLATE_COPPER_ORE:
+		case COPPER_BULB:       case EXPOSED_COPPER_BULB:       case OXIDIZED_COPPER_BULB:       case WAXED_COPPER_BULB:       case WAXED_EXPOSED_COPPER_BULB:       case WAXED_OXIDIZED_COPPER_BULB:       case WAXED_WEATHERED_COPPER_BULB:       case WEATHERED_COPPER_BULB:
+		case COPPER_GRATE:      case EXPOSED_COPPER_GRATE:      case OXIDIZED_COPPER_GRATE:      case WAXED_COPPER_GRATE:      case WAXED_EXPOSED_COPPER_GRATE:      case WAXED_OXIDIZED_COPPER_GRATE:      case WAXED_WEATHERED_COPPER_GRATE:      case WEATHERED_COPPER_GRATE:
+		case COPPER_DOOR:       case EXPOSED_COPPER_DOOR:       case OXIDIZED_COPPER_DOOR:       case WAXED_COPPER_DOOR:       case WAXED_EXPOSED_COPPER_DOOR:       case WAXED_OXIDIZED_COPPER_DOOR:       case WAXED_WEATHERED_COPPER_DOOR:       case WEATHERED_COPPER_DOOR:
+		case COPPER_TRAPDOOR:   case EXPOSED_COPPER_TRAPDOOR:   case OXIDIZED_COPPER_TRAPDOOR:   case WAXED_COPPER_TRAPDOOR:   case WAXED_EXPOSED_COPPER_TRAPDOOR:   case WAXED_OXIDIZED_COPPER_TRAPDOOR:   case WAXED_WEATHERED_COPPER_TRAPDOOR:   case WEATHERED_COPPER_TRAPDOOR:
+		case CUT_COPPER_SLAB:   case EXPOSED_CUT_COPPER_SLAB:   case OXIDIZED_CUT_COPPER_SLAB:   case WAXED_CUT_COPPER_SLAB:   case WAXED_EXPOSED_CUT_COPPER_SLAB:   case WAXED_OXIDIZED_CUT_COPPER_SLAB:   case WAXED_WEATHERED_CUT_COPPER_SLAB:   case WEATHERED_CUT_COPPER_SLAB:
+		case CUT_COPPER_STAIRS: case EXPOSED_CUT_COPPER_STAIRS: case OXIDIZED_CUT_COPPER_STAIRS: case WAXED_CUT_COPPER_STAIRS: case WAXED_EXPOSED_CUT_COPPER_STAIRS: case WAXED_OXIDIZED_CUT_COPPER_STAIRS: case WAXED_WEATHERED_CUT_COPPER_STAIRS: case WEATHERED_CUT_COPPER_STAIRS:
+			return true;
+		default: break;
+		}
+		return false;
+	}
+	public static boolean IsCopper(final BlockData block) {
+		return (block==null ? false : IsCopper(block.getMaterial()));
+	}
+
+
+
+	public static boolean IsCopperBulb(final Material type) {
+		switch (type) {
+		case COPPER_BULB:       case EXPOSED_COPPER_BULB:       case OXIDIZED_COPPER_BULB:       case WEATHERED_COPPER_BULB:
+		case WAXED_COPPER_BULB: case WAXED_EXPOSED_COPPER_BULB: case WAXED_OXIDIZED_COPPER_BULB: case WAXED_WEATHERED_COPPER_BULB:
+			return true;
+		default: break;
+		}
+		return false;
+	}
+	public static boolean IsCopperBulb(final BlockData block) {
+		return (block==null ? false : IsCopperBulb(block.getMaterial()));
 	}
 
 
