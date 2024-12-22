@@ -1,5 +1,7 @@
 package com.poixson.utils;
 
+import static com.poixson.utils.ArrayUtils.ssArrayToMap;
+import static com.poixson.utils.StringUtils.ss_ReplaceTags;
 import static com.poixson.utils.Utils.IsEmpty;
 
 import org.bukkit.Bukkit;
@@ -54,14 +56,7 @@ public final class BlockUtils {
 	}
 	public static BlockData StringToBlockData(final String mat, final String...tags) {
 		if (IsEmpty(mat)) return null;
-		String type = mat;
-		if (!IsEmpty(tags)) {
-			final int size = tags.length;
-			if (size % 2 != 0) throw new IllegalArgumentException("Invalid tags");
-			for (int i=0; i<size; i+=2)
-				type = type.replace(tags[i], tags[i+1]);
-		}
-		return Bukkit.createBlockData(type);
+		return Bukkit.createBlockData(ss_ReplaceTags("<%s>", mat, ssArrayToMap(tags)));
 	}
 	public static Material StringToMaterial(final String mat, final String def) {
 		if (IsEmpty(mat)) return null;
