@@ -23,6 +23,8 @@ public final class LocationUtils {
 	private LocationUtils() {}
 	static { Keeper.add(new LocationUtils()); }
 
+	public static final BlockFace DEFAULT_ROTATION = BlockFace.SOUTH;
+
 
 
 	// -------------------------------------------------------------------------------

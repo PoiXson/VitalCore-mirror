@@ -1,5 +1,8 @@
 package com.poixson.tools.plotter;
 
+import static com.poixson.utils.FileUtils.MergePaths;
+import static com.poixson.utils.Utils.IsEmpty;
+
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -8,6 +11,7 @@ import java.util.Map.Entry;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import com.poixson.tools.abstractions.Tuple;
+import com.poixson.utils.StringUtils;
 
 
 public class PlotterCache {
@@ -17,17 +21,17 @@ public class PlotterCache {
 	protected final ThreadLocal<Map<String, Tuple<BlockPlotterHolder, AtomicInteger>>> cache =
 			new ThreadLocal<Map<String, Tuple<BlockPlotterHolder, AtomicInteger>>>();
 
-	protected final String path_local;
+	protected final String path_loc;
 	protected final String path_res;
 
 	protected final Class<?> clss;
 
 
 
-	public PlotterCache(final String path_local, final String path_res, final Class<?> clss) {
-		this.path_local = path_local;
-		this.path_res   = path_res;
-		this.clss       = clss;
+	public PlotterCache(final String path_loc, final String path_res, final Class<?> clss) {
+		this.path_loc = path_loc;
+		this.path_res = path_res;
+		this.clss     = clss;
 	}
 
 
@@ -48,17 +52,9 @@ public class PlotterCache {
 		}
 		// load structure
 		try {
-			final String file = structure + ".json";
-			final String file_local = this.path_local + file;
-			final String file_res   = this.path_res   + file;
-			final Triple<BlockPlotter, StringBuilder[][], String> tup =
-				BlockPlotter.Load(this.clss, file_local, file_res);
-			if (tup == null) {
-				throw new RuntimeException(String.format(
-					"Failed to load structure: %s  loc: %s  res: %s",
-					structure, file_local, file_res
-				));
-			}
+			final String file = StringUtils.ForceEnds(".json", name);
+			final String file_loc = MergePaths(this.path_loc, file);
+			final String file_res = MergePaths(this.path_res, file);
 			final BlockPlotterHolder holder = BlockPlotter.Load(this.clss, file_loc, file_res);
 			if (holder == null)
 				return null;
@@ -69,7 +65,7 @@ public class PlotterCache {
 			map.put(name, tup);
 			return holder;
 		} catch (IOException e) {
-			throw new RuntimeException(e);
+			throw new RuntimeException("Failed to load structure: "+name, e);
 		}
 	}
 

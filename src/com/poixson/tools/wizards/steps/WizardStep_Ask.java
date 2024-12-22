@@ -15,6 +15,7 @@ import com.poixson.utils.BukkitUtils;
 
 import io.papermc.paper.event.player.AsyncChatEvent;
 
+
 public abstract class WizardStep_Ask<T extends xJavaPlugin>
 extends WizardStep<T> implements Listener {
 

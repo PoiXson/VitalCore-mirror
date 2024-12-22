@@ -53,13 +53,13 @@ public class pxnPluginLib extends xJavaPlugin {
 
 	protected final CopyOnWriteArraySet<xJavaPlugin> plugins = new CopyOnWriteArraySet<xJavaPlugin>();
 
-	protected final AtomicReference<pxnPluginsChart>  pluginsListener = new AtomicReference<pxnPluginsChart>   (null);
+	protected final AtomicReference<pxnPluginsChart>      listener_plugins = new AtomicReference<pxnPluginsChart>     (null);
 	protected final AtomicReference<UpdateCheckManager> updateChecker = new AtomicReference<UpdateCheckManager>(null);
-	protected final AtomicReference<FreedMapStore>      freedMaps     = new AtomicReference<FreedMapStore>     (null);
-	protected final AtomicReference<PlayerMoveMonitor>  moveMonitor   = new AtomicReference<PlayerMoveMonitor> (null);
-	protected final AtomicReference<SaveMonitor>        saveMonitor   = new AtomicReference<SaveMonitor>       (null);
-	protected final AtomicReference<ChatManager>        chatManager   = new AtomicReference<ChatManager>       (null);
-	protected final AtomicReference<ChatFormatter>      chatFormatter = new AtomicReference<ChatFormatter>     (null);
+	protected final AtomicReference<FreedMapStore>        freed_maps       = new AtomicReference<FreedMapStore>       (null);
+	protected final AtomicReference<PlayerMoveMonitor>    monitor_move     = new AtomicReference<PlayerMoveMonitor>   (null);
+	protected final AtomicReference<SaveMonitor>          monitor_save     = new AtomicReference<SaveMonitor>         (null);
+	protected final AtomicReference<ChatManager>          chat_manager     = new AtomicReference<ChatManager>         (null);
+	protected final AtomicReference<ChatFormatter>        chat_formatter   = new AtomicReference<ChatFormatter>       (null);
 
 	protected final AtomicReference<Commands> commands = new AtomicReference<Commands>(null);
 
@@ -77,15 +77,16 @@ public class pxnPluginLib extends xJavaPlugin {
 	public void onEnable() {
 		final ServicesManager services = Bukkit.getServicesManager();
 		services.register(pxnPluginLib.class, this, this, ServicePriority.Normal);
+		super.onEnable();
 		// plugins listener
 		{
 			final pxnPluginsChart listener = new pxnPluginsChart(this);
-			final pxnPluginsChart previous = this.pluginsListener.getAndSet(listener);
+			final pxnPluginsChart previous = this.listener_plugins.getAndSet(listener);
 			if (previous != null)
 				previous.unregister();
 			listener.register(this);
 		}
-		// update check manager
+		// update checker
 		if (this.enableCheckForUpdates()) {
 			final UpdateCheckManager manager = new UpdateCheckManager(this);
 			final UpdateCheckManager previous = this.updateChecker.getAndSet(manager);
@@ -96,11 +97,10 @@ public class pxnPluginLib extends xJavaPlugin {
 			// wait for server to start
 			manager.startLater();
 		}
-		super.onEnable();
 		// player move monitor
 		{
 			final PlayerMoveMonitor monitor = new PlayerMoveMonitor();
-			final PlayerMoveMonitor previous = this.moveMonitor.getAndSet(monitor);
+			final PlayerMoveMonitor previous = this.monitor_move.getAndSet(monitor);
 			if (previous != null)
 				previous.unregister();
 			monitor.register(this);
@@ -108,7 +108,7 @@ public class pxnPluginLib extends xJavaPlugin {
 		// save monitor
 		{
 			final SaveMonitor monitor = new SaveMonitor();
-			final SaveMonitor previous = this.saveMonitor.getAndSet(monitor);
+			final SaveMonitor previous = this.monitor_save.getAndSet(monitor);
 			if (previous != null)
 				previous.unregister();
 			monitor.register(this);
@@ -124,7 +124,7 @@ public class pxnPluginLib extends xJavaPlugin {
 		if (this.enableChatFormat()) {
 			final ChatFormatter formatter = new ChatFormatter();
 			formatter.addFormats(this.getChatFormats());
-			this.chatFormatter.set(formatter);
+			this.chat_formatter.set(formatter);
 		}
 		// local chat
 		if (this.enableLocalChat()
@@ -137,7 +137,7 @@ public class pxnPluginLib extends xJavaPlugin {
 			} else {
 				manager = new ChatManager(this);
 			}
-			final ChatManager previous = this.chatManager.getAndSet(manager);
+			final ChatManager previous = this.chat_manager.getAndSet(manager);
 			if (previous != null)
 				previous.unregister();
 			manager.register();
@@ -167,23 +167,23 @@ public class pxnPluginLib extends xJavaPlugin {
 		}
 		// chat
 		{
-			final ChatManager manager = this.chatManager.getAndSet(null);
+			final ChatManager manager = this.chat_manager.getAndSet(null);
 			if (manager != null)
 				manager.unregister();
 		}
 		// save monitor
 		{
-			final SaveMonitor monitor = this.saveMonitor.getAndSet(null);
+			final SaveMonitor monitor = this.monitor_save.getAndSet(null);
 			if (monitor != null)
 				monitor.unregister();
 		}
 		// player move monitor
 		{
-			final PlayerMoveMonitor monitor = this.moveMonitor.getAndSet(null);
+			final PlayerMoveMonitor monitor = this.monitor_move.getAndSet(null);
 			if (monitor != null)
 				monitor.unregister();
 		}
-		// update check manager
+		// update checker
 		{
 			final UpdateCheckManager manager = this.updateChecker.getAndSet(null);
 			if (manager != null)
@@ -191,7 +191,7 @@ public class pxnPluginLib extends xJavaPlugin {
 		}
 		// freed map store
 		{
-			final FreedMapStore store = this.freedMaps.getAndSet(null);
+			final FreedMapStore store = this.freed_maps.getAndSet(null);
 			if (store != null) {
 				store.unregister();
 				try {
@@ -203,7 +203,7 @@ public class pxnPluginLib extends xJavaPlugin {
 		}
 		// plugins listener
 		{
-			final pxnPluginsChart listener = this.pluginsListener.getAndSet(null);
+			final pxnPluginsChart listener = this.listener_plugins.getAndSet(null);
 			if (listener != null)
 				listener.unregister();
 		}
@@ -278,7 +278,7 @@ public class pxnPluginLib extends xJavaPlugin {
 
 
 	public ChatFormatter getChatFormatter() {
-		return this.chatFormatter.get();
+		return this.chat_formatter.get();
 	}
 
 
@@ -298,7 +298,7 @@ public class pxnPluginLib extends xJavaPlugin {
 	public FreedMapStore getFreedMapStore() {
 		// already loaded
 		{
-			final FreedMapStore store = this.freedMaps.get();
+			final FreedMapStore store = this.freed_maps.get();
 			if (store != null)
 				return store;
 		}
@@ -306,7 +306,7 @@ public class pxnPluginLib extends xJavaPlugin {
 		{
 			final String path = this.getDataFolder().getAbsolutePath();
 			final FreedMapStore store = new FreedMapStore(this, path);
-			if (this.freedMaps.compareAndSet(null, store)) {
+			if (this.freed_maps.compareAndSet(null, store)) {
 				try {
 					store.load();
 				} catch (IOException e) {
@@ -318,7 +318,7 @@ public class pxnPluginLib extends xJavaPlugin {
 				return store;
 			}
 		}
-		return this.freedMaps.get();
+		return this.freed_maps.get();
 	}
 
 
@@ -328,7 +328,7 @@ public class pxnPluginLib extends xJavaPlugin {
 				.getPlayerMoveMonitor();
 	}
 	public PlayerMoveMonitor getPlayerMoveMonitor() {
-		return this.moveMonitor.get();
+		return this.monitor_move.get();
 	}
 
 

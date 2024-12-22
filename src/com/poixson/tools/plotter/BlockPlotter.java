@@ -31,10 +31,14 @@ import com.poixson.tools.dao.Iabc;
 import com.poixson.tools.dao.Iabcd;
 import com.poixson.tools.plotter.placer.BlockPlacer;
 import com.poixson.utils.FileUtils;
+import com.poixson.utils.LocationUtils;
 
 
 public class BlockPlotter implements Serializable {
 	private static final long serialVersionUID = 1L;
+
+	public static final String DEFAULT_AXIS_3D = "dse";
+	public static final BlockFace DEFAULT_ROTATION = LocationUtils.DEFAULT_ROTATION;
 
 	public int x = 0;
 	public int y = 0;
@@ -44,9 +48,9 @@ public class BlockPlotter implements Serializable {
 	public int d = 0;
 
 	public String axis = null;
-	public BlockFace rotation = BlockFace.SOUTH;
+	public BlockFace rotation = DEFAULT_ROTATION;
 
-	protected final Map<Character, BlockData> types = new HashMap<Character, BlockData>();
+	public final Map<Character, BlockData> types = new HashMap<Character, BlockData>();
 
 
 
@@ -74,27 +78,13 @@ public class BlockPlotter implements Serializable {
 
 
 
-	// -------------------------------------------------------------------------------
-
-
-
-	public static BlockPlotter FromJSON(final String json) {
-		return GSON().fromJson(json, BlockPlotter.class);
-	}
-	public String toJson() {
-		return GSON().toJson(this);
-	}
-
-
-
-	public static Triple<BlockPlotter, StringBuilder[][], String> Load(
-			final Class<?> clss, final String file_local, final String file_res)
+	public static BlockPlotterHolder Load(final Class<?> clss,
+			final String file_loc, final String file_res)
 			throws IOException {
-		final InputStream in = FileUtils.OpenLocalOrResource(clss, file_local, file_res);
+		final InputStream in = FileUtils.OpenLocalOrResource(clss, file_loc, file_res);
 		return (in==null ? null : Load(in));
 	}
-	public static Triple<BlockPlotter, StringBuilder[][], String> Load(
-			final File file) throws IOException {
+	public static BlockPlotterHolder Load(final File file) throws IOException {
 		FileInputStream in = null;
 		try {
 			in = new FileInputStream(file);
@@ -103,8 +93,7 @@ public class BlockPlotter implements Serializable {
 			SafeClose(in);
 		}
 	}
-	public static Triple<BlockPlotter, StringBuilder[][], String> Load(
-			final InputStream in) throws IOException {
+	public static BlockPlotterHolder Load(final InputStream in) throws IOException {
 		final String json = FileUtils.ReadInputStream(in);
 		return Load(json);
 	}
@@ -126,6 +115,9 @@ public class BlockPlotter implements Serializable {
 	public BlockPlotter rotate(final BlockFace rotation) {
 		this.rotation = rotation;
 		return this;
+	}
+	public BlockPlotter rotation(final BlockFace rotation) {
+		return this.rotate(rotation);
 	}
 
 

@@ -98,6 +98,7 @@ public class pxnCommand {
 
 
 
+	// array
 	protected List<String> onTabComplete_Array(final String arg, final String...entries) {
 		final LinkedList<String> results = new LinkedList<String>();
 		for (final String entry : entries) {
@@ -111,6 +112,9 @@ public class pxnCommand {
 		return this.onTabComplete_Array(last, entries);
 	}
 
+
+
+	// players
 	protected List<String> onTabComplete_Players(final String arg) {
 		final String lower = arg.toLowerCase();
 		final LinkedList<String> results = new LinkedList<String>();
@@ -128,6 +132,7 @@ public class pxnCommand {
 
 
 
+	// worlds
 	protected List<String> onTabComplete_Worlds(final String arg) {
 		final String lower = arg.toLowerCase();
 		final LinkedList<String> results = new LinkedList<String>();

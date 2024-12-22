@@ -86,7 +86,6 @@ public abstract class xJavaPlugin extends JavaPlugin {
 		super.onDisable();
 		this.metrics.set(null);
 		// update checker
-		UpdateCheckManager.UnregisterPlugin(this);
 		// stop schedulers
 		try {
 			Bukkit.getScheduler()
@@ -174,6 +173,7 @@ public abstract class xJavaPlugin extends JavaPlugin {
 
 
 	// -------------------------------------------------------------------------------
+	// properties
 
 
 
@@ -193,6 +193,7 @@ public abstract class xJavaPlugin extends JavaPlugin {
 
 
 	// -------------------------------------------------------------------------------
+	// listeners
 
 
 

@@ -16,9 +16,6 @@ public class BlockPlacer {
 	public final LimitedRegion         region;
 	public final BlockPlacer_WorldEdit worldedit;
 
-//TODO
-//	public boolean wrap = false;
-
 
 
 	public BlockPlacer(final World                 world    ) { this(world, null,  null,   null   ); }

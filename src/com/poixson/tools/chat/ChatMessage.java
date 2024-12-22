@@ -16,6 +16,7 @@ import com.poixson.pluginlib.pxnPluginLib;
 
 import io.papermc.paper.event.player.AsyncChatEvent;
 
+
 public class ChatMessage extends BukkitRunnable {
 
 	protected final pxnPluginLib     plugin;

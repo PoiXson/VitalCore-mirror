@@ -91,9 +91,9 @@ public class FreedMapStore implements xListener {
 				this.log().info(String.format("Saving %d freed maps", Integer.valueOf(result.length)));
 				BufferedWriter writer = null;
 				try {
-					final String data = (new Gson()).toJson(result);
+					final String json = (new Gson()).toJson(result);
 					writer = new BufferedWriter(new FileWriter(this.file));
-					writer.write(data);
+					writer.write(json);
 					return true;
 				} finally {
 					SafeClose(writer);

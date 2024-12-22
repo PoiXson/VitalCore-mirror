@@ -325,6 +325,11 @@ public final class BukkitUtils {
 
 
 
+	// -------------------------------------------------------------------------------
+	// logger
+
+
+
 	public static Logger Log() {
 		return Logger.getLogger("Minecraft");
 	}

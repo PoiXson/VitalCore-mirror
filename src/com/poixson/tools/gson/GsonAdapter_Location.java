@@ -1,6 +1,5 @@
 package com.poixson.tools.gson;
 
-
 import static com.poixson.utils.MathUtils.ToInteger;
 import static com.poixson.utils.Utils.IsEmpty;
 
@@ -28,6 +27,7 @@ public class GsonAdapter_Location extends TypeAdapter<Location> {
 
 
 
+	@Override
 	public Location read(final JsonReader in) throws IOException {
 		if (in.peek() == JsonToken.NULL) { in.nextNull(); return null; }
 		final String str = in.nextString();
@@ -43,6 +43,7 @@ public class GsonAdapter_Location extends TypeAdapter<Location> {
 		return block.getLocation();
 	}
 
+	@Override
 	public void write(final JsonWriter out, final Location loc) throws IOException {
 		if (loc == null) { out.nullValue(); return; }
 		out.value(String.format("%s %d,%d,%d",
