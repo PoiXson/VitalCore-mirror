@@ -59,14 +59,9 @@ public final class BlockUtils {
 		return Bukkit.createBlockData(ss_ReplaceTags("<%s>", mat, ssArrayToMap(tags)));
 	}
 	public static Material StringToMaterial(final String mat, final String def) {
-		if (IsEmpty(mat)) return null;
-		String type = mat;
-		if (IsEmpty(type))
-			type = def;
-		final int pos = type.indexOf('[');
-		if (pos != -1)
-			type = type.substring(0, pos-1);
-		return Material.matchMaterial(type);
+		if (IsEmpty(mat)) return (def==null ? null : StringToMaterial(def, null));
+		final int pos = mat.indexOf('[');
+		return (pos==-1 ? Material.matchMaterial(mat) : StringToMaterial(mat.substring(0, pos-1), null));
 	}
 
 
