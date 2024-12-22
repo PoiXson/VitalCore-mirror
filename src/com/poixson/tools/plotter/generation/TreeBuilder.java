@@ -1,5 +1,6 @@
 package com.poixson.tools.plotter.generation;
 
+import static com.poixson.utils.BlockUtils.SetLeavesDistance;
 import static com.poixson.utils.MathUtils.DistanceAxial;
 import static com.poixson.utils.MathUtils.DistanceHybrid3D;
 import static com.poixson.utils.MathUtils.DistanceRadial;
@@ -10,7 +11,6 @@ import static com.poixson.utils.MathUtils.Rotate3D;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.data.BlockData;
-import org.bukkit.block.data.type.Leaves;
 import org.bukkit.generator.ChunkGenerator.ChunkData;
 import org.bukkit.generator.LimitedRegion;
 
@@ -314,7 +314,7 @@ public class TreeBuilder {
 									final BlockData block = plot.getBlock(placer, xx, yy, zz);
 									if (block != null) {
 										final double axial = DistanceAxial(0, 0, 0, ix, iy, iz);
-										((Leaves) block).setDistance( (int)Math.ceil(axial) );
+										SetLeavesDistance(block, (int)Math.ceil(axial));
 										plot.setBlock(placer, xx, yy, zz, block);
 									}
 								}

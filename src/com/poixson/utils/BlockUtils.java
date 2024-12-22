@@ -78,6 +78,45 @@ public final class BlockUtils {
 
 
 
+	// persistent leaves
+	public static boolean GetLeavesPersistent(final BlockData block) {
+		if (block == null) throw new NullPointerException();
+		if (block instanceof org.bukkit.block.data.type.Leaves) {
+			return ((org.bukkit.block.data.type.Leaves) block)
+					.isPersistent();
+		}
+		return false;
+	}
+	public static void SetLeavesPersistent(final BlockData block) {
+		SetLeavesPersistent(block, true);
+	}
+	public static void SetLeavesPersistent(final BlockData block, final boolean persist) {
+		if (block == null) throw new NullPointerException();
+		if (block instanceof org.bukkit.block.data.type.Leaves) {
+			((org.bukkit.block.data.type.Leaves) block)
+				.setPersistent(persist);
+		}
+	}
+
+	// leaves distance
+	public static int GetLeavesDistance(final BlockData block) {
+		if (block == null) throw new NullPointerException();
+		if (block instanceof org.bukkit.block.data.type.Leaves) {
+			return ((org.bukkit.block.data.type.Leaves) block)
+					.getDistance();
+		}
+		return -1;
+	}
+	public static void SetLeavesDistance(final BlockData block, final int distance) {
+		if (block == null) throw new NullPointerException();
+		if (block instanceof org.bukkit.block.data.type.Leaves) {
+			((org.bukkit.block.data.type.Leaves) block)
+				.setDistance(distance);
+		}
+	}
+
+
+
 	// -------------------------------------------------------------------------------
 	// block types
 
