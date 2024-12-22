@@ -36,6 +36,14 @@ public class PlotterCache {
 
 
 
+	public BlockPlotterHolder getSafe(final String name) {
+		try {
+			return this.get(name);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 	public BlockPlotterHolder get(final String name) {
 		if (IsEmpty(name))
 			return null;
