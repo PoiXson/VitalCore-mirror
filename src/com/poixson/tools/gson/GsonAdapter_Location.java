@@ -10,7 +10,6 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 
-import com.google.gson.GsonBuilder;
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
@@ -18,12 +17,6 @@ import com.google.gson.stream.JsonWriter;
 
 
 public class GsonAdapter_Location extends TypeAdapter<Location> {
-
-
-
-	public static void Register(final GsonBuilder builder) {
-		builder.registerTypeAdapter(Location.class, new GsonAdapter_Location());
-	}
 
 
 

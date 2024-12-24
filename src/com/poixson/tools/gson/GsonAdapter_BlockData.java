@@ -5,7 +5,6 @@ import java.io.IOException;
 import org.bukkit.Bukkit;
 import org.bukkit.block.data.BlockData;
 
-import com.google.gson.GsonBuilder;
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
@@ -13,12 +12,6 @@ import com.google.gson.stream.JsonWriter;
 
 
 public class GsonAdapter_BlockData extends TypeAdapter<BlockData> {
-
-
-
-	public static void Register(final GsonBuilder builder) {
-		builder.registerTypeAdapter(BlockData.class, new GsonAdapter_BlockData());
-	}
 
 
 

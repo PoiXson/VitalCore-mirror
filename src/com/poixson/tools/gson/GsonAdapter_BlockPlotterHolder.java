@@ -12,7 +12,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.BlockData;
 
-import com.google.gson.GsonBuilder;
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
@@ -23,12 +22,6 @@ import com.poixson.utils.MathUtils;
 
 
 public class GsonAdapter_BlockPlotterHolder extends TypeAdapter<BlockPlotterHolder> {
-
-
-
-	public static void Register(final GsonBuilder builder) {
-		builder.registerTypeAdapter(BlockPlotterHolder.class, new GsonAdapter_BlockPlotterHolder());
-	}
 
 
 
