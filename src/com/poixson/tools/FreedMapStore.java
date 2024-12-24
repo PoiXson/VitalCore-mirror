@@ -1,5 +1,6 @@
 package com.poixson.tools;
 
+import static com.poixson.utils.GsonProvider.GSON;
 import static com.poixson.utils.Utils.SafeClose;
 
 import java.io.BufferedReader;
@@ -21,7 +22,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.map.MapView;
 
-import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.poixson.pluginlib.pxnPluginLib;
 import com.poixson.tools.events.SaveEvent;
@@ -64,7 +64,7 @@ public class FreedMapStore implements xListener {
 				try {
 					reader = Files.newBufferedReader(this.file.toPath());
 					final Type token = new TypeToken<HashSet<Integer>>() {}.getType();
-					final Set<Integer> set = (new Gson()).fromJson(reader, token);
+					final Set<Integer> set = GSON().fromJson(reader, token);
 					for (final Integer id : set)
 						this.freed.add(id);
 					this.log().info(String.format("Loaded %d freed maps", Integer.valueOf(this.freed.size())));
@@ -91,7 +91,7 @@ public class FreedMapStore implements xListener {
 				this.log().info(String.format("Saving %d freed maps", Integer.valueOf(result.length)));
 				BufferedWriter writer = null;
 				try {
-					final String json = (new Gson()).toJson(result);
+					final String json = GSON().toJson(result);
 					writer = new BufferedWriter(new FileWriter(this.file));
 					writer.write(json);
 					return true;

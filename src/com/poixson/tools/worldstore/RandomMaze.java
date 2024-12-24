@@ -1,6 +1,6 @@
 package com.poixson.tools.worldstore;
 
-import static com.poixson.tools.gson.GsonProvider.GSON;
+import static com.poixson.utils.GsonProvider.GSON;
 import static com.poixson.utils.MathUtils.ToDouble;
 import static com.poixson.utils.Utils.SafeClose;
 

@@ -1,6 +1,5 @@
 package com.poixson.tools.worldstore;
 
-import static com.poixson.tools.gson.GsonProvider.GSON;
 import static com.poixson.utils.MathUtils.DistanceLinear;
 import static com.poixson.utils.Utils.IsEmpty;
 
@@ -12,11 +11,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.bukkit.Location;
+
+import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.poixson.tools.xJavaPlugin;
 import com.poixson.tools.abstractions.Triple;
 import com.poixson.tools.abstractions.Tuple;
 import com.poixson.tools.dao.Iab;
+import com.poixson.tools.gson.GsonAdapter_Location;
 
 
 public class WorldStore_LocationMaps extends WorldStore_HashMap<Iab, Map<Iab, Map<String, Object>>> {
@@ -180,6 +183,19 @@ public class WorldStore_LocationMaps extends WorldStore_HashMap<Iab, Map<Iab, Ma
 			Double.valueOf(nearest_dist),
 			nearest_loc,
 			nearest_map
+		);
+	}
+
+
+
+	// -------------------------------------------------------------------------------
+	// gson
+
+
+
+	public static Gson GSON() {
+		return com.poixson.utils.GsonProvider.GSON(
+			Location.class, new GsonAdapter_Location()
 		);
 	}
 

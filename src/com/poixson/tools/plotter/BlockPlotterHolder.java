@@ -1,12 +1,14 @@
 package com.poixson.tools.plotter;
 
-import static com.poixson.tools.gson.GsonProvider.GSON;
 import static com.poixson.utils.Utils.IsEmpty;
 
 import java.util.Map;
 import java.util.Map.Entry;
 
 import org.bukkit.block.data.BlockData;
+
+import com.google.gson.Gson;
+import com.poixson.tools.gson.GsonAdapter_BlockPlotterHolder;
 
 
 public class BlockPlotterHolder {
@@ -107,6 +109,19 @@ public class BlockPlotterHolder {
 			return plot;
 		}
 		return this.plot;
+	}
+
+
+
+	// -------------------------------------------------------------------------------
+	// gson
+
+
+
+	public static Gson GSON() {
+		return com.poixson.utils.GsonProvider.GSON(
+			BlockPlotterHolder.class, new GsonAdapter_BlockPlotterHolder()
+		);
 	}
 
 
