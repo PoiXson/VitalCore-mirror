@@ -26,7 +26,7 @@ public abstract class xJavaPlugin extends JavaPlugin implements AppProperties {
 	public static final Component CHAT_PREFIX = Component.text("[pxn] ").color(NamedTextColor.DARK_AQUA);
 
 	protected final AtomicReference<Metrics> metrics = new AtomicReference<Metrics>(null);
-	protected final AppPropsDAO props = AppPropsDAO.LoadSafe();
+	protected final AppPropsDAO props = AppPropsDAO.LoadSafe(this.getClass());
 
 	protected final AtomicReference<FileConfiguration> config = new AtomicReference<FileConfiguration>(null);
 	protected final AtomicBoolean config_changed = new AtomicBoolean(false);
