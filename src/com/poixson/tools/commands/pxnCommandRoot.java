@@ -23,7 +23,7 @@ implements CommandExecutor, TabCompleter, Closeable {
 
 	public pxnCommandRoot(final xJavaPlugin plugin, final String namespace,
 			final String desc, final String usage, final String perm,
-			final String[] labels) {
+			final String...labels) {
 		super();
 		this.plugin_command = GetCommand(plugin, namespace, labels, desc, usage, perm);
 		this.plugin_command.setExecutor(this);
