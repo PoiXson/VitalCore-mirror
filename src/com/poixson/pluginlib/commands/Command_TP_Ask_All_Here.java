@@ -20,11 +20,13 @@ public class Command_TP_Ask_All_Here extends pxnCommandRoot {
 			"Ask all players to teleport to your current location.", // desc
 			null, // usage
 			"pxn.cmd.tp.askallhere", // perm
-			new String[] { // labels
-				"tpaa", "tpaah",
-				"tpaskall",   "tpaskallhere",
-				"tp-ask-all", "tp-ask-all-here"
-			}
+			// labels
+			"tpaa",
+			"tpaah",
+			"tpaskall",
+			"tpaskallhere",
+			"tp-ask-all",
+			"tp-ask-all-here"
 		);
 	}
 

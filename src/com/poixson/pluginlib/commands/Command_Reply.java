@@ -20,9 +20,9 @@ public class Command_Reply extends pxnCommandRoot {
 			"Reply to the last player to send you a message.", // desc
 			null, // usage
 			"pxn.cmd.msg", // perm
-			new String[] { // labels
-				"r", "reply"
-			}
+			// labels
+			"r",
+			"reply"
 		);
 	}
 

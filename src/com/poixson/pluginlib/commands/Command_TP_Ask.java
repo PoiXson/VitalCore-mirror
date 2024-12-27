@@ -20,11 +20,14 @@ public class Command_TP_Ask extends pxnCommandRoot {
 			"Teleport to a location or world.", // desc
 			null, // usage
 			"pxn.cmd.tp.ask", // perm
-			new String[] { // labels
-				"tpa", "tpask", "tp-ask",
-				"teleportask", "teleport-ask",
-				"askteleport", "ask-teleport"
-			}
+			// labels
+			"tpa",
+			"tpask",
+			"tp-ask",
+			"teleportask",
+			"teleport-ask",
+			"askteleport",
+			"ask-teleport"
 		);
 	}
 

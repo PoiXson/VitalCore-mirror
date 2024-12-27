@@ -20,9 +20,8 @@ public class Command_Me extends pxnCommandRoot {
 			null, // desc
 			null, // usage
 			"pxn.cmd.me", // perm
-			new String[] { // labels
-				"me"
-			}
+			// labels
+			"me"
 		);
 	}
 

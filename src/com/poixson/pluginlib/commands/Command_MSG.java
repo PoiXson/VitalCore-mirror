@@ -20,9 +20,9 @@ public class Command_MSG extends pxnCommandRoot {
 			"Send a private message to a player.", // desc
 			null, // usage
 			"pxn.cmd.msg", // perm
-			new String[] { // labels
-				"m", "msg"
-			}
+			// labels
+			"m",
+			"msg"
 		);
 	}
 

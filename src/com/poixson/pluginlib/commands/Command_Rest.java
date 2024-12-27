@@ -28,9 +28,8 @@ public class Command_Rest extends pxnCommandRoot {
 			"Restore full rest.", // desc
 			null, // usage
 			"pxn.cmd.rest", // perm
-			new String[] { // labels
-				"rest"
-			}
+			// labels
+			"rest"
 		);
 	}
 

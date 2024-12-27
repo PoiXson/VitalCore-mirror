@@ -20,9 +20,8 @@ public class Command_Home extends pxnCommandRoot {
 			"Teleport to a saved home location.", // desc
 			null, // usage
 			"pxn.cmd.home", // perm
-			new String[] { // labels
-				"home"
-			}
+			// labels
+			"home"
 		);
 	}
 

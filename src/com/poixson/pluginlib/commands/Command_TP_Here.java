@@ -20,10 +20,10 @@ public class Command_TP_Here extends pxnCommandRoot {
 			"Teleport other players to your current location.", // desc
 			null, // usage
 			"pxn.cmd.tp.here", // perm
-			new String[] { // labels
-				"tph",
-				"tphere", "tp-here"
-			}
+			// labels
+			"tph",
+			"tphere",
+			"tp-here"
 		);
 	}
 

@@ -20,10 +20,11 @@ public class Command_Home_Set extends pxnCommandRoot {
 			"Save a home location.", // desc
 			null, // usage
 			"pxn.cmd.home", // perm
-			new String[] { // labels
-				"sethome",  "set-home",
-				"savehome", "save-home"
-			}
+			// labels
+			"sethome",
+			"set-home",
+			"savehome",
+			"save-home"
 		);
 	}
 

@@ -20,9 +20,8 @@ public class Command_Warp extends pxnCommandRoot {
 			"Teleport to a warp location.", // desc
 			null, // usage
 			"pxn.cmd.warp", // perm
-			new String[] { // labels
-				"warp"
-			}
+			// labels
+			"warp"
 		);
 	}
 

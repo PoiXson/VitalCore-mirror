@@ -20,9 +20,8 @@ public class Command_Backup extends pxnCommandRoot {
 			"Perform a backup of the worlds and configs.", // desc
 			null, // usage
 			"pxn.cmd.backup", // perm
-			new String[] { // labels
-				"backup"
-			}
+			// labels
+			"backup"
 		);
 	}
 

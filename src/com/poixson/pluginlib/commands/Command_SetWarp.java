@@ -20,9 +20,9 @@ public class Command_SetWarp extends pxnCommandRoot {
 			"Set a warp location", // desc
 			null, // usage
 			"pxn.cmd.setwarp", // perm
-			new String[] { // labels
-				"setwarp", "set-warp"
-			}
+			// labels
+			"setwarp",
+			"set-warp"
 		);
 	}
 

@@ -32,9 +32,10 @@ public class Command_GM extends pxnCommandRoot {
 			"Change game mode.", // desc
 			null, // usage
 			"pxn.cmd.gm", // perm
-			new String[] { // labels
-				"gm", "gamemode", "game-mode"
-			}
+			// labels
+			"gm",
+			"gamemode",
+			"game-mode"
 		);
 	}
 

@@ -20,9 +20,8 @@ public class Command_Help extends pxnCommandRoot {
 			null, // desc
 			null, // usage
 			"pxn.cmd.help", // perm
-			new String[] { // labels
-				"help"
-			}
+			// labels
+			"help"
 		);
 	}
 

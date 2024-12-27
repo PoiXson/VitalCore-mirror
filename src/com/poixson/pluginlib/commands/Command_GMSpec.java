@@ -28,10 +28,13 @@ public class Command_GMSpec extends pxnCommandRoot {
 			"Change game mode to Spectator.", // desc
 			null, // usage
 			"pxn.cmd.gm.sp", // perm
-			new String[] { // labels
-				"gmsp",   "gm-sp",   "gm-p",
-				"gmspec", "gm-spec", "gmp"
-			}
+			// labels
+			"gmsp",
+			"gm-sp",
+			"gm-p",
+			"gmspec",
+			"gm-spec",
+			"gmp"
 		);
 	}
 

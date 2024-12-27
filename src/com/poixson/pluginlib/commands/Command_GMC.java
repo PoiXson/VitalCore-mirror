@@ -28,10 +28,11 @@ public class Command_GMC extends pxnCommandRoot {
 			"Change game mode to Creative.", // desc
 			null, // usage
 			"pxn.cmd.gm.c", // perm
-			new String[] { // labels
-				"gmc", "gm-c",
-				"gmcreative", "gm-creative"
-			}
+			// labels
+			"gmc",
+			"gm-c",
+			"gmcreative",
+			"gm-creative"
 		);
 	}
 

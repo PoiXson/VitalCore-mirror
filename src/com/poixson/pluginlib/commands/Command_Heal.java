@@ -28,9 +28,8 @@ public class Command_Heal extends pxnCommandRoot {
 			"Restore full health.", // desc
 			null, // usage
 			"pxn.cmd.heal", // perm
-			new String[] { // labels
-				"heal"
-			}
+			// labels
+			"heal"
 		);
 	}
 

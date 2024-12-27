@@ -20,9 +20,8 @@ public class Command_Bottom extends pxnCommandRoot {
 			"Teleport to the lowest open space.", // desc
 			null, // usage
 			"pxn.cmd.bottom", // perm
-			new String[] { // labels
-				"bottom"
-			}
+			// labels
+			"bottom"
 		);
 	}
 

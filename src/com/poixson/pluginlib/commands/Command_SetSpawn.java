@@ -26,9 +26,8 @@ public class Command_SetSpawn extends pxnCommandRoot {
 			"Set the world spawn to your current location.", // desc
 			null, // usage
 			"pxn.cmd.setspawn", // perm
-			new String[] { // labels
-				"setspawn"
-			}
+			// labels
+			"setspawn"
 		);
 	}
 

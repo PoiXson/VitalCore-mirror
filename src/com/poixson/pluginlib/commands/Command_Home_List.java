@@ -20,12 +20,14 @@ public class Command_Home_List extends pxnCommandRoot {
 			"List your saved homes.", // desc
 			null, // usage
 			"pxn.cmd.home", // perm
-			new String[] { // labels
-				"homes",
-				"listhomes", "list-homes",
-				"homelist",  "home-list",
-				"homeslist", "homes-list"
-			}
+			// labels
+			"homes",
+			"listhomes",
+			"list-homes",
+			"homelist",
+			"home-list",
+			"homeslist",
+			"homes-list"
 		);
 	}
 

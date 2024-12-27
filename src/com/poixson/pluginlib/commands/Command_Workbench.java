@@ -28,10 +28,9 @@ public class Command_Workbench extends pxnCommandRoot {
 			null, // desc
 			null, // usage
 			"pxn.cmd.workbench", // perm
-			new String[] { // labels
-				"workbench",
-				"craftingtable"
-			}
+			// labels
+			"workbench",
+			"craftingtable"
 		);
 	}
 

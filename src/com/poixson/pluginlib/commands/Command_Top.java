@@ -20,9 +20,8 @@ public class Command_Top extends pxnCommandRoot {
 			"Teleport to the highest block.", // desc
 			null, // usage
 			"pxn.cmd.top", // perm
-			new String[] { // labels
-				"top"
-			}
+			// labels
+			"top"
 		);
 	}
 

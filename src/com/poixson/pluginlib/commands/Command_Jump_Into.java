@@ -20,11 +20,12 @@ public class Command_Jump_Into extends pxnCommandRoot {
 			"Teleport through the location you are looking at.", // desc
 			null, // usage
 			"pxn.cmd.jump", // perm
-			new String[] { // labels
-				"ji",
-				"jumpinto",    "jump-into",
-				"jumpthrough", "jump-through"
-			}
+			// labels
+			"ji",
+			"jumpinto",
+			"jump-into",
+			"jumpthrough",
+			"jump-through"
 		);
 	}
 

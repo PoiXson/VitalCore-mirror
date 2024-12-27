@@ -20,12 +20,15 @@ public class Command_Home_Del extends pxnCommandRoot {
 			"Remove a saved home.", // desc
 			null, // usage
 			"pxn.cmd.home", // perm
-			new String[] { // labels
-				"delhome",    "del-home",
-				"deletehome", "delete-home",
-				"rmhome",     "rm-home",
-				"removehome", "remove-home"
-			}
+			// labels
+			"delhome",
+			"del-home",
+			"deletehome",
+			"delete-home",
+			"rmhome",
+			"rm-home",
+			"removehome",
+			"remove-home"
 		);
 	}
 

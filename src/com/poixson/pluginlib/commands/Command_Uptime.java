@@ -26,9 +26,8 @@ public class Command_Uptime extends pxnCommandRoot {
 			"Show the total time the server has been running.", // desc
 			null, // usage
 			"pxn.cmd.uptime", // perm
-			new String[] { // labels
-				"uptime"
-			}
+			// labels
+			"uptime"
 		);
 		this.plugin = plugin;
 	}

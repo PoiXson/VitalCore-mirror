@@ -20,9 +20,9 @@ public class Command_PowerTool extends pxnCommandRoot {
 			null, // desc
 			null, // usage
 			"pxn.cmd.powertool", // perm
-			new String[] { // labels
-				"powertool", "power-tool"
-			}
+			// labels
+			"powertool",
+			"power-tool"
 		);
 	}
 

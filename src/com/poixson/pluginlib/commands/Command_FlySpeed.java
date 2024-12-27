@@ -20,9 +20,9 @@ public class Command_FlySpeed extends pxnCommandRoot {
 			null, // desc
 			null, // usage
 			"pxn.cmd.speed.fly", // perm
-			new String[] { // labels
-				"flyspeed", "fly-speed"
-			}
+			// labels
+			"flyspeed",
+			"fly-speed"
 		);
 	}
 

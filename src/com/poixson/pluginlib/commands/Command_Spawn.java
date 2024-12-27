@@ -29,10 +29,9 @@ public class Command_Spawn extends pxnCommandRoot {
 			"Teleport to the world spawn location.", // desc
 			null, // usage
 			"pxn.cmd.spawn", // perm
-			new String[] { // labels
-				"spawn",
-				"spawnpoint"
-			}
+			// labels
+			"spawn",
+			"spawnpoint"
 		);
 	}
 

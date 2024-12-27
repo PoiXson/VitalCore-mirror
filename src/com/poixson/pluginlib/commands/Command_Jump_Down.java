@@ -20,10 +20,10 @@ public class Command_Jump_Down extends pxnCommandRoot {
 			"Teleport into the nearest space below the location you are looking at.", // desc
 			null, // usage
 			"pxn.cmd.jump", // perm
-			new String[] { // labels
-				"jd",
-				"jumpdown", "jump-down"
-			}
+			// labels
+			"jd",
+			"jumpdown",
+			"jump-down"
 		);
 	}
 

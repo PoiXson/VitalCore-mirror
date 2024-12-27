@@ -28,10 +28,11 @@ public class Command_GMS extends pxnCommandRoot {
 			"Change game mode to Survival.", // desc
 			null, // usage
 			"pxn.cmd.gm.s", // perm
-			new String[] { // labels
-				"gms", "gm-s",
-				"gmsurvival", "gm-survival"
-			}
+			// labels
+			"gms",
+			"gm-s",
+			"gmsurvival",
+			"gm-survival"
 		);
 	}
 

@@ -20,10 +20,9 @@ public class Command_Broadcast extends pxnCommandRoot {
 			null, // desc
 			null, // usage
 			"pxn.cmd.broadcast", // perm
-			new String[] { // labels
-				"broadcast",
-				"announce"
-			}
+			// labels
+			"broadcast",
+			"announce"
 		);
 	}
 

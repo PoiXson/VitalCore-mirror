@@ -30,9 +30,8 @@ public class Command_World extends pxnCommandRoot {
 			"Teleport to a world.", // desc
 			null, // usage
 			"pxn.cmd.world", // perm
-			new String[] { // labels
-				"world"
-			}
+			// labels
+			"world"
 		);
 	}
 

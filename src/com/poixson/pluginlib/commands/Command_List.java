@@ -20,10 +20,9 @@ public class Command_List extends pxnCommandRoot {
 			"List the players currently online.", // desc
 			null, // usage
 			"pxn.cmd.list", // perm
-			new String[] { // labels
-				"list",
-				"online"
-			}
+			// labels
+			"list",
+			"online"
 		);
 	}
 

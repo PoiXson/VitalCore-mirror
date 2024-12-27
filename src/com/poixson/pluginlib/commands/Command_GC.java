@@ -28,9 +28,8 @@ public class Command_GC extends pxnCommandRoot {
 			"System.gc() and unload unused chunks.", // desc
 			null, // usage
 			"pxn.cmd.gc", // perm
-			new String[] { // labels
-				"gc"
-			}
+			// labels
+			"gc"
 		);
 	}
 

@@ -28,10 +28,13 @@ public class Command_GMA extends pxnCommandRoot {
 			"Change game mode to Adventure.", // desc
 			null, // usage
 			"pxn.cmd.gm.a", // perm
-			new String[] { // labels
-				"gma",  "gmadv",  "gmadventure",
-				"gm-a", "gm-adv", "gm-adventure"
-			}
+			// labels
+			"gma",
+			"gmadv",
+			"gmadventure",
+			"gm-a",
+			"gm-adv",
+			"gm-adventure"
 		);
 	}
 

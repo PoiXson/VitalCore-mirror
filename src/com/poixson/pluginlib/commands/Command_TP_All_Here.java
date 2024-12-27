@@ -20,11 +20,12 @@ public class Command_TP_All_Here extends pxnCommandRoot {
 			"Teleport all other players to your current location.", // desc
 			null, // usage
 			"pxn.cmd.tp.allhere", // perm
-			new String[] { // labels
-				"tpah",
-				"tpall",  "tpallhere",
-				"tp-all", "tp-all-here"
-			}
+			// labels
+			"tpah",
+			"tpall",
+			"tpallhere",
+			"tp-all",
+			"tp-all-here"
 		);
 	}
 

@@ -28,9 +28,8 @@ public class Command_Enderchest extends pxnCommandRoot {
 			"Open the Enderchest.", // desc
 			null, // usage
 			"pxn.cmd.enderchest", // perm
-			new String[] { // labels
-				"enderchest"
-			}
+			// labels
+			"enderchest"
 		);
 	}
 

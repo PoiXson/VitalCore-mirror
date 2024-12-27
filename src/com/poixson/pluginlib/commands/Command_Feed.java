@@ -28,9 +28,8 @@ public class Command_Feed extends pxnCommandRoot {
 			"Restore full hunger.", // desc
 			null, // usage
 			"pxn.cmd.feed", // perm
-			new String[] { // labels
-				"feed"
-			}
+			// labels
+			"feed"
 		);
 	}
 

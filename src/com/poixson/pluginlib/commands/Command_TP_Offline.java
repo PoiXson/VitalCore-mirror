@@ -20,9 +20,9 @@ public class Command_TP_Offline extends pxnCommandRoot {
 			"Teleport to the last known location of a player.", // desc
 			null, // usage
 			"pxn.cmd.tp.offline", // perm
-			new String[] { // labels
-				"tpoffline", "tp-offline"
-			}
+			// labels
+			"tpoffline",
+			"tp-offline"
 		);
 	}
 

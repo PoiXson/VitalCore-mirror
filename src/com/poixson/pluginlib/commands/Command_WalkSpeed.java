@@ -20,9 +20,9 @@ public class Command_WalkSpeed extends pxnCommandRoot {
 			null, // desc
 			null, // usage
 			"pxn.cmd.speed.walk", // perm
-			new String[] { // labels
-				"walkspeed", "walk-speed"
-			}
+			// labels
+			"walkspeed",
+			"walk-speed"
 		);
 	}
 

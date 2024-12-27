@@ -20,11 +20,10 @@ public class Command_Speed extends pxnCommandRoot {
 			null, // desc
 			null, // usage
 			"pxn.cmd.speed", // perm
-			new String[] { // labels
-				"speed",
-				"walkspeed",
-				"flyspeed"
-			}
+			// labels
+			"speed",
+			"walkspeed",
+			"flyspeed"
 		);
 	}
 

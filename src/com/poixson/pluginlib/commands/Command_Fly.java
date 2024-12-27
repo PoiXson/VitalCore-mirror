@@ -28,9 +28,8 @@ public class Command_Fly extends pxnCommandRoot {
 			"Toggle allow flying.", // desc
 			null, // usage
 			"pxn.cmd.fly", // perm
-			new String[] { // labels
-				"fly"
-			}
+			// labels
+			"fly"
 		);
 	}
 

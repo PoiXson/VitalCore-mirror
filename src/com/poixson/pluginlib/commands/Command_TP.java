@@ -20,9 +20,8 @@ public class Command_TP extends pxnCommandRoot {
 			"Teleport to a location or world.", // desc
 			null, // usage
 			"pxn.cmd.tp", // perm
-			new String[] { // labels
-				"tp"
-			}
+			// labels
+			"tp"
 //TODO
 //			"tpconfirm",
 //			"tpcancel",

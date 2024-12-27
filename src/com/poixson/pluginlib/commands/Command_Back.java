@@ -20,9 +20,8 @@ public class Command_Back extends pxnCommandRoot {
 			"Teleport back to your previous location.", // desc
 			null, // usage
 			"pxn.cmd.back", // perm
-			new String[] { // labels
-				"back"
-			}
+			// labels
+			"back"
 		);
 	}
 

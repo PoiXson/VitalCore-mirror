@@ -20,9 +20,8 @@ public class Command_MOTD extends pxnCommandRoot {
 			null, // desc
 			null, // usage
 			"pxn.cmd.motd", // perm
-			new String[] { // labels
-				"motd"
-			}
+			// labels
+			"motd"
 		);
 	}
 
