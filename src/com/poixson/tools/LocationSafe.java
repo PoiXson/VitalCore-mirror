@@ -1,5 +1,6 @@
 package com.poixson.tools;
 
+import static com.poixson.utils.BukkitUtils.EqualsLocation;
 import static com.poixson.utils.MathUtils.CastDouble;
 import static com.poixson.utils.MathUtils.DistanceVectorial;
 import static com.poixson.utils.Utils.IsEmpty;
@@ -19,7 +20,6 @@ import org.bukkit.util.Vector;
 import com.poixson.tools.abstractions.AtomicDouble;
 import com.poixson.tools.dao.Dabc;
 import com.poixson.tools.dao.Iabc;
-import com.poixson.utils.BukkitUtils;
 
 
 public class LocationSafe extends Location {
@@ -302,7 +302,7 @@ public class LocationSafe extends Location {
 	public boolean equals(final Object obj) {
 		if (obj instanceof Location) {
 			final Location loc = (Location) obj;
-			return BukkitUtils.EqualsLocation(this, loc);
+			return EqualsLocation(this, loc);
 		}
 		return false;
 	}

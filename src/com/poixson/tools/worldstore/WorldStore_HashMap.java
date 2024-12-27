@@ -1,6 +1,7 @@
 package com.poixson.tools.worldstore;
 
 import static com.poixson.utils.BukkitUtils.GetServerPath;
+import static com.poixson.utils.FileUtils.ReadInputStream;
 import static com.poixson.utils.Utils.SafeClose;
 
 import java.io.BufferedWriter;
@@ -18,7 +19,6 @@ import com.poixson.tools.CacheMap;
 import com.poixson.tools.xJavaPlugin;
 import com.poixson.tools.xTime;
 import com.poixson.tools.abstractions.xStartStop;
-import com.poixson.utils.FileUtils;
 
 
 public abstract class WorldStore_HashMap<K, V> extends CacheMap<K, V> implements xStartStop {
@@ -136,7 +136,7 @@ public abstract class WorldStore_HashMap<K, V> extends CacheMap<K, V> implements
 			InputStream in = null;
 			try {
 				in = Files.newInputStream(file.toPath());
-				final String json = FileUtils.ReadInputStream(in);
+				final String json = ReadInputStream(in);
 				if (json == null) throw new IOException("Failed to load json file: "+file.toString());
 				final V value = this.load_decode(json);
 				if (value != null)

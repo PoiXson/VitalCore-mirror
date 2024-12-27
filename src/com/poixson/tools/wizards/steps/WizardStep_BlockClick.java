@@ -1,5 +1,7 @@
 package com.poixson.tools.wizards.steps;
 
+import static com.poixson.utils.BukkitUtils.EqualsPlayer;
+
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.bukkit.Bukkit;
@@ -17,7 +19,6 @@ import org.bukkit.inventory.ItemStack;
 
 import com.poixson.tools.xJavaPlugin;
 import com.poixson.tools.wizards.Wizard;
-import com.poixson.utils.BukkitUtils;
 
 
 public abstract class WizardStep_BlockClick<T extends xJavaPlugin>
@@ -63,7 +64,7 @@ extends WizardStep<T> implements Listener {
 		if (event.getHand() != EquipmentSlot.HAND) return;
 		if (event.getAction() != Action.LEFT_CLICK_BLOCK
 		&&  event.getAction() != Action.RIGHT_CLICK_BLOCK) return;
-		if (!BukkitUtils.EqualsPlayer(player, event.getPlayer())) return;
+		if (!EqualsPlayer(player, event.getPlayer())) return;
 		// hand is empty
 		{
 			final ItemStack stack =

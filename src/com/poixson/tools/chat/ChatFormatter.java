@@ -1,5 +1,7 @@
 package com.poixson.tools.chat;
 
+import static com.poixson.utils.Utils.IsEmpty;
+
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -7,8 +9,6 @@ import java.util.Map.Entry;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
-
-import com.poixson.utils.Utils;
 
 
 public class ChatFormatter {
@@ -45,7 +45,7 @@ public class ChatFormatter {
 	}
 
 	public String format(final Player player, final String msg, final String flag) {
-		if (Utils.IsEmpty(flag)) {
+		if (IsEmpty(flag)) {
 			if (flag == "default")
 				throw new RuntimeException("default chat format not found");
 			return this.format(player, msg, "default");

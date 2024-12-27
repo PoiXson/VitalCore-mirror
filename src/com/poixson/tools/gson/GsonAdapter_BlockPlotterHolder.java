@@ -1,5 +1,7 @@
 package com.poixson.tools.gson;
 
+import static com.poixson.utils.LocationUtils.DEFAULT_ROTATION;
+import static com.poixson.utils.MathUtils.ToInteger;
 import static com.poixson.utils.Utils.IsEmpty;
 
 import java.io.IOException;
@@ -18,7 +20,6 @@ import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
 import com.poixson.tools.plotter.BlockPlotter;
 import com.poixson.tools.plotter.BlockPlotterHolder;
-import com.poixson.utils.MathUtils;
 
 
 public class GsonAdapter_BlockPlotterHolder extends TypeAdapter<BlockPlotterHolder> {
@@ -82,9 +83,9 @@ public class GsonAdapter_BlockPlotterHolder extends TypeAdapter<BlockPlotterHold
 			case "author": author = in.nextString(); break SWITCH_KEY;
 			case "axis":                               axis = in.nextString(); break SWITCH_KEY;
 			case "rot": case "rotate": case "rotation": rot = in.nextString(); break SWITCH_KEY;
-			case "x": x = MathUtils.ToInteger(in.nextString(), Integer.MIN_VALUE); break SWITCH_KEY;
-			case "y": y = MathUtils.ToInteger(in.nextString(), Integer.MIN_VALUE); break SWITCH_KEY;
-			case "z": z = MathUtils.ToInteger(in.nextString(), Integer.MIN_VALUE); break SWITCH_KEY;
+			case "x": x = ToInteger(in.nextString(), Integer.MIN_VALUE); break SWITCH_KEY;
+			case "y": y = ToInteger(in.nextString(), Integer.MIN_VALUE); break SWITCH_KEY;
+			case "z": z = ToInteger(in.nextString(), Integer.MIN_VALUE); break SWITCH_KEY;
 			default: throw new RuntimeException("Invalid json: "+in.nextName());
 			} // end SWITCH_KEY
 		} // end LOOP_KEYS
@@ -121,7 +122,7 @@ public class GsonAdapter_BlockPlotterHolder extends TypeAdapter<BlockPlotterHold
 			if (!IsEmpty(dao.plot.axis) && dao.plot.axis != BlockPlotter.DEFAULT_AXIS_3D) {
 				out.name("axis"); out.value(dao.plot.axis); }
 			// rotation
-			if (dao.plot.rotation != null && dao.plot.rotation != BlockPlotter.DEFAULT_ROTATION) {
+			if (dao.plot.rotation != null && dao.plot.rotation != DEFAULT_ROTATION) {
 				out.name("rotation"); out.value(dao.plot.rotation.toString()); }
 			// x/y/z
 			if (dao.plot.x != 0 || dao.plot.y != 0 || dao.plot.z != 0) {

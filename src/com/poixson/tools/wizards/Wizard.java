@@ -1,5 +1,6 @@
 package com.poixson.tools.wizards;
 
+import static com.poixson.utils.BukkitUtils.EqualsPlayer;
 import static com.poixson.utils.BukkitUtils.SafeCancel;
 
 import java.util.LinkedList;
@@ -10,7 +11,6 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import com.poixson.tools.xJavaPlugin;
 import com.poixson.tools.wizards.steps.WizardStep;
-import com.poixson.utils.BukkitUtils;
 
 
 public class Wizard<T extends xJavaPlugin> {
@@ -125,7 +125,7 @@ public class Wizard<T extends xJavaPlugin> {
 		return this.player;
 	}
 	public boolean isPlayer(final Player player) {
-		return BukkitUtils.EqualsPlayer(player, this.player);
+		return EqualsPlayer(player, this.player);
 	}
 
 

@@ -1,5 +1,6 @@
 package com.poixson.tools.wizards.steps;
 
+import static com.poixson.utils.SanUtils.FileName;
 import static com.poixson.utils.Utils.IsEmpty;
 
 import java.io.File;
@@ -7,7 +8,6 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import com.poixson.tools.xJavaPlugin;
 import com.poixson.tools.wizards.Wizard;
-import com.poixson.utils.SanUtils;
 
 
 public abstract class WizardStep_AskFile<T extends xJavaPlugin>
@@ -45,7 +45,7 @@ extends WizardStep_Ask<T> {
 			final String pathStr =
 				(new StringBuilder())
 				.append(parts[0])
-				.append(SanUtils.FileName(answer))
+				.append(FileName(answer))
 				.append(parts[1])
 				.toString();
 			final File file = new File(this.path, pathStr);

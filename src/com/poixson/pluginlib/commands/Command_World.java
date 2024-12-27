@@ -1,6 +1,7 @@
 package com.poixson.pluginlib.commands;
 
 import static com.poixson.pluginlib.pxnPluginLib.CHAT_PREFIX;
+import static com.poixson.utils.ArrayUtils.MergeLists;
 
 import java.util.List;
 
@@ -12,7 +13,6 @@ import org.bukkit.entity.Player;
 
 import com.poixson.pluginlib.pxnPluginLib;
 import com.poixson.tools.commands.pxnCommandRoot;
-import com.poixson.utils.ArrayUtils;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -118,7 +118,7 @@ public class Command_World extends pxnCommandRoot {
 		if (!sender.hasPermission("pxn.cmd.world"))
 			return null;
 		if (sender.hasPermission("pxn.cmd.world.other")) {
-			return ArrayUtils.MergeLists(
+			return MergeLists(
 				this.onTabComplete_Worlds(args),
 				this.onTabComplete_Players(args)
 			);

@@ -6,6 +6,7 @@ import static com.poixson.utils.MathUtils.DistanceHybrid3D;
 import static com.poixson.utils.MathUtils.DistanceRadial;
 import static com.poixson.utils.MathUtils.IsMinMax;
 import static com.poixson.utils.MathUtils.MinMax;
+import static com.poixson.utils.MathUtils.Remap;
 import static com.poixson.utils.MathUtils.Rotate3D;
 
 import org.bukkit.Material;
@@ -19,7 +20,6 @@ import com.poixson.tools.abstractions.Tuple;
 import com.poixson.tools.dao.Dabc;
 import com.poixson.tools.plotter.BlockPlotter;
 import com.poixson.tools.plotter.placer.BlockPlacer;
-import com.poixson.utils.MathUtils;
 
 
 public class TreeBuilder {
@@ -204,7 +204,7 @@ public class TreeBuilder {
 		final double branch_highest = height - this.branches_from_top;
 		final double branch_lowest  = height * (1.0 - this.branch_zone_percent);
 		plot.y += (int)Math.round(branch_highest);
-		double branch_len = MathUtils.Remap(
+		double branch_len = Remap(
 			this.height_min, this.height_max,
 			this.branch_length_min, this.branch_length_max,
 			height, this.branch_length_weight

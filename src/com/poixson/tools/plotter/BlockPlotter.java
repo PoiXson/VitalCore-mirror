@@ -2,8 +2,11 @@ package com.poixson.tools.plotter;
 
 import static com.poixson.utils.BlockUtils.EqualsBlock;
 import static com.poixson.utils.BlockUtils.EqualsMaterialBlock;
+import static com.poixson.utils.FileUtils.OpenLocalOrResource;
+import static com.poixson.utils.FileUtils.ReadInputStream;
 import static com.poixson.utils.LocationUtils.AxToIxyz;
 import static com.poixson.utils.LocationUtils.AxisToIxyz;
+import static com.poixson.utils.LocationUtils.DEFAULT_ROTATION;
 import static com.poixson.utils.LocationUtils.Rotate;
 import static com.poixson.utils.Utils.IsEmpty;
 import static com.poixson.utils.Utils.SafeClose;
@@ -30,15 +33,12 @@ import org.bukkit.generator.LimitedRegion;
 import com.poixson.tools.dao.Iabc;
 import com.poixson.tools.dao.Iabcd;
 import com.poixson.tools.plotter.placer.BlockPlacer;
-import com.poixson.utils.FileUtils;
-import com.poixson.utils.LocationUtils;
 
 
 public class BlockPlotter implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	public static final String DEFAULT_AXIS_3D = "dse";
-	public static final BlockFace DEFAULT_ROTATION = LocationUtils.DEFAULT_ROTATION;
 
 	public int x = 0;
 	public int y = 0;
@@ -81,7 +81,7 @@ public class BlockPlotter implements Serializable {
 	public static BlockPlotterHolder Load(final Class<?> clss,
 			final String file_loc, final String file_res)
 			throws IOException {
-		final InputStream in = FileUtils.OpenLocalOrResource(clss, file_loc, file_res);
+		final InputStream in = OpenLocalOrResource(clss, file_loc, file_res);
 		return (in==null ? null : Load(in));
 	}
 	public static BlockPlotterHolder Load(final File file) throws IOException {
@@ -94,7 +94,7 @@ public class BlockPlotter implements Serializable {
 		}
 	}
 	public static BlockPlotterHolder Load(final InputStream in) throws IOException {
-		final String json = FileUtils.ReadInputStream(in);
+		final String json = ReadInputStream(in);
 		return Load(json);
 	}
 	public static BlockPlotterHolder Load(final String json) {

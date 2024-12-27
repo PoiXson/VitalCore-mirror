@@ -1,6 +1,7 @@
 package com.poixson.tools.chat;
 
 import static com.poixson.utils.BukkitUtils.EqualsUUID;
+import static com.poixson.utils.BukkitUtils.SafeCancel;
 import static com.poixson.utils.LocationUtils.DistanceVectorial;
 
 import java.util.LinkedList;
@@ -26,7 +27,6 @@ import com.poixson.tools.xRand;
 import com.poixson.tools.abstractions.xStartStop;
 import com.poixson.tools.chat.PlayerLocalGroupEvent.LocalNearFar;
 import com.poixson.tools.events.PlayerMoveNormalEvent;
-import com.poixson.utils.BukkitUtils;
 
 
 public class PlayerLocalGroups implements xListener, xStartStop {
@@ -77,7 +77,7 @@ public class PlayerLocalGroups implements xListener, xStartStop {
 		xListener.super.unregister();
 		final BukkitRunnable run = this.run.getAndSet(null);
 		if (run != null)
-			BukkitUtils.SafeCancel(run);
+			SafeCancel(run);
 	}
 
 

@@ -1,6 +1,7 @@
 package com.poixson.tools.plotter;
 
 import static com.poixson.utils.FileUtils.MergePaths;
+import static com.poixson.utils.StringUtils.ForceEnds;
 import static com.poixson.utils.Utils.IsEmpty;
 
 import java.io.IOException;
@@ -11,7 +12,6 @@ import java.util.Map.Entry;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import com.poixson.tools.abstractions.Tuple;
-import com.poixson.utils.StringUtils;
 
 
 public class PlotterCache {
@@ -60,7 +60,7 @@ public class PlotterCache {
 		}
 		// load structure
 		try {
-			final String file = StringUtils.ForceEnds(".json", name);
+			final String file = ForceEnds(".json", name);
 			final String file_loc = MergePaths(this.path_loc, file);
 			final String file_res = MergePaths(this.path_res, file);
 			final BlockPlotterHolder holder = BlockPlotter.Load(this.clss, file_loc, file_res);

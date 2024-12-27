@@ -1,6 +1,9 @@
 package com.poixson.tools.worldstore;
 
 import static com.poixson.utils.GsonProvider.GSON;
+import static com.poixson.utils.MathUtils.FloorNormal;
+import static com.poixson.utils.MathUtils.FormatDecimal;
+import static com.poixson.utils.MathUtils.MinMax;
 import static com.poixson.utils.MathUtils.ToDouble;
 import static com.poixson.utils.Utils.SafeClose;
 
@@ -14,7 +17,6 @@ import com.google.common.util.concurrent.AtomicDoubleArray;
 import com.poixson.tools.xJavaPlugin;
 import com.poixson.tools.xRand;
 import com.poixson.tools.dao.Iab;
-import com.poixson.utils.MathUtils;
 
 
 public class RandomMaze extends WorldStore_HashMap<Iab, AtomicDoubleArray> {
@@ -34,7 +36,7 @@ public class RandomMaze extends WorldStore_HashMap<Iab, AtomicDoubleArray> {
 			final String world, final String type,
 			final double chance, final int group_size) {
 		super(plugin, world, type, group_size);
-		this.path_chance = MathUtils.MinMax(chance, 0.0, 99.0);
+		this.path_chance = MinMax(chance, 0.0, 99.0);
 	}
 
 
@@ -50,11 +52,11 @@ public class RandomMaze extends WorldStore_HashMap<Iab, AtomicDoubleArray> {
 			for (int ix=0; ix<this.group_size; ix++) {
 				final int index = (iz * this.group_size) + ix;
 				final double rnd = this.random.nextDouble(0.0, this.path_chance);
-				final double val = MathUtils.FloorNormal(rnd, 0.01);
+				final double val = FloorNormal(rnd, 0.01);
 				result.set(index, val);
 				if (ix > 0)
 					line.append(' ');
-				line.append(MathUtils.FormatDecimal("00.00", val));
+				line.append(FormatDecimal("00.00", val));
 			}
 			lines.addLast(line.toString());
 		}

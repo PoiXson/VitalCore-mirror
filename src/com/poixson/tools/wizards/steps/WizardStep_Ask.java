@@ -1,6 +1,7 @@
 package com.poixson.tools.wizards.steps;
 
 import static com.poixson.utils.BukkitUtils.ComponentToString;
+import static com.poixson.utils.BukkitUtils.EqualsPlayer;
 
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -11,7 +12,6 @@ import org.bukkit.event.Listener;
 
 import com.poixson.tools.xJavaPlugin;
 import com.poixson.tools.wizards.Wizard;
-import com.poixson.utils.BukkitUtils;
 
 import io.papermc.paper.event.player.AsyncChatEvent;
 
@@ -55,7 +55,7 @@ extends WizardStep<T> implements Listener {
 			this.close();
 			return;
 		}
-		if (!BukkitUtils.EqualsPlayer(this.getPlayer(), event.getPlayer()))
+		if (!EqualsPlayer(this.getPlayer(), event.getPlayer()))
 			return;
 		event.setCancelled(true);
 		this.answer.set( ComponentToString(event.message()) );
