@@ -1,7 +1,6 @@
 package com.poixson.tools;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.logging.Logger;
@@ -40,13 +39,8 @@ public abstract class xJavaPlugin extends JavaPlugin implements AppProperties {
 
 
 
-	public xJavaPlugin(final Class<? extends xJavaPlugin> clss) {
+	public xJavaPlugin() {
 		super();
-		try {
-			this.props = AppProps.LoadFromClassRef(clss);
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
 	}
 
 

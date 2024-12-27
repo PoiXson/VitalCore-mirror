@@ -66,7 +66,7 @@ public class pxnPluginLib extends xJavaPlugin {
 
 
 	public pxnPluginLib() {
-		super(pxnPluginLib.class);
+		super();
 		this.keeper = Keeper.get();
 		this.time_start = GetMS();
 	}
