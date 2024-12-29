@@ -1,6 +1,22 @@
 pxnPluginLib - Common utilities and tools for Bukkit/Spigot plugins
 
 
+2024-12-07 - 4.0.76
+===================
+* Spigot 1.21.1 - Java 21
+* renamed to pxnPluginLib
+* last commit with spigot dependencies - switching to paper api
+* many bug fixes
+* added and changed many utilities and tools and classes and functions
+* added many commands
+* new gson adapters
+* new and improved scripting
+* improvements to BlockPlotter
+* new LocationStore system
+* added support for local chat
+* new tree builder
+
+
 2023-06-14 - 4.0.31
 ===================
 * improved update checker - still planning configs for this
