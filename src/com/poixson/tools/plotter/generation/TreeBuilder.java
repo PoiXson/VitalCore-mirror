@@ -103,6 +103,14 @@ public class TreeBuilder {
 
 
 
+	public enum TreeStyle {
+
+		FAN_OAK,
+
+	}
+
+
+
 	public TreeBuilder(final String style, final int y_min, final int y_max) {
 		this(TreeStyle.valueOf(style), y_min, y_max);
 	}
