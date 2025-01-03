@@ -118,7 +118,7 @@ public class UpdateCheckManager extends BukkitRunnable implements xStartStop, xL
 
 	public static UpdateCheckerTask RegisterPlugin(final xJavaPlugin plugin) {
 		final int spigot_id = plugin.getSpigotPluginID();
-		final String version = plugin.getPluginVersion();
+		final String version = plugin.getVersion();
 		return RegisterPlugin(plugin, spigot_id, version);
 	}
 	public static UpdateCheckerTask RegisterPlugin(final xJavaPlugin plugin, final int spigot_id, final String version) {

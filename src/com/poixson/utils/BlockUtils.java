@@ -52,7 +52,7 @@ public final class BlockUtils {
 
 
 	public static BlockData StringToBlockDataDef(final String mat, final String def, final String...tags) {
-		return (IsEmpty(mat) ? StringToBlockData(def, tags) : StringToBlockData(mat, tags));
+		return StringToBlockData((IsEmpty(mat) ? def : mat), tags);
 	}
 	public static BlockData StringToBlockData(final String mat, final String...tags) {
 		if (IsEmpty(mat)) return null;

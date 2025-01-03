@@ -69,6 +69,7 @@ public abstract class WorldStore_HashMap<K, V> extends CacheMap<K, V> implements
 
 
 
+	@Override
 	public boolean init() {
 		if (super.init()) {
 			if (!this.path.isDirectory()) {
