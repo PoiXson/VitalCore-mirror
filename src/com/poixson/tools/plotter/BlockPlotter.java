@@ -640,7 +640,10 @@ public class BlockPlotter implements Serializable {
 		return list.toArray(new StringBuilder[0]);
 	}
 	public StringBuilder getMatrix1D(final int size) {
-		return (new StringBuilder()).repeat(' ', size);
+		final StringBuilder line = new StringBuilder();
+		for (int i=0; i<size; i++)
+			line.append(' ');
+		return line;
 	}
 
 
