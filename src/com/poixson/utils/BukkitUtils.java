@@ -205,10 +205,9 @@ public final class BukkitUtils {
 		System.gc();
 		if (count > 0)
 			Log().info(String.format("Unloaded %d chunks", Integer.valueOf(count)));
-		final long freed = mem - Runtime.getRuntime().freeMemory();
-		// >10MB
-		final int freed_mb = (int) (freed / 1024L / 1024L);
-		if (freed_mb >= 10)
+		final long freed = Runtime.getRuntime().freeMemory() - mem;
+		final int freed_mb = (int) Math.floorDiv(freed, 1024L*1024L);
+		if (freed_mb > 0)
 			Log().info(String.format("Freed memory: %dMB", Integer.valueOf(freed_mb)));
 		return freed_mb;
 	}
