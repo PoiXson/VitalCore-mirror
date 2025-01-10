@@ -19,6 +19,15 @@ public final class BlockUtils {
 
 
 
+	public static boolean IsEmptyOrAir(final Material type) {
+		return (type==null ? true : type.isEmpty());
+	}
+	public static boolean IsEmptyOrAir(final ItemStack stack) {
+		return (stack==null ? true : stack.isEmpty());
+	}
+
+
+
 	public static boolean EqualsBlock(final BlockData expect, final BlockData actual) {
 		if (expect == null || actual == null)
 			return false;
