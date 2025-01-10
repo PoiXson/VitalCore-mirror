@@ -1,4 +1,4 @@
-pxnPluginLib - Common utilities and tools for Bukkit/Spigot plugins
+VitalCore - Common utilities and tools for PaperMC plugins
 
 
 2024-12-07 - 4.0.76

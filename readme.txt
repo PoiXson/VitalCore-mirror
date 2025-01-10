@@ -1,10 +1,10 @@
-pxnPluginLib - Common utilities and tools for Bukkit/Spigot plugins
+VitalCore - Common utilities and tools for PaperMC plugins
 
 
 This plugin is a library required by other PoiXson plugins.
 
 * TPS monitoring - a more accurate method, maybe too accurate
-* Update checker - checks spigotmc.org for plugin updates
+* Update checker - checks hangar.papermc.io for plugin updates
 * BlockPlotter   - api for laying out a structure in text then placing the blocks
 * TreePopulator  - api for creating custom trees
 
@@ -15,4 +15,4 @@ pxnpluginlib.updates - receive notices of plugin updates
 
 Discord: https://discord.gg/jHgP2a3kDx
 
-Dev Builds: https://dl.poixson.com/mcplugins/pxnPluginLib/
+Dev Builds: https://dl.poixson.com/mcplugins/VitalCore/

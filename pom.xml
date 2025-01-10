@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated: Sun Dec 29 08:56:21 AM EST 2024 -->
+<!-- Generated: Thu Jan  9 11:53:02 PM EST 2025 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0"
 		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<name>pxnPluginLib</name>
-	<artifactId>pxn-plugin-lib</artifactId>
+	<name>VitalCore</name>
+	<artifactId>vitalcore</artifactId>
 	<groupId>com.poixson</groupId>
 	<version>4.2.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<url>https://poixson.com</url>
-	<description>Common utilities and tools for Bukkit/Spigot plugins</description>
+	<description>Common utilities and tools for PaperMC plugins</description>
 	<organization>
 		<name>PoiXson</name>
 		<url>https://poixson.com</url>
@@ -49,17 +49,17 @@
 		<bstats-bukkit-version>[3,)</bstats-bukkit-version>
 		<rhino-version>[1,)</rhino-version>
 		<VaultAPI-version>[1,)</VaultAPI-version>
-		<worldedit-core-version>[7,)</worldedit-core-version>
-		<worldedit-bukkit-version>[7,)</worldedit-bukkit-version>
+		<worldedit-core-version>7.3.9</worldedit-core-version>
+		<worldedit-bukkit-version>7.3.9</worldedit-bukkit-version>
 	</properties>
 	<scm>
-		<url>https://git.poixson.com/summary/mc!pxnPluginLib.git</url>
-		<connection>scm:git:https://git.poixson.com/r/mc/pxnPluginLib.git</connection>
-		<developerConnection>scm:ssh://git.poixson.com/mc/pxnPluginLib.git</developerConnection>
+		<url>https://git.poixson.com/summary/mc!VitalCore.git</url>
+		<connection>scm:git:https://git.poixson.com/r/mc/VitalCore.git</connection>
+		<developerConnection>scm:ssh://git.poixson.com/mc/VitalCore.git</developerConnection>
 	</scm>
 	<issueManagement>
 		<system>pxngit</system>
-		<url>https://github.com/PoiXson/pxnPluginLib-mirror/issues</url>
+		<url>https://github.com/PoiXson/VitalCore-mirror/issues</url>
 	</issueManagement>
 	<ciManagement>
 		<system>pxnJenkins</system>
