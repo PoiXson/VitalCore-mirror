@@ -17,17 +17,17 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import com.poixson.pluginlib.pxnPluginLib;
 import com.poixson.tools.xJavaPlugin;
 import com.poixson.tools.xListener;
 import com.poixson.tools.xTime;
 import com.poixson.tools.abstractions.xStartStop;
 import com.poixson.utils.ThreadUtils;
+import com.poixson.vitalcore.VitalCorePlugin;
 
 
 public class UpdateCheckManager extends BukkitRunnable implements xStartStop, xListener {
 
-	protected final pxnPluginLib plugin;
+	protected final VitalCorePlugin plugin;
 
 	protected final long delay  = (new xTime( "5s")).ticks(50L);
 	protected final long loop   = (new xTime( "5m")).ticks(50L);
@@ -39,7 +39,7 @@ public class UpdateCheckManager extends BukkitRunnable implements xStartStop, xL
 
 
 
-	public UpdateCheckManager(final pxnPluginLib plugin) {
+	public UpdateCheckManager(final VitalCorePlugin plugin) {
 		this.plugin = plugin;
 	}
 

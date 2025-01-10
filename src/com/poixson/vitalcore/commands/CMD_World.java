@@ -1,7 +1,7 @@
-package com.poixson.pluginlib.commands;
+package com.poixson.vitalcore.commands;
 
-import static com.poixson.pluginlib.pxnPluginLib.CHAT_PREFIX;
 import static com.poixson.utils.ArrayUtils.MergeLists;
+import static com.poixson.vitalcore.VitalCorePlugin.CHAT_PREFIX;
 
 import java.util.List;
 
@@ -11,19 +11,19 @@ import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import com.poixson.pluginlib.pxnPluginLib;
 import com.poixson.tools.commands.pxnCommandRoot;
+import com.poixson.vitalcore.VitalCorePlugin;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 
 
 // /world
-public class Command_World extends pxnCommandRoot {
+public class CMD_World extends pxnCommandRoot {
 
 
 
-	public Command_World(final pxnPluginLib plugin) {
+	public CMD_World(final VitalCorePlugin plugin) {
 		super(
 			plugin,
 			"pxn", // namespace

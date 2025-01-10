@@ -1,9 +1,9 @@
 package com.poixson.tools.screen;
 
-import static com.poixson.pluginlib.pxnPluginLib.GetFreedMapStore;
 import static com.poixson.tools.screen.ScreenComposite.MAP_SIZE;
 import static com.poixson.utils.BukkitUtils.GetMapView;
 import static com.poixson.utils.BukkitUtils.SetMapID;
+import static com.poixson.vitalcore.VitalCorePlugin.GetFreedMapStore;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;

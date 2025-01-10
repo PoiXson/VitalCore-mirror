@@ -1,7 +1,7 @@
-package com.poixson.pluginlib.commands;
+package com.poixson.vitalcore.commands;
 
-import static com.poixson.pluginlib.pxnPluginLib.CHAT_PREFIX;
 import static com.poixson.utils.BukkitUtils.HealPlayer;
+import static com.poixson.vitalcore.VitalCorePlugin.CHAT_PREFIX;
 
 import java.util.List;
 
@@ -9,19 +9,19 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import com.poixson.pluginlib.pxnPluginLib;
 import com.poixson.tools.commands.pxnCommandRoot;
+import com.poixson.vitalcore.VitalCorePlugin;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 
 
 // /heal
-public class Command_Heal extends pxnCommandRoot {
+public class CMD_Heal extends pxnCommandRoot {
 
 
 
-	public Command_Heal(final pxnPluginLib plugin) {
+	public CMD_Heal(final VitalCorePlugin plugin) {
 		super(
 			plugin,
 			"pxn", // namespace

@@ -23,15 +23,15 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.map.MapView;
 
 import com.google.gson.reflect.TypeToken;
-import com.poixson.pluginlib.pxnPluginLib;
 import com.poixson.tools.events.SaveEvent;
+import com.poixson.vitalcore.VitalCorePlugin;
 
 
 public class FreedMapStore implements xListener {
 
 	public static final int MAX_MAP_ID = Integer.MAX_VALUE;
 
-	protected final pxnPluginLib plugin;
+	protected final VitalCorePlugin plugin;
 
 	protected final ConcurrentSkipListSet<Integer> freed = new ConcurrentSkipListSet<Integer>();
 
@@ -41,7 +41,7 @@ public class FreedMapStore implements xListener {
 
 
 
-	public FreedMapStore(final pxnPluginLib plugin, final String path) {
+	public FreedMapStore(final VitalCorePlugin plugin, final String path) {
 		this.plugin = plugin;
 		this.file = new File(path, "freed-maps.json");
 	}

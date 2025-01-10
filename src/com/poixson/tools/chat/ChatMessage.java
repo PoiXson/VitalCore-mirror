@@ -12,14 +12,14 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import com.poixson.pluginlib.pxnPluginLib;
+import com.poixson.vitalcore.VitalCorePlugin;
 
 import io.papermc.paper.event.player.AsyncChatEvent;
 
 
 public class ChatMessage extends BukkitRunnable {
 
-	protected final pxnPluginLib     plugin;
+	protected final VitalCorePlugin plugin;
 	protected final ChatManager manager;
 
 	protected final Player player_from;

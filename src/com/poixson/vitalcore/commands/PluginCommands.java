@@ -1,115 +1,115 @@
-package com.poixson.pluginlib.commands;
+package com.poixson.vitalcore.commands;
 
 import java.io.Closeable;
 
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 
-import com.poixson.pluginlib.pxnPluginLib;
+import com.poixson.vitalcore.VitalCorePlugin;
 
 
-public class Commands implements Closeable {
+public class PluginCommands implements Closeable {
 
-//	protected final Command_Help            cmd_help;            // /help
-//	protected final Command_List            cmd_list;            // /list
-//	protected final Command_Home            cmd_home;            // /home
-//	protected final Command_Home_List       cmd_home_list;       // /list-homes
-//	protected final Command_Home_Set        cmd_home_set;        // /set-home
-//	protected final Command_Home_Del        cmd_home_del;        // /del-home
-	protected final Command_World           cmd_world;           // /world
-	protected final Command_Spawn           cmd_spawn;           // /spawn
-	protected final Command_SetSpawn        cmd_setspawn;        // /setspawn
-//	protected final Command_Warp            cmd_warp;            // /warp
-//	protected final Command_SetWarp         cmd_setwarp;         // /setwarp
-//	protected final Command_TP              cmd_tp;              // /tp
-//	protected final Command_TP_Here         cmd_tp_here;         // /tp-here
-//	protected final Command_TP_Ask          cmd_tp_ask;          // /tp-ask
-//	protected final Command_TP_Ask_Here     cmd_tp_ask_here;     // /tp-ask-here
-//	protected final Command_TP_All_Here     cmd_tp_all_here;     // /tp-all-here
-//	protected final Command_TP_Ask_All_Here cmd_tp_ask_all_here; // /tp-ask-all-here
-//	protected final Command_TP_Offline      cmd_tp_offline;      // /tp-offline
-//	protected final Command_Back            cmd_back;            // /back
-//	protected final Command_Top             cmd_top;             // /top
-//	protected final Command_Bottom          cmd_bottom;          // /bottom
-//	protected final Command_Jump            cmd_jump;            // /jump
-//	protected final Command_Jump_Into       cmd_jump_into;       // /jump-into
-//	protected final Command_Jump_Down       cmd_jump_down;       // /jump-down
-	protected final Command_Fly             cmd_fly;             // /fly
-//	protected final Command_MOTD            cmd_motd;            // /motd
-//	protected final Command_Broadcast       cmd_broadcast;       // /broadcast
-//	protected final Command_MSG             cmd_msg;             // /msg
-//	protected final Command_Reply           cmd_reply;           // /reply
-//	protected final Command_Me              cmd_me;              // /me
-	protected final Command_GM              cmd_gm;              // /gm
-	protected final Command_GMC             cmd_gm_c;            // /gmc
-	protected final Command_GMS             cmd_gm_s;            // /gms
-	protected final Command_GMA             cmd_gm_a;            // /gma
-	protected final Command_GMSpec          cmd_gm_sp;           // /gmsp
-	protected final Command_Feed            cmd_feed;            // /feed
-	protected final Command_Heal            cmd_heal;            // /heal
-	protected final Command_Rest            cmd_rest;            // /rest
-//	protected final Command_Speed           cmd_speed;           // /speed
-//	protected final Command_Speed_Walk      cmd_speed_walk;      // /walkspeed
-//	protected final Command_Speed_Fly       cmd_speed_fly        // /flyspeed
-	protected final Command_Workbench       cmd_workbench;       // /workbench
-	protected final Command_Enderchest      cmd_enderchest;      // /enderchest
-//	protected final Command_PowerTool       cmd_powertool;       // /powertool
-//	protected final Command_Backup          cmd_backup;          // /backup
-	protected final Command_GC              cmd_gc;              // /gc
-	protected final Command_Uptime          cmd_uptime;          // /uptime
+//	protected final CMD_Help            cmd_help;            // /help
+//	protected final CMD_List            cmd_list;            // /list
+//	protected final CMD_Home            cmd_home;            // /home
+//	protected final CMD_Home_List       cmd_home_list;       // /list-homes
+//	protected final CMD_Home_Set        cmd_home_set;        // /set-home
+//	protected final CMD_Home_Del        cmd_home_del;        // /del-home
+	protected final CMD_World           cmd_world;           // /world
+	protected final CMD_Spawn           cmd_spawn;           // /spawn
+	protected final CMD_Spawn_Set       cmd_setspawn;        // /setspawn
+//	protected final CMD_Warp            cmd_warp;            // /warp
+//	protected final CMD_Warp_Set        cmd_setwarp;         // /setwarp
+//	protected final CMD_TP              cmd_tp;              // /tp
+//	protected final CMD_TP_Here         cmd_tp_here;         // /tp-here
+//	protected final CMD_TP_Ask          cmd_tp_ask;          // /tp-ask
+//	protected final CMD_TP_Ask_Here     cmd_tp_ask_here;     // /tp-ask-here
+//	protected final CMD_TP_All_Here     cmd_tp_all_here;     // /tp-all-here
+//	protected final CMD_TP_Ask_All_Here cmd_tp_ask_all_here; // /tp-ask-all-here
+//	protected final CMD_TP_Offline      cmd_tp_offline;      // /tp-offline
+//	protected final CMD_Back            cmd_back;            // /back
+//	protected final CMD_Top             cmd_top;             // /top
+//	protected final CMD_Bottom          cmd_bottom;          // /bottom
+//	protected final CMD_Jump            cmd_jump;            // /jump
+//	protected final CMD_Jump_Into       cmd_jump_into;       // /jump-into
+//	protected final CMD_Jump_Down       cmd_jump_down;       // /jump-down
+	protected final CMD_Fly             cmd_fly;             // /fly
+//	protected final CMD_MOTD            cmd_motd;            // /motd
+//	protected final CMD_Broadcast       cmd_broadcast;       // /broadcast
+//	protected final CMD_MSG             cmd_msg;             // /msg
+//	protected final CMD_Reply           cmd_reply;           // /reply
+//	protected final CMD_Me              cmd_me;              // /me
+	protected final CMD_GM              cmd_gm;              // /gm
+	protected final CMD_GM_C            cmd_gm_c;            // /gmc
+	protected final CMD_GM_S            cmd_gm_s;            // /gms
+	protected final CMD_GM_A            cmd_gm_a;            // /gma
+	protected final CMD_GM_Spec         cmd_gm_sp;           // /gmsp
+	protected final CMD_Feed            cmd_feed;            // /feed
+	protected final CMD_Heal            cmd_heal;            // /heal
+	protected final CMD_Rest            cmd_rest;            // /rest
+//	protected final CMD_Speed           cmd_speed;           // /speed
+//	protected final CMD_Speed_Walk      cmd_speed_walk;      // /walkspeed
+//	protected final CMD_Speed_Fly       cmd_speed_fly        // /flyspeed
+	protected final CMD_Workbench       cmd_workbench;       // /workbench
+	protected final CMD_Enderchest      cmd_enderchest;      // /enderchest
+//	protected final CMD_PowerTool       cmd_powertool;       // /powertool
+//	protected final CMD_Backup          cmd_backup;          // /backup
+	protected final CMD_GC              cmd_gc;              // /gc
+	protected final CMD_Uptime          cmd_uptime;          // /uptime
 
 
 
-	public Commands(final pxnPluginLib plugin) {
+	public PluginCommands(final VitalCorePlugin plugin) {
 		final FileConfiguration config = plugin.getConfig();
 		final ConfigurationSection cfg = config.getConfigurationSection("Commands");
-//		this.cmd_help            = (cfg.getBoolean("help"      ) ? new Command_Help           (plugin) : null); // /help
-//		this.cmd_list            = (cfg.getBoolean("list"      ) ? new Command_List           (plugin) : null); // /list
-//		this.cmd_home            = (cfg.getBoolean("home"      ) ? new Command_Home           (plugin) : null); // /home
-//		this.cmd_home_list       = (cfg.getBoolean("home"      ) ? new Command_Home_List      (plugin) : null); // /list-homes
-//		this.cmd_home_set        = (cfg.getBoolean("home"      ) ? new Command_Home_Set       (plugin) : null); // /set-home
-//		this.cmd_home_del        = (cfg.getBoolean("home"      ) ? new Command_Home_Del       (plugin) : null); // /del-home
-		this.cmd_world           = (cfg.getBoolean("world"     ) ? new Command_World          (plugin) : null); // /world
-		this.cmd_spawn           = (cfg.getBoolean("spawn"     ) ? new Command_Spawn          (plugin) : null); // /spawn
-		this.cmd_setspawn        = (cfg.getBoolean("spawn"     ) ? new Command_SetSpawn       (plugin) : null); // /setspawn
-//		this.cmd_warp            = (cfg.getBoolean("warp"      ) ? new Command_Warp           (plugin) : null); // /warp
-//		this.cmd_setwarp         = (cfg.getBoolean("warp"      ) ? new Command_SetWarp        (plugin) : null); // /setwarp
-//		this.cmd_tp              = (cfg.getBoolean("tp"        ) ? new Command_TP             (plugin) : null); // /tp
-//		this.cmd_tp_here         = (cfg.getBoolean("tp"        ) ? new Command_TP_Here        (plugin) : null); // /tp-here
-//		this.cmd_tp_ask          = (cfg.getBoolean("tp"        ) ? new Command_TP_Ask         (plugin) : null); // /tp-ask
-//		this.cmd_tp_ask_here     = (cfg.getBoolean("tp"        ) ? new Command_TP_Ask_Here    (plugin) : null); // /tp-ask-here
-//		this.cmd_tp_all_here     = (cfg.getBoolean("tp"        ) ? new Command_TP_All_Here    (plugin) : null); // /tp-all-here
-//		this.cmd_tp_ask_all_here = (cfg.getBoolean("tp"        ) ? new Command_TP_Ask_All_Here(plugin) : null); // /tp-ask-all-here
-//		this.cmd_tp_offline      = (cfg.getBoolean("tp"        ) ? new Command_TP_Offline     (plugin) : null); // /tp-offline
-//		this.cmd_back            = (cfg.getBoolean("back"      ) ? new Command_Back           (plugin) : null); // /back
-//		this.cmd_top             = (cfg.getBoolean("top"       ) ? new Command_Top            (plugin) : null); // /top
-//		this.cmd_bottom          = (cfg.getBoolean("bottom"    ) ? new Command_Bottom         (plugin) : null); // /bottom
-//		this.cmd_jump            = (cfg.getBoolean("jump"      ) ? new Command_Jump           (plugin) : null); // /jump
-//		this.cmd_jump_into       = (cfg.getBoolean("jump"      ) ? new Command_Jump_Into      (plugin) : null); // /jump-into
-//		this.cmd_jump_down       = (cfg.getBoolean("jump"      ) ? new Command_Jump_Down      (plugin) : null); // /jump-down
-		this.cmd_fly             = (cfg.getBoolean("fly"       ) ? new Command_Fly            (plugin) : null); // /fly
-//		this.cmd_motd            = (cfg.getBoolean("motd"      ) ? new Command_MOTD           (plugin) : null); // /motd
-//		this.cmd_broadcast       = (cfg.getBoolean("broadcast" ) ? new Command_Broadcast      (plugin) : null); // /broadcast
-//		this.cmd_msg             = (cfg.getBoolean("msg"       ) ? new Command_MSG            (plugin) : null); // /msg
-//		this.cmd_reply           = (cfg.getBoolean("msg"       ) ? new Command_Reply          (plugin) : null); // /reply
-//		this.cmd_me              = (cfg.getBoolean("me"        ) ? new Command_Me             (plugin) : null); // /me
-		this.cmd_gm              = (cfg.getBoolean("gm"        ) ? new Command_GM             (plugin) : null); // /gm
-		this.cmd_gm_c            = (cfg.getBoolean("gm"        ) ? new Command_GMC            (plugin) : null); // /gmc
-		this.cmd_gm_s            = (cfg.getBoolean("gm"        ) ? new Command_GMS            (plugin) : null); // /gms
-		this.cmd_gm_a            = (cfg.getBoolean("gm"        ) ? new Command_GMA            (plugin) : null); // /gma
-		this.cmd_gm_sp           = (cfg.getBoolean("gm"        ) ? new Command_GMSpec         (plugin) : null); // /gmsp
-		this.cmd_feed            = (cfg.getBoolean("feed"      ) ? new Command_Feed           (plugin) : null); // /feed
-		this.cmd_heal            = (cfg.getBoolean("heal"      ) ? new Command_Heal           (plugin) : null); // /heal
-		this.cmd_rest            = (cfg.getBoolean("rest"      ) ? new Command_Rest           (plugin) : null); // /rest
-//		this.cmd_speed           = (cfg.getBoolean("speed"     ) ? new Command_Speed          (plugin) : null); // /speed
-//		this.cmd_speed_walk      = (cfg.getBoolean("speed"     ) ? new Command_Speed_Walk     (plugin) : null); // /walkspeed
-//		this.cmd_speed_fly       = (cfg.getBoolean("speed"     ) ? new Command_Speed_Fly      (plugin) : null); // /flyspeed
-		this.cmd_workbench       = (cfg.getBoolean("workbench" ) ? new Command_Workbench      (plugin) : null); // /workbench
-		this.cmd_enderchest      = (cfg.getBoolean("enderchest") ? new Command_Enderchest     (plugin) : null); // /enderchest
-//		this.cmd_powertool       = (cfg.getBoolean("powertool" ) ? new Command_PowerTool      (plugin) : null); // /powertool
-//		this.cmd_backup          = (cfg.getBoolean("backup"    ) ? new Command_Backup         (plugin) : null); // /backup
-		this.cmd_gc              = (cfg.getBoolean("gc"        ) ? new Command_GC             (plugin) : null); // /gc
-		this.cmd_uptime          = (cfg.getBoolean("uptime"    ) ? new Command_Uptime         (plugin) : null); // /uptime
+//		this.cmd_help            = (cfg.getBoolean("help"      ) ? new CMD_Help           (plugin) : null); // /help
+//		this.cmd_list            = (cfg.getBoolean("list"      ) ? new CMD_List           (plugin) : null); // /list
+//		this.cmd_home            = (cfg.getBoolean("home"      ) ? new CMD_Home           (plugin) : null); // /home
+//		this.cmd_home_list       = (cfg.getBoolean("home"      ) ? new CMD_Home_List      (plugin) : null); // /list-homes
+//		this.cmd_home_set        = (cfg.getBoolean("home"      ) ? new CMD_Home_Set       (plugin) : null); // /set-home
+//		this.cmd_home_del        = (cfg.getBoolean("home"      ) ? new CMD_Home_Del       (plugin) : null); // /del-home
+		this.cmd_world           = (cfg.getBoolean("world"     ) ? new CMD_World          (plugin) : null); // /world
+		this.cmd_spawn           = (cfg.getBoolean("spawn"     ) ? new CMD_Spawn          (plugin) : null); // /spawn
+		this.cmd_setspawn        = (cfg.getBoolean("spawn"     ) ? new CMD_Spawn_Set      (plugin) : null); // /setspawn
+//		this.cmd_warp            = (cfg.getBoolean("warp"      ) ? new CMD_Warp           (plugin) : null); // /warp
+//		this.cmd_setwarp         = (cfg.getBoolean("warp"      ) ? new CMD_Warp_Set       (plugin) : null); // /setwarp
+//		this.cmd_tp              = (cfg.getBoolean("tp"        ) ? new CMD_TP             (plugin) : null); // /tp
+//		this.cmd_tp_here         = (cfg.getBoolean("tp"        ) ? new CMD_TP_Here        (plugin) : null); // /tp-here
+//		this.cmd_tp_ask          = (cfg.getBoolean("tp"        ) ? new CMD_TP_Ask         (plugin) : null); // /tp-ask
+//		this.cmd_tp_ask_here     = (cfg.getBoolean("tp"        ) ? new CMD_TP_Ask_Here    (plugin) : null); // /tp-ask-here
+//		this.cmd_tp_all_here     = (cfg.getBoolean("tp"        ) ? new CMD_TP_All_Here    (plugin) : null); // /tp-all-here
+//		this.cmd_tp_ask_all_here = (cfg.getBoolean("tp"        ) ? new CMD_TP_Ask_All_Here(plugin) : null); // /tp-ask-all-here
+//		this.cmd_tp_offline      = (cfg.getBoolean("tp"        ) ? new CMD_TP_Offline     (plugin) : null); // /tp-offline
+//		this.cmd_back            = (cfg.getBoolean("back"      ) ? new CMD_Back           (plugin) : null); // /back
+//		this.cmd_top             = (cfg.getBoolean("top"       ) ? new CMD_Top            (plugin) : null); // /top
+//		this.cmd_bottom          = (cfg.getBoolean("bottom"    ) ? new CMD_Bottom         (plugin) : null); // /bottom
+//		this.cmd_jump            = (cfg.getBoolean("jump"      ) ? new CMD_Jump           (plugin) : null); // /jump
+//		this.cmd_jump_into       = (cfg.getBoolean("jump"      ) ? new CMD_Jump_Into      (plugin) : null); // /jump-into
+//		this.cmd_jump_down       = (cfg.getBoolean("jump"      ) ? new CMD_Jump_Down      (plugin) : null); // /jump-down
+		this.cmd_fly             = (cfg.getBoolean("fly"       ) ? new CMD_Fly            (plugin) : null); // /fly
+//		this.cmd_motd            = (cfg.getBoolean("motd"      ) ? new CMD_MOTD           (plugin) : null); // /motd
+//		this.cmd_broadcast       = (cfg.getBoolean("broadcast" ) ? new CMD_Broadcast      (plugin) : null); // /broadcast
+//		this.cmd_msg             = (cfg.getBoolean("msg"       ) ? new CMD_MSG            (plugin) : null); // /msg
+//		this.cmd_reply           = (cfg.getBoolean("msg"       ) ? new CMD_Reply          (plugin) : null); // /reply
+//		this.cmd_me              = (cfg.getBoolean("me"        ) ? new CMD_Me             (plugin) : null); // /me
+		this.cmd_gm              = (cfg.getBoolean("gm"        ) ? new CMD_GM             (plugin) : null); // /gm
+		this.cmd_gm_c            = (cfg.getBoolean("gm"        ) ? new CMD_GM_C           (plugin) : null); // /gmc
+		this.cmd_gm_s            = (cfg.getBoolean("gm"        ) ? new CMD_GM_S           (plugin) : null); // /gms
+		this.cmd_gm_a            = (cfg.getBoolean("gm"        ) ? new CMD_GM_A           (plugin) : null); // /gma
+		this.cmd_gm_sp           = (cfg.getBoolean("gm"        ) ? new CMD_GM_Spec        (plugin) : null); // /gmsp
+		this.cmd_feed            = (cfg.getBoolean("feed"      ) ? new CMD_Feed           (plugin) : null); // /feed
+		this.cmd_heal            = (cfg.getBoolean("heal"      ) ? new CMD_Heal           (plugin) : null); // /heal
+		this.cmd_rest            = (cfg.getBoolean("rest"      ) ? new CMD_Rest           (plugin) : null); // /rest
+//		this.cmd_speed           = (cfg.getBoolean("speed"     ) ? new CMD_Speed          (plugin) : null); // /speed
+//		this.cmd_speed_walk      = (cfg.getBoolean("speed"     ) ? new CMD_Speed_Walk     (plugin) : null); // /walkspeed
+//		this.cmd_speed_fly       = (cfg.getBoolean("speed"     ) ? new CMD_Speed_Fly      (plugin) : null); // /flyspeed
+		this.cmd_workbench       = (cfg.getBoolean("workbench" ) ? new CMD_Workbench      (plugin) : null); // /workbench
+		this.cmd_enderchest      = (cfg.getBoolean("enderchest") ? new CMD_Enderchest     (plugin) : null); // /enderchest
+//		this.cmd_powertool       = (cfg.getBoolean("powertool" ) ? new CMD_PowerTool      (plugin) : null); // /powertool
+//		this.cmd_backup          = (cfg.getBoolean("backup"    ) ? new CMD_Backup         (plugin) : null); // /backup
+		this.cmd_gc              = (cfg.getBoolean("gc"        ) ? new CMD_GC             (plugin) : null); // /gc
+		this.cmd_uptime          = (cfg.getBoolean("uptime"    ) ? new CMD_Uptime         (plugin) : null); // /uptime
 	}
 
 

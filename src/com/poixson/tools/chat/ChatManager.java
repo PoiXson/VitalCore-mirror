@@ -4,25 +4,25 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 
-import com.poixson.pluginlib.pxnPluginLib;
 import com.poixson.tools.xListener;
+import com.poixson.vitalcore.VitalCorePlugin;
 
 import io.papermc.paper.event.player.AsyncChatEvent;
 
 
 public class ChatManager implements xListener {
 
-	protected final pxnPluginLib plugin;
+	protected final VitalCorePlugin plugin;
 
 	protected final PlayerLocalGroups local;
 
 
 
-	public ChatManager(final pxnPluginLib plugin) {
+	public ChatManager(final VitalCorePlugin plugin) {
 		this.plugin = plugin;
 		this.local = null;
 	}
-	public ChatManager(final pxnPluginLib plugin,
+	public ChatManager(final VitalCorePlugin plugin,
 			final double range, final double grace) {
 		this.plugin = plugin;
 		this.local = new PlayerLocalGroups(plugin, range, grace);

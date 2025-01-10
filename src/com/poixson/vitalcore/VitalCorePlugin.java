@@ -1,4 +1,4 @@
-package com.poixson.pluginlib;
+package com.poixson.vitalcore;
 
 import static com.poixson.utils.Utils.GetMS;
 
@@ -17,23 +17,23 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.ServicesManager;
 
-import com.poixson.pluginlib.charts.pxnPluginsChart;
-import com.poixson.pluginlib.commands.Commands;
 import com.poixson.tools.FreedMapStore;
 import com.poixson.tools.Keeper;
 import com.poixson.tools.PlayerMoveMonitor;
 import com.poixson.tools.SaveMonitor;
 import com.poixson.tools.xJavaPlugin;
 import com.poixson.tools.xTime;
+import com.poixson.vitalcore.charts.PluginsCountChart;
 import com.poixson.tools.chat.ChatFormatter;
 import com.poixson.tools.chat.ChatManager;
 import com.poixson.tools.updatechecker.UpdateCheckManager;
+import com.poixson.vitalcore.commands.PluginCommands;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 
 
-public class pxnPluginLib extends xJavaPlugin {
+public class VitalCorePlugin extends xJavaPlugin {
 	@Override public int getBStatsID() { return 20434; }
 	public static final Component CHAT_PREFIX = Component.text("[pxn] ").color(NamedTextColor.AQUA);
 
@@ -53,7 +53,7 @@ public class pxnPluginLib extends xJavaPlugin {
 
 	protected final CopyOnWriteArraySet<xJavaPlugin> plugins = new CopyOnWriteArraySet<xJavaPlugin>();
 
-	protected final AtomicReference<pxnPluginsChart>      listener_plugins = new AtomicReference<pxnPluginsChart>     (null);
+	protected final AtomicReference<PluginsCountChart>  listener_plugins = new AtomicReference<PluginsCountChart> (null);
 	protected final AtomicReference<UpdateCheckManager> updateChecker = new AtomicReference<UpdateCheckManager>(null);
 	protected final AtomicReference<FreedMapStore>        freed_maps       = new AtomicReference<FreedMapStore>       (null);
 	protected final AtomicReference<PlayerMoveMonitor>    monitor_move     = new AtomicReference<PlayerMoveMonitor>   (null);
@@ -61,11 +61,11 @@ public class pxnPluginLib extends xJavaPlugin {
 	protected final AtomicReference<ChatManager>          chat_manager     = new AtomicReference<ChatManager>         (null);
 	protected final AtomicReference<ChatFormatter>        chat_formatter   = new AtomicReference<ChatFormatter>       (null);
 
-	protected final AtomicReference<Commands> commands = new AtomicReference<Commands>(null);
+	protected final AtomicReference<PluginCommands> commands = new AtomicReference<PluginCommands>(null);
 
 
 
-	public pxnPluginLib() {
+	public VitalCorePlugin() {
 		super();
 		this.keeper = Keeper.get();
 		this.time_start = GetMS();
@@ -76,12 +76,12 @@ public class pxnPluginLib extends xJavaPlugin {
 	@Override
 	public void onEnable() {
 		final ServicesManager services = Bukkit.getServicesManager();
-		services.register(pxnPluginLib.class, this, this, ServicePriority.Normal);
+		services.register(VitalCorePlugin.class, this, this, ServicePriority.Normal);
 		super.onEnable();
 		// plugins listener
 		{
-			final pxnPluginsChart listener = new pxnPluginsChart(this);
-			final pxnPluginsChart previous = this.listener_plugins.getAndSet(listener);
+			final PluginsCountChart listener = new PluginsCountChart(this);
+			final PluginsCountChart previous = this.listener_plugins.getAndSet(listener);
 			if (previous != null)
 				previous.unregister();
 			listener.register(this);
@@ -115,8 +115,8 @@ public class pxnPluginLib extends xJavaPlugin {
 		}
 		// commands
 		{
-			final Commands commands = new Commands(this);
-			final Commands previous = this.commands.getAndSet(commands);
+			final PluginCommands commands = new PluginCommands(this);
+			final PluginCommands previous = this.commands.getAndSet(commands);
 			if (previous != null)
 				previous.close();
 		}
@@ -146,7 +146,7 @@ public class pxnPluginLib extends xJavaPlugin {
 		{
 			final Metrics metrics = this.metrics.get();
 			if (metrics != null) {
-				metrics.addCustomChart(pxnPluginsChart.GetChart(this));
+				metrics.addCustomChart(PluginsCountChart.GetChart(this));
 			}
 		}
 		// save
@@ -161,7 +161,7 @@ public class pxnPluginLib extends xJavaPlugin {
 		this.log().info("Uptime: "+this.getUptimeFormatted());
 		// commands
 		{
-			final Commands commands = this.commands.getAndSet(null);
+			final PluginCommands commands = this.commands.getAndSet(null);
 			if (commands != null)
 				commands.close();
 		}
@@ -203,7 +203,7 @@ public class pxnPluginLib extends xJavaPlugin {
 		}
 		// plugins listener
 		{
-			final pxnPluginsChart listener = this.listener_plugins.getAndSet(null);
+			final PluginsCountChart listener = this.listener_plugins.getAndSet(null);
 			if (listener != null)
 				listener.unregister();
 		}
@@ -228,7 +228,7 @@ public class pxnPluginLib extends xJavaPlugin {
 	@Override
 	protected void configDefaults(final FileConfiguration config) {
 		super.configDefaults(config);
-		Commands.ConfigDefaults(config);
+		PluginCommands.ConfigDefaults(config);
 		config.addDefault("Check for Updates",      Boolean.valueOf(DEFAULT_CHECK_FOR_UPDATES ));
 		config.addDefault("Chat.Enable Formatting", Boolean.valueOf(DEFAULT_ENABLE_CHAT_FORMAT));
 		config.addDefault("Chat.Enable Local Chat", Boolean.valueOf(DEFAULT_ENABLE_LOCAL_CHAT ));
@@ -283,9 +283,9 @@ public class pxnPluginLib extends xJavaPlugin {
 
 
 
-	public static pxnPluginLib GetCommonPlugin() {
-		final pxnPluginLib plugin = Bukkit.getServicesManager().load(pxnPluginLib.class);
-		if (plugin == null) throw new RuntimeException("pxnPluginLib not loaded");
+	public static VitalCorePlugin GetCommonPlugin() {
+		final VitalCorePlugin plugin = Bukkit.getServicesManager().load(VitalCorePlugin.class);
+		if (plugin == null) throw new RuntimeException("VitalCore not loaded");
 		return plugin;
 	}
 

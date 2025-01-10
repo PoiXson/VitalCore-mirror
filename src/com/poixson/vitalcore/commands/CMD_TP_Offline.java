@@ -1,19 +1,19 @@
-package com.poixson.pluginlib.commands;
+package com.poixson.vitalcore.commands;
 
 import java.util.List;
 
 import org.bukkit.command.CommandSender;
 
-import com.poixson.pluginlib.pxnPluginLib;
 import com.poixson.tools.commands.pxnCommandRoot;
+import com.poixson.vitalcore.VitalCorePlugin;
 
 
 // /tp-offline
-public class Command_TP_Offline extends pxnCommandRoot {
+public class CMD_TP_Offline extends pxnCommandRoot {
 
 
 
-	public Command_TP_Offline(final pxnPluginLib plugin) {
+	public CMD_TP_Offline(final VitalCorePlugin plugin) {
 		super(
 			plugin,
 			"pxn", // namespace

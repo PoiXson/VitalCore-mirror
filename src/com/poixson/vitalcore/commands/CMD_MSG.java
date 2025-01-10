@@ -1,19 +1,19 @@
-package com.poixson.pluginlib.commands;
+package com.poixson.vitalcore.commands;
 
 import java.util.List;
 
 import org.bukkit.command.CommandSender;
 
-import com.poixson.pluginlib.pxnPluginLib;
 import com.poixson.tools.commands.pxnCommandRoot;
+import com.poixson.vitalcore.VitalCorePlugin;
 
 
 // /msg
-public class Command_MSG extends pxnCommandRoot {
+public class CMD_MSG extends pxnCommandRoot {
 
 
 
-	public Command_MSG(final pxnPluginLib plugin) {
+	public CMD_MSG(final VitalCorePlugin plugin) {
 		super(
 			plugin,
 			"pxn", // namespace

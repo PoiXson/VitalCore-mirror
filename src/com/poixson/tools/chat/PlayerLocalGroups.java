@@ -19,7 +19,6 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import com.poixson.pluginlib.pxnPluginLib;
 import com.poixson.tools.LocationSafe;
 import com.poixson.tools.PlayerMoveMonitor;
 import com.poixson.tools.xListener;
@@ -27,11 +26,12 @@ import com.poixson.tools.xRand;
 import com.poixson.tools.abstractions.xStartStop;
 import com.poixson.tools.chat.PlayerLocalGroupEvent.LocalNearFar;
 import com.poixson.tools.events.PlayerMoveNormalEvent;
+import com.poixson.vitalcore.VitalCorePlugin;
 
 
 public class PlayerLocalGroups implements xListener, xStartStop {
 
-	protected final pxnPluginLib plugin;
+	protected final VitalCorePlugin plugin;
 	protected final PlayerMoveMonitor monitor;
 
 	protected final AtomicReference<PlayerGroupDAO[]> groups = new AtomicReference<PlayerGroupDAO[]>(null);
@@ -46,7 +46,7 @@ public class PlayerLocalGroups implements xListener, xStartStop {
 
 
 
-	public PlayerLocalGroups(final pxnPluginLib plugin,
+	public PlayerLocalGroups(final VitalCorePlugin plugin,
 			final double range, final double grace) {
 		this.plugin  = plugin;
 		this.monitor = plugin.getPlayerMoveMonitor();

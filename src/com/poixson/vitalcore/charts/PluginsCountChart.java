@@ -1,4 +1,4 @@
-package com.poixson.pluginlib.charts;
+package com.poixson.vitalcore.charts;
 
 import java.util.concurrent.Callable;
 
@@ -9,27 +9,27 @@ import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.event.server.PluginEnableEvent;
 import org.bukkit.plugin.Plugin;
 
-import com.poixson.pluginlib.pxnPluginLib;
 import com.poixson.tools.xJavaPlugin;
 import com.poixson.tools.xListener;
+import com.poixson.vitalcore.VitalCorePlugin;
 
 
-public class pxnPluginsChart implements Callable<String>, xListener {
+public class PluginsCountChart implements Callable<String>, xListener {
 
-	protected final pxnPluginLib plugin;
+	protected final VitalCorePlugin plugin;
 
 
 
-	public pxnPluginsChart(final pxnPluginLib plugin) {
+	public PluginsCountChart(final VitalCorePlugin plugin) {
 		this.plugin = plugin;
 	}
 
 
 
-	public static SimplePie GetChart(final pxnPluginLib plugin) {
+	public static SimplePie GetChart(final VitalCorePlugin plugin) {
 		return new SimplePie(
 			"plugins_count",
-			new pxnPluginsChart(plugin)
+			new PluginsCountChart(plugin)
 		);
 	}
 
