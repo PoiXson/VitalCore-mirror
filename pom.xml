@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated: Sun Jan 19 07:53:31 AM EST 2025 -->
+<!-- Generated: Sun Jan 19 07:54:47 AM EST 2025 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0"
 		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
@@ -51,7 +51,7 @@
 		<hangarapi-readonly-version>[0.2.0${snap},0.3.0${snap})</hangarapi-readonly-version>
 		<bstats-bukkit-version>3.1.0</bstats-bukkit-version>
 		<rhino-version>1.8.0</rhino-version>
-		<VaultAPI-version>1.7.3</VaultAPI-version>
+		<Vault-version>1.7.3</Vault-version>
 		<worldedit-core-version>7.3.9</worldedit-core-version>
 		<worldedit-bukkit-version>7.3.9</worldedit-bukkit-version>
 		<common-unit-version>[4.2.0${snap},4.3.0${snap})</common-unit-version>
@@ -299,7 +299,7 @@
 				<enabled>true</enabled>
 			</releases>
 			<snapshots>
-				<enabled>true</enabled>
+				<enabled>false</enabled>
 			</snapshots>
 		</repository>
 		<repository>
@@ -346,9 +346,9 @@
 			<version>${rhino-version}</version>
 		</dependency>
 		<dependency>
-			<artifactId>VaultAPI</artifactId>
+			<artifactId>Vault</artifactId>
 			<groupId>com.github.MilkBowl</groupId>
-			<version>${VaultAPI-version}</version>
+			<version>${Vault-version}</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
