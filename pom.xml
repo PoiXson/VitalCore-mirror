@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated: Thu Jan  9 11:53:02 PM EST 2025 -->
+<!-- Generated: Sun Jan 19 07:45:29 AM EST 2025 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0"
 		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
@@ -16,6 +16,7 @@
 		<url>https://poixson.com</url>
 	</organization>
 	<properties>
+
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<project.license>AGPLv3</project.license>
@@ -23,6 +24,8 @@
 		<maven.compiler.release>21</maven.compiler.release>
 		<maven.compiler.source>21</maven.compiler.source>
 		<maven.compiler.target>21</maven.compiler.target>
+
+		<snap>-SNAPSHOT</snap>
 
 		<!-- Maven Plugins -->
 		<maven-resources-plugin-version>3.3.1</maven-resources-plugin-version>
@@ -41,16 +44,17 @@
 		<project-info-reports-version>3.8.0</project-info-reports-version>
 
 		<!-- Dependencies -->
-		<bukkit-short-version>1.21.3</bukkit-short-version>
-		<paper-api-version>1.21.3-R0.1-SNAPSHOT</paper-api-version>
-		<common-core-version>[4.0.0,)</common-core-version>
-		<common-script-version>[4.0.0,)</common-script-version>
-		<hangarapi-readonly-version>[0.0.0,)</hangarapi-readonly-version>
-		<bstats-bukkit-version>[3,)</bstats-bukkit-version>
-		<rhino-version>[1,)</rhino-version>
-		<VaultAPI-version>[1,)</VaultAPI-version>
+		<bukkit-short-version>1.21.4</bukkit-short-version>
+		<paper-api-version>1.21.4-R0.1-SNAPSHOT</paper-api-version>
+		<common-core-version>[4.2.0${snap},4.3.0${snap})</common-core-version>
+		<common-script-version>[4.2.0${snap},4.3.0${snap})</common-script-version>
+		<hangarapi-readonly-version>[0.2.0${snap},0.3.0${snap})</hangarapi-readonly-version>
+		<bstats-bukkit-version>3.1.0</bstats-bukkit-version>
+		<rhino-version>1.8.0</rhino-version>
+		<VaultAPI-version>1.7.3</VaultAPI-version>
 		<worldedit-core-version>7.3.9</worldedit-core-version>
 		<worldedit-bukkit-version>7.3.9</worldedit-bukkit-version>
+
 	</properties>
 	<scm>
 		<url>https://git.poixson.com/summary/mc!VitalCore.git</url>
