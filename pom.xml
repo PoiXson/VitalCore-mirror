@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated: Sun Jan 19 07:45:29 AM EST 2025 -->
+<!-- Generated: Sun Jan 19 07:52:23 AM EST 2025 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0"
 		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
@@ -37,10 +37,10 @@
 		<maven-eclipse-plugin-version>2.10</maven-eclipse-plugin-version>
 		<git-commit-id-version>4.9.10</git-commit-id-version>
 		<maven-shade-plugin-version>3.6.0</maven-shade-plugin-version>
-		<junit-version>4.13.2</junit-version>
+		<junit-jupiter-version>5.11.4</junit-jupiter-version>
 		<surefire-version>3.5.2</surefire-version>
 		<jacoco-version>0.8.12</jacoco-version>
-		<jxr-version>3.6.0</jxr-version>
+		<maven-jxr-version>3.6.0</maven-jxr-version>
 		<project-info-reports-version>3.8.0</project-info-reports-version>
 
 		<!-- Dependencies -->
@@ -54,6 +54,7 @@
 		<VaultAPI-version>1.7.3</VaultAPI-version>
 		<worldedit-core-version>7.3.9</worldedit-core-version>
 		<worldedit-bukkit-version>7.3.9</worldedit-bukkit-version>
+		<common-unit-version>[4.2.0${snap},4.3.0${snap})</common-unit-version>
 
 	</properties>
 	<scm>
@@ -268,9 +269,9 @@
 			</plugin>
 			<!-- JXR - Cross Reference -->
 			<plugin>
-				<groupId>org.apache.maven.jxr</groupId>
-				<artifactId>jxr</artifactId>
-				<version>${jxr-version}</version>
+				<groupId>org.apache.maven</groupId>
+				<artifactId>maven-jxr</artifactId>
+				<version>${maven-jxr-version}</version>
 			</plugin>
 			<!-- Reports -->
 			<plugin>
@@ -363,9 +364,15 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<artifactId>junit</artifactId>
-			<groupId>junit</groupId>
-			<version>${junit-version}</version>
+			<artifactId>common-unit</artifactId>
+			<groupId>com.poixson</groupId>
+			<version>${common-unit-version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<artifactId>junit-jupiter</artifactId>
+			<groupId>org.junit.jupiter</groupId>
+			<version>${junit-jupiter-version}</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
@@ -395,7 +402,7 @@
 			</plugin>
 			<!-- Cross-Reference Plugin -->
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
+				<groupId>org.apache.maven</groupId>
 				<artifactId>maven-jxr-plugin</artifactId>
 				<version>${jxr-version}</version>
 			</plugin>
