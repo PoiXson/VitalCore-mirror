@@ -1,51 +1,46 @@
 package com.poixson.vitalcore.commands;
 
+import static com.poixson.tools.commands.PluginCommand.HasPermissionUseCMD;
+import static com.poixson.vitalcore.VitalCoreDefines.CMD_LABELS_UPTIME;
+import static com.poixson.vitalcore.VitalCoreDefines.PERM_CMD_UPTIME;
 import static com.poixson.vitalcore.VitalCorePlugin.CHAT_PREFIX;
 
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
-import com.poixson.tools.commands.pxnCommandRoot;
+import com.mojang.brigadier.builder.ArgumentBuilder;
+import com.mojang.brigadier.context.CommandContext;
+import com.poixson.tools.commands.PluginCommand;
 import com.poixson.vitalcore.VitalCorePlugin;
 
+import io.papermc.paper.command.brigadier.CommandSourceStack;
+import io.papermc.paper.command.brigadier.Commands;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 
 
 // /uptime
-public class CMD_Uptime extends pxnCommandRoot {
-
-	protected final VitalCorePlugin plugin;
+public interface CMD_Uptime extends PluginCommand {
 
 
 
-	public CMD_Uptime(final VitalCorePlugin plugin) {
-		super(
-			plugin,
-			"pxn", // namespace
-			"Show the total time the server has been running.", // desc
-			null, // usage
-			"pxn.cmd.uptime", // perm
-			// labels
-			"uptime"
-		);
-		this.plugin = plugin;
+	default ArgumentBuilder<CommandSourceStack, ?> register_Uptime(final VitalCorePlugin plugin) {
+		// /uptime
+		return Commands.literal(CMD_LABELS_UPTIME.NODE)
+			.executes(context -> this.onCommand_Uptime(context, plugin));
 	}
 
 
 
-	@Override
-	public boolean onCommand(final CommandSender sender, final String[] args) {
-		final Player player = (sender instanceof Player ? (Player)sender : null);
-		if (player != null) {
-			if (!player.hasPermission("pxn.cmd.uptime"))
-				return false;
-		}
+	default int onCommand_Uptime(final CommandContext<CommandSourceStack> context, final VitalCorePlugin plugin) {
+		final CommandSourceStack source = context.getSource();
+		final CommandSender sender = source.getSender();
+		if (!HasPermissionUseCMD(sender, PERM_CMD_UPTIME.NODE))
+			return FAILURE;
 		sender.sendMessage(CHAT_PREFIX
-			.append(Component.text("Uptime: "                      ).color(NamedTextColor.AQUA))
-			.append(Component.text(this.plugin.getUptimeFormatted()).color(NamedTextColor.GOLD))
+			.append(Component.text("Uptime: "                 ).color(NamedTextColor.AQUA))
+			.append(Component.text(plugin.getUptimeFormatted()).color(NamedTextColor.GOLD))
 		);
-		return true;
+		return SUCCESS;
 	}
 
 

@@ -1,52 +1,33 @@
 package com.poixson.vitalcore.commands;
 
-import java.util.List;
+import static com.poixson.vitalcore.VitalCoreDefines.CMD_LABELS_HOME_DEL;
 
-import org.bukkit.command.CommandSender;
-
-import com.poixson.tools.commands.pxnCommandRoot;
+import com.mojang.brigadier.builder.ArgumentBuilder;
+import com.mojang.brigadier.context.CommandContext;
+import com.poixson.tools.commands.PluginCommand;
 import com.poixson.vitalcore.VitalCorePlugin;
+
+import io.papermc.paper.command.brigadier.CommandSourceStack;
+import io.papermc.paper.command.brigadier.Commands;
 
 
 // /delhome
-public class CMD_Home_Del extends pxnCommandRoot {
+public interface CMD_Home_Del extends PluginCommand {
 
 
 
-	public CMD_Home_Del(final VitalCorePlugin plugin) {
-		super(
-			plugin,
-			"pxn", // namespace
-			"Remove a saved home.", // desc
-			null, // usage
-			"pxn.cmd.home", // perm
-			// labels
-			"delhome",
-			"del-home",
-			"deletehome",
-			"delete-home",
-			"rmhome",
-			"rm-home",
-			"removehome",
-			"remove-home"
-		);
+	default ArgumentBuilder<CommandSourceStack, ?> register_Home_Del(final VitalCorePlugin plugin) {
+		return Commands.literal(CMD_LABELS_HOME_DEL.NODE)
+			// /delhome
+			.executes(context -> this.onCommand_Home_Del(context, plugin));
 	}
 
 
 
-	@Override
-	public boolean onCommand(final CommandSender sender, final String[] args) {
-System.out.println("COMMAND:"); for (final String arg : args) System.out.println("  "+arg);
-return false;
-	}
-
-
-
-	@Override
-	public List<String> onTabComplete(final CommandSender sender, final String[] args) {
+	default int onCommand_Home_Del(final CommandContext<CommandSourceStack> context, final VitalCorePlugin plugin) {
 //TODO
-System.out.println("TAB:"); for (final String arg : args) System.out.println("  "+arg);
-return null;
+context.getSource().getSender().sendPlainMessage("DEL-HOME!!!!!!!!!!!!!!!!!!!!!");
+		return SUCCESS;
 	}
 
 

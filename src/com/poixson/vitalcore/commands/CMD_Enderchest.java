@@ -1,89 +1,48 @@
 package com.poixson.vitalcore.commands;
 
+import static com.poixson.tools.commands.PluginCommand.ConsoleCannotUse;
+import static com.poixson.tools.commands.PluginCommand.HasPermissionUseCMD;
 import static com.poixson.utils.BukkitUtils.OpenEnderchest;
-import static com.poixson.vitalcore.VitalCorePlugin.CHAT_PREFIX;
+import static com.poixson.vitalcore.VitalCoreDefines.CMD_LABELS_ENDERCHEST;
+import static com.poixson.vitalcore.VitalCoreDefines.PERM_CMD_ENDERCHEST;
 
-import java.util.List;
-
-import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import com.poixson.tools.commands.pxnCommandRoot;
+import com.mojang.brigadier.builder.ArgumentBuilder;
+import com.mojang.brigadier.context.CommandContext;
+import com.poixson.tools.commands.PluginCommand;
 import com.poixson.vitalcore.VitalCorePlugin;
 
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
+import io.papermc.paper.command.brigadier.CommandSourceStack;
+import io.papermc.paper.command.brigadier.Commands;
 
 
 // /enderchest
-public class CMD_Enderchest extends pxnCommandRoot {
+public interface CMD_Enderchest extends PluginCommand {
 
 
 
-	public CMD_Enderchest(final VitalCorePlugin plugin) {
-		super(
-			plugin,
-			"pxn", // namespace
-			"Open the Enderchest.", // desc
-			null, // usage
-			"pxn.cmd.enderchest", // perm
-			// labels
-			"enderchest"
-		);
+	default ArgumentBuilder<CommandSourceStack, ?> register_Enderchest(final VitalCorePlugin plugin) {
+		return Commands.literal(CMD_LABELS_ENDERCHEST.NODE)
+			// /enderchest
+			.executes(context -> this.onCommand_Enderchest(context, plugin));
 	}
 
 
 
-	@Override
-	public boolean onCommand(final CommandSender sender, final String[] args) {
-		final Player player = (sender instanceof Player ? (Player)sender : null);
-		final int num_args = args.length;
-		// self
-		if (num_args == 0) {
-			if (player == null) {
-				sender.sendMessage("Console cannot open an enderchest");
-				return true;
-			}
-			if (!sender.hasPermission("pxn.cmd.enderchest"))
-				return false;
-			OpenEnderchest(player);
-			return true;
-		// other players
-		} else {
-			if (!sender.hasPermission("pxn.cmd.enderchest.other"))
-				return false;
-			int count = 0;
-			LOOP_ARGS:
-			for (final String arg : args) {
-				final Player p = Bukkit.getPlayer(arg);
-				if (p == null) {
-					sender.sendMessage(CHAT_PREFIX.append(Component.text(
-						"Player not found: "+arg).color(NamedTextColor.RED)));
-					continue LOOP_ARGS;
-				}
-				OpenEnderchest(p);
-				count++;
-			}
-			if (count > 0) {
-				sender.sendMessage(CHAT_PREFIX.append(Component.text(String.format(
-					"Opened Enderchest for %d player%s",
-					Integer.valueOf(count),
-					(count == 1 ? "" : "s")
-				)).color(NamedTextColor.AQUA)));
-				return true;
-			}
-		}
-		return false;
-	}
-
-
-
-	@Override
-	public List<String> onTabComplete(final CommandSender sender, final String[] args) {
-		if (!sender.hasPermission("pxn.cmd.enderchest.other"))
-			return null;
-		return this.onTabComplete_Players(args);
+	default int onCommand_Enderchest(final CommandContext<CommandSourceStack> context, final VitalCorePlugin plugin) {
+		final CommandSourceStack source = context.getSource();
+		final CommandSender sender = source.getSender();
+		// no console
+		if (ConsoleCannotUse(sender))
+			return FAILURE;
+		// permission self
+		if (!HasPermissionUseCMD(sender, PERM_CMD_ENDERCHEST.NODE))
+			return FAILURE;
+		final Player self = (Player) sender;
+		OpenEnderchest(self);
+		return SUCCESS;
 	}
 
 

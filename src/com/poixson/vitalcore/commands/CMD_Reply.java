@@ -1,46 +1,33 @@
 package com.poixson.vitalcore.commands;
 
-import java.util.List;
+import static com.poixson.vitalcore.VitalCoreDefines.CMD_LABELS_REPLY;
 
-import org.bukkit.command.CommandSender;
-
-import com.poixson.tools.commands.pxnCommandRoot;
+import com.mojang.brigadier.builder.ArgumentBuilder;
+import com.mojang.brigadier.context.CommandContext;
+import com.poixson.tools.commands.PluginCommand;
 import com.poixson.vitalcore.VitalCorePlugin;
+
+import io.papermc.paper.command.brigadier.CommandSourceStack;
+import io.papermc.paper.command.brigadier.Commands;
 
 
 // /reply
-public class CMD_Reply extends pxnCommandRoot {
+public interface CMD_Reply extends PluginCommand {
 
 
 
-	public CMD_Reply(final VitalCorePlugin plugin) {
-		super(
-			plugin,
-			"pxn", // namespace
-			"Reply to the last player to send you a message.", // desc
-			null, // usage
-			"pxn.cmd.msg", // perm
-			// labels
-			"r",
-			"reply"
-		);
+	default ArgumentBuilder<CommandSourceStack, ?> register_Reply(final VitalCorePlugin plugin) {
+		return Commands.literal(CMD_LABELS_REPLY.NODE)
+			// /reply
+			.executes(context -> this.onCommand_Reply(context, plugin));
 	}
 
 
 
-	@Override
-	public boolean onCommand(final CommandSender sender, final String[] args) {
-System.out.println("COMMAND:"); for (final String arg : args) System.out.println("  "+arg);
-return false;
-	}
-
-
-
-	@Override
-	public List<String> onTabComplete(final CommandSender sender, final String[] args) {
+	default int onCommand_Reply(final CommandContext<CommandSourceStack> context, final VitalCorePlugin plugin) {
 //TODO
-System.out.println("TAB:"); for (final String arg : args) System.out.println("  "+arg);
-return null;
+context.getSource().getSender().sendPlainMessage("REPLY!!!!!!!!!!!!!!!!!!!!!");
+		return SUCCESS;
 	}
 
 

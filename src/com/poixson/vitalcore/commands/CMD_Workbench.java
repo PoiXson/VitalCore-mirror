@@ -1,90 +1,48 @@
 package com.poixson.vitalcore.commands;
 
+import static com.poixson.tools.commands.PluginCommand.ConsoleCannotUse;
+import static com.poixson.tools.commands.PluginCommand.HasPermissionUseCMD;
 import static com.poixson.utils.BukkitUtils.OpenWorkbench;
-import static com.poixson.vitalcore.VitalCorePlugin.CHAT_PREFIX;
+import static com.poixson.vitalcore.VitalCoreDefines.CMD_LABELS_WORKBENCH;
+import static com.poixson.vitalcore.VitalCoreDefines.PERM_CMD_WORKBENCH;
 
-import java.util.List;
-
-import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import com.poixson.tools.commands.pxnCommandRoot;
+import com.mojang.brigadier.builder.ArgumentBuilder;
+import com.mojang.brigadier.context.CommandContext;
+import com.poixson.tools.commands.PluginCommand;
 import com.poixson.vitalcore.VitalCorePlugin;
 
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
+import io.papermc.paper.command.brigadier.CommandSourceStack;
+import io.papermc.paper.command.brigadier.Commands;
 
 
 // /workbench
-public class CMD_Workbench extends pxnCommandRoot {
+public interface CMD_Workbench extends PluginCommand {
 
 
 
-	public CMD_Workbench(final VitalCorePlugin plugin) {
-		super(
-			plugin,
-			"pxn", // namespace
-			null, // desc
-			null, // usage
-			"pxn.cmd.workbench", // perm
-			// labels
-			"workbench",
-			"craftingtable"
-		);
+	default ArgumentBuilder<CommandSourceStack, ?> register_Workbench(final VitalCorePlugin plugin) {
+		return Commands.literal(CMD_LABELS_WORKBENCH.NODE)
+			// /workbench
+			.executes(context -> this.onCommand_Workbench(context, plugin));
 	}
 
 
 
-	@Override
-	public boolean onCommand(final CommandSender sender, final String[] args) {
-		final Player player = (sender instanceof Player ? (Player)sender : null);
-		final int num_args = args.length;
-		// self
-		if (num_args == 0) {
-			if (player == null) {
-				sender.sendMessage("Console cannot open the workbench");
-				return true;
-			}
-			if (!sender.hasPermission("pxn.cmd.workbench"))
-				return false;
-			OpenWorkbench(player);
-			return true;
-		// other players
-		} else {
-			if (!sender.hasPermission("pxn.cmd.workbench.other"))
-				return false;
-			int count = 0;
-			LOOP_ARGS:
-			for (final String arg : args) {
-				final Player p = Bukkit.getPlayer(arg);
-				if (p == null) {
-					sender.sendMessage(CHAT_PREFIX.append(Component.text(
-						"Player not found: "+arg).color(NamedTextColor.RED)));
-					continue LOOP_ARGS;
-				}
-				OpenWorkbench(p);
-				count++;
-			}
-			if (count > 0) {
-				sender.sendMessage(CHAT_PREFIX.append(Component.text(String.format(
-					"Opened Workbench for %d player%s",
-					Integer.valueOf(count),
-					(count == 1 ? "" : "s")
-				)).color(NamedTextColor.AQUA)));
-				return true;
-			}
-		}
-		return false;
-	}
-
-
-
-	@Override
-	public List<String> onTabComplete(final CommandSender sender, final String[] args) {
-		if (!sender.hasPermission("pxn.cmd.workbench.other"))
-			return null;
-		return this.onTabComplete_Players(args);
+	default int onCommand_Workbench(final CommandContext<CommandSourceStack> context, final VitalCorePlugin plugin) {
+		final CommandSourceStack source = context.getSource();
+		final CommandSender sender = source.getSender();
+		// no console
+		if (ConsoleCannotUse(sender))
+			return FAILURE;
+		// permission self
+		if (!HasPermissionUseCMD(sender, PERM_CMD_WORKBENCH.NODE))
+			return FAILURE;
+		final Player self = (Player) sender;
+		OpenWorkbench(self);
+		return SUCCESS;
 	}
 
 

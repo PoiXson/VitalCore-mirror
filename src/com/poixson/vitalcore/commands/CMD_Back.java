@@ -1,45 +1,33 @@
 package com.poixson.vitalcore.commands;
 
-import java.util.List;
+import static com.poixson.vitalcore.VitalCoreDefines.CMD_LABELS_BACK;
 
-import org.bukkit.command.CommandSender;
-
-import com.poixson.tools.commands.pxnCommandRoot;
+import com.mojang.brigadier.builder.ArgumentBuilder;
+import com.mojang.brigadier.context.CommandContext;
+import com.poixson.tools.commands.PluginCommand;
 import com.poixson.vitalcore.VitalCorePlugin;
+
+import io.papermc.paper.command.brigadier.CommandSourceStack;
+import io.papermc.paper.command.brigadier.Commands;
 
 
 // /back
-public class CMD_Back extends pxnCommandRoot {
+public interface CMD_Back extends PluginCommand {
 
 
 
-	public CMD_Back(final VitalCorePlugin plugin) {
-		super(
-			plugin,
-			"pxn", // namespace
-			"Teleport back to your previous location.", // desc
-			null, // usage
-			"pxn.cmd.back", // perm
-			// labels
-			"back"
-		);
+	default ArgumentBuilder<CommandSourceStack, ?> register_Back(final VitalCorePlugin plugin) {
+		return Commands.literal(CMD_LABELS_BACK.NODE)
+			// /back
+			.executes(context -> this.onCommand_Back(context, plugin));
 	}
 
 
 
-	@Override
-	public boolean onCommand(final CommandSender sender, final String[] args) {
-System.out.println("COMMAND:"); for (final String arg : args) System.out.println("  "+arg);
-return false;
-	}
-
-
-
-	@Override
-	public List<String> onTabComplete(final CommandSender sender, final String[] args) {
+	default int onCommand_Back(final CommandContext<CommandSourceStack> context, final VitalCorePlugin plugin) {
 //TODO
-System.out.println("TAB:"); for (final String arg : args) System.out.println("  "+arg);
-return null;
+context.getSource().getSender().sendPlainMessage("BACK!!!!!!!!!!!!!!!!!!!!!");
+		return SUCCESS;
 	}
 
 

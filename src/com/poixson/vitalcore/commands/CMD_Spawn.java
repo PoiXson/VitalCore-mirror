@@ -1,8 +1,14 @@
 package com.poixson.vitalcore.commands;
 
+import static com.poixson.tools.commands.PluginCommand.ConsoleCannotUse;
+import static com.poixson.tools.commands.PluginCommand.GetArg_Players;
+import static com.poixson.tools.commands.PluginCommand.HasPermissionUseCMD;
+import static com.poixson.tools.commands.PluginCommand.HasPermissionUseOthersCMD;
+import static com.poixson.utils.Utils.IsEmpty;
+import static com.poixson.vitalcore.VitalCoreDefines.CMD_LABELS_SPAWN;
+import static com.poixson.vitalcore.VitalCoreDefines.PERM_CMD_SPAWN;
+import static com.poixson.vitalcore.VitalCoreDefines.PERM_CMD_SPAWN_OTHERS;
 import static com.poixson.vitalcore.VitalCorePlugin.CHAT_PREFIX;
-
-import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -10,67 +16,70 @@ import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import com.poixson.tools.commands.pxnCommandRoot;
+import com.mojang.brigadier.builder.ArgumentBuilder;
+import com.mojang.brigadier.context.CommandContext;
+import com.poixson.tools.commands.PluginCommand;
 import com.poixson.vitalcore.VitalCorePlugin;
 
+import io.papermc.paper.command.brigadier.CommandSourceStack;
+import io.papermc.paper.command.brigadier.Commands;
+import io.papermc.paper.command.brigadier.argument.ArgumentTypes;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 
 
 // /spawn
-public class CMD_Spawn extends pxnCommandRoot {
+public interface CMD_Spawn extends PluginCommand {
 
 
 
-	public CMD_Spawn(final VitalCorePlugin plugin) {
-		super(
-			plugin,
-			"pxn", // namespace
-			"Teleport to the world spawn location.", // desc
-			null, // usage
-			"pxn.cmd.spawn", // perm
-			// labels
-			"spawn",
-			"spawnpoint"
-		);
+	default ArgumentBuilder<CommandSourceStack, ?> register_Spawn(final VitalCorePlugin plugin) {
+		return Commands.literal(CMD_LABELS_SPAWN.NODE)
+			// /spawn
+			.executes(context -> this.onCommand_Spawn(context, plugin))
+			// /spawn <world> <players>
+			.then(Commands.argument("world", ArgumentTypes.world())
+				.then(Commands.argument("players", ArgumentTypes.players())
+					.executes(context -> this.onCommand_Spawn(context, plugin))
+				)
+			);
 	}
 
 
 
-	@Override
-	public boolean onCommand(final CommandSender sender, final String[] args) {
-		final Player player = (sender instanceof Player ? (Player)sender : null);
-		final int num_args = args.length;
+	default int onCommand_Spawn(final CommandContext<CommandSourceStack> context, final VitalCorePlugin plugin) {
+		final CommandSourceStack source = context.getSource();
+		final CommandSender sender = source.getSender();
+		final Player[] others = GetArg_Players(context);
+		final String world_str = context.getArgument("world", String.class);
+		final World world = (IsEmpty(world_str) ? null : Bukkit.getWorld(world_str));
 		// self
-		if (num_args == 0) {
-			if (player == null) {
-				sender.sendMessage("Cannot teleport console");
-				return true;
-			}
-			if (!sender.hasPermission("pxn.cmd.spawn"))
-				return false;
-			final World world = player.getWorld();
-			final Location loc = world.getSpawnLocation();
-			player.teleport(loc);
-			sender.sendMessage(Component.text("Teleported to spawn").color(NamedTextColor.AQUA));
-			return true;
+		if (IsEmpty(others)) {
+			// no console
+			if (ConsoleCannotUse(sender))
+				return FAILURE;
+			// permission self
+			if (!HasPermissionUseCMD(sender, PERM_CMD_SPAWN.NODE))
+				return FAILURE;
+			final Player self = (Player) sender;
+			final World w = (world==null ? self.getWorld() : world);
+			final Location loc = w.getSpawnLocation();
+			self.teleport(loc);
+			sender.sendMessage(Component.text("*poof* spawn").color(NamedTextColor.DARK_PURPLE));
 		// other players
 		} else {
-			if (!sender.hasPermission("pxn.cmd.spawn.other"))
-				return false;
+			// permission others
+			if (!HasPermissionUseOthersCMD(sender, PERM_CMD_SPAWN_OTHERS.NODE))
+				return FAILURE;
+			if (world == null) {
+				sender.sendMessage(Component.text("Invalid world: "+world_str));
+				return FAILURE;
+			}
+			final Location loc = world.getSpawnLocation();
 			int count = 0;
-			LOOP_ARGS:
-			for (final String arg : args) {
-				final Player p = Bukkit.getPlayer(arg);
-				if (p == null) {
-					sender.sendMessage(CHAT_PREFIX.append(Component.text(
-						"Player not found: "+arg).color(NamedTextColor.RED)));
-					continue LOOP_ARGS;
-				}
-				final World world = p.getWorld();
-				final Location loc = world.getSpawnLocation();
-				p.teleport(loc);
-				p.sendMessage(Component.text("Teleported to spawn").color(NamedTextColor.AQUA));
+			for (final Player player : others) {
+				player.teleport(loc);
+				sender.sendMessage(Component.text("*poof* spawn").color(NamedTextColor.DARK_PURPLE));
 				count++;
 			}
 			if (count > 0) {
@@ -79,19 +88,9 @@ public class CMD_Spawn extends pxnCommandRoot {
 					Integer.valueOf(count),
 					(count == 1 ? "" : "s")
 				)).color(NamedTextColor.AQUA)));
-				return true;
 			}
 		}
-		return false;
-	}
-
-
-
-	@Override
-	public List<String> onTabComplete(final CommandSender sender, final String[] args) {
-		if (!sender.hasPermission("pxn.cmd.spawn.other"))
-			return null;
-		return this.onTabComplete_Players(args);
+		return SUCCESS;
 	}
 
 

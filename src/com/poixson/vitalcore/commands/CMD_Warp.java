@@ -1,45 +1,38 @@
 package com.poixson.vitalcore.commands;
 
-import java.util.List;
+import static com.poixson.vitalcore.VitalCoreDefines.CMD_LABELS_WARP;
 
-import org.bukkit.command.CommandSender;
-
-import com.poixson.tools.commands.pxnCommandRoot;
+import com.mojang.brigadier.builder.ArgumentBuilder;
+import com.mojang.brigadier.context.CommandContext;
+import com.poixson.tools.commands.PluginCommand;
 import com.poixson.vitalcore.VitalCorePlugin;
+import com.poixson.vitalcore.commands.types.ArgumentType_WarpName;
+
+import io.papermc.paper.command.brigadier.CommandSourceStack;
+import io.papermc.paper.command.brigadier.Commands;
 
 
 // /warp
-public class CMD_Warp extends pxnCommandRoot {
+public interface CMD_Warp extends PluginCommand {
 
 
 
-	public CMD_Warp(final VitalCorePlugin plugin) {
-		super(
-			plugin,
-			"pxn", // namespace
-			"Teleport to a warp location.", // desc
-			null, // usage
-			"pxn.cmd.warp", // perm
-			// labels
-			"warp"
-		);
+	default ArgumentBuilder<CommandSourceStack, ?> register_Warp(final VitalCorePlugin plugin) {
+		return Commands.literal(CMD_LABELS_WARP.NODE)
+			// /warp
+			.executes(context -> this.onCommand_Warp(context, plugin))
+			// /warp <name>
+			.then(Commands.argument("warp", ArgumentType_WarpName.Create(plugin))
+				.executes(context -> this.onCommand_Warp(context, plugin))
+			);
 	}
 
 
 
-	@Override
-	public boolean onCommand(final CommandSender sender, final String[] args) {
-System.out.println("COMMAND:"); for (final String arg : args) System.out.println("  "+arg);
-return false;
-	}
-
-
-
-	@Override
-	public List<String> onTabComplete(final CommandSender sender, final String[] args) {
+	default int onCommand_Warp(final CommandContext<CommandSourceStack> context, final VitalCorePlugin plugin) {
 //TODO
-System.out.println("TAB:"); for (final String arg : args) System.out.println("  "+arg);
-return null;
+context.getSource().getSender().sendPlainMessage("WARP!!!!!!!!!!!!!!!!!!!!!");
+		return SUCCESS;
 	}
 
 

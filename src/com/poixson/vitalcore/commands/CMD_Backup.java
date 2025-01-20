@@ -1,45 +1,35 @@
 package com.poixson.vitalcore.commands;
 
-import java.util.List;
+import static com.poixson.vitalcore.VitalCoreDefines.CMD_LABELS_BACKUP;
 
-import org.bukkit.command.CommandSender;
-
-import com.poixson.tools.commands.pxnCommandRoot;
+import com.mojang.brigadier.builder.ArgumentBuilder;
+import com.mojang.brigadier.context.CommandContext;
+import com.poixson.tools.commands.PluginCommand;
 import com.poixson.vitalcore.VitalCorePlugin;
+
+import io.papermc.paper.command.brigadier.CommandSourceStack;
+import io.papermc.paper.command.brigadier.Commands;
 
 
 // /backup
-public class CMD_Backup extends pxnCommandRoot {
+public interface CMD_Backup extends PluginCommand {
 
 
 
-	public CMD_Backup(final VitalCorePlugin plugin) {
-		super(
-			plugin,
-			"pxn", // namespace
-			"Perform a backup of the worlds and configs.", // desc
-			null, // usage
-			"pxn.cmd.backup", // perm
-			// labels
-			"backup"
-		);
+	default ArgumentBuilder<CommandSourceStack, ?> register_Backup(final VitalCorePlugin plugin) {
+		return Commands.literal(CMD_LABELS_BACKUP.NODE)
+			// /backup
+			.executes(context -> this.onCommand_Backup(context, plugin));
+//"Perform a backup of the worlds and configs."
+//"pxn.cmd.backup"
 	}
 
 
 
-	@Override
-	public boolean onCommand(final CommandSender sender, final String[] args) {
-System.out.println("COMMAND:"); for (final String arg : args) System.out.println("  "+arg);
-return false;
-	}
-
-
-
-	@Override
-	public List<String> onTabComplete(final CommandSender sender, final String[] args) {
+	default int onCommand_Backup(final CommandContext<CommandSourceStack> context, final VitalCorePlugin plugin) {
 //TODO
-System.out.println("TAB:"); for (final String arg : args) System.out.println("  "+arg);
-return null;
+context.getSource().getSender().sendPlainMessage("BACKUP!!!!!!!!!!!!!!!!!!!!!");
+		return SUCCESS;
 	}
 
 

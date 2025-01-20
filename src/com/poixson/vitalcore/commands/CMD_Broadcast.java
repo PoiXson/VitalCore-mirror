@@ -1,47 +1,33 @@
 package com.poixson.vitalcore.commands;
 
-import java.util.List;
+import static com.poixson.vitalcore.VitalCoreDefines.CMD_LABELS_BROADCAST;
 
-import org.bukkit.command.CommandSender;
-
-import com.poixson.tools.commands.pxnCommandRoot;
+import com.mojang.brigadier.builder.ArgumentBuilder;
+import com.mojang.brigadier.context.CommandContext;
+import com.poixson.tools.commands.PluginCommand;
 import com.poixson.vitalcore.VitalCorePlugin;
+
+import io.papermc.paper.command.brigadier.CommandSourceStack;
+import io.papermc.paper.command.brigadier.Commands;
 
 
 // /broadcast
-public class CMD_Broadcast extends pxnCommandRoot {
+public interface CMD_Broadcast extends PluginCommand {
 
 
 
-	public CMD_Broadcast(final VitalCorePlugin plugin) {
-		super(
-			plugin,
-			"pxn", // namespace
-			null, // desc
-			null, // usage
-			"pxn.cmd.broadcast", // perm
-			// labels
-			"broadcast",
-			"announce"
-		);
+	default ArgumentBuilder<CommandSourceStack, ?> register_Broadcast(final VitalCorePlugin plugin) {
+		return Commands.literal(CMD_LABELS_BROADCAST.NODE)
+			// /broadcast
+			.executes(context -> this.onCommand_Broadcast(context, plugin));
 	}
 
 
 
-	@Override
-	public boolean onCommand(final CommandSender sender, final String[] args) {
+	default int onCommand_Broadcast(final CommandContext<CommandSourceStack> context, final VitalCorePlugin plugin) {
 //TODO
-System.out.println("COMMAND:"); for (final String arg : args) System.out.println("  "+arg);
-return false;
-	}
-
-
-
-	@Override
-	public List<String> onTabComplete(final CommandSender sender, final String[] args) {
-//TODO
-System.out.println("TAB:"); for (final String arg : args) System.out.println("  "+arg);
-return null;
+context.getSource().getSender().sendPlainMessage("BROADCAST!!!!!!!!!!!!!!!!!!!!!");
+		return SUCCESS;
 	}
 
 

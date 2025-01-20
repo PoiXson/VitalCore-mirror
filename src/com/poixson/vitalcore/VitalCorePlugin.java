@@ -27,7 +27,7 @@ import com.poixson.vitalcore.charts.PluginsCountChart;
 import com.poixson.tools.chat.ChatFormatter;
 import com.poixson.tools.chat.ChatManager;
 import com.poixson.tools.updatechecker.UpdateCheckManager;
-import com.poixson.vitalcore.commands.PluginCommands;
+import com.poixson.vitalcore.commands.VitalCoreCommands;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -114,12 +114,7 @@ public class VitalCorePlugin extends xJavaPlugin {
 			monitor.register(this);
 		}
 		// commands
-		{
-			final PluginCommands commands = new PluginCommands(this);
-			final PluginCommands previous = this.commands.getAndSet(commands);
-			if (previous != null)
-				previous.close();
-		}
+		this.commands_start(new VitalCoreCommands(this));
 		// chat format
 		if (this.enableChatFormat()) {
 			final ChatFormatter formatter = new ChatFormatter();
@@ -160,11 +155,7 @@ public class VitalCorePlugin extends xJavaPlugin {
 		// uptime
 		this.log().info("Uptime: "+this.getUptimeFormatted());
 		// commands
-		{
-			final PluginCommands commands = this.commands.getAndSet(null);
-			if (commands != null)
-				commands.close();
-		}
+		this.commands_stop();
 		// chat
 		{
 			final ChatManager manager = this.chat_manager.getAndSet(null);
@@ -228,7 +219,7 @@ public class VitalCorePlugin extends xJavaPlugin {
 	@Override
 	protected void configDefaults(final FileConfiguration config) {
 		super.configDefaults(config);
-		PluginCommands.ConfigDefaults(config);
+		VitalCoreCommands.ConfigDefaults(config);
 		config.addDefault("Check for Updates",      Boolean.valueOf(DEFAULT_CHECK_FOR_UPDATES ));
 		config.addDefault("Chat.Enable Formatting", Boolean.valueOf(DEFAULT_ENABLE_CHAT_FORMAT));
 		config.addDefault("Chat.Enable Local Chat", Boolean.valueOf(DEFAULT_ENABLE_LOCAL_CHAT ));
@@ -358,6 +349,40 @@ public class VitalCorePlugin extends xJavaPlugin {
 
 	public int getPluginsCount() {
 		return this.plugins.size();
+	}
+
+
+
+	// -------------------------------------------------------------------------------
+	// warps
+
+
+
+	public String[] getWarps(final Player player) {
+//TODO
+return null;
+	}
+
+	public boolean isValidWarp(final Player player, final String name) {
+//TODO
+return true;
+	}
+
+
+
+	// -------------------------------------------------------------------------------
+	// homes
+
+
+
+	public String[] getHomes(final Player player) {
+//TODO
+return null;
+	}
+
+	public boolean isValidHome(final Player player, final String name) {
+//TODO
+return true;
 	}
 
 

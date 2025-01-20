@@ -1,52 +1,54 @@
 package com.poixson.vitalcore.commands;
 
-import static com.poixson.vitalcore.VitalCorePlugin.CHAT_PREFIX;
+import static com.poixson.tools.commands.PluginCommand.ConsoleCannotUse;
+import static com.poixson.tools.commands.PluginCommand.HasPermissionUseCMD;
+import static com.poixson.vitalcore.VitalCoreDefines.CMD_LABELS_SPAWN_SET;
+import static com.poixson.vitalcore.VitalCoreDefines.PERM_CMD_SPAWN_SET;
 
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import com.poixson.tools.commands.pxnCommandRoot;
+import com.mojang.brigadier.builder.ArgumentBuilder;
+import com.mojang.brigadier.context.CommandContext;
+import com.poixson.tools.commands.PluginCommand;
 import com.poixson.vitalcore.VitalCorePlugin;
 
+import io.papermc.paper.command.brigadier.CommandSourceStack;
+import io.papermc.paper.command.brigadier.Commands;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 
 
 // /setspawn
-public class CMD_Spawn_Set extends pxnCommandRoot {
+public interface CMD_Spawn_Set extends PluginCommand {
 
 
 
-	public CMD_Spawn_Set(final VitalCorePlugin plugin) {
-		super(
-			plugin,
-			"pxn", // namespace
-			"Set the world spawn to your current location.", // desc
-			null, // usage
-			"pxn.cmd.setspawn", // perm
-			// labels
-			"setspawn"
-		);
+	default ArgumentBuilder<CommandSourceStack, ?> register_Spawn_Set(final VitalCorePlugin plugin) {
+		return Commands.literal(CMD_LABELS_SPAWN_SET.NODE)
+			// /setspawn
+			.executes(context -> this.onCommand_Spawn_Set(context, plugin));
 	}
 
 
 
-	@Override
-	public boolean onCommand(final CommandSender sender, final String[] args) {
-		final Player player = (sender instanceof Player ? (Player)sender : null);
-		if (player != null) {
-			if (!player.hasPermission("pxn.cmd.setspawn"))
-				return false;
-			final Location loc = player.getLocation();
-			final World world = loc.getWorld();
-			world.setSpawnLocation(loc);
-			sender.sendMessage(CHAT_PREFIX.append(Component.text(
-				"World spawn location set").color(NamedTextColor.GOLD)));
-			return true;
-		}
-		return false;
+	default int onCommand_Spawn_Set(final CommandContext<CommandSourceStack> context, final VitalCorePlugin plugin) {
+		final CommandSourceStack source = context.getSource();
+		final CommandSender sender = source.getSender();
+		// no console
+		if (ConsoleCannotUse(sender))
+			return FAILURE;
+		// permission
+		if (!HasPermissionUseCMD(sender, PERM_CMD_SPAWN_SET.NODE))
+			return FAILURE;
+		final Player self = (Player) sender;
+		final World world = self.getWorld();
+		final Location loc = world.getSpawnLocation();
+		world.setSpawnLocation(loc);
+		sender.sendMessage(Component.text("World spawn location set").color(NamedTextColor.GOLD));
+		return SUCCESS;
 	}
 
 

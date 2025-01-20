@@ -1,47 +1,33 @@
 package com.poixson.vitalcore.commands;
 
-import java.util.List;
+import static com.poixson.vitalcore.VitalCoreDefines.CMD_LABELS_SPEED;
 
-import org.bukkit.command.CommandSender;
-
-import com.poixson.tools.commands.pxnCommandRoot;
+import com.mojang.brigadier.builder.ArgumentBuilder;
+import com.mojang.brigadier.context.CommandContext;
+import com.poixson.tools.commands.PluginCommand;
 import com.poixson.vitalcore.VitalCorePlugin;
+
+import io.papermc.paper.command.brigadier.CommandSourceStack;
+import io.papermc.paper.command.brigadier.Commands;
 
 
 // /speed
-public class CMD_Speed extends pxnCommandRoot {
+public interface CMD_Speed extends PluginCommand {
 
 
 
-	public CMD_Speed(final VitalCorePlugin plugin) {
-		super(
-			plugin,
-			"pxn", // namespace
-			null, // desc
-			null, // usage
-			"pxn.cmd.speed", // perm
-			// labels
-			"speed",
-			"walkspeed",
-			"flyspeed"
-		);
+	default ArgumentBuilder<CommandSourceStack, ?> register_Speed(final VitalCorePlugin plugin) {
+		return Commands.literal(CMD_LABELS_SPEED.NODE)
+			// /speed
+			.executes(context -> this.onCommand_Speed(context, plugin));
 	}
 
 
 
-	@Override
-	public boolean onCommand(final CommandSender sender, final String[] args) {
-System.out.println("COMMAND:"); for (final String arg : args) System.out.println("  "+arg);
-return false;
-	}
-
-
-
-	@Override
-	public List<String> onTabComplete(final CommandSender sender, final String[] args) {
+	default int onCommand_Speed(final CommandContext<CommandSourceStack> context, final VitalCorePlugin plugin) {
 //TODO
-System.out.println("TAB:"); for (final String arg : args) System.out.println("  "+arg);
-return null;
+context.getSource().getSender().sendPlainMessage("SPEED!!!!!!!!!!!!!!!!!!!!!");
+		return SUCCESS;
 	}
 
 

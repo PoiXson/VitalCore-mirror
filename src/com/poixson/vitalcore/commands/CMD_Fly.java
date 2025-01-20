@@ -1,108 +1,102 @@
 package com.poixson.vitalcore.commands;
 
+import static com.poixson.tools.commands.PluginCommand.ConsoleCannotUse;
+import static com.poixson.tools.commands.PluginCommand.GetArg_Players;
+import static com.poixson.tools.commands.PluginCommand.HasPermissionUseCMD;
+import static com.poixson.tools.commands.PluginCommand.HasPermissionUseOthersCMD;
 import static com.poixson.utils.BukkitUtils.AllowFlyPlayer;
+import static com.poixson.utils.Utils.IsEmpty;
+import static com.poixson.vitalcore.VitalCoreDefines.CMD_LABELS_FLY;
+import static com.poixson.vitalcore.VitalCoreDefines.PERM_CMD_FLY;
+import static com.poixson.vitalcore.VitalCoreDefines.PERM_CMD_FLY_OTHERS;
 import static com.poixson.vitalcore.VitalCorePlugin.CHAT_PREFIX;
 
-import java.util.List;
-
-import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import com.poixson.tools.commands.pxnCommandRoot;
+import com.mojang.brigadier.builder.ArgumentBuilder;
+import com.mojang.brigadier.context.CommandContext;
+import com.poixson.tools.commands.PluginCommand;
 import com.poixson.vitalcore.VitalCorePlugin;
 
+import io.papermc.paper.command.brigadier.CommandSourceStack;
+import io.papermc.paper.command.brigadier.Commands;
+import io.papermc.paper.command.brigadier.argument.ArgumentTypes;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 
 
 // /fly
-public class CMD_Fly extends pxnCommandRoot {
+public interface CMD_Fly extends PluginCommand {
 
 
 
-	public CMD_Fly(final VitalCorePlugin plugin) {
-		super(
-			plugin,
-			"pxn", // namespace
-			"Toggle allow flying.", // desc
-			null, // usage
-			"pxn.cmd.fly", // perm
-			// labels
-			"fly"
-		);
+	default ArgumentBuilder<CommandSourceStack, ?> register_Fly(final VitalCorePlugin plugin) {
+		return Commands.literal(CMD_LABELS_FLY.NODE)
+			// /fly
+			.executes(context -> this.onCommand_Fly(context, plugin))
+			// /fly <players>
+			.then(Commands.argument("players", ArgumentTypes.players())
+				.executes(context -> this.onCommand_Fly(context, plugin))
+			);
 	}
 
 
 
-	@Override
-	public boolean onCommand(final CommandSender sender, final String[] args) {
-		final Player player = (sender instanceof Player ? (Player)sender : null);
-		final int num_args = args.length;
+	default int onCommand_Fly(final CommandContext<CommandSourceStack> context, final VitalCorePlugin plugin) {
+		final CommandSourceStack source = context.getSource();
+		final CommandSender sender = source.getSender();
+		final Player[] others = GetArg_Players(context);
 		// self
-		if (num_args == 0) {
-			if (player == null) {
-				sender.sendMessage("Console cannot fly");
-				return true;
-			}
-			if (!sender.hasPermission("pxn.cmd.fly"))
-				return false;
-			final boolean can_fly = ! player.getAllowFlight();
-			AllowFlyPlayer(player, can_fly);
+		if (IsEmpty(others)) {
+			// no console
+			if (ConsoleCannotUse(sender))
+				return FAILURE;
+			// permission self
+			if (!HasPermissionUseCMD(sender, PERM_CMD_FLY.NODE))
+				return FAILURE;
+			final Player self = (Player) sender;
+			final boolean fly = ! self.getAllowFlight();
+			AllowFlyPlayer(self, fly);
 			sender.sendMessage(Component.text(
-				can_fly ? "You can fly" : "Flying disabled"
+				fly ? "You can fly" : "Flying disabled"
 			).color(NamedTextColor.GOLD));
-			return true;
 		// other players
 		} else {
-			if (!sender.hasPermission("pxn.cmd.fly.other"))
-				return false;
-			int count = 0;
+			// permission others
+			if (!HasPermissionUseOthersCMD(sender, PERM_CMD_FLY_OTHERS.NODE))
+				return FAILURE;
 			// find fly state
 			boolean can_fly = true;
-			LOOP_ARGS:
-			for (final String arg : args) {
-				final Player p = Bukkit.getPlayer(arg);
-				if (p == null) {
-					sender.sendMessage(CHAT_PREFIX.append(Component.text(
-						"Player not found: "+arg).color(NamedTextColor.RED)));
-					continue LOOP_ARGS;
-				}
+			for (final Player p : others) {
 				if (!p.getAllowFlight())
-					can_fly = true;
+					can_fly = false;
 			}
 			// set fly state
-			LOOP_ARGS:
-			for (final String arg : args) {
-				final Player p = Bukkit.getPlayer(arg);
-				if (p == null)
-					continue LOOP_ARGS;
-				AllowFlyPlayer(p, can_fly);
-				p.sendMessage(Component.text(
-					can_fly ? "You can fly" : "Flying disabled"
-				).color(NamedTextColor.GOLD));
-				count++;
+			int count = 0;
+			final boolean set_fly = !can_fly;
+			final Component msg = CHAT_PREFIX.append(Component.text(
+				set_fly
+				? "You can fly"
+				: "Flying disabled"
+			).color(NamedTextColor.GOLD));
+			for (final Player p : others) {
+				if (p.getAllowFlight() != set_fly) {
+					AllowFlyPlayer(p, set_fly);
+					p.sendMessage(msg);
+					count++;
+				}
 			}
 			if (count > 0) {
 				sender.sendMessage(CHAT_PREFIX.append(Component.text(String.format(
 					"Flying %s for %d player%s",
-					(can_fly ? "enabled" : "disabled"),
+					(set_fly ? "enabled" : "disabled"),
 					Integer.valueOf(count),
 					(count == 1 ? "" : "s")
 				)).color(NamedTextColor.AQUA)));
-				return true;
 			}
 		}
-		return false;
-	}
-
-
-
-	@Override
-	public List<String> onTabComplete(final CommandSender sender, final String[] args) {
-		if (!sender.hasPermission("pxn.cmd.fly.other"))
-			return null;
-		return this.onTabComplete_Players(args);
+		return SUCCESS;
 	}
 
 

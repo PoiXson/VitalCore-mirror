@@ -1,47 +1,33 @@
 package com.poixson.vitalcore.commands;
 
-import java.util.List;
+import static com.poixson.vitalcore.VitalCoreDefines.CMD_LABELS_TP_HERE;
 
-import org.bukkit.command.CommandSender;
-
-import com.poixson.tools.commands.pxnCommandRoot;
+import com.mojang.brigadier.builder.ArgumentBuilder;
+import com.mojang.brigadier.context.CommandContext;
+import com.poixson.tools.commands.PluginCommand;
 import com.poixson.vitalcore.VitalCorePlugin;
+
+import io.papermc.paper.command.brigadier.CommandSourceStack;
+import io.papermc.paper.command.brigadier.Commands;
 
 
 // /tp-here
-public class CMD_TP_Here extends pxnCommandRoot {
+public interface CMD_TP_Here extends PluginCommand {
 
 
 
-	public CMD_TP_Here(final VitalCorePlugin plugin) {
-		super(
-			plugin,
-			"pxn", // namespace
-			"Teleport other players to your current location.", // desc
-			null, // usage
-			"pxn.cmd.tp.here", // perm
-			// labels
-			"tph",
-			"tphere",
-			"tp-here"
-		);
+	default ArgumentBuilder<CommandSourceStack, ?> register_TP_Here(final VitalCorePlugin plugin) {
+		return Commands.literal(CMD_LABELS_TP_HERE.NODE)
+			// /tp-here
+			.executes(context -> this.onCommand_TP_Here(context, plugin));
 	}
 
 
 
-	@Override
-	public boolean onCommand(final CommandSender sender, final String[] args) {
-System.out.println("COMMAND:"); for (final String arg : args) System.out.println("  "+arg);
-return false;
-	}
-
-
-
-	@Override
-	public List<String> onTabComplete(final CommandSender sender, final String[] args) {
+	default int onCommand_TP_Here(final CommandContext<CommandSourceStack> context, final VitalCorePlugin plugin) {
 //TODO
-System.out.println("TAB:"); for (final String arg : args) System.out.println("  "+arg);
-return null;
+context.getSource().getSender().sendPlainMessage("TP-HERE!!!!!!!!!!!!!!!!!!!!!");
+		return SUCCESS;
 	}
 
 

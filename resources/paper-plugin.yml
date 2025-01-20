@@ -18,74 +18,63 @@ authors: lorenzop
 website: ${project.url}
 description: ${project.description}
 permissions:
-    pxn.*:
+    pxn.cmd.*:
         default: op
-        description: Allow all pxn plugin lib commands
+        description: Allow all Vital commands
         children:
-            pxn.updates:           true
-            pxn.cmd.help:          true
-            pxn.cmd.list:          true
-            pxn.cmd.home:          true
-            pxn.cmd.world:         true
-            pxn.cmd.world.other:   true
-            pxn.cmd.spawn:         true
-            pxn.cmd.spawn.other:   true
-            pxn.cmd.setspawn:      true
-            pxn.cmd.warp:          true
-            pxn.cmd.setwarp:       true
-            pxn.cmd.tp.*:          true
-            pxn.cmd.back:          true
-            pxn.cmd.top:           true
-            pxn.cmd.bottom:        true
-            pxn.cmd.jump:          true
-            pxn.cmd.fly:           true
-            pxn.cmd.fly.other:     true
-            pxn.cmd.motd:          true
-            pxn.cmd.broadcast:     true
-            pxn.cmd.msg:           true
-            pxn.cmd.me:            true
-            pxn.cmd.gm.*:          true
-            pxn.cmd.feed:          true
-            pxn.cmd.feed.other:    true
-            pxn.cmd.heal:          true
-            pxn.cmd.heal.other:    true
-            pxn.cmd.rest:          true
-            pxn.cmd.rest.other:    true
-            pxn.cmd.speed.*:       true
-            pxn.cmd.workbench:     true
-            pxn.cmd.enderchest:    true
-            pxn.cmd.powertool:     true
-            pxn.cmd.backup:        true
-            pxn.cmd.gc:            true
-            pxn.cmd.uptime:        true
-    pxn.cmd.tp.*:
-        default: op
-        description: "Allow all commands: /tp <...>"
-        children:
-            pxn.cmd.tp:            true
-            pxn.cmd.tp.here:       true
-            pxn.cmd.tp.ask:        true
-            pxn.cmd.tp.askhere:    true
-            pxn.cmd.tp.allhere:    true
-            pxn.cmd.tp.askallhere: true
+            pxn.cmd.help:        true
+            pxn.cmd.updates:     true
+            pxn.cmd.backup:      true
+            pxn.cmd.gc:          true
+            pxn.cmd.uptime:      true
+            pxn.cmd.gm.*:        true
+            pxn.cmd.feed:        true
+            pxn.cmd.feed.other:  true
+            pxn.cmd.heal:        true
+            pxn.cmd.heal.other:  true
+            pxn.cmd.rest:        true
+            pxn.cmd.rest.other:  true
+            pxn.cmd.fly:         true
+            pxn.cmd.fly.other:   true
+            pxn.cmd.speed.*:     true
+            pxn.cmd.workbench:   true
+            pxn.cmd.enderchest:  true
+            pxn.cmd.powertool:   true
+            pxn.cmd.list:        true
+            pxn.cmd.world:       true
+            pxn.cmd.world.other: true
+            pxn.cmd.worlds:      true
+            pxn.cmd.spawn:       true
+            pxn.cmd.spawn.other: true
+            pxn.cmd.setspawn:    true
+            pxn.cmd.home:        true
+            pxn.cmd.warp:        true
+            pxn.cmd.setwarp:     true
+            pxn.cmd.back:        true
+            pxn.cmd.jump:        true
+            pxn.cmd.tp.*:        true
+            pxn.cmd.motd:        true
+            pxn.cmd.broadcast:   true
+            pxn.cmd.msg:         true
+            pxn.cmd.me:          true
     pxn.cmd.gm.*:
         default: op
-        description: "Allow all commands: /gm <...>"
+        description: "Allow all commands: /gm <mode>"
         children:
             pxn.cmd.gm:    true
             pxn.cmd.gm.c:  true
             pxn.cmd.gm.s:  true
             pxn.cmd.gm.a:  true
             pxn.cmd.gm.sp: true
-    pxn.cmd.gm.other.*:
+    pxn.cmd.gm.others.*:
         default: op
-        description: "Allow all commands: /gm <...> <player>"
+        description: "Allow all commands: /gm <mode> <players>"
         children:
-            pxn.cmd.gm.other:    true
-            pxn.cmd.gm.c.other:  true
-            pxn.cmd.gm.s.other:  true
-            pxn.cmd.gm.a.other:  true
-            pxn.cmd.gm.sp.other: true
+            pxn.cmd.gm.others:    true
+            pxn.cmd.gm.c.others:  true
+            pxn.cmd.gm.s.others:  true
+            pxn.cmd.gm.a.others:  true
+            pxn.cmd.gm.sp.others: true
     pxn.cmd.speed.*:
         default: op
         description: "Allow commands: /walkspeed and /flyspeed"
@@ -93,83 +82,170 @@ permissions:
             pxn.cmd.speed:      true
             pxn.cmd.speed.walk: true
             pxn.cmd.speed.fly:  true
-    pxn.updates:
+    pxn.cmd.tp.*:
         default: op
-        description: Receive notices of plugin updates.
+        description: "Allow all commands: /tp <...>"
+        children:
+            pxn.cmd.tp:         true
+            pxn.cmd.tp.here:    true
+            pxn.cmd.tp.ask:     true
+            pxn.cmd.tp.askhere: true
+    pxn.cmd.tpask.*:
+        default: op
+        description: "Allow all commands: /tpask <...>"
+        children:
+            pxn.cmd.tp.ask:     true
+            pxn.cmd.tp.askhere: true
     pxn.cmd.help:
         default: true
         description: "Allow command: /help"
+    pxn.cmd.updates:
+        default: op
+        description: Display a list of available updates.
+    pxn.updates:
+        default: op
+        description: Receive notices of plugin updates.
+    pxn.cmd.backup:
+        default: op
+        description: "Allow command: /backup"
+    pxn.cmd.gc:
+        default: op
+        description: "Allow command: /gc"
+    pxn.cmd.uptime:
+        default: op
+        description: "Allow command: /uptime"
+    pxn.cmd.gm:
+        default: op
+        description: "Allow command: /gm"
+    pxn.cmd.gm.others:
+        default: op
+        description: "Allow command: /gm <players>"
+    pxn.cmd.gm.c:
+        default: op
+        description: "Allow command: /gmc"
+    pxn.cmd.gm.c.others:
+        default: op
+        description: "Allow command: /gmc <players>"
+    pxn.cmd.gm.s:
+        default: op
+        description: "Allow command: /gms"
+    pxn.cmd.gm.s.others:
+        default: op
+        description: "Allow command: /gms <players>"
+    pxn.cmd.gm.a:
+        default: op
+        description: "Allow command: /gma"
+    pxn.cmd.gm.a.others:
+        default: op
+        description: "Allow command: /gma <players>"
+    pxn.cmd.gm.spec:
+        default: op
+        description: "Allow command: /gmspec"
+    pxn.cmd.gm.spec.others:
+        default: op
+        description: "Allow command: /gmspec <players>"
+    pxn.cmd.feed:
+        default: op
+        description: "Allow command: /feed"
+    pxn.cmd.feed.others:
+        default: op
+        description: "Allow command: /feed <players>"
+    pxn.cmd.heal:
+        default: op
+        description: "Allow command: /heal"
+    pxn.cmd.heal.others:
+        default: op
+        description: "Allow command: /heal <players>"
+    pxn.cmd.rest:
+        default: op
+        description: "Allow command: /rest"
+    pxn.cmd.rest.others:
+        default: op
+        description: "Allow command: /rest <players>"
+    pxn.cmd.fly:
+        default: op
+        description: "Allow command: /fly"
+    pxn.cmd.fly.others:
+        default: op
+        description: "Allow command: /fly <players>"
+    pxn.cmd.speed:
+        default: op
+        description: "Allow command: /speed"
+    pxn.cmd.speed.others:
+        default: op
+        description: "Allow command: /speed <players>"
+    pxn.cmd.speed.walk:
+        default: op
+        description: "Allow command: /walkspeed"
+    pxn.cmd.speed.walk.others:
+        default: op
+        description: "Allow command: /walkspeed <players>"
+    pxn.cmd.speed.fly:
+        default: op
+        description: "Allow command: /flyspeed"
+    pxn.cmd.speed.fly.others:
+        default: op
+        description: "Allow command: /flyspeed <players>"
+    pxn.cmd.workbench:
+        default: op
+        description: "Allow command: /workbench"
+    pxn.cmd.enderchest:
+        default: op
+        description: "Allow command: /enderchest"
+    pxn.cmd.powertool:
+        default: op
+        description: "Allow command: /powertool"
     pxn.cmd.list:
         default: true
         description: "Allow command: /list"
-
-    pxn.cmd.home:
-        default: op
-        description: "Allow command: /home"
     pxn.cmd.world:
         default: op
         description: "Allow command: /world <world>"
-    pxn.cmd.world.other:
+    pxn.cmd.world.others:
         default: op
-        description: "Allow command: /world <world> <player>.."
+        description: "Allow command: /world <world> <players>"
+    pxn.cmd.worlds:
+        default: op
+        description: "Allow command: /worlds"
     pxn.cmd.spawn:
         default: op
         description: "Allow command: /spawn"
-    pxn.cmd.spawn.other:
+    pxn.cmd.spawn.others:
         default: op
-        description: "Allow command: /spawn <player>.."
+        description: "Allow command: /spawn <players>"
     pxn.cmd.setspawn:
         default: op
         description: "Allow command: /setspawn"
+    pxn.cmd.home:
+        default: op
+        description: "Allow command: /home"
     pxn.cmd.warp:
         default: op
         description: "Allow command: /warp"
     pxn.cmd.setwarp:
         default: op
         descroption: "Allow command: /setwarp"
-
-    pxn.cmd.tp:
-        default: op
-        description: "Allow command: /tp"
-    pxn.cmd.tp.here:
-        default: op
-        description: "Allow command: /tp-here"
-    pxn.cmd.tp.ask:
-        default: op
-        description: "Allow command: /tp-ask"
-    pxn.cmd.tp.askhere:
-        default: op
-        description: "Allow command: /tp-ask-here"
-    pxn.cmd.tp.allhere:
-        default: op
-        description: "Allow command: /tp-all-here"
-    pxn.cmd.tp.askallhere:
-        default: op
-        description: "Allow command: /tp-ask-all-here"
-    pxn.cmd.tp.offline:
-        default: op
-        description: "Allow command: /tp-offline"
-
     pxn.cmd.back:
         default: op
         description: "Allow command: /back"
-    pxn.cmd.top:
-        default: op
-        description: "Allow command: /top"
-    pxn.cmd.bottom:
-        default: op
-        description: "Allow command: /bottom"
-
     pxn.cmd.jump:
         default: op
         description: "Allow command: /jump"
-    pxn.cmd.fly:
+    pxn.cmd.tp:
         default: op
-        description: "Allow command: /fly"
-    pxn.cmd.fly.other:
+        description: "Allow command: /tp"
+    pxn.cmd.tp.ask:
         default: op
-        description: "Allow command: /fly <player>.."
-
+        description: "Allow command: /tp-ask"
+    pxn.cmd.tp.here:
+        default: op
+        description: "Allow command: /tp-here"
+    pxn.cmd.tp.askhere:
+        default: op
+        description: "Allow command: /tp-ask-here"
+    pxn.cmd.tp.offline:
+        default: op
+        description: "Allow command: /tp-offline"
     pxn.cmd.motd:
         default: true
         description: "Allow command: /motd"
@@ -182,68 +258,3 @@ permissions:
     pxn.cmd.me:
         default: true
         description: "Allow command: /me"
-
-    pxn.cmd.gm:
-        default: op
-        description: "Allow command: /gm"
-    pxn.cmd.gm.c:
-        default: op
-        description: "Allow command: /gmc"
-    pxn.cmd.gm.s:
-        default: op
-        description: "Allow command: /gms"
-    pxn.cmd.gm.a:
-        default: op
-        description: "Allow command: /gma"
-    pxn.cmd.gm.sp:
-        default: op
-        description: "Allow command: /gmsp"
-
-    pxn.cmd.feed:
-        default: op
-        description: "Allow command: /feed"
-    pxn.cmd.feed.other:
-        default: op
-        description: "Allow command: /feed <player>.."
-    pxn.cmd.heal:
-        default: op
-        description: "Allow command: /heal"
-    pxn.cmd.heal.other:
-        default: op
-        description: "Allow command: /heal <player>.."
-    pxn.cmd.rest:
-        default: op
-        description: "Allow command: /rest"
-    pxn.cmd.rest.other:
-        default: op
-        description: "Allow command: /rest <player>.."
-
-    pxn.cmd.speed:
-        default: op
-        description: "Allow command: /speed"
-    pxn.cmd.speed.walk:
-        default: op
-        description: "Allow command: /walkspeed"
-    pxn.cmd.speed.fly:
-        default: op
-        description: "Allow command: /flyspeed"
-
-    pxn.cmd.workbench:
-        default: op
-        description: "Allow command: /workbench"
-    pxn.cmd.enderchest:
-        default: op
-        description: "Allow command: /enderchest"
-
-    pxn.cmd.powertool:
-        default: op
-        description: "Allow command: /powertool"
-    pxn.cmd.backup:
-        default: op
-        description: "Allow command: /backup"
-    pxn.cmd.gc:
-        default: op
-        description: "Allow command: /gc"
-    pxn.cmd.uptime:
-        default: op
-        description: "Allow command: /uptime"

@@ -1,103 +1,89 @@
 package com.poixson.vitalcore.commands;
 
+import static com.poixson.tools.commands.PluginCommand.ConsoleCannotUse;
+import static com.poixson.tools.commands.PluginCommand.GetArg_Players;
+import static com.poixson.tools.commands.PluginCommand.HasPermissionUseCMD;
+import static com.poixson.tools.commands.PluginCommand.HasPermissionUseOthersCMD;
+import static com.poixson.utils.Utils.IsEmpty;
+import static com.poixson.vitalcore.VitalCoreDefines.CMD_LABELS_GM_A;
+import static com.poixson.vitalcore.VitalCoreDefines.PERM_CMD_GM_A;
+import static com.poixson.vitalcore.VitalCoreDefines.PERM_CMD_GM_A_OTHERS;
 import static com.poixson.vitalcore.VitalCorePlugin.CHAT_PREFIX;
 
-import java.util.List;
-
-import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import com.poixson.tools.commands.pxnCommandRoot;
+import com.mojang.brigadier.builder.ArgumentBuilder;
+import com.mojang.brigadier.context.CommandContext;
+import com.poixson.tools.commands.PluginCommand;
 import com.poixson.vitalcore.VitalCorePlugin;
 
+import io.papermc.paper.command.brigadier.CommandSourceStack;
+import io.papermc.paper.command.brigadier.Commands;
+import io.papermc.paper.command.brigadier.argument.ArgumentTypes;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 
 
 // /gma
-public class CMD_GM_A extends pxnCommandRoot {
+public interface CMD_GM_A extends PluginCommand {
 
 
 
-	public CMD_GM_A(final VitalCorePlugin plugin) {
-		super(
-			plugin,
-			"pxn", // namespace
-			"Change game mode to Adventure.", // desc
-			null, // usage
-			"pxn.cmd.gm.a", // perm
-			// labels
-			"gma",
-			"gmadv",
-			"gmadventure",
-			"gm-a",
-			"gm-adv",
-			"gm-adventure"
-		);
+	default ArgumentBuilder<CommandSourceStack, ?> register_GM_A(final VitalCorePlugin plugin) {
+		return Commands.literal(CMD_LABELS_GM_A.NODE)
+			// /gma
+			.executes(context -> this.onCommand_GM_A(context, plugin))
+			// /gma <players>
+			.then(Commands.argument("players", ArgumentTypes.players())
+				.executes(context -> this.onCommand_GM_A(context, plugin))
+			);
 	}
 
 
 
-	@Override
-	public boolean onCommand(final CommandSender sender, final String[] args) {
-		final Player player = (sender instanceof Player ? (Player)sender : null);
-		final int num_args = args.length;
+	default int onCommand_GM_A(final CommandContext<CommandSourceStack> context, final VitalCorePlugin plugin) {
+		final CommandSourceStack source = context.getSource();
+		final CommandSender sender = source.getSender();
+		final Player[] others = GetArg_Players(context);
 		// self
-		if (num_args == 0) {
-			if (player == null) {
-				sender.sendMessage("Cannot change game mode for console");
-				return true;
-			}
-			if (!sender.hasPermission("pxn.cmd.gm.a"))
-				return false;
-			player.setGameMode(GameMode.ADVENTURE);
-			player.sendMessage(Component.textOfChildren(
-				Component.text("Game mode: "                ).color(NamedTextColor.AQUA),
-				Component.text(GameMode.ADVENTURE.toString()).color(NamedTextColor.GOLD)
-			));
-			return true;
+		if (IsEmpty(others)) {
+			// no console
+			if (ConsoleCannotUse(sender))
+				return FAILURE;
+			// permission self
+			if (!HasPermissionUseCMD(sender, PERM_CMD_GM_A.NODE))
+				return FAILURE;
+			final Player self = (Player) sender;
+			self.setGameMode(GameMode.ADVENTURE);
+			sender.sendMessage(Component.text("Set your game mode to "+GameMode.ADVENTURE.name()));
 		// other players
 		} else {
-			if (!sender.hasPermission("pxn.cmd.gm.a.other"))
-				return false;
+			// permission others
+			if (!HasPermissionUseOthersCMD(sender, PERM_CMD_GM_A_OTHERS.NODE))
+				return FAILURE;
 			int count = 0;
-			LOOP_ARGS:
-			for (final String arg : args) {
-				final Player p = Bukkit.getPlayer(arg);
-				if (p == null) {
-					sender.sendMessage(CHAT_PREFIX.append(Component.text(
-						"Player not found: "+arg).color(NamedTextColor.RED)));
-					continue LOOP_ARGS;
+			for (final Player p : others) {
+				if (!GameMode.ADVENTURE.equals(p.getGameMode())) {
+					p.setGameMode(GameMode.ADVENTURE);
+					p.sendMessage(Component.textOfChildren(
+						Component.text("Game mode: "            ).color(NamedTextColor.AQUA),
+						Component.text(GameMode.ADVENTURE.name()).color(NamedTextColor.GOLD)
+					));
+					count++;
 				}
-				p.setGameMode(GameMode.ADVENTURE);
-				player.sendMessage(Component.textOfChildren(
-					Component.text("Game mode: "                ).color(NamedTextColor.AQUA),
-					Component.text(GameMode.ADVENTURE.toString()).color(NamedTextColor.GOLD)
-				));
-				count++;
 			}
 			if (count > 0) {
 				sender.sendMessage(CHAT_PREFIX.append(Component.text(String.format(
 					"Set game mode to %s for %d player%s",
-					GameMode.ADVENTURE.toString(),
+					GameMode.ADVENTURE.name(),
 					Integer.valueOf(count),
 					(count == 1 ? "" : "s")
 				)).color(NamedTextColor.AQUA)));
-				return true;
 			}
 		}
-		return false;
-	}
-
-
-
-	@Override
-	public List<String> onTabComplete(final CommandSender sender, final String[] args) {
-		if (!sender.hasPermission("pxn.cmd.gm.a.other"))
-			return null;
-		return this.onTabComplete_Players(args);
+		return SUCCESS;
 	}
 
 

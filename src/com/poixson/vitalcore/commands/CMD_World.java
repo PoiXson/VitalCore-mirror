@@ -1,42 +1,39 @@
 package com.poixson.vitalcore.commands;
 
-import static com.poixson.utils.ArrayUtils.MergeLists;
-import static com.poixson.vitalcore.VitalCorePlugin.CHAT_PREFIX;
+import static com.poixson.vitalcore.VitalCoreDefines.CMD_LABELS_WORLD;
 
-import java.util.List;
-
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.World;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-
-import com.poixson.tools.commands.pxnCommandRoot;
+import com.mojang.brigadier.builder.ArgumentBuilder;
+import com.mojang.brigadier.context.CommandContext;
+import com.poixson.tools.commands.PluginCommand;
 import com.poixson.vitalcore.VitalCorePlugin;
 
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
+import io.papermc.paper.command.brigadier.CommandSourceStack;
+import io.papermc.paper.command.brigadier.Commands;
 
 
 // /world
-public class CMD_World extends pxnCommandRoot {
+public interface CMD_World extends PluginCommand {
 
 
 
-	public CMD_World(final VitalCorePlugin plugin) {
-		super(
-			plugin,
-			"pxn", // namespace
-			"Teleport to a world.", // desc
-			null, // usage
-			"pxn.cmd.world", // perm
-			// labels
-			"world"
-		);
+	default ArgumentBuilder<CommandSourceStack, ?> register_World(final VitalCorePlugin plugin) {
+		return Commands.literal(CMD_LABELS_WORLD.NODE)
+			// /world
+			.executes(context -> this.onCommand_World(context, plugin));
 	}
 
 
 
+	default int onCommand_World(final CommandContext<CommandSourceStack> context, final VitalCorePlugin plugin) {
+//TODO
+context.getSource().getSender().sendPlainMessage("WORLD!!!!!!!!!!!!!!!!!!!!!");
+		return SUCCESS;
+	}
+
+
+
+}
+/*
 	@Override
 	public boolean onCommand(final CommandSender sender, final String[] args) {
 		final Player player = (sender instanceof Player ? (Player)sender : null);
@@ -109,22 +106,4 @@ public class CMD_World extends pxnCommandRoot {
 		}
 		return false;
 	}
-
-
-
-	@Override
-	public List<String> onTabComplete(final CommandSender sender, final String[] args) {
-		if (!sender.hasPermission("pxn.cmd.world"))
-			return null;
-		if (sender.hasPermission("pxn.cmd.world.other")) {
-			return MergeLists(
-				this.onTabComplete_Worlds(args),
-				this.onTabComplete_Players(args)
-			);
-		}
-		return this.onTabComplete_Worlds(args);
-	}
-
-
-
-}
+*/

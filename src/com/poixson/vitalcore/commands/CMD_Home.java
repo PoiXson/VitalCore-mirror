@@ -1,45 +1,38 @@
 package com.poixson.vitalcore.commands;
 
-import java.util.List;
+import static com.poixson.vitalcore.VitalCoreDefines.CMD_LABELS_HOME;
 
-import org.bukkit.command.CommandSender;
-
-import com.poixson.tools.commands.pxnCommandRoot;
+import com.mojang.brigadier.builder.ArgumentBuilder;
+import com.mojang.brigadier.context.CommandContext;
+import com.poixson.tools.commands.PluginCommand;
 import com.poixson.vitalcore.VitalCorePlugin;
+import com.poixson.vitalcore.commands.types.ArgumentType_HomeName;
+
+import io.papermc.paper.command.brigadier.CommandSourceStack;
+import io.papermc.paper.command.brigadier.Commands;
 
 
 // /home
-public class CMD_Home extends pxnCommandRoot {
+public interface CMD_Home extends PluginCommand {
 
 
 
-	public CMD_Home(final VitalCorePlugin plugin) {
-		super(
-			plugin,
-			"pxn", // namespace
-			"Teleport to a saved home location.", // desc
-			null, // usage
-			"pxn.cmd.home", // perm
-			// labels
-			"home"
-		);
+	default ArgumentBuilder<CommandSourceStack, ?> register_Home(final VitalCorePlugin plugin) {
+		return Commands.literal(CMD_LABELS_HOME.NODE)
+			// /home
+			.executes(context -> this.onCommand_Home(context, plugin))
+			// /home <name>
+			.then(Commands.argument("home", ArgumentType_HomeName.Create(plugin))
+				.executes(context -> this.onCommand_Home(context, plugin))
+			);
 	}
 
 
 
-	@Override
-	public boolean onCommand(final CommandSender sender, final String[] args) {
-System.out.println("COMMAND:"); for (final String arg : args) System.out.println("  "+arg);
-return false;
-	}
-
-
-
-	@Override
-	public List<String> onTabComplete(final CommandSender sender, final String[] args) {
+	default int onCommand_Home(final CommandContext<CommandSourceStack> context, final VitalCorePlugin plugin) {
 //TODO
-System.out.println("TAB:"); for (final String arg : args) System.out.println("  "+arg);
-return null;
+context.getSource().getSender().sendPlainMessage("HOME!!!!!!!!!!!!!!!!!!!!!");
+		return SUCCESS;
 	}
 
 

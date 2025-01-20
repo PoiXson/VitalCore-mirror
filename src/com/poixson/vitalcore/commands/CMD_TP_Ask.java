@@ -1,51 +1,33 @@
 package com.poixson.vitalcore.commands;
 
-import java.util.List;
+import static com.poixson.vitalcore.VitalCoreDefines.CMD_LABELS_TP_ASK;
 
-import org.bukkit.command.CommandSender;
-
-import com.poixson.tools.commands.pxnCommandRoot;
+import com.mojang.brigadier.builder.ArgumentBuilder;
+import com.mojang.brigadier.context.CommandContext;
+import com.poixson.tools.commands.PluginCommand;
 import com.poixson.vitalcore.VitalCorePlugin;
+
+import io.papermc.paper.command.brigadier.CommandSourceStack;
+import io.papermc.paper.command.brigadier.Commands;
 
 
 // /tp-ask
-public class CMD_TP_Ask extends pxnCommandRoot {
+public interface CMD_TP_Ask extends PluginCommand {
 
 
 
-	public CMD_TP_Ask(final VitalCorePlugin plugin) {
-		super(
-			plugin,
-			"pxn", // namespace
-			"Teleport to a location or world.", // desc
-			null, // usage
-			"pxn.cmd.tp.ask", // perm
-			// labels
-			"tpa",
-			"tpask",
-			"tp-ask",
-			"teleportask",
-			"teleport-ask",
-			"askteleport",
-			"ask-teleport"
-		);
+	default ArgumentBuilder<CommandSourceStack, ?> register_TP_Ask(final VitalCorePlugin plugin) {
+		return Commands.literal(CMD_LABELS_TP_ASK.NODE)
+			// /tp-ask
+			.executes(context -> this.onCommand_TP_Ask(context, plugin));
 	}
 
 
 
-	@Override
-	public boolean onCommand(final CommandSender sender, final String[] args) {
-System.out.println("COMMAND:"); for (final String arg : args) System.out.println("  "+arg);
-return false;
-	}
-
-
-
-	@Override
-	public List<String> onTabComplete(final CommandSender sender, final String[] args) {
+	default int onCommand_TP_Ask(final CommandContext<CommandSourceStack> context, final VitalCorePlugin plugin) {
 //TODO
-System.out.println("TAB:"); for (final String arg : args) System.out.println("  "+arg);
-return null;
+context.getSource().getSender().sendPlainMessage("TP-ASK!!!!!!!!!!!!!!!!!!!!!");
+		return SUCCESS;
 	}
 
 

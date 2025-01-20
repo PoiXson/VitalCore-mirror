@@ -1,45 +1,33 @@
 package com.poixson.vitalcore.commands;
 
-import java.util.List;
+import static com.poixson.vitalcore.VitalCoreDefines.CMD_LABELS_MOTD;
 
-import org.bukkit.command.CommandSender;
-
-import com.poixson.tools.commands.pxnCommandRoot;
+import com.mojang.brigadier.builder.ArgumentBuilder;
+import com.mojang.brigadier.context.CommandContext;
+import com.poixson.tools.commands.PluginCommand;
 import com.poixson.vitalcore.VitalCorePlugin;
+
+import io.papermc.paper.command.brigadier.CommandSourceStack;
+import io.papermc.paper.command.brigadier.Commands;
 
 
 // /motd
-public class CMD_MOTD extends pxnCommandRoot {
+public interface CMD_MOTD extends PluginCommand {
 
 
 
-	public CMD_MOTD(final VitalCorePlugin plugin) {
-		super(
-			plugin,
-			"pxn", // namespace
-			null, // desc
-			null, // usage
-			"pxn.cmd.motd", // perm
-			// labels
-			"motd"
-		);
+	default ArgumentBuilder<CommandSourceStack, ?> register_MOTD(final VitalCorePlugin plugin) {
+		return Commands.literal(CMD_LABELS_MOTD.NODE)
+			// /motd
+			.executes(context -> this.onCommand_MOTD(context, plugin));
 	}
 
 
 
-	@Override
-	public boolean onCommand(final CommandSender sender, final String[] args) {
-System.out.println("COMMAND:"); for (final String arg : args) System.out.println("  "+arg);
-return false;
-	}
-
-
-
-	@Override
-	public List<String> onTabComplete(final CommandSender sender, final String[] args) {
+	default int onCommand_MOTD(final CommandContext<CommandSourceStack> context, final VitalCorePlugin plugin) {
 //TODO
-System.out.println("TAB:"); for (final String arg : args) System.out.println("  "+arg);
-return null;
+context.getSource().getSender().sendPlainMessage("MOTD!!!!!!!!!!!!!!!!!!!!!");
+		return SUCCESS;
 	}
 
 
