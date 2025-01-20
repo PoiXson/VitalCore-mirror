@@ -28,12 +28,15 @@ import org.bukkit.Axis;
 import org.bukkit.Rotation;
 import org.bukkit.block.BlockFace;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
+import com.poixson.tools.Assertions;
 import com.poixson.tools.dao.Iab;
 import com.poixson.tools.dao.Iabc;
 import com.poixson.tools.dao.Iabcd;
 
 
+@ExtendWith(Assertions.class)
 public class Test_LocationUtils {
 
 
