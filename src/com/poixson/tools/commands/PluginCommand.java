@@ -1,92 +1,62 @@
 package com.poixson.tools.commands;
 
 import static com.poixson.utils.Utils.IsEmpty;
+import static com.poixson.vitalcore.VitalCoreDefines.LANG_CONSOLE_CANNOT_USE_CMD;
+import static com.poixson.vitalcore.VitalCoreDefines.LANG_NO_PERMISSION_USE_CMD;
+import static com.poixson.vitalcore.VitalCoreDefines.LANG_NO_PERMISSION_USE_CMD_ON_OTHERS;
+import static com.poixson.vitalcore.VitalCoreDefines.Lang;
 
-import java.util.LinkedList;
 import java.util.List;
 
 import org.bukkit.Bukkit;
-import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import com.mojang.brigadier.Command;
+import com.mojang.brigadier.context.CommandContext;
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
-public class pxnCommand {
-
-	protected final String[] labels;
-
-	protected final LinkedList<pxnCommand> children = new LinkedList<pxnCommand>();
-
+import io.papermc.paper.command.brigadier.CommandSourceStack;
+import io.papermc.paper.command.brigadier.argument.resolvers.selector.PlayerSelectorArgumentResolver;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 
 
-	public pxnCommand(final String...labels) {
-		this.labels = labels;
+public interface PluginCommand {
+
+	public static int SUCCESS = Command.SINGLE_SUCCESS;
+	public static int FAILURE = -1;
+
+
+
+	// -------------------------------------------------------------------------------
+	// command argument getters
+
+
+
+	// player
+	public static Player GetArg_Player(final CommandContext<CommandSourceStack> context) {
+		return GetArg_Player(context, "player");
+	}
+	public static Player GetArg_Player(final CommandContext<CommandSourceStack> context, final String name) {
+		final String value = context.getArgument(name, String.class);
+		return (IsEmpty(value) ? null : Bukkit.getPlayer(value));
 	}
 
 
 
-	// override for end point
-	public boolean onCommand(final CommandSender sender, final String[] args) {
-		final LinkedList<String> list = new LinkedList<String>();
-		for (final String label : args)
-			list.addLast(label);
-		final String first = list.removeFirst();
-		for (final pxnCommand cmd : this.children) {
-			if (cmd.match(first) != null)
-				return cmd.onCommand(sender, list.toArray(new String[0]));
-		}
-		return false;
+	// players
+	public static Player[] GetArg_Players(final CommandContext<CommandSourceStack> context) {
+		return GetArg_Players(context, "players");
 	}
-
-
-
-	public List<String> onTabComplete(final CommandSender sender, final String[] args) {
-		if (IsEmpty(args))          return null;
-		if (IsEmpty(this.children)) return null;
-		final LinkedList<String> found = new LinkedList<String>();
-		final LinkedList<String> list  = new LinkedList<String>();
-		for (final String arg : args)
-			list.addLast(arg);
-		final String first = list.removeFirst();
-		if (list.isEmpty()) {
-			for (final pxnCommand command : this.children) {
-				final String match = command.matchPart(first);
-				if (match != null)
-					found.addLast(match);
-			}
-		} else {
-			for (final pxnCommand command : this.children) {
-				if (command.match(first) != null) {
-					final List<String> result = command.onTabComplete(sender, list.toArray(new String[0]));
-					if (result != null) {
-						for (final String str : result)
-							found.addLast(str);
-					}
-				}
-			}
-		}
-		return found;
-	}
-
-
-
-	public void addCommand(final pxnCommand command) {
-		this.children.addLast(command);
-	}
-
-
-
-	public String match(final String match) {
-		for (final String label : this.labels) {
-			if (label.equals(match))
-				return label;
-		}
-		return null;
-	}
-	public String matchPart(final String match) {
-		for (final String label : this.labels) {
-			if (label.startsWith(match))
-				return label;
+	public static Player[] GetArg_Players(final CommandContext<CommandSourceStack> context, final String name) {
+		try {
+			final PlayerSelectorArgumentResolver select_players =
+				context.getArgument(name, PlayerSelectorArgumentResolver.class);
+			final List<Player> players = select_players.resolve(context.getSource());
+			return players.toArray(new Player[0]);
+		} catch (CommandSyntaxException e) {
+			e.printStackTrace();
 		}
 		return null;
 	}
@@ -94,58 +64,50 @@ public class pxnCommand {
 
 
 	// -------------------------------------------------------------------------------
-	// tab completion
+	// command logic helpers
 
 
 
-	// array
-	protected List<String> onTabComplete_Array(final String arg, final String...entries) {
-		final LinkedList<String> results = new LinkedList<String>();
-		for (final String entry : entries) {
-			if (entry.startsWith(arg))
-				results.addLast(entry);
+	// only players - no console
+	public static Player PlayerOnlyNoConsole(final CommandSender sender) {
+		if (sender instanceof Player) {
+			return (Player) sender;
+		} else {
+			sender.sendMessage(Lang.getPhrase(LANG_CONSOLE_CANNOT_USE_CMD.NODE));
+			return null;
 		}
-		return results;
-	}
-	protected List<String> onTabComplete_Array(final String[] args, final String...entries) {
-		final String last = (args.length == 0 ? "" : args[args.length-1]);
-		return this.onTabComplete_Array(last, entries);
 	}
 
 
 
-	// players
-	protected List<String> onTabComplete_Players(final String arg) {
-		final String lower = arg.toLowerCase();
-		final LinkedList<String> results = new LinkedList<String>();
-		for (final Player player : Bukkit.getOnlinePlayers()) {
-			final String name = player.getName();
-			if (name.toLowerCase().startsWith(lower))
-				results.addLast(name);
+	// has permission
+	public static boolean HasPermissionUseCMD(final CommandSender sender, final String node) {
+		return HasPermissionUseCMD(sender, node, Lang.getPhrase(LANG_NO_PERMISSION_USE_CMD.NODE));
+	}
+	public static boolean HasPermissionUseOthersCMD(final CommandSender sender, final String node) {
+		return HasPermissionUseCMD(sender, node, Lang.getPhrase(LANG_NO_PERMISSION_USE_CMD_ON_OTHERS.NODE));
+	}
+	public static boolean HasPermissionUseCMD(final CommandSender sender, final String node, final String msg) {
+		if (IsEmpty(msg))
+			return HasPermissionUseCMD(sender, node, "Permission Denied.");
+		if (sender.hasPermission(node)) {
+			return true;
+		} else {
+			sender.sendMessage(Component.text(msg).color(NamedTextColor.DARK_RED));
+			return false;
 		}
-		return results;
-	}
-	protected List<String> onTabComplete_Players(final String[] args) {
-		final String last = (args.length == 0 ? "" : args[args.length-1]);
-		return this.onTabComplete_Players(last);
 	}
 
 
 
-	// worlds
-	protected List<String> onTabComplete_Worlds(final String arg) {
-		final String lower = arg.toLowerCase();
-		final LinkedList<String> results = new LinkedList<String>();
-		for (final World world : Bukkit.getWorlds()) {
-			final String name = world.getName();
-			if (name.toLowerCase().startsWith(lower))
-				results.addLast(name);
+	// console cannot use
+	public static boolean ConsoleCannotUse(final CommandSender sender) {
+		if (sender instanceof Player) {
+			return false;
+		} else {
+			sender.sendMessage(Component.text(Lang.getPhrase(LANG_CONSOLE_CANNOT_USE_CMD.NODE)));
+			return true;
 		}
-		return results;
-	}
-	protected List<String> onTabComplete_Worlds(final String[] args) {
-		final String last = (args.length == 0 ? "" : args[args.length-1]);
-		return this.onTabComplete_Worlds(last);
 	}
 
 

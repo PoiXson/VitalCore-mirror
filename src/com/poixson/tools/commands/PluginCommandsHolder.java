@@ -1,52 +1,59 @@
 package com.poixson.tools.commands;
 
-import static com.poixson.utils.CommandUtils.GetCommand;
+import java.util.Arrays;
 
-import java.io.Closeable;
-import java.util.List;
-
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
-import org.bukkit.command.PluginCommand;
-import org.bukkit.command.TabCompleter;
-
+import com.mojang.brigadier.builder.ArgumentBuilder;
+import com.mojang.brigadier.tree.LiteralCommandNode;
 import com.poixson.tools.xJavaPlugin;
+import com.poixson.tools.abstractions.xStartStop;
+
+import io.papermc.paper.command.brigadier.CommandSourceStack;
+import io.papermc.paper.command.brigadier.Commands;
+import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
 
 
-public class pxnCommandRoot extends pxnCommand
-implements CommandExecutor, TabCompleter, Closeable {
+public abstract class PluginCommandsHolder<P extends xJavaPlugin<P>> implements xStartStop {
 
-	public final PluginCommand plugin_command;
-
+	public final P plugin;
 
 
-	public pxnCommandRoot(final xJavaPlugin plugin, final String namespace,
-			final String desc, final String usage, final String perm,
-			final String...labels) {
-		super();
-		this.plugin_command = GetCommand(plugin, namespace, labels, desc, usage, perm);
-		this.plugin_command.setExecutor(this);
+
+	public PluginCommandsHolder(final P plugin) {
+		this.plugin = plugin;
 	}
 
 
 
 	@Override
-	public void close() {
-		this.plugin_command.setExecutor(null);
+	public void start() {
+		this.register_holder();
+	}
+	@Override
+	public void stop() {
 	}
 
 
 
-	@Override
-	public boolean onCommand(final CommandSender sender,
-			final Command command, final String label, final String[] args) {
-		return this.onCommand(sender, args);
+	protected void register_holder() {
+		this.plugin.getLifecycleManager()
+			.registerEventHandler(
+				LifecycleEvents.COMMANDS,
+				event -> this.register_commands(event.registrar())
+			);
 	}
-	@Override
-	public List<String> onTabComplete(final CommandSender sender,
-			final Command command, final String label, final String[] args) {
-		return this.onTabComplete(sender, args);
+
+	protected abstract void register_commands(final Commands registrar);
+
+
+
+	protected void register_cmd(final Commands registrar,
+			final ArgumentBuilder<CommandSourceStack, ?> builder,
+			final String desc, final String[] aliases) {
+		registrar.register(
+			(LiteralCommandNode<CommandSourceStack>) builder.build(),
+			desc,
+			Arrays.asList(aliases)
+		);
 	}
 
 

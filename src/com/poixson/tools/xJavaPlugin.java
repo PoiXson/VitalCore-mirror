@@ -14,6 +14,7 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.poixson.tools.commands.PluginCommandsHolder;
 import com.poixson.tools.events.SaveEvent;
 import com.poixson.tools.updatechecker.UpdateCheckManager;
 
@@ -36,6 +37,9 @@ public abstract class xJavaPlugin extends JavaPlugin implements AppProperties {
 
 	// listeners
 	protected final AtomicReference<LocalPluginSaveListener> saveListener = new AtomicReference<LocalPluginSaveListener>(null);
+
+	// commands
+	protected final AtomicReference<PluginCommandsHolder<P>> commands = new AtomicReference<PluginCommandsHolder<P>>();
 
 
 
@@ -96,6 +100,26 @@ public abstract class xJavaPlugin extends JavaPlugin implements AppProperties {
 			.unregisterAll(this);
 		// vault
 		this.economy.set(null);
+	}
+
+
+
+	// -------------------------------------------------------------------------------
+	// commands
+
+
+
+	protected PluginCommandsHolder<P> commands_start(final PluginCommandsHolder<P> commands) {
+		final PluginCommandsHolder<P> previous = this.commands.getAndSet(commands);
+		if (previous != null)
+			previous.stop();
+		return commands;
+	}
+	protected PluginCommandsHolder<P> commands_stop() {
+		final PluginCommandsHolder<P> commands = this.commands.getAndSet(null);
+		if (commands != null)
+			commands.stop();
+		return commands;
 	}
 
 
