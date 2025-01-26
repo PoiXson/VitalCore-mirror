@@ -96,6 +96,7 @@ public class RandomMaze extends WorldStore_HashMap<Iab, AtomicDoubleArray> {
 		return result;
 	}
 
+	@Override
 	public void save(final Iab key) {
 		// avoid saving, save only when generating
 	}

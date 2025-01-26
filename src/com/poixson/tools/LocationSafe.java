@@ -17,7 +17,7 @@ import org.bukkit.block.Block;
 import org.bukkit.util.NumberConversions;
 import org.bukkit.util.Vector;
 
-import com.poixson.tools.abstractions.AtomicDouble;
+import com.poixson.tools.atomic.AtomicDouble;
 import com.poixson.tools.dao.Dabc;
 import com.poixson.tools.dao.Iabc;
 

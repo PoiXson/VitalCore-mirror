@@ -26,8 +26,8 @@ public interface CMD_Warps extends PluginCommand {
 
 	default int onCommand_Warps(final CommandContext<CommandSourceStack> context, final VitalCorePlugin plugin) {
 //TODO
-context.getSource().getSender().sendPlainMessage("WARPS!!!!!!!!!!!!!!!!!!!!!");
-		return SUCCESS;
+context.getSource().getSender().sendPlainMessage("Command is unfinished!");
+return SUCCESS;
 	}
 
 

@@ -26,8 +26,8 @@ public interface CMD_Jump_Into extends PluginCommand {
 
 	default int onCommand_Jump_Into(final CommandContext<CommandSourceStack> context, final VitalCorePlugin plugin) {
 //TODO
-context.getSource().getSender().sendPlainMessage("JUMP-INTO!!!!!!!!!!!!!!!!!!!!!");
-		return SUCCESS;
+context.getSource().getSender().sendPlainMessage("Command is unfinished!");
+return SUCCESS;
 	}
 
 

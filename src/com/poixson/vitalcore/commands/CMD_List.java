@@ -26,8 +26,8 @@ public interface CMD_List extends PluginCommand {
 
 	default int onCommand_List(final CommandContext<CommandSourceStack> context, final VitalCorePlugin plugin) {
 //TODO
-context.getSource().getSender().sendPlainMessage("LIST!!!!!!!!!!!!!!!!!!!!!");
-		return SUCCESS;
+context.getSource().getSender().sendPlainMessage("Command is unfinished!");
+return SUCCESS;
 	}
 
 

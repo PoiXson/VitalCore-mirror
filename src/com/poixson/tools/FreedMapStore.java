@@ -63,8 +63,7 @@ public class FreedMapStore implements xListener {
 				BufferedReader reader = null;
 				try {
 					reader = Files.newBufferedReader(this.file.toPath());
-					final Type token = new TypeToken<HashSet<Integer>>() {}.getType();
-					final Set<Integer> set = GSON().fromJson(reader, token);
+					final Set<Integer> set = GSON().fromJson(reader, GetMapToken());
 					for (final Integer id : set)
 						this.freed.add(id);
 					this.log().info(String.format("Loaded %d freed maps", Integer.valueOf(this.freed.size())));
@@ -133,6 +132,17 @@ public class FreedMapStore implements xListener {
 		final boolean result = this.freed.add(Integer.valueOf(map_id));
 		this.changed.set(true);
 		return result;
+	}
+
+
+
+	// -------------------------------------------------------------------------------
+	// gson
+
+
+
+	public static Type GetMapToken() {
+		return (new TypeToken<HashSet<Integer>>() {}).getType();
 	}
 
 

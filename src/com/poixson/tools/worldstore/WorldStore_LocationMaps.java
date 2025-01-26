@@ -47,8 +47,7 @@ public class WorldStore_LocationMaps extends WorldStore_HashMap<Iab, Map<Iab, Ma
 	@Override
 	protected Map<Iab, Map<String, Object>> load_decode(final String json) {
 		final Map<Iab, Map<String, Object>> result = new ConcurrentHashMap<Iab, Map<String, Object>>();
-		final Type type = new TypeToken<Map<String, Map<String, Object>>>() {}.getType();
-		final Map<String, Map<String, Object>> map = GSON().fromJson(json, type);
+		final Map<String, Map<String, Object>> map = GSON().fromJson(json, GetMapToken());
 		if (map == null) throw new NullPointerException("Failed to parse json");
 		for (final Entry<String, Map<String, Object>> entry : map.entrySet()) {
 			final Iab loc = Iab.FromString(entry.getKey());
@@ -197,6 +196,12 @@ public class WorldStore_LocationMaps extends WorldStore_HashMap<Iab, Map<Iab, Ma
 		return com.poixson.utils.GsonProvider.GSON(
 			Location.class, new GsonAdapter_Location()
 		);
+	}
+
+
+
+	public static Type GetMapToken() {
+		return (new TypeToken<Map<String, Map<String, Object>>>() {}).getType();
 	}
 
 

@@ -1,6 +1,6 @@
 package com.poixson.tools.wizards.steps;
 
-import static com.poixson.utils.SanUtils.FileName;
+import static com.poixson.utils.SanUtils.AlphaNumSafe;
 import static com.poixson.utils.Utils.IsEmpty;
 
 import java.io.File;
@@ -45,7 +45,7 @@ extends WizardStep_Ask<P> {
 			final String pathStr =
 				(new StringBuilder())
 				.append(parts[0])
-				.append(FileName(answer))
+				.append(AlphaNumSafe(answer))
 				.append(parts[1])
 				.toString();
 			final File file = new File(this.path, pathStr);

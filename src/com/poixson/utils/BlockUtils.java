@@ -77,10 +77,12 @@ public final class BlockUtils {
 
 	// custom item model
 	public static int GetCustomModel(final ItemStack stack) {
-		if (stack.hasItemMeta()) {
-			final ItemMeta meta = stack.getItemMeta();
-			if (meta.hasCustomModelData())
-				return meta.getCustomModelData();
+		if (!IsEmptyOrAir(stack)) {
+			if (stack.hasItemMeta()) {
+				final ItemMeta meta = stack.getItemMeta();
+				if (meta.hasCustomModelData())
+					return meta.getCustomModelData();
+			}
 		}
 		return 0;
 	}

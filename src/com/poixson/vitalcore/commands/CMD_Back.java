@@ -26,8 +26,8 @@ public interface CMD_Back extends PluginCommand {
 
 	default int onCommand_Back(final CommandContext<CommandSourceStack> context, final VitalCorePlugin plugin) {
 //TODO
-context.getSource().getSender().sendPlainMessage("BACK!!!!!!!!!!!!!!!!!!!!!");
-		return SUCCESS;
+context.getSource().getSender().sendPlainMessage("Command is unfinished!");
+return SUCCESS;
 	}
 
 

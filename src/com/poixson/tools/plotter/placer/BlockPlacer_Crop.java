@@ -34,17 +34,16 @@ public class BlockPlacer_Crop extends BlockPlacer {
 
 
 
+	@Override
 	public BlockData getBlock(final int x, final int y, final int z) {
-		return (
-			this.isWithin(x, y, z)
-			? super.getBlock(x, y, z)
-			: null
-		);
+		return (this.isWithin(x, y, z) ? super.getBlock(x, y, z) : null);
 	}
+	@Override
 	public void setBlock(final int x, final int y, final int z, final BlockData type) {
 		if (this.isWithin(x, y, z))
 			super.setBlock(x, y, z, type);
 	}
+	@Override
 	public void setBlock(final int x, final int y, final int z, final Material type) {
 		if (this.isWithin(x, y, z))
 			super.setBlock(x, y, z, type);

@@ -26,8 +26,8 @@ public interface CMD_Home_Del extends PluginCommand {
 
 	default int onCommand_Home_Del(final CommandContext<CommandSourceStack> context, final VitalCorePlugin plugin) {
 //TODO
-context.getSource().getSender().sendPlainMessage("DEL-HOME!!!!!!!!!!!!!!!!!!!!!");
-		return SUCCESS;
+context.getSource().getSender().sendPlainMessage("Command is unfinished!");
+return SUCCESS;
 	}
 
 

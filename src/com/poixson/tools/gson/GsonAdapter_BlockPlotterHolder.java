@@ -26,6 +26,12 @@ public class GsonAdapter_BlockPlotterHolder extends TypeAdapter<BlockPlotterHold
 
 
 
+	public GsonAdapter_BlockPlotterHolder() {
+		super();
+	}
+
+
+
 	@Override
 	public BlockPlotterHolder read(final JsonReader in) throws IOException {
 		if (in.peek() == JsonToken.NULL) { in.nextNull(); return null; }

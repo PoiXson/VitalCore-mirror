@@ -20,6 +20,12 @@ public class GsonAdapter_Location extends TypeAdapter<Location> {
 
 
 
+	public GsonAdapter_Location() {
+		super();
+	}
+
+
+
 	@Override
 	public Location read(final JsonReader in) throws IOException {
 		if (in.peek() == JsonToken.NULL) { in.nextNull(); return null; }
@@ -35,6 +41,8 @@ public class GsonAdapter_Location extends TypeAdapter<Location> {
 		final Block block = world.getBlockAt(x, y, z);               if (block == null)      return null;
 		return block.getLocation();
 	}
+
+
 
 	@Override
 	public void write(final JsonWriter out, final Location loc) throws IOException {

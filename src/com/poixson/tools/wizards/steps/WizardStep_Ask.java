@@ -8,9 +8,9 @@ import java.util.concurrent.atomic.AtomicReference;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
-import org.bukkit.event.Listener;
 
 import com.poixson.tools.xJavaPlugin;
+import com.poixson.tools.xListener;
 import com.poixson.tools.wizards.Wizard;
 
 import io.papermc.paper.event.player.AsyncChatEvent;

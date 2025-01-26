@@ -28,28 +28,27 @@ public abstract class DelayedChestFiller extends BukkitRunnable {
 	protected final xJavaPlugin<?> plugin;
 
 	protected final Location loc;
-	protected final String worldName;
+	protected final String world_name;
 	protected final int x, y, z;
 	protected final AtomicBoolean done = new AtomicBoolean(false);
 
 
 
-	public DelayedChestFiller(final xJavaPlugin plugin,
-			final String worldName, final int x, final int y, final int z) {
-		this.plugin = plugin;
-		this.loc = null;
-		this.worldName = worldName;
-		this.x = x;
-		this.y = y;
-		this.z = z;
+	public DelayedChestFiller(final xJavaPlugin<?> plugin,
+			final String world_name, final int x, final int y, final int z) {
+		this(plugin, null, world_name, x, y, z);
 	}
 	public DelayedChestFiller(final xJavaPlugin<?> plugin, final Location loc) {
-		this.plugin = plugin;
-		this.loc = loc;
-		this.worldName = null;
-		this.x = 0;
-		this.y = 0;
-		this.z = 0;
+		this(plugin, loc, null, 0, 0, 0);
+	}
+	protected DelayedChestFiller(final xJavaPlugin<?> plugin, final Location loc,
+			final String world_name, final int x, final int y, final int z) {
+		this.plugin     = plugin;
+		this.loc        = loc;
+		this.world_name = world_name;
+		this.x          = x;
+		this.y          = y;
+		this.z          = z;
 	}
 
 
@@ -92,7 +91,7 @@ public abstract class DelayedChestFiller extends BukkitRunnable {
 	}
 	public Block getBlock() {
 		if (this.loc == null) {
-			final World world = Bukkit.getWorld(this.worldName);
+			final World world = Bukkit.getWorld(this.world_name);
 			if (stopping.get()) {
 				if (!world.getChunkAt(this.x, this.z).isLoaded())
 					return null;

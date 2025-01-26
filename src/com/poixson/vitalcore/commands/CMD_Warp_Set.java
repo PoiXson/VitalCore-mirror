@@ -29,8 +29,8 @@ public interface CMD_Warp_Set extends PluginCommand {
 
 	default int onCommand_Warp_Set(final CommandContext<CommandSourceStack> context, final VitalCorePlugin plugin) {
 //TODO
-context.getSource().getSender().sendPlainMessage("SET-WARP!!!!!!!!!!!!!!!!!!!!!");
-		return SUCCESS;
+context.getSource().getSender().sendPlainMessage("Command is unfinished!");
+return SUCCESS;
 	}
 
 

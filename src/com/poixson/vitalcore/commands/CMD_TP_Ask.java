@@ -26,8 +26,8 @@ public interface CMD_TP_Ask extends PluginCommand {
 
 	default int onCommand_TP_Ask(final CommandContext<CommandSourceStack> context, final VitalCorePlugin plugin) {
 //TODO
-context.getSource().getSender().sendPlainMessage("TP-ASK!!!!!!!!!!!!!!!!!!!!!");
-		return SUCCESS;
+context.getSource().getSender().sendPlainMessage("Command is unfinished!");
+return SUCCESS;
 	}
 
 

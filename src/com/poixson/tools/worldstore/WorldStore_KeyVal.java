@@ -4,7 +4,6 @@ import static com.poixson.utils.GsonProvider.GSON;
 
 import java.io.File;
 import java.lang.reflect.Type;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
@@ -77,8 +76,7 @@ public class WorldStore_KeyVal extends WorldStore_HashMap<String, Object> {
 
 	@Override
 	protected Object load_decode(final String json) {
-		final Type token = new TypeToken<HashMap<String, Object>>() {}.getType();
-		final Map<String, Object> map = GSON().fromJson(json, token);
+		final Map<String, Object> map = GSON().fromJson(json, GetMapToken());
 		if (map == null) throw new NullPointerException("Failed to parse json");
 		final Iterator<Entry<String, Object>> it = map.entrySet().iterator();
 		while (it.hasNext()) {
@@ -138,6 +136,17 @@ public class WorldStore_KeyVal extends WorldStore_HashMap<String, Object> {
 	}
 	public void set(final String key, final double value) {
 		this.put(key, Double.valueOf(value));
+	}
+
+
+
+	// -------------------------------------------------------------------------------
+	// gson
+
+
+
+	public static Type GetMapToken() {
+		return (new TypeToken<Map<String, Object>>() {}).getType();
 	}
 
 

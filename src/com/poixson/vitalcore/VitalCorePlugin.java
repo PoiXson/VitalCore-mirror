@@ -51,8 +51,10 @@ public class VitalCorePlugin extends xJavaPlugin<VitalCorePlugin> {
 	protected final Keeper keeper;
 	protected final long time_start;
 
+	// pxn plugins
 	protected final CopyOnWriteArraySet<xJavaPlugin<?>> plugins = new CopyOnWriteArraySet<xJavaPlugin<?>>();
 
+	// listeners
 	protected final AtomicReference<PluginsCountChart>  listener_plugins = new AtomicReference<PluginsCountChart> (null);
 	protected final AtomicReference<UpdateCheckManager> updateChecker = new AtomicReference<UpdateCheckManager>(null);
 	protected final AtomicReference<FreedMapStore>        freed_maps       = new AtomicReference<FreedMapStore>       (null);

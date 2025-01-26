@@ -26,8 +26,8 @@ public interface CMD_TP_Offline extends PluginCommand {
 
 	default int onCommand_TP_Offline(final CommandContext<CommandSourceStack> context, final VitalCorePlugin plugin) {
 //TODO
-context.getSource().getSender().sendPlainMessage("TP-OFFLINE!!!!!!!!!!!!!!!!!!!!!");
-		return SUCCESS;
+context.getSource().getSender().sendPlainMessage("Command is unfinished!");
+return SUCCESS;
 	}
 
 

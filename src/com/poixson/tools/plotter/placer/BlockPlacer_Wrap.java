@@ -44,12 +44,15 @@ public class BlockPlacer_Wrap extends BlockPlacer {
 
 
 
+	@Override
 	public BlockData getBlock(final int x, final int y, final int z) {
 		return super.getBlock(x%this.w, y%this.h, z%this.d);
 	}
+	@Override
 	public void setBlock(final int x, final int y, final int z, final BlockData type) {
 		super.setBlock(x%this.w, y%this.h, z%this.d, type);
 	}
+	@Override
 	public void setBlock(final int x, final int y, final int z, final Material type) {
 		super.setBlock(x%this.w, y%this.h, z%this.d, type);
 	}

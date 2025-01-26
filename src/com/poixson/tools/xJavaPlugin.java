@@ -196,15 +196,13 @@ extends JavaPlugin implements AppProperties {
 
 
 
-	public int getSpigotPluginID() {
-		return 0;
-	}
 	public int getBStatsID() {
 		return 0;
 	}
 
 
 
+	@Override
 	public AppPropsDAO getProps() {
 		return this.props;
 	}

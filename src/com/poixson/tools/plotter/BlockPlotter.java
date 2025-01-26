@@ -81,7 +81,7 @@ public class BlockPlotter implements Serializable {
 	public static BlockPlotterHolder Load(final Class<?> clss,
 			final String file_loc, final String file_res)
 			throws IOException {
-		final InputStream in = OpenLocalOrResource(clss, file_loc, file_res);
+		final InputStream in = OpenLocalOrResource(file_loc, file_res);
 		return (in==null ? null : Load(in));
 	}
 	public static BlockPlotterHolder Load(final File file) throws IOException {

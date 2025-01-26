@@ -157,8 +157,7 @@ CMD_MOTD,
 CMD_Broadcast,
 CMD_MSG,
 CMD_Reply,
-CMD_Me
-{
+CMD_Me {
 
 
 

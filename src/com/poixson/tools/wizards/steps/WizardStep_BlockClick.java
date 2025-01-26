@@ -4,20 +4,20 @@ import static com.poixson.utils.BukkitUtils.EqualsPlayer;
 
 import java.util.concurrent.atomic.AtomicReference;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
-import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 
 import com.poixson.tools.xJavaPlugin;
+import com.poixson.tools.xListener;
 import com.poixson.tools.wizards.Wizard;
 
 
@@ -67,9 +67,8 @@ extends WizardStep<P> implements xListener {
 		if (!EqualsPlayer(player, event.getPlayer())) return;
 		// hand is empty
 		{
-			final ItemStack stack =
-				player.getInventory()
-					.getItemInMainHand();
+			final PlayerInventory inventory = player.getInventory();
+			final ItemStack stack = inventory.getItemInMainHand();
 			final Material material = stack.getType();
 			if (!material.isAir())
 				return;
