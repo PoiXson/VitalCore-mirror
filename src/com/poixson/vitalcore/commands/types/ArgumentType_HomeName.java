@@ -23,10 +23,6 @@ public class ArgumentType_HomeName implements CustomArgumentType<String, String>
 
 
 
-	public static ArgumentType_HomeName Create(final VitalCorePlugin plugin) {
-		return new ArgumentType_HomeName(plugin);
-	}
-
 	public ArgumentType_HomeName(final VitalCorePlugin plugin) {
 		this.plugin = plugin;
 	}

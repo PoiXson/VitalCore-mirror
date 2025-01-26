@@ -22,7 +22,7 @@ public interface CMD_Warp extends PluginCommand {
 			// /warp
 			.executes(context -> this.onCommand_Warp(context, plugin))
 			// /warp <name>
-			.then(Commands.argument("warp", ArgumentType_WarpName.Create(plugin))
+			.then(Commands.argument("warp", new ArgumentType_WarpName(plugin))
 				.executes(context -> this.onCommand_Warp(context, plugin))
 			);
 	}

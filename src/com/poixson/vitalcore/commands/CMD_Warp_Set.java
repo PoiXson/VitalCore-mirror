@@ -20,7 +20,7 @@ public interface CMD_Warp_Set extends PluginCommand {
 	default ArgumentBuilder<CommandSourceStack, ?> register_Warp_Set(final VitalCorePlugin plugin) {
 		return Commands.literal(CMD_LABELS_WARP_SET.NODE)
 			// /setwarp <name>
-			.then(Commands.argument("warp", ArgumentType_HomeName.Create(plugin))
+			.then(Commands.argument("warp", new ArgumentType_HomeName(plugin))
 				.executes(context -> this.onCommand_Warp_Set(context, plugin))
 			);
 	}

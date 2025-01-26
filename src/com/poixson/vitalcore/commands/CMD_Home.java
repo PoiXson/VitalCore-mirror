@@ -22,7 +22,7 @@ public interface CMD_Home extends PluginCommand {
 			// /home
 			.executes(context -> this.onCommand_Home(context, plugin))
 			// /home <name>
-			.then(Commands.argument("home", ArgumentType_HomeName.Create(plugin))
+			.then(Commands.argument("home", new ArgumentType_HomeName(plugin))
 				.executes(context -> this.onCommand_Home(context, plugin))
 			);
 	}

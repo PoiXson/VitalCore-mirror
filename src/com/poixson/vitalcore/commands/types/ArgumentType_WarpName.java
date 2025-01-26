@@ -23,10 +23,6 @@ public class ArgumentType_WarpName implements CustomArgumentType<String, String>
 
 
 
-	public static ArgumentType_WarpName Create(final VitalCorePlugin plugin) {
-		return new ArgumentType_WarpName(plugin);
-	}
-
 	public ArgumentType_WarpName(final VitalCorePlugin plugin) {
 		this.plugin = plugin;
 	}
