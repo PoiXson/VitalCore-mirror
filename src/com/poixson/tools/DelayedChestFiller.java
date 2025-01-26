@@ -25,7 +25,7 @@ public abstract class DelayedChestFiller extends BukkitRunnable {
 	protected static CopyOnWriteArraySet<DelayedChestFiller> fillers = new CopyOnWriteArraySet<DelayedChestFiller>();
 	protected static final AtomicBoolean stopping = new AtomicBoolean(false);
 
-	protected final xJavaPlugin plugin;
+	protected final xJavaPlugin<?> plugin;
 
 	protected final Location loc;
 	protected final String worldName;
@@ -43,7 +43,7 @@ public abstract class DelayedChestFiller extends BukkitRunnable {
 		this.y = y;
 		this.z = z;
 	}
-	public DelayedChestFiller(final xJavaPlugin plugin, final Location loc) {
+	public DelayedChestFiller(final xJavaPlugin<?> plugin, final Location loc) {
 		this.plugin = plugin;
 		this.loc = loc;
 		this.worldName = null;

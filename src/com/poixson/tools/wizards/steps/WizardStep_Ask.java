@@ -16,8 +16,8 @@ import com.poixson.tools.wizards.Wizard;
 import io.papermc.paper.event.player.AsyncChatEvent;
 
 
-public abstract class WizardStep_Ask<T extends xJavaPlugin>
-extends WizardStep<T> implements Listener {
+public abstract class WizardStep_Ask<P extends xJavaPlugin<P>>
+extends WizardStep<P> implements xListener {
 
 	protected final String question;
 
@@ -25,7 +25,7 @@ extends WizardStep<T> implements Listener {
 
 
 
-	public WizardStep_Ask(final Wizard<T> wizard,
+	public WizardStep_Ask(final Wizard<P> wizard,
 			final String logPrefix, final String chatPrefix,
 			final String question) {
 		super(

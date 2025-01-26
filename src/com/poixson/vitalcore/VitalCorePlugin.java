@@ -33,7 +33,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 
 
-public class VitalCorePlugin extends xJavaPlugin {
+public class VitalCorePlugin extends xJavaPlugin<VitalCorePlugin> {
 	@Override public int getBStatsID() { return 20434; }
 	public static final Component CHAT_PREFIX = Component.text("[pxn] ").color(NamedTextColor.AQUA);
 
@@ -51,7 +51,7 @@ public class VitalCorePlugin extends xJavaPlugin {
 	protected final Keeper keeper;
 	protected final long time_start;
 
-	protected final CopyOnWriteArraySet<xJavaPlugin> plugins = new CopyOnWriteArraySet<xJavaPlugin>();
+	protected final CopyOnWriteArraySet<xJavaPlugin<?>> plugins = new CopyOnWriteArraySet<xJavaPlugin<?>>();
 
 	protected final AtomicReference<PluginsCountChart>  listener_plugins = new AtomicReference<PluginsCountChart> (null);
 	protected final AtomicReference<UpdateCheckManager> updateChecker = new AtomicReference<UpdateCheckManager>(null);
@@ -329,21 +329,21 @@ public class VitalCorePlugin extends xJavaPlugin {
 
 
 
-	public static <T extends xJavaPlugin> boolean RegisterPluginPXN(final T plugin) {
+	public static boolean RegisterPluginPXN(final xJavaPlugin<?> plugin) {
 		return GetCommonPlugin().registerPluginPXN(plugin);
 	}
-	public <T extends xJavaPlugin> boolean registerPluginPXN(final T plugin) {
-		for (final xJavaPlugin p : this.plugins) {
+	public boolean registerPluginPXN(final xJavaPlugin<?> plugin) {
+		for (final xJavaPlugin<?> p : this.plugins) {
 			if (p.getClass().isInstance(plugin))
 				throw new RuntimeException("Plugin already registered? "+plugin.getClass().getName());
 		}
 		return this.plugins.add(plugin);
 	}
 
-	public static <T extends xJavaPlugin> boolean UnregisterPluginPXN(final T plugin) {
+	public static boolean UnregisterPluginPXN(final xJavaPlugin<?> plugin) {
 		return GetCommonPlugin().unregisterPluginPXN(plugin);
 	}
-	public <T extends xJavaPlugin> boolean unregisterPluginPXN(final T plugin) {
+	public boolean unregisterPluginPXN(final xJavaPlugin<?> plugin) {
 		return this.plugins.remove(plugin);
 	}
 

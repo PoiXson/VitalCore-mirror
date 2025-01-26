@@ -12,13 +12,13 @@ import com.poixson.tools.xJavaPlugin;
 import com.poixson.tools.wizards.Wizard;
 
 
-public abstract class WizardStep<T extends xJavaPlugin>
+public abstract class WizardStep<P extends xJavaPlugin<P>>
 implements Runnable, Closeable {
 
 	protected final String logPrefix;
 	protected final String chatPrefix;
 
-	protected final Wizard<T> wizard;
+	protected final Wizard<P> wizard;
 
 	protected final int stepIndex;
 
@@ -27,7 +27,7 @@ implements Runnable, Closeable {
 
 
 
-	public WizardStep(final Wizard<T> wizard, final String logPrefix, final String chatPrefix) {
+	public WizardStep(final Wizard<P> wizard, final String logPrefix, final String chatPrefix) {
 		this.wizard     = wizard;
 		this.stepIndex  = wizard.getStepsCount() + 1;
 		this.logPrefix  = logPrefix;

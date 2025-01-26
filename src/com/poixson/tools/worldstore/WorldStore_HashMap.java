@@ -32,7 +32,7 @@ public abstract class WorldStore_HashMap<K, V> extends CacheMap<K, V> implements
 
 	public static final int DEFAULT_GROUP_SIZE = 512;
 
-	protected final xJavaPlugin plugin;
+	protected final xJavaPlugin<?> plugin;
 
 	public final String world;
 	public final String type;
@@ -42,11 +42,11 @@ public abstract class WorldStore_HashMap<K, V> extends CacheMap<K, V> implements
 
 
 
-	public WorldStore_HashMap(final xJavaPlugin plugin,
+	public WorldStore_HashMap(final xJavaPlugin<?> plugin,
 			final String world, final String type) {
 		this(plugin, world, type, DEFAULT_GROUP_SIZE);
 	}
-	public WorldStore_HashMap(final xJavaPlugin plugin,
+	public WorldStore_HashMap(final xJavaPlugin<?> plugin,
 			final String world, final String type, final int group_size) {
 		this(
 			plugin, world, type,
@@ -56,7 +56,7 @@ public abstract class WorldStore_HashMap<K, V> extends CacheMap<K, V> implements
 			DEFAULT_CYCLES_SAVE_MAX
 		);
 	}
-	public WorldStore_HashMap(final xJavaPlugin plugin,
+	public WorldStore_HashMap(final xJavaPlugin<?> plugin,
 			final String world, final String type, final int group_size,
 			final long cycles_timeout, final long cycles_save, final long cycles_save_max) {
 		super(cycles_timeout, cycles_save, cycles_save_max);
@@ -84,7 +84,7 @@ public abstract class WorldStore_HashMap<K, V> extends CacheMap<K, V> implements
 
 
 
-	public void startLater(final xJavaPlugin plugin) {
+	public void startLater(final xJavaPlugin<?> plugin) {
 		new BukkitRunnable() {
 			@Override
 			public void run() {

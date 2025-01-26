@@ -23,7 +23,8 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import net.milkbowl.vault.economy.Economy;
 
 
-public abstract class xJavaPlugin extends JavaPlugin implements AppProperties {
+public abstract class xJavaPlugin<P extends xJavaPlugin<P>>
+extends JavaPlugin implements AppProperties {
 	public static final Component CHAT_PREFIX = Component.text("[pxn] ").color(NamedTextColor.DARK_AQUA);
 
 	protected final AtomicReference<Metrics> metrics = new AtomicReference<Metrics>(null);

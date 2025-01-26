@@ -15,11 +15,11 @@ public class WorldStore_Locations extends WorldStore_HashMap<Iab, CopyOnWriteArr
 
 
 
-	public WorldStore_Locations(final xJavaPlugin plugin,
+	public WorldStore_Locations(final xJavaPlugin<?> plugin,
 			final String world, final String type) {
 		super(plugin, world, type);
 	}
-	public WorldStore_Locations(final xJavaPlugin plugin,
+	public WorldStore_Locations(final xJavaPlugin<?> plugin,
 			final String world, final String type, final int group_size) {
 		super(plugin, world, type, group_size);
 	}

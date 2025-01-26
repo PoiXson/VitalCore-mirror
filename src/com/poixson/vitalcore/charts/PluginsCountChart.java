@@ -47,13 +47,13 @@ public class PluginsCountChart implements Callable<String>, xListener {
 	public void onPluginEnable(final PluginEnableEvent event) {
 		final Plugin p = event.getPlugin();
 		if (p instanceof xJavaPlugin)
-			this.plugin.registerPluginPXN((xJavaPlugin)p);
+			this.plugin.registerPluginPXN((xJavaPlugin<?>)p);
 	}
 	@EventHandler(priority=EventPriority.NORMAL, ignoreCancelled=true)
 	public void onPluginDisable(final PluginDisableEvent event) {
 		final Plugin p = event.getPlugin();
 		if (p instanceof xJavaPlugin)
-			this.plugin.unregisterPluginPXN((xJavaPlugin)p);
+			this.plugin.unregisterPluginPXN((xJavaPlugin<?>)p);
 	}
 
 

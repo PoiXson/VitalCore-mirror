@@ -13,15 +13,15 @@ import com.poixson.tools.xJavaPlugin;
 import com.poixson.tools.wizards.steps.WizardStep;
 
 
-public class Wizard<T extends xJavaPlugin> {
+public class Wizard<P extends xJavaPlugin<P>> {
 
 	protected final String logPrefix;
 	protected final String chatPrefix;
 
-	protected final T plugin;
+	protected final P plugin;
 	protected final Player player;
 
-	protected final LinkedList<WizardStep<T>> steps = new LinkedList<WizardStep<T>>();
+	protected final LinkedList<WizardStep<P>> steps = new LinkedList<WizardStep<P>>();
 
 	// timeout
 	protected final BukkitRunnable task_timeout;
@@ -30,7 +30,7 @@ public class Wizard<T extends xJavaPlugin> {
 
 
 
-	public Wizard(final T plugin, final Player player,
+	public Wizard(final P plugin, final Player player,
 			final String logPrefix, final String chatPrefix) {
 		this.logPrefix  = logPrefix;
 		this.chatPrefix = chatPrefix;
@@ -63,7 +63,7 @@ public class Wizard<T extends xJavaPlugin> {
 		}.runTask(this.plugin);
 	}
 	protected void doNext() {
-		for (final WizardStep<T> step : this.steps) {
+		for (final WizardStep<P> step : this.steps) {
 			if (!step.isCompleted()) {
 				try {
 					step.run();
@@ -81,7 +81,7 @@ public class Wizard<T extends xJavaPlugin> {
 	}
 	public void cancel() {
 		SafeCancel(this.task_timeout);
-		for (final WizardStep<T> step : this.steps)
+		for (final WizardStep<P> step : this.steps)
 			step.close();
 	}
 
@@ -101,12 +101,12 @@ public class Wizard<T extends xJavaPlugin> {
 
 
 
-	public void addStep(final WizardStep<T> step) {
+	public void addStep(final WizardStep<P> step) {
 		this.steps.addLast(step);
 		this.resetTimeout();
 	}
 	@SuppressWarnings("unchecked")
-	public WizardStep<T>[] getSteps() {
+	public WizardStep<P>[] getSteps() {
 		return this.steps.toArray(new WizardStep[0]);
 	}
 	public int getStepsCount() {
@@ -115,7 +115,7 @@ public class Wizard<T extends xJavaPlugin> {
 
 
 
-	public T getPlugin() {
+	public P getPlugin() {
 		return this.plugin;
 	}
 

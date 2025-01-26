@@ -26,11 +26,11 @@ public class WorldStore_LocationMaps extends WorldStore_HashMap<Iab, Map<Iab, Ma
 
 
 
-	public WorldStore_LocationMaps(final xJavaPlugin plugin,
+	public WorldStore_LocationMaps(final xJavaPlugin<?> plugin,
 			final String world, final String type) {
 		super(plugin, world, type);
 	}
-	public WorldStore_LocationMaps(final xJavaPlugin plugin,
+	public WorldStore_LocationMaps(final xJavaPlugin<?> plugin,
 			final String world, final String type, final int group_size) {
 		super(plugin, world, type, group_size);
 	}

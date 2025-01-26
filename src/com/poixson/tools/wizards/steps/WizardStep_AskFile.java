@@ -10,8 +10,8 @@ import com.poixson.tools.xJavaPlugin;
 import com.poixson.tools.wizards.Wizard;
 
 
-public abstract class WizardStep_AskFile<T extends xJavaPlugin>
-extends WizardStep_Ask<T> {
+public abstract class WizardStep_AskFile<P extends xJavaPlugin<P>>
+extends WizardStep_Ask<P> {
 
 	protected final File path;
 	protected final String filePattern;
@@ -20,7 +20,7 @@ extends WizardStep_Ask<T> {
 
 
 
-	public WizardStep_AskFile(final Wizard<T> wizard,
+	public WizardStep_AskFile(final Wizard<P> wizard,
 			final String logPrefix, final String chatPrefix,
 			final String question, final File path, final String filePattern) {
 		super(

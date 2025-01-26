@@ -18,7 +18,7 @@ public class WorldStore_KeyVal extends WorldStore_HashMap<String, Object> {
 
 
 
-	public WorldStore_KeyVal(final xJavaPlugin plugin,
+	public WorldStore_KeyVal(final xJavaPlugin<?> plugin,
 			final String world) {
 		super(
 			plugin, world, "state", Integer.MAX_VALUE,

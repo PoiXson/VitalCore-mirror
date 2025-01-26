@@ -21,14 +21,14 @@ import com.poixson.tools.xJavaPlugin;
 import com.poixson.tools.wizards.Wizard;
 
 
-public abstract class WizardStep_BlockClick<T extends xJavaPlugin>
-extends WizardStep<T> implements Listener {
+public abstract class WizardStep_BlockClick<P extends xJavaPlugin<P>>
+extends WizardStep<P> implements xListener {
 
 	protected final AtomicReference<Location> loc = new AtomicReference<Location>(null);
 
 
 
-	public WizardStep_BlockClick(final Wizard<T> wizard,
+	public WizardStep_BlockClick(final Wizard<P> wizard,
 			final String logPrefix, final String chatPrefix) {
 		super(
 			wizard,

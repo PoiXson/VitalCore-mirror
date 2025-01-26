@@ -27,12 +27,12 @@ public class RandomMaze extends WorldStore_HashMap<Iab, AtomicDoubleArray> {
 
 
 
-	public RandomMaze(final xJavaPlugin plugin,
+	public RandomMaze(final xJavaPlugin<?> plugin,
 			final String world, final String type,
 			final double chance) {
 		this(plugin, world, type, chance, 32);
 	}
-	public RandomMaze(final xJavaPlugin plugin,
+	public RandomMaze(final xJavaPlugin<?> plugin,
 			final String world, final String type,
 			final double chance, final int group_size) {
 		super(plugin, world, type, group_size);
