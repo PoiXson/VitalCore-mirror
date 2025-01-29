@@ -78,10 +78,15 @@ public class BlockPlotter implements Serializable {
 
 
 
-	public static BlockPlotterHolder Load(final Class<?> clss,
+	public static BlockPlotterHolder Load(final Class<?> ref,
 			final String file_loc, final String file_res)
 			throws IOException {
-		final InputStream in = OpenLocalOrResource(file_loc, file_res);
+		return Load(ref.getClassLoader(), file_loc, file_res);
+	}
+	public static BlockPlotterHolder Load(final ClassLoader ldr,
+			final String file_loc, final String file_res)
+			throws IOException {
+		final InputStream in = OpenLocalOrResource(ldr, file_loc, file_res);
 		return (in==null ? null : Load(in));
 	}
 	public static BlockPlotterHolder Load(final File file) throws IOException {

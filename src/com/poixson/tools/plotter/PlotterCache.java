@@ -21,17 +21,20 @@ public class PlotterCache {
 	protected final ThreadLocal<Map<String, Tuple<BlockPlotterHolder, AtomicInteger>>> cache =
 			new ThreadLocal<Map<String, Tuple<BlockPlotterHolder, AtomicInteger>>>();
 
+	protected final ClassLoader ldr;
+
 	protected final String path_loc;
 	protected final String path_res;
 
-	protected final Class<?> clss;
 
 
-
-	public PlotterCache(final String path_loc, final String path_res, final Class<?> clss) {
+	public PlotterCache(final Class<?> ref, final String path_loc, final String path_res) {
+		this(ref.getClassLoader(), path_loc, path_res);
+	}
+	public PlotterCache(final ClassLoader ldr, final String path_loc, final String path_res) {
+		this.ldr      = ldr;
 		this.path_loc = path_loc;
 		this.path_res = path_res;
-		this.clss     = clss;
 	}
 
 
@@ -63,7 +66,7 @@ public class PlotterCache {
 			final String file = ForceEnds(".json", name);
 			final String file_loc = MergePaths(this.path_loc, file);
 			final String file_res = MergePaths(this.path_res, file);
-			final BlockPlotterHolder holder = BlockPlotter.Load(this.clss, file_loc, file_res);
+			final BlockPlotterHolder holder = BlockPlotter.Load(this.ldr, file_loc, file_res);
 			if (holder == null)
 				return null;
 			final Tuple<BlockPlotterHolder, AtomicInteger> tup =
