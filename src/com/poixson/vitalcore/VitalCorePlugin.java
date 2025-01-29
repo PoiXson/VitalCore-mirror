@@ -34,7 +34,7 @@ import net.kyori.adventure.text.format.NamedTextColor;
 
 
 public class VitalCorePlugin extends xJavaPlugin<VitalCorePlugin> {
-	@Override public int getBStatsID() { return 20434; }
+	@Override public int getBStatsID() { return 24413; }
 	public static final Component CHAT_PREFIX = Component.text("[pxn] ").color(NamedTextColor.AQUA);
 
 	public static final boolean DEFAULT_CHECK_FOR_UPDATES  = true;
