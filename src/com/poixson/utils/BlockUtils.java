@@ -15,7 +15,7 @@ import com.poixson.tools.Keeper;
 
 public final class BlockUtils {
 	private BlockUtils() {}
-	static { Keeper.add(new BlockUtils()); }
+	static { Keeper.Add(new BlockUtils()); }
 
 
 

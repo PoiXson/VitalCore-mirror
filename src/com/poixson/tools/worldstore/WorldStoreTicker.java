@@ -69,14 +69,14 @@ public class WorldStoreTicker extends BukkitRunnable implements xStartStop {
 	public void start() {
 		this.runTaskTimerAsynchronously(this.plugin, DEFAULT_TICKS_PER_CYCLE, DEFAULT_TICKS_PER_CYCLE);
 		this.listener.register(this.plugin);
-		Keeper.add(this);
+		Keeper.Add(this);
 	}
 
 	@Override
 	public void stop() {
 		SafeCancel(this);
 		this.listener.unregister();
-		Keeper.remove(this);
+		Keeper.Remove(this);
 	}
 
 

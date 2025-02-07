@@ -69,7 +69,7 @@ public class VitalCorePlugin extends xJavaPlugin<VitalCorePlugin> {
 
 	public VitalCorePlugin() {
 		super();
-		this.keeper = Keeper.get();
+		this.keeper = Keeper.Get();
 		this.time_start = GetMS();
 	}
 

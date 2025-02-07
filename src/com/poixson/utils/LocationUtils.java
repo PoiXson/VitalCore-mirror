@@ -21,7 +21,7 @@ import com.poixson.tools.dao.Iabcd;
 
 public final class LocationUtils {
 	private LocationUtils() {}
-	static { Keeper.add(new LocationUtils()); }
+	static { Keeper.Add(new LocationUtils()); }
 
 	public static final BlockFace DEFAULT_ROTATION = BlockFace.SOUTH;
 

@@ -35,7 +35,7 @@ import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 
 public final class BukkitUtils {
 	private BukkitUtils() {}
-	static { Keeper.add(new BukkitUtils()); }
+	static { Keeper.Add(new BukkitUtils()); }
 
 
 
