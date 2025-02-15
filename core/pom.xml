@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated: Sat Feb 15 11:26:16 AM EST 2025 -->
+<!-- Generated: Sat Feb 15 11:26:06 AM EST 2025 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0"
 		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<name>VitalCore-Plugin</name>
-	<artifactId>vitalcore-plugin</artifactId>
+	<name>VitalCore-Lib</name>
+	<artifactId>vitalcore-lib</artifactId>
 	<groupId>com.poixson</groupId>
 	<version>4.2.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
@@ -35,10 +35,14 @@
 		<versions-maven-plugin-version>2.18.0</versions-maven-plugin-version>
 		<maven-source-plugin-version>3.3.1</maven-source-plugin-version>
 		<git-commit-id-version>4.9.10</git-commit-id-version>
+		<junit-jupiter-version>5.11.4</junit-jupiter-version>
+		<surefire-version>3.5.2</surefire-version>
+		<jacoco-version>0.8.12</jacoco-version>
+		<maven-jxr-version>3.6.0</maven-jxr-version>
+		<project-info-reports-version>3.8.0</project-info-reports-version>
 
 		<!-- Dependencies -->
 		<common-core-version>[4.2.0${snap},4.3.0${snap})</common-core-version>
-		<vitalcore-lib-version>[4.2.0${snap},4.3.0${snap})</vitalcore-lib-version>
 
 	</properties>
 	<scm>
@@ -69,19 +73,13 @@
 		<sourceDirectory>src/</sourceDirectory>
 		<outputDirectory>target/classes/</outputDirectory>
 		<finalName>${project.name}-${project.version}</finalName>
+		<testSourceDirectory>tests/</testSourceDirectory>
 		<resources>
 			<resource>
 				<directory>resources/</directory>
 				<filtering>true</filtering>
 				<includes>
 					<include>app.properties</include>
-				</includes>
-			</resource>
-			<resource>
-				<directory>resources/</directory>
-				<filtering>false</filtering>
-				<includes>
-					<include>languages/en.json</include>
 				</includes>
 			</resource>
 		</resources>
@@ -116,6 +114,15 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
 				<version>${maven-jar-plugin-version}</version>
+				<executions>
+					<execution>
+						<id>test-jar</id>
+						<phase>package</phase>
+						<goals>
+							<goal>test-jar</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 			<!-- Maven Version Enforcer Plugin -->
 			<plugin>
@@ -182,6 +189,50 @@
 					<dotGitDirectory>.git/</dotGitDirectory>
 				</configuration>
 			</plugin>
+			<!-- Surefire Plugin -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>${surefire-version}</version>
+				<configuration>
+					<useFile>false</useFile>
+					<parallel>methods</parallel>
+					<threadCount>4</threadCount>
+					<trimStackTrace>false</trimStackTrace>
+				</configuration>
+			</plugin>
+			<!-- JaCoCo - Code Coverage -->
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>${jacoco-version}</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>report</id>
+						<phase>test</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<!-- JXR - Cross Reference -->
+			<plugin>
+				<groupId>org.apache.maven</groupId>
+				<artifactId>maven-jxr</artifactId>
+				<version>${maven-jxr-version}</version>
+			</plugin>
+			<!-- Reports -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-project-info-reports-plugin</artifactId>
+				<version>${project-info-reports-version}</version>
+			</plugin>
 		</plugins>
 	</build>
 	<dependencies>
@@ -192,10 +243,42 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<artifactId>vitalcore-lib</artifactId>
-			<groupId>com.poixson</groupId>
-			<version>${vitalcore-lib-version}</version>
-			<scope>provided</scope>
+			<artifactId>junit-jupiter</artifactId>
+			<groupId>org.junit.jupiter</groupId>
+			<version>${junit-jupiter-version}</version>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
+	<reporting>
+		<plugins>
+			<!-- JaCoCo - Code Coverage -->
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>${jacoco-version}</version>
+				<reportSets>
+					<reportSet>
+						<reports>
+							<report>report</report>
+						</reports>
+					</reportSet>
+				</reportSets>
+			</plugin>
+			<!-- Reports Plugin -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-project-info-reports-plugin</artifactId>
+				<version>${project-info-reports-version}</version>
+				<configuration>
+					<dependencyLocationsEnabled>false</dependencyLocationsEnabled>
+				</configuration>
+			</plugin>
+			<!-- Cross-Reference Plugin -->
+			<plugin>
+				<groupId>org.apache.maven</groupId>
+				<artifactId>maven-jxr-plugin</artifactId>
+				<version>${jxr-version}</version>
+			</plugin>
+		</plugins>
+	</reporting>
 </project>

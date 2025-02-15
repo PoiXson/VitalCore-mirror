@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated: Sat Feb 15 11:26:16 AM EST 2025 -->
+<!-- Generated: Sat Feb 15 11:26:25 AM EST 2025 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0"
 		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<name>VitalCore-Plugin</name>
-	<artifactId>vitalcore-plugin</artifactId>
+	<name>VitalCore-Paper</name>
+	<artifactId>vitalcore-paper</artifactId>
 	<groupId>com.poixson</groupId>
 	<version>4.2.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<url>https://poixson.com</url>
-	<description>Common utilities and tools for Minecraft plugins</description>
+	<description>Common utilities and tools for Paper plugins</description>
 	<organization>
 		<name>PoiXson</name>
 		<url>https://poixson.com</url>
@@ -35,10 +35,15 @@
 		<versions-maven-plugin-version>2.18.0</versions-maven-plugin-version>
 		<maven-source-plugin-version>3.3.1</maven-source-plugin-version>
 		<git-commit-id-version>4.9.10</git-commit-id-version>
+		<maven-dependency-plugin-version>3.8.1</maven-dependency-plugin-version>
 
 		<!-- Dependencies -->
+		<bukkit-short-version>1.21.4</bukkit-short-version>
+		<paper-api-version>1.21.4-R0.1-SNAPSHOT</paper-api-version>
+		<folia-api-version>1.21.4-R0.1-SNAPSHOT</folia-api-version>
 		<common-core-version>[4.2.0${snap},4.3.0${snap})</common-core-version>
 		<vitalcore-lib-version>[4.2.0${snap},4.3.0${snap})</vitalcore-lib-version>
+		<vitalcore-plugin-version>[4.2.0${snap},4.3.0${snap})</vitalcore-plugin-version>
 
 	</properties>
 	<scm>
@@ -74,6 +79,7 @@
 				<directory>resources/</directory>
 				<filtering>true</filtering>
 				<includes>
+					<include>paper-plugin.yml</include>
 					<include>app.properties</include>
 				</includes>
 			</resource>
@@ -81,6 +87,10 @@
 				<directory>resources/</directory>
 				<filtering>false</filtering>
 				<includes>
+					<include>libs/common-core-*.jar</include>
+					<include>libs/vitalcore-lib-*.jar</include>
+					<include>libs/vitalcore-plugin-*.jar</include>
+					<include>logo.png</include>
 					<include>languages/en.json</include>
 				</includes>
 			</resource>
@@ -182,9 +192,55 @@
 					<dotGitDirectory>.git/</dotGitDirectory>
 				</configuration>
 			</plugin>
+			<!-- Dependency Plugin -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<version>${maven-dependency-plugin-version}</version>
+				<executions>
+					<execution>
+						<id>copy-dependencies</id>
+						<phase>package</phase>
+						<goals>
+							<goal>copy-dependencies</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.basedir}/resources/libs</outputDirectory>
+							<excludeTransitive>true</excludeTransitive>
+							<overWriteReleases>true</overWriteReleases>
+							<overWriteSnapshots>true</overWriteSnapshots>
+							<overWriteIfNewer>true</overWriteIfNewer>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
+	<repositories>
+		<repository>
+			<id>papermc-repo</id>
+			<url>https://repo.papermc.io/repository/maven-public/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
 	<dependencies>
+		<dependency>
+			<artifactId>paper-api</artifactId>
+			<groupId>io.papermc.paper</groupId>
+			<version>${paper-api-version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<artifactId>folia-api</artifactId>
+			<groupId>dev.folia</groupId>
+			<version>${folia-api-version}</version>
+			<scope>provided</scope>
+		</dependency>
 		<dependency>
 			<artifactId>common-core</artifactId>
 			<groupId>com.poixson</groupId>
@@ -195,6 +251,12 @@
 			<artifactId>vitalcore-lib</artifactId>
 			<groupId>com.poixson</groupId>
 			<version>${vitalcore-lib-version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<artifactId>vitalcore-plugin</artifactId>
+			<groupId>com.poixson</groupId>
+			<version>${vitalcore-plugin-version}</version>
 			<scope>provided</scope>
 		</dependency>
 	</dependencies>
