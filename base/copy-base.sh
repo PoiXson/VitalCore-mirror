@@ -85,6 +85,21 @@ function DoCopyServerFiles() {
 	\pushd  "$WDIR/resources/languages/"  >/dev/null  || exit 1
 		DoCopyIfDifferent  "en.json"  "$PATH_DEST_NAME/resources/languages/en.json"  || exit 1
 	\popd >/dev/null
+	# src/
+	\pushd  "$WDIR/src/"  >/dev/null  || exit 1
+		local TEMP_FILE=$( \mktemp )
+		if [[ -z $TEMP_FILE   ]] \
+		|| [[ ! -f $TEMP_FILE ]]; then
+			failure "Failed to create a temp file for: $NAME"
+			failure ; exit 1
+		fi
+		echo    "// Generated for: $TITLE"           >"$TEMP_FILE"
+		echo -n "// "                               >>"$TEMP_FILE"
+		\date                                       >>"$TEMP_FILE"
+		\cat  "$WDIR/src/PoiXsonPluginLoader.java"  >>"$TEMP_FILE"
+		DoCopyIfDifferent  "$TEMP_FILE"  "$PATH_DEST_NAME/src/com/poixson/PoiXsonPluginLoader.java"  || exit 1
+		\rm -f "$TEMP_FILE"
+	\popd >/dev/null
 }
 
 function DoCopyFile() {
