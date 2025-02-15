@@ -107,29 +107,70 @@ function DoCopyIfDifferent() {
 	fi
 	# dest file found
 	if [[ -f "$FILE_B" ]]; then
-		# checksum file A
-		\pushd "$DIR_A" >/dev/null || exit 1
-			local MD5_A=$( \md5sum "$FILENAME_A" ) ; [[ -z $MD5_A ]] && exit 1
-		\popd >/dev/null
-		# checksum file B
-		\pushd "$DIR_B" >/dev/null || exit 1
-			local MD5_B=$( \md5sum "$FILENAME_B" ) ; [[ -z $MD5_B ]] && exit 1
-		\popd >/dev/null
+		# temp files
+		local TEMP_A=$( \mktemp )
+		local TEMP_B=$( \mktemp )
+		if [[ -z $TEMP_A   ]] \
+		|| [[ ! -f $TEMP_A ]]; then
+			failure "Failed to create a temp file for: $FILENAME_A"
+			failure ; exit 1
+		fi
+		if [[ -z $TEMP_B   ]] \
+		|| [[ ! -f $TEMP_B ]]; then
+			failure "Failed to create a temp file for: $FILENAME_B"
+			failure ; exit 1
+		fi
 		# compare checksums
+		DoHashFile  "$DIR_A"  "$FILENAME_A"  "$TEMP_A"  || exit 1 ; local MD5_A="$HASH_RESULT"
+		DoHashFile  "$DIR_B"  "$FILENAME_B"  "$TEMP_B"  || exit 1 ; local MD5_B="$HASH_RESULT"
 		COUNT_TOTAL=$((COUNT_TOTAL+1))
-		if [[ "${MD5_A%% *}" == "${MD5_B%% *}" ]]; then
+		if [[ "$MD5_A" == "$MD5_B" ]]; then
 			echo "[MATCH] $FILE_B"
 		else
 			COUNT_COPY=$((COUNT_COPY+1))
 			echo -n "[DIFF ] "
 			DoCopyFile  "$FILE_A"  "$FILE_B"  || exit 1
+			echo "HashA: $MD5_A"
+			echo "HashB: $MD5_B"
 		fi
+		\rm -f "$TEMP_A" "$TEMP_B"
 	# dest file not found
 	else
 		COUNT_TOTAL=$((COUNT_TOTAL+1))
 		COUNT_COPY=$((COUNT_COPY+1))
 		echo -n "[COPY ] "
 		DoCopyFile "$FILE_A" "$FILE_B"
+	fi
+	return 0
+}
+
+function DoHashFile() {
+	local DIR_SRC="$1"
+	local FILE_SRC="$2"
+	local FILE_DST="$3"
+	\pushd  "$DIR_SRC"  >/dev/null || exit 1
+		local IS_HEAD=$YES
+		cat  "$FILE_SRC" | while read LINE || [[ -n $LINE ]]; do
+			if [[ $IS_HEAD -eq $YES ]]; then
+				case "$LINE" in
+				"")     ;;
+				"//"*)  ;;
+				"/\*"*) ;;
+				"#"*)   ;;
+				*) IS_HEAD=$NO ;;
+				esac
+			fi
+			if [[ $IS_HEAD -eq $NO ]]; then
+				echo  "$LINE"  >>"$FILE_DST"
+			fi
+		done
+	\popd >/dev/null
+	HASH_RESULT=$( \md5sum  "$FILE_DST" )
+	local RESULT=$?
+	[[ $RESULT -ne 0   ]] && return $RESULT
+	[[ -z $HASH_RESULT ]] && return 1
+	if [[ "$HASH_RESULT" == *" "* ]]; then
+		HASH_RESULT="${HASH_RESULT%% *}"
 	fi
 	return 0
 }
