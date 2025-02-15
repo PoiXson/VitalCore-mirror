@@ -67,15 +67,21 @@ fi
 
 
 
-PATH_DEST="$WDIR/../"
+PATH_DEST=$( \realpath "$WDIR/.." )
+if [[ -z $PATH_DEST ]]; then
+	failure "Failed to find project root"
+	failure ; exit 1
+fi
 let COUNT_TOTAL=0
 let COUNT_COPY=0
 
 
 
 function DoCopyServerFiles() {
-	local NAME="$1"
+	local TITLE="$1"
+	local NAME="$2"
 	local PATH_DEST_NAME="$PATH_DEST/$NAME"
+	title C "$TITLE"
 	# resources/
 	\pushd  "$WDIR/resources/"  >/dev/null  || exit 1
 		DoCopyIfDifferent  "logo.svg"  "$PATH_DEST_NAME/resources/logo.svg"  || exit 1
@@ -192,8 +198,10 @@ function DoHashFile() {
 
 
 
-echo ; title C "Paper"  ; DoCopyServerFiles  "paper"
-#echo ; title C "Spigot" ; DoCopyServerFiles  "spigot"
+DoCopyServerFiles  "Paper"   "paper"
+#TODO
+#DoCopyServerFiles  "Spigot"  "spigot"
+#DoCopyServerFiles  "Fabric"  "fabric"
 echo
 
 
