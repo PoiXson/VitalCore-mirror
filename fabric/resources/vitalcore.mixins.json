@@ -1,0 +1,11 @@
+{
+	"required": true,
+	"package": "com.poixson.vitalcore.mixin",
+	"compatibilityLevel": "JAVA_21",
+	"mixins": [
+		"VitalCoreMixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	}
+}

@@ -1,0 +1,44 @@
+{
+	"schemaVersion": 1,
+	"id": "vitalcore",
+	"version": "${version}",
+	"name": "VitalCore",
+	"description": "Common utilities and tools for Fabric mods",
+	"authors": [
+		"lorenzop"
+	],
+	"contact": {
+		"homepage": "https://poixson.com",
+		"sources": "https://github.com/PoiXson/VitalCore-mirror/issues"
+	},
+	"license": "AGPLv3+ADD-PXN-V1",
+	"icon": "icon.svg",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"com.poixson.vitalcore.VitalCoreMod"
+		],
+		"client": [
+			"com.poixson.vitalcore.VitalCoreClient"
+		],
+		"fabric-datagen": [
+			"com.poixson.vitalcore.VitalCoreDataGenerator"
+		]
+	},
+	"mixins": [
+		"vitalcore.mixins.json",
+		{
+			"config": "vitalcore.client.mixins.json",
+			"environment": "client"
+		}
+	],
+	"depends": {
+		"fabricloader": ">=0.16.10",
+		"minecraft": "~1.21.4",
+		"java": ">=21",
+		"fabric-api": "*"
+	},
+	"suggests": {
+		"another-mod": "*"
+	}
+}
