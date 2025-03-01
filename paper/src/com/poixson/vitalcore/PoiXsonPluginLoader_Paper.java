@@ -1,5 +1,5 @@
 // Generated for: VitalCore-Paper
-// Sat Mar  1 01:30:46 AM EST 2025
+// Sat Mar  1 02:58:25 AM EST 2025
 package com.poixson.vitalcore;
 
 import java.io.File;
@@ -19,8 +19,7 @@ import io.papermc.paper.plugin.loader.library.impl.JarLibrary;
 // loader for paper                            paper                          base
 public class PoiXsonPluginLoader_Paper extends PoiXsonPluginLoader implements PluginLoader {
 
-	protected Logger log         = null;
-	protected Logger log_default = null;
+	protected Logger log = LoggerFactory.getLogger("VitalCore-Paper");
 
 
 
@@ -38,7 +37,7 @@ public class PoiXsonPluginLoader_Paper extends PoiXsonPluginLoader implements Pl
 			final String path_server = Paths.get("").toAbsolutePath().toString();
 			final PluginMeta meta = context.getConfiguration();
 			final String plugin_name = meta.getName();
-			this.setLog(plugin_name);
+			this.log = LoggerFactory.getLogger(plugin_name);
 			final String path_data   = context.getDataDirectory().toString();
 			final String path_plugin = MergPths(path_server, path_data);
 			if (!(new File(path_plugin)).isDirectory())
@@ -56,10 +55,10 @@ public class PoiXsonPluginLoader_Paper extends PoiXsonPluginLoader implements Pl
 					builder.addLibrary(new JarLibrary(file.toPath()));
 			}
 		} catch (LibraryLoaderException e) {
-			this.log().error("Failed to extract/load libraries", e);
+			this.log.error("Failed to extract/load libraries", e);
 			throw new RuntimeException(e);
 		} catch (IOException e) {
-			this.log().error("Failed to extract/load libraries", e);
+			this.log.error("Failed to extract/load libraries", e);
 			throw new RuntimeException(e);
 		}
 //TODO: load maven libraries
@@ -71,29 +70,9 @@ public class PoiXsonPluginLoader_Paper extends PoiXsonPluginLoader implements Pl
 
 
 
-	public Logger log() {
-		// cached logger
-		if (this.log != null)
-			return this.log;
-		// default logger
-		if (this.log_default != null)
-			return this.log_default;
-		// new default logger
-		this.log_default = LoggerFactory.getLogger("pxn");
-		return this.log_default;
-	}
-
-	public void setLog(final String name) {
-		this.setLog(LoggerFactory.getLogger(name));
-	}
-	public void setLog(final Logger log) {
-		this.log         = log;
-		this.log_default = null;
-	}
-
 	@Override
 	public void log_info(final String msg) {
-		this.log().info(msg);
+		this.log.info(msg);
 	}
 
 
