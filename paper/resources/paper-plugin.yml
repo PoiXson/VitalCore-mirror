@@ -1,8 +1,10 @@
-name: ${project.name}
-main: com.poixson.vitalcore.VitalCorePlugin
-version: '${project.version}'
+name: VitalCore
+loader: com.poixson.vitalcore.PoiXsonPluginLoader_Paper
+main:   com.poixson.vitalcore.PoiXsonPluginModAdapter_Paper_VitalCore
+version:     '${project.version}'
 api-version: '${bukkit-short-version}'
 load: STARTUP
+folia-supported: true
 dependencies:
     server:
         Multiverse-Core:
