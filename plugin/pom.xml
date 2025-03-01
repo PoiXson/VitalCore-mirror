@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated: Sat Feb 15 11:26:16 AM EST 2025 -->
+<!-- Generated: Sat Mar  1 02:31:13 AM EST 2025 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0"
 		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
@@ -38,7 +38,7 @@
 
 		<!-- Dependencies -->
 		<common-core-version>[4.2.0${snap},4.3.0${snap})</common-core-version>
-		<vitalcore-lib-version>[4.2.0${snap},4.3.0${snap})</vitalcore-lib-version>
+		<vitalcore-base-version>[4.2.0${snap},4.3.0${snap})</vitalcore-base-version>
 
 	</properties>
 	<scm>
@@ -64,6 +64,7 @@
 			<url>https://dl.poixson.com/ADD-PXN-V1.txt</url>
 		</license>
 	</licenses>
+
 	<build>
 		<directory>target/</directory>
 		<sourceDirectory>src/</sourceDirectory>
@@ -77,13 +78,6 @@
 					<include>app.properties</include>
 				</includes>
 			</resource>
-			<resource>
-				<directory>resources/</directory>
-				<filtering>false</filtering>
-				<includes>
-					<include>languages/en.json</include>
-				</includes>
-			</resource>
 		</resources>
 		<plugins>
 			<!-- Resource Plugin -->
@@ -95,8 +89,55 @@
 					<encoding>${project.build.sourceEncoding}</encoding>
 					<nonFilteredFileExtensions>
 						<nonFilteredFileExtension>png</nonFilteredFileExtension>
+						<nonFilteredFileExtension>jpg</nonFilteredFileExtension>
+						<nonFilteredFileExtension>gif</nonFilteredFileExtension>
+						<nonFilteredFileExtension>ico</nonFilteredFileExtension>
+						<nonFilteredFileExtension>pdf</nonFilteredFileExtension>
+						<nonFilteredFileExtension>bin</nonFilteredFileExtension>
+						<nonFilteredFileExtension>jar</nonFilteredFileExtension>
+						<nonFilteredFileExtension>zip</nonFilteredFileExtension>
+						<nonFilteredFileExtension>gz</nonFilteredFileExtension>
+						<nonFilteredFileExtension>tar</nonFilteredFileExtension>
+						<nonFilteredFileExtension>tgz</nonFilteredFileExtension>
+						<nonFilteredFileExtension>rar</nonFilteredFileExtension>
+						<nonFilteredFileExtension>rpm</nonFilteredFileExtension>
+						<nonFilteredFileExtension>deb</nonFilteredFileExtension>
+						<nonFilteredFileExtension>app</nonFilteredFileExtension>
 						<nonFilteredFileExtension>so</nonFilteredFileExtension>
 						<nonFilteredFileExtension>dll</nonFilteredFileExtension>
+						<nonFilteredFileExtension>phar</nonFilteredFileExtension>
+						<nonFilteredFileExtension>bin</nonFilteredFileExtension>
+						<nonFilteredFileExtension>hex</nonFilteredFileExtension>
+						<nonFilteredFileExtension>so</nonFilteredFileExtension>
+						<nonFilteredFileExtension>exe</nonFilteredFileExtension>
+						<nonFilteredFileExtension>cmd</nonFilteredFileExtension>
+						<nonFilteredFileExtension>scr</nonFilteredFileExtension>
+						<nonFilteredFileExtension>iso</nonFilteredFileExtension>
+						<nonFilteredFileExtension>class</nonFilteredFileExtension>
+						<nonFilteredFileExtension>o</nonFilteredFileExtension>
+						<nonFilteredFileExtension>a</nonFilteredFileExtension>
+						<nonFilteredFileExtension>obj</nonFilteredFileExtension>
+						<nonFilteredFileExtension>dll</nonFilteredFileExtension>
+						<nonFilteredFileExtension>lib</nonFilteredFileExtension>
+						<nonFilteredFileExtension>dylib</nonFilteredFileExtension>
+						<nonFilteredFileExtension>apk</nonFilteredFileExtension>
+						<nonFilteredFileExtension>war</nonFilteredFileExtension>
+						<nonFilteredFileExtension>ear</nonFilteredFileExtension>
+						<nonFilteredFileExtension>dump</nonFilteredFileExtension>
+						<nonFilteredFileExtension>db</nonFilteredFileExtension>
+						<nonFilteredFileExtension>out</nonFilteredFileExtension>
+						<nonFilteredFileExtension>output</nonFilteredFileExtension>
+						<nonFilteredFileExtension>swp</nonFilteredFileExtension>
+						<nonFilteredFileExtension>map</nonFilteredFileExtension>
+						<nonFilteredFileExtension>woff</nonFilteredFileExtension>
+						<nonFilteredFileExtension>woff2</nonFilteredFileExtension>
+						<nonFilteredFileExtension>mp3</nonFilteredFileExtension>
+						<nonFilteredFileExtension>mp4</nonFilteredFileExtension>
+						<nonFilteredFileExtension>ogg</nonFilteredFileExtension>
+						<nonFilteredFileExtension>avi</nonFilteredFileExtension>
+						<nonFilteredFileExtension>mkv</nonFilteredFileExtension>
+						<nonFilteredFileExtension>wav</nonFilteredFileExtension>
+						<nonFilteredFileExtension>ttf</nonFilteredFileExtension>
 					</nonFilteredFileExtensions>
 				</configuration>
 			</plugin>
@@ -126,15 +167,9 @@
 				<executions>
 					<execution>
 						<id>enforce-maven-version</id>
-						<goals>
-							<goal>enforce</goal>
-						</goals>
+						<goals><goal>enforce</goal></goals>
 						<configuration>
-							<rules>
-								<requireMavenVersion>
-									<version>3.8.5</version>
-								</requireMavenVersion>
-							</rules>
+							<rules><requireMavenVersion><version>3.8.5</version></requireMavenVersion></rules>
 							<fail>true</fail>
 						</configuration>
 					</execution>
@@ -158,9 +193,7 @@
 				<executions>
 					<execution>
 						<id>attach-sources</id>
-						<goals>
-							<goal>jar</goal>
-						</goals>
+						<goals><goal>jar</goal></goals>
 					</execution>
 				</executions>
 			</plugin>
@@ -172,10 +205,8 @@
 				<executions>
 					<execution>
 						<id>get-the-git-infos</id>
-						<goals>
-							<goal>revision</goal>
-						</goals>
 						<phase>validate</phase>
+						<goals><goal>revision</goal></goals>
 					</execution>
 				</executions>
 				<configuration>
@@ -184,6 +215,7 @@
 			</plugin>
 		</plugins>
 	</build>
+
 	<dependencies>
 		<dependency>
 			<artifactId>common-core</artifactId>
@@ -192,10 +224,11 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<artifactId>vitalcore-lib</artifactId>
+			<artifactId>vitalcore-base</artifactId>
 			<groupId>com.poixson</groupId>
-			<version>${vitalcore-lib-version}</version>
+			<version>${vitalcore-base-version}</version>
 			<scope>provided</scope>
 		</dependency>
 	</dependencies>
+
 </project>
