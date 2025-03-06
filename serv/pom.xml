@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated: Sat Mar  1 02:31:04 AM EST 2025 -->
+<!-- Generated: Thu Mar  6 04:58:31 PM EST 2025 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0"
 		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<name>VitalCore-Base</name>
-	<artifactId>vitalcore-base</artifactId>
+	<name>VitalCore-Serv</name>
+	<artifactId>vitalcore-serv</artifactId>
 	<groupId>com.poixson</groupId>
 	<version>4.2.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<url>https://poixson.com</url>
-	<description>Common utilities and tools for Minecraft plugins</description>
+	<description>Common utilities and tools for Minecraft plugins and mods</description>
 	<organization>
 		<name>PoiXson</name>
 		<url>https://poixson.com</url>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated: Sat Mar  1 02:31:22 AM EST 2025 -->
+<!-- Generated: Thu Mar  6 04:58:32 PM EST 2025 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0"
 		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
@@ -41,8 +41,13 @@
 		<!-- Dependencies -->
 		<paper-api-version>1.21.4-R0.1-SNAPSHOT</paper-api-version>
 		<common-core-version>[4.2.0${snap},4.3.0${snap})</common-core-version>
-		<vitalcore-base-version>[4.2.0${snap},4.3.0${snap})</vitalcore-base-version>
-		<vitalcore-plugin-version>[4.2.0${snap},4.3.0${snap})</vitalcore-plugin-version>
+		<common-dispatcher-version>[4.2.0${snap},4.3.0${snap})</common-dispatcher-version>
+		<common-script-version>[4.2.0${snap},4.3.0${snap})</common-script-version>
+		<hangarapi-readonly-version>[0.2.0${snap},0.3.0${snap})</hangarapi-readonly-version>
+		<rhino-version>1.8.0</rhino-version>
+		<quartz-version>2.5.0</quartz-version>
+		<vitalcore-serv-version>[4.2.0${snap},4.3.0${snap})</vitalcore-serv-version>
+		<vitalcore-commands-version>[4.2.0${snap},4.3.0${snap})</vitalcore-commands-version>
 		<bukkit-short-version>1.21.4</bukkit-short-version>
 		<paper-nms-version>1.21.4-SNAPSHOT</paper-nms-version>
 
@@ -105,8 +110,13 @@
 				<filtering>false</filtering>
 				<includes>
 					<include>libs/common-core-4.2.0-SNAPSHOT.jar</include>
-					<include>libs/vitalcore-base-4.2.0-SNAPSHOT.jar</include>
-					<include>libs/vitalcore-plugin-4.2.0-SNAPSHOT.jar</include>
+					<include>libs/common-dispatcher-4.2.0-SNAPSHOT.jar</include>
+					<include>libs/common-script-4.2.0-SNAPSHOT.jar</include>
+					<include>libs/hangarapi-readonly-0.2.0-SNAPSHOT.jar</include>
+					<include>libs/rhino-1.8.0.jar</include>
+					<include>libs/quartz-2.5.0.jar</include>
+					<include>libs/vitalcore-serv-4.2.0-SNAPSHOT.jar</include>
+					<include>libs/vitalcore-commands-4.2.0-SNAPSHOT.jar</include>
 				</includes>
 			</resource>
 		</resources>
@@ -332,15 +342,45 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<artifactId>vitalcore-base</artifactId>
+			<artifactId>common-dispatcher</artifactId>
 			<groupId>com.poixson</groupId>
-			<version>${vitalcore-base-version}</version>
+			<version>${common-dispatcher-version}</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<artifactId>vitalcore-plugin</artifactId>
+			<artifactId>common-script</artifactId>
 			<groupId>com.poixson</groupId>
-			<version>${vitalcore-plugin-version}</version>
+			<version>${common-script-version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<artifactId>hangarapi-readonly</artifactId>
+			<groupId>com.poixson</groupId>
+			<version>${hangarapi-readonly-version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<artifactId>rhino</artifactId>
+			<groupId>org.mozilla</groupId>
+			<version>${rhino-version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<artifactId>quartz</artifactId>
+			<groupId>org.quartz-scheduler</groupId>
+			<version>${quartz-version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<artifactId>vitalcore-serv</artifactId>
+			<groupId>com.poixson</groupId>
+			<version>${vitalcore-serv-version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<artifactId>vitalcore-commands</artifactId>
+			<groupId>com.poixson</groupId>
+			<version>${vitalcore-commands-version}</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>

@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated: Sat Mar  1 02:31:13 AM EST 2025 -->
+<!-- Generated: Thu Mar  6 04:58:31 PM EST 2025 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0"
 		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<name>VitalCore-Plugin</name>
-	<artifactId>vitalcore-plugin</artifactId>
+	<name>VitalCore-Commands</name>
+	<artifactId>vitalcore-commands</artifactId>
 	<groupId>com.poixson</groupId>
 	<version>4.2.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<url>https://poixson.com</url>
-	<description>Common utilities and tools for Minecraft plugins</description>
+	<description>Common commands for Minecraft servers</description>
 	<organization>
 		<name>PoiXson</name>
 		<url>https://poixson.com</url>
@@ -38,7 +38,7 @@
 
 		<!-- Dependencies -->
 		<common-core-version>[4.2.0${snap},4.3.0${snap})</common-core-version>
-		<vitalcore-base-version>[4.2.0${snap},4.3.0${snap})</vitalcore-base-version>
+		<vitalcore-serv-version>[4.2.0${snap},4.3.0${snap})</vitalcore-serv-version>
 
 	</properties>
 	<scm>
@@ -224,9 +224,9 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<artifactId>vitalcore-base</artifactId>
+			<artifactId>vitalcore-serv</artifactId>
 			<groupId>com.poixson</groupId>
-			<version>${vitalcore-base-version}</version>
+			<version>${vitalcore-serv-version}</version>
 			<scope>provided</scope>
 		</dependency>
 	</dependencies>
