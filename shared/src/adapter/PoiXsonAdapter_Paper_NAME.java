@@ -2,6 +2,8 @@
 // {{{TIMESTAMP}}}
 package com.poixson.{{{NAME-LOWER}}};
 
+import java.io.IOException;
+
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.poixson.PoiXsonAdapter;
@@ -27,6 +29,26 @@ extends JavaPlugin implements PoiXsonAdapter {
 	@Override public void onLoad()    { super.onLoad();    this.xplugin.onLoad();    }
 	@Override public void onEnable()  { super.onEnable();  this.xplugin.onEnable();  }
 	@Override public void onDisable() { super.onDisable(); this.xplugin.onDisable(); }
+
+
+
+	@Override
+	public String getJarDir() {
+		try {
+			return super.getDataFolder().getCanonicalPath();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	public String getJarFile() {
+		try {
+			return super.getFile().getCanonicalPath();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 
 
 
