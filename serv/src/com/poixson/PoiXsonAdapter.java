@@ -1,14 +1,19 @@
-// Generated for: {{{TITLE}}}
-// {{{TIMESTAMP}}}
-package com.poixson.{{{NAME-LOWER}}};
+package com.poixson;
+
+import com.poixson.tools.commands.CommandBuilder;
 
 
-public interface PoiXsonPluginModAdapter {
+public interface PoiXsonAdapter {
 
 
 	public void onLoad();
 	public void onEnable();
 	public void onDisable();
+
+
+	public CommandBuilder getCommandBuilder(final String name);
+
+	public void log_info(final String msg);
 
 
 }

@@ -5,13 +5,14 @@ package com.poixson.{{{NAME-LOWER}}};
 import net.fabricmc.api.ModInitializer;
 
 
-public class PoiXsonPluginModAdapter_Fabric_{{{NAME}}} implements ModInitializer, PoiXsonPluginModAdapter {
+public class PoiXsonAdapter_Fabric_{{{NAME}}}
+implements ModInitializer, PoiXsonAdapter {
 
 	public final {{{NAME}}}Plugin xplugin;
 
 
 
-	public PoiXsonPluginModAdapter_Fabric_{{{NAME}}}() {
+	public PoiXsonAdapter_Fabric_{{{NAME}}}() {
 		super();
 		this.xplugin = new {{{NAME}}}Plugin();
 	}

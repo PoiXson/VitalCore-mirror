@@ -1,6 +1,6 @@
-// Generated for: VitalCore-Paper
-// Sat Mar  1 02:47:48 AM EST 2025
-package com.poixson.vitalcore;
+// Generated for: VitalServices-Paper
+// Fri Mar  7 10:54:13 AM EST 2025
+package com.poixson.vitalservices;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -17,12 +17,7 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
 
-public abstract class PoiXsonPluginLoader {
-
-
-
-	public PoiXsonPluginLoader() {
-	}
+public interface PoiXsonLoader {
 
 
 
@@ -31,7 +26,7 @@ public abstract class PoiXsonPluginLoader {
 
 
 
-	protected static enum LibraryExtractResult {
+	static enum LibraryExtractResult {
 		FOUND  ('=', "Found",     "green"      ),
 		EXTRACT('+', "Extracted", "gold"       ),
 		UPDATED('U', "Updated",   "blue"       ),
@@ -53,11 +48,11 @@ public abstract class PoiXsonPluginLoader {
 
 
 	// extract libraries from plugin.jar:/libs/
-	protected void extract_libs(final String path_server,
+	default void ExtractLibs(final String path_server,
 			final String path_plugin, final String path_libs)
 			throws LibraryLoaderException {
 		final LinkedList<String> found = new LinkedList<String>();
-		final CodeSource source = this.getClass().getProtectionDomain().getCodeSource();
+		final CodeSource source = PoiXsonLoader.class.getProtectionDomain().getCodeSource();
 		final String plugin_file = source.getLocation().getPath();
 		final TreeMap<String, LibraryExtractResult> results = new TreeMap<String, LibraryExtractResult>();
 		JarFile jar_plugin = null;
@@ -71,10 +66,10 @@ public abstract class PoiXsonPluginLoader {
 				// match libs/*.jar
 				if (file_entry.startsWith("libs/")
 				&&  file_entry.endsWith(".jar")) {
-					final String file_local = MergPths(path_plugin, file_entry);
+					final String file_local = this.MergPths(path_plugin, file_entry);
 					LibraryExtractResult state = null;
 					try {
-						state = this.extract_lib(file_local, file_entry, jar_plugin, jar_entry);
+						state = this.ExtractLib(file_local, file_entry, jar_plugin, jar_entry);
 						found.addLast(file_local);
 					} catch (LibraryLoaderException e) {
 						state = LibraryExtractResult.ERROR;
@@ -90,7 +85,7 @@ public abstract class PoiXsonPluginLoader {
 				if (!found.remove(f)) {
 					if (!file.delete())
 						throw new IOException("Failed to remove unused library: "+f);
-					results.put(MakePathRel(path_plugin, f), LibraryExtractResult.REMOVED);
+					results.put(this.MakePathRel(path_plugin, f), LibraryExtractResult.REMOVED);
 				}
 			}
 		} catch (IOException e) {
@@ -99,7 +94,7 @@ public abstract class PoiXsonPluginLoader {
 			if (!results.isEmpty()) {
 				final String plugin_name = "VitalCore";
 				final StringBuilder msg = (new StringBuilder())
-					.append("Libraries for: ").append(MakePathRel(path_server, plugin_file));
+					.append("Libraries for: ").append(this.MakePathRel(path_server, plugin_file));
 				for (final Entry<String, LibraryExtractResult> entry : results.entrySet()) {
 					msg.append('\n').append(String.format(
 						" [%s] %s %s",
@@ -120,7 +115,7 @@ public abstract class PoiXsonPluginLoader {
 
 
 	// extract a library
-	protected LibraryExtractResult extract_lib(
+	default LibraryExtractResult ExtractLib(
 			final String file_local, final String file_entry,
 			final JarFile jar_plugin, final JarEntry jar_entry)
 			throws LibraryLoaderException {
@@ -133,8 +128,8 @@ public abstract class PoiXsonPluginLoader {
 			in_loc = new FileInputStream(file_local);
 			in_res = jar_plugin.getInputStream(jar_entry);
 			if (in_res == null) throw new LibraryLoaderException("Failed to read library file from plugin jar: "+file_entry);
-			final int size = JarEntrySize(jar_entry, file_entry);
-			final byte[] data = CompareStreams(in_loc, in_res, size);
+			final int size = this.JarEntrySize(jar_entry, file_entry);
+			final byte[] data = this.CompareStreams(in_loc, in_res, size);
 			// use existing file
 			if (data == null) {
 				state = LibraryExtractResult.FOUND;
@@ -174,7 +169,7 @@ public abstract class PoiXsonPluginLoader {
 
 
 
-	protected boolean create_dir(final String dir) throws IOException {
+	default boolean CreateDir(final String dir) throws IOException {
 		if (!(new File(dir)).isDirectory()) {
 			if (!(new File(dir)).mkdir())
 				throw new IOException();
@@ -186,7 +181,7 @@ public abstract class PoiXsonPluginLoader {
 
 
 
-	protected static String MergPths(final String...paths) {
+	default String MergPths(final String...paths) {
 		if (paths.length == 0) return null;
 		final LinkedList<String> parts = new LinkedList<String>();
 		boolean is_absolute = false;
@@ -292,7 +287,7 @@ public abstract class PoiXsonPluginLoader {
 
 
 
-	protected static String MakePathRel(final String base, final String path) {
+	default String MakePathRel(final String base, final String path) {
 		if (path.startsWith(base)) {
 			final String pth = path.substring(base.length());
 			return (pth.startsWith("/") ? pth.substring(1) : pth);
@@ -303,7 +298,7 @@ public abstract class PoiXsonPluginLoader {
 
 
 
-	protected static int JarEntrySize(final JarEntry entry, final String file) {
+	default int JarEntrySize(final JarEntry entry, final String file) {
 		final long size = entry.getSize();
 		if (size >= Integer.MAX_VALUE) throw new RuntimeException("Library file is abnormally large! "+file);
 		return (int) size;
@@ -312,7 +307,7 @@ public abstract class PoiXsonPluginLoader {
 
 
 //TODO: improve performance of this
-	protected static byte[] CompareStreams(
+	default byte[] CompareStreams(
 			final InputStream in_loc, final InputStream in_res,
 			final int size) throws IOException {
 		if (in_res == null) throw new NullPointerException("in_res");
@@ -364,11 +359,11 @@ public abstract class PoiXsonPluginLoader {
 
 
 
-	protected abstract void log_info(final String msg);
+	public void log_info(final String msg);
 
 
 
-	public static class LibraryLoaderException extends Exception {
+	static class LibraryLoaderException extends Exception {
 		private static final long serialVersionUID = 1L;
 
 		public LibraryLoaderException(                                   ) { super(      ); }

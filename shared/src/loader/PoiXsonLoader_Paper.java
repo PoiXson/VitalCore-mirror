@@ -16,14 +16,13 @@ import io.papermc.paper.plugin.loader.PluginLoader;
 import io.papermc.paper.plugin.loader.library.impl.JarLibrary;
 
 
-// loader for paper                            paper                          base
-public class PoiXsonPluginLoader_Paper extends PoiXsonPluginLoader implements PluginLoader {
+public class PoiXsonLoader_Paper implements PluginLoader, PoiXsonLoader {
 
 	protected Logger log = LoggerFactory.getLogger("{{{TITLE}}}");
 
 
 
-	public PoiXsonPluginLoader_Paper() {
+	public PoiXsonLoader_Paper() {
 		super();
 	}
 
@@ -39,14 +38,14 @@ public class PoiXsonPluginLoader_Paper extends PoiXsonPluginLoader implements Pl
 			final String plugin_name = meta.getName();
 			this.log = LoggerFactory.getLogger(plugin_name);
 			final String path_data   = context.getDataDirectory().toString();
-			final String path_plugin = MergPths(path_server, path_data);
+			final String path_plugin = this.MergPths(path_server, path_data);
 			if (!(new File(path_plugin)).isDirectory())
-				this.create_dir(path_plugin);
-			final String path_libs = MergPths(path_plugin, "libs");
+				this.CreateDir(path_plugin);
+			final String path_libs = this.MergPths(path_plugin, "libs");
 			if (!(new File(path_plugin)).isDirectory())
-				this.create_dir(path_libs);
+				this.CreateDir(path_libs);
 			// extract libraries
-			this.extract_libs(path_server, path_plugin, path_libs);
+			this.ExtractLibs(path_server, path_plugin, path_libs);
 			// load libraries
 			final File[] files = (new File(path_libs)).listFiles( (_path, name) -> name.endsWith(".jar") );
 			if (files != null
