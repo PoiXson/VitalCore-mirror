@@ -1,6 +1,6 @@
 name: VitalCore
-loader: com.poixson.vitalservices.PoiXsonPluginLoader_Paper
-main:   com.poixson.vitalservices.PoiXsonPluginModAdapter_Paper_VitalServices
+loader: com.poixson.vitalservices.PoiXsonLoader_Paper
+main:   com.poixson.vitalservices.PoiXsonAdapter_Paper_VitalServices
 version:     '${project.version}'
 api-version: '${bukkit-short-version}'
 load: STARTUP
