@@ -1,5 +1,5 @@
 // Generated for: VitalServices-Paper
-// Fri Mar  7 10:54:13 AM EST 2025
+// Fri Mar 21 12:45:56 AM EDT 2025
 package com.poixson.vitalservices;
 
 import java.io.File;
@@ -42,7 +42,7 @@ public class PoiXsonLoader_Paper implements PluginLoader, PoiXsonLoader {
 			if (!(new File(path_plugin)).isDirectory())
 				this.CreateDir(path_plugin);
 			final String path_libs = this.MergPths(path_plugin, "libs");
-			if (!(new File(path_plugin)).isDirectory())
+			if (!(new File(path_libs)).isDirectory())
 				this.CreateDir(path_libs);
 			// extract libraries
 			this.ExtractLibs(path_server, path_plugin, path_libs);
